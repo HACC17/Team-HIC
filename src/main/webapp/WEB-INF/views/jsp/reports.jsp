@@ -6,14 +6,6 @@
 		<%@ include file="/WEB-INF/views/jspf/navigation/site-nav.jspf" %>
 		<div class="container" id="body-container">
 			<%@ include file="/WEB-INF/views/jspf/navigation/app-nav.jspf" %>
-			<div class="row">
-				<div class="col-md-9">
-				
-				</div>
-				<div class="col-md-3 login-panel">
-					<%@ include file="/WEB-INF/views/jspf/login-panel.jspf" %>
-				</div>
-			</div>
 		</div>
 		<%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
 	</body>
