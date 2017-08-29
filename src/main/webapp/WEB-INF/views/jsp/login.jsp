@@ -7,8 +7,8 @@
 		<div class="container" id="body-container">
 			<%@ include file="/WEB-INF/views/jspf/navigation/app-nav.jspf" %>
 			<div class="row">
-				<div class="col-md-12">
-					
+				<div class="col-md-4 col-md-push-4 login-panel">
+					<%@ include file="/WEB-INF/views/jspf/login-panel.jspf" %>
 				</div>
 			</div>
 		</div>
