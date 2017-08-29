@@ -5,6 +5,7 @@ public final class SqlStatements {
   private SqlStatements() {
   }
 
+  // Table names
   public static final String GRANT_STATUSES = "GRANT_STATUSES";
 
   public static final String GRANT_TYPES = "GRANT_TYPES";
@@ -17,14 +18,16 @@ public final class SqlStatements {
 
   public static final String STRATEGIC_RESULTS = "STRATEGIC_RESULTS";
 
+  // INSERT
   public static final String INSERT_GRANT = "INSERT INTO GRANTS VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
   public static final String INSERT_INTO = "INSERT INTO %s VALUES(?)";
 
+  // SELECT
   public static final String GET_ID = "SELECT ID FROM %s WHERE %s = ?";
 
   public static final String GET_GRANT_BY = "SELECT * FROM GRANTS WHERE %s = ?";
 
-  public static final String GET = "SELECT %s FROM %s WHERE ID = ?";
+  public static final String GET_ALL_GRANTS = "SELECT * FROM GRANTS";
 
 }
