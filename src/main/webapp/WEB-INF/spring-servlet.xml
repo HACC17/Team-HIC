@@ -2,16 +2,21 @@
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:mvc="http://www.springframework.org/schema/mvc"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
     http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
- 
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
     <context:component-scan base-package="gov.ehawaii.hacc" />
- 
+
+	<util:properties id="propertyConfigurer" location="file:${catalina.base}/conf/hacc.properties" />
+	<context:property-placeholder properties-ref="propertyConfigurer" />
+
     <mvc:resources mapping="/assets/**" location="/assets/" />
 
     <mvc:annotation-driven />
-     
+
     <bean
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">
@@ -21,5 +26,12 @@
             <value>.jsp</value>
         </property>
     </bean>
- 
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${db.driverClassName}" />
+        <property name="url" value="jdbc:mysql://${db.host}/${db.name}?zeroDateTimeBehavior=convertToNull" />
+        <property name="username" value="${db.user}" />
+        <property name="password" value="${db.password}" />
+    </bean>
+
 </beans>
