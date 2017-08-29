@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <div id="navigation-top" class="loggedout"><!-- TOP NAV logged out -->
     <nav class="loggedout_nav navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -14,7 +16,12 @@
             <div class="collapse navbar-collapse navbar-right" id="bs-primary-nav">
                 <ul class="nav navbar-nav">
                     <li><a target="_blank" title="Stay connected at hawaii.gov" href="http://stayconnected.hawaii.gov"><i class="fa fa-globe"></i> Stay Connected</a></li>
-                    <li><a href="#" id="logoutUrl" title="Log out of your eHawaii.gov account" style="display: none;"><i class="fa fa-lock" aria-hidden="true"></i> Log Out</a></li>
+                    <c:if test="${not empty pageContext.request.userPrincipal}">
+                        <li><a href="<c:url value='/logout'/>" title="Log out"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                    </c:if>
+                    <c:if test="${empty pageContext.request.userPrincipal}">
+                        <li><a href="<c:url value='/login'/>" title="Log out"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a></li>
+                    </c:if>
                 </ul>
             </div><!-- / Primary Nav -->
 
