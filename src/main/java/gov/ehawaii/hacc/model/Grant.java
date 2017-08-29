@@ -18,6 +18,15 @@ public class Grant implements Serializable {
   private String strategicResults;
   private int totalNumberServed;
   private int numberNativeHawaiiansServed;
-  private int grantStatusId;
+  private String grantStatus;
+
+
+  @Override
+  public String toString() {
+    return "{" + "fiscalYear=" + fiscalYear + ", grantType=" + grantType + ", organization=" + organization
+        + ", project=" + project + ", amount=" + amount + ", location=" + location + ", strategicPriority="
+        + strategicPriority + ", strategicResults=" + strategicResults + ", totalNumberServed=" + totalNumberServed
+        + ", numberNativeHawaiiansServed=" + numberNativeHawaiiansServed + ", grantStatus=" + grantStatus + "}";
+  }
 
 }

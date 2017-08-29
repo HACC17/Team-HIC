@@ -3,7 +3,7 @@ package gov.ehawaii.hacc.dao;
 import java.util.List;
 import gov.ehawaii.hacc.model.Grant;
 
-public interface GrantDao {
+public interface GrantsDao {
 
   boolean saveGrant(Grant grant);
 
