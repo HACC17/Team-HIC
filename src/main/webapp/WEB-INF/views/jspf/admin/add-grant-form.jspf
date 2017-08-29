@@ -1,0 +1,143 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
+<div class="col-md-8 col-md-push-2 form">
+    <form:form method="POST" modelAttribute="grant">
+        <div class="row extra-top-margin">
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <form:label for="fiscalYear" path="fiscalYear">Fiscal Year</form:label>
+                </div>
+                <div class="col-md-8">
+                    <form:input id="fiscalYear" path="fiscalYear" cssClass="form-control" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <form:label for="grantType" path="grantType">Grant Type</form:label>
+                </div>
+                <div class="col-md-8">
+                    <form:input id="grantType" path="grantType" cssClass="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row extra-top-margin">
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <form:label for="organization" path="organization">Organization</form:label>
+                </div>
+                <div class="col-md-8">
+                    <form:input id="organization" path="organization" cssClass="form-control" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <form:label for="project" path="project">Project</form:label>
+                </div>
+                <div class="col-md-8">
+                    <form:input id="project" path="project" cssClass="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row extra-top-margin">
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <form:label for="amount" path="amount">Amount</form:label>
+                </div>
+                <div class="col-md-8">
+                    <form:input id="amount" path="amount" cssClass="form-control" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <form:label for="location" path="location">Location</form:label>
+                </div>
+                <div class="col-md-8">
+					<form:select id="location" path="location" class="form-control">
+					    <form:option value="Hawaii">Hawaii</form:option>
+					    <form:option value="Kahoolawe">Kahoolawe</form:option>
+					    <form:option value="Kauai">Kauai</form:option>
+					    <form:option value="Lanai">Lanai</form:option>
+					    <form:option value="Maui">Maui</form:option>
+					    <form:option value="Molokai">Molokai</form:option>
+					    <form:option value="Oahu">Oahu</form:option>
+					    <form:option value="Statewide">Statewide</form:option>
+					    <form:option value="Continent">Continent</form:option>
+					    <form:option value="International">International</form:option>
+					</form:select>
+                </div>
+            </div>
+        </div>
+        <div class="row extra-top-margin">
+            <div class="col-md-8 col-md-push-2">
+                <div class="col-md-4">
+                    <form:label for="strategicPriority" path="strategicPriority">Strategic Priority</form:label>
+                </div>
+                <div class="col-md-8">
+					<form:select id="strategicPriority" path="strategicPriority" class="form-control">
+					    <form:option value="Culture">Culture</form:option>
+					</form:select>
+                </div>
+            </div>
+        </div>
+        <div class="row extra-top-margin">
+            <div class="col-md-8 col-md-push-2">
+                <div class="col-md-4">
+                    <form:label for="strategicResults" path="strategicResults">Strategic Results</form:label>
+                </div>
+                <div class="col-md-8">
+					<form:select id="strategicResults" path="strategicResults" class="form-control">
+					    <form:option value="Exceed Education Standards">Exceed Education Standards</form:option>
+					</form:select>
+                </div>
+            </div>
+        </div>
+        <div class="row extra-top-margin">
+            <div class="col-md-8 col-md-push-2">
+                <div class="col-md-8">
+                    <form:label for="totalNumberServed" path="totalNumberServed">Total Number Served</form:label>
+                </div>
+                <div class="col-md-4">
+                    <form:input id="totalNumberServed" path="totalNumberServed" cssClass="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row extra-top-margin">
+            <div class="col-md-8 col-md-push-2">
+                <div class="col-md-8">
+                    <form:label for="numberNativeHawaiiansServed" path="numberNativeHawaiiansServed">Number of Native Hawaiians Served</form:label>
+                </div>
+                <div class="col-md-4">
+                    <form:input id="numberNativeHawaiiansServed" path="numberNativeHawaiiansServed" cssClass="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row extra-top-margin">
+            <div class="col-md-8 col-md-push-2">
+                <div class="col-md-8">
+                    <form:label for="grantStatus" path="grantStatus">Status</form:label>
+                </div>
+                <div class="col-md-4">
+					<form:select id="grantStatus" path="grantStatus" class="form-control">
+					    <form:option value="Pending">Pending</form:option>
+					    <form:option value="Awarded">Awarded</form:option>
+					</form:select>
+                </div>
+            </div>
+        </div>
+        <div class="row extra-top-margin">
+            <div class="col-md-4 col-md-push-4">
+                <button type="submit" id="submit" class="btn btn-lg btn-block btn-primary">Save Grant</button>
+            </div>
+        </div>
+    </form:form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#fiscalYear").attr("type", "number");
+        $("#fiscalYear").val("2017");
+        $("#amount").attr("type", "number");
+        $("#totalNumberServed").attr("type", "number");
+        $("#numberNativeHawaiiansServed").attr("type", "number");
+    });
+</script>

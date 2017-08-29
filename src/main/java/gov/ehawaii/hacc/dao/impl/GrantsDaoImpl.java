@@ -127,15 +127,20 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
 
   private long getId(String tableName, String columnName, String value) {
-    String stmt = String.format(SqlStatements.GET_ID, tableName, columnName);
+    String stmt = String.format(SqlStatements.COUNT, tableName, columnName);
+    Long count = getJdbcTemplate().queryForObject(stmt, Long.class, value);
+    if (count == 0) {
+      return -1;
+    }
+    stmt = String.format(SqlStatements.GET_ID, tableName, columnName);
     Long id = getJdbcTemplate().queryForObject(stmt, Long.class, value);
     LOGGER.info("Retrieved ID for value [" + value + "] from table [" + tableName + "]: " + id);
-    return id == null ? -1 : id;
+    return id;
   }
 
 
   private long saveValue(String tableName, String columnName, String value) {
-    String stmt = String.format(SqlStatements.INSERT_INTO, tableName);
+    String stmt = String.format(SqlStatements.INSERT_INTO, tableName, columnName);
     if (getJdbcTemplate().update(stmt, value) > 0) {
       LOGGER.info("Successfully saved value [" + value + "] into table [" + tableName + "].");
       return getId(tableName, columnName, value);

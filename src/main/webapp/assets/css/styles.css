@@ -2,10 +2,19 @@ a {
     text-decoration: none;
 }
 
-.login-panel {
+.login-panel, .form {
     border: 2px solid #0C4064;
 }
 
 body {
     background-color: #CDDBEB !important;
+}
+
+.extra-top-margin {
+    margin-top: 10px;
+}
+
+label {
+    margin-bottom: 0px;
+    padding-top: 2.5px;
 }

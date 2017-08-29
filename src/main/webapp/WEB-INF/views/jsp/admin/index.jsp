@@ -6,6 +6,9 @@
 		<%@ include file="/WEB-INF/views/jspf/navigation/site-nav.jspf" %>
 		<div class="container" id="body-container">
 			<%@ include file="/WEB-INF/views/jspf/navigation/app-nav.jspf" %>
+			<div class="row">
+				<%@ include file="/WEB-INF/views/jspf/admin/add-grant-form.jspf" %>
+			</div>
 		</div>
 		<%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
 	</body>

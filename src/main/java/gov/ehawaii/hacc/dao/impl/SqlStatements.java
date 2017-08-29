@@ -21,7 +21,7 @@ public final class SqlStatements {
   // INSERT
   public static final String INSERT_GRANT = "INSERT INTO GRANTS VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-  public static final String INSERT_INTO = "INSERT INTO %s VALUES(?)";
+  public static final String INSERT_INTO = "INSERT INTO %s(%s) VALUES(?)";
 
   // SELECT
   public static final String GET_ID = "SELECT ID FROM %s WHERE %s = ?";
@@ -29,5 +29,7 @@ public final class SqlStatements {
   public static final String GET_GRANT_BY = "SELECT * FROM GRANTS WHERE %s = ?";
 
   public static final String GET_ALL_GRANTS = "SELECT * FROM GRANTS";
+
+  public static final String COUNT = "SELECT COUNT(*) FROM %s WHERE %s = ?";
 
 }
