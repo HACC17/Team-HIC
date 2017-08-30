@@ -1,9 +1,20 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
 apply plugin: 'war'
 
 repositories {
     mavenCentral()
+}
+
+eclipse {
+  wtp {
+    component {
+      resource deployPath: '/', sourcePath: '/src/main/webapp'
+      resource deployPath: '/WEB-INF/classes', sourcePath: '/src/main/java'
+      resource deployPath: '/WEB-INF/classes', sourcePath: '/src/main/resources'
+    }
+  }
 }
 
 sourceCompatibility = 1.8
