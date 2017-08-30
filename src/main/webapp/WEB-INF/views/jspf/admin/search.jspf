@@ -21,11 +21,61 @@
     </div>
 </div>
 
+<table id="results-table" class="display">
+    <thead>
+        <tr>
+            <th>Fiscal Year</th>
+            <th>Organization</th>
+            <th>Project</th>
+            <th>Amount</th>
+            <th class="more-info-column"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <c:forEach var="grant" items="${all}">
+            <tr>
+                <td>${grant.fiscalYear}</td>
+                <td>${grant.organization}</td>
+                <td>${grant.project}</td>
+                <td><span class="amount">${grant.amount}</span></td>
+                <td><button class="btn btn-md btn-primary more-info-btn" data-target="#grantModal${grant.id}">More Info</button></td>
+            </tr>
+        </c:forEach>
+    </tbody>
+</table>
+
+<div id="modals"></div>
+
 <script type="text/javascript">
+    function setupTable() {
+        $('.amount').each(function() {
+            $(this).html(accounting.formatMoney($(this).html()));
+        });
+        $(".more-info-column").removeClass("sorting");
+        $(".more-info-column").css("cursor", "auto");
+        $(".more-info-column").off();
+    }
+
     $(document).ready(function() {
+        $('#results-table').DataTable({
+        	aaSorting: [[0, 'desc']]
+        });
+        setupTable();
         var url = "<c:out value='${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}' /><c:url value='/' /><c:out value='${path}' />";
         $("button#submitBtn").on("click", function() {
             $.get(url + "?searchString=" + $("#searchString").val() + "&searchBy=" + $("#searchBy").val(), function(data, status) {
+                $('#results-table').dataTable().fnClearTable();
+                var json = $.parseJSON(data);
+                for (k = 0; k < json.length; k++) {
+                    $('#results-table').dataTable().fnAddData([
+                        json[k].fiscalYear,
+                        json[k].organization,
+                        json[k].project,
+                        "<span class='amount'>" + json[k].amount + "</span>",
+                        "<button class='btn btn-md btn-primary more-info-btn' data-target='#grantModal" + json[k].id + "'>More Info</button>"
+                    ]);
+                }
+                setupTable();
                 console.log(data);
             });
         });

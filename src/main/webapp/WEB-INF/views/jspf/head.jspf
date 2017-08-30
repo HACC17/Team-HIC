@@ -4,5 +4,6 @@
 	<link rel="stylesheet" href="assets/css/styles.css" />
 	<link rel="stylesheet" href="assets/css/jquery.dataTables.css" />
 	<script src="assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+	<script src="assets/js/jquery-1.12.4.min.js" type="text/javascript"></script>
 	<script src="assets/js/accounting.min.js" type="text/javascript"></script>
 </head>

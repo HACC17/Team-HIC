@@ -22,7 +22,7 @@
 					<%@ include file="/WEB-INF/views/jspf/admin/all-grants.jspf" %>
 				</div>
 				<div class="tab-pane" id="search" style="display: none">
-					<c:set var="path" value="admin/search" scope="request" />
+					<c:set var="path" value="search/query" scope="request" />
 					<%@ include file="/WEB-INF/views/jspf/admin/search.jspf" %>
 				</div>
 				<div class="tab-pane" id="charts" style="display: none">
