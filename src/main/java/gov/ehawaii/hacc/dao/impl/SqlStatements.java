@@ -26,6 +26,8 @@ public final class SqlStatements {
   // SELECT
   public static final String GET_ID = "SELECT ID FROM %s WHERE %s = ?";
 
+  public static final String GET_VALUE = "SELECT %s FROM %s WHERE ID = ?";
+
   public static final String GET_GRANT_BY = "SELECT * FROM GRANTS WHERE %s = ?";
 
   public static final String GET_ALL_GRANTS = "SELECT * FROM GRANTS";

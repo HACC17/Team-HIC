@@ -9,4 +9,6 @@ public interface GrantsService {
 
   List<Grant> findAll();
 
+  List<Grant> find(String searchString, String searchBy);
+
 }

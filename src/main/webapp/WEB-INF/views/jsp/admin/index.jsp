@@ -8,16 +8,16 @@
 			<%@ include file="/WEB-INF/views/jspf/navigation/app-nav.jspf" %>
 			<div class="row nav-row">
 				<div class="col-md-3">
-					<a href="javascript:void(0)" class="btn btn-lg btn-primary btn-block" data-tab="add">Add Grant</a>
+					<a href="javascript:void(0)" class="btn btn-lg btn-primary btn-block extra-top-margin" data-tab="add">Add Grant</a>
 				</div>
 				<div class="col-md-3">
-					<a href="javascript:void(0)" class="btn btn-lg btn-link btn-block" data-tab="all">All Grants</a>
+					<a href="javascript:void(0)" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="all">All Grants</a>
 				</div>
 				<div class="col-md-3">
-					<a href="javascript:void(0)" class="btn btn-lg btn-link btn-block" data-tab="search">Search</a>
+					<a href="javascript:void(0)" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="search">Search</a>
 				</div>
 				<div class="col-md-3">
-					<a href="javascript:void(0)" class="btn btn-lg btn-link btn-block" data-tab="charts">Charts</a>
+					<a href="javascript:void(0)" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="charts">Charts</a>
 				</div>
 			</div>
 			<div class="row extra-top-margin">
@@ -25,13 +25,13 @@
 					<%@ include file="/WEB-INF/views/jspf/admin/add-grant-form.jspf" %>
 				</div>
 				<div class="tab-pane" id="all" style="display: none">
-					
+					<%@ include file="/WEB-INF/views/jspf/admin/all-grants.jspf" %>
 				</div>
 				<div class="tab-pane" id="search" style="display: none">
-					
+					<%@ include file="/WEB-INF/views/jspf/admin/search.jspf" %>
 				</div>
 				<div class="tab-pane" id="charts" style="display: none">
-					
+					<%@ include file="/WEB-INF/views/jspf/admin/charts.jspf" %>
 				</div>
 			</div>
 		</div>

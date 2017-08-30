@@ -24,7 +24,19 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
     @Override
     public Grant mapRow(ResultSet rs, int rowNum) throws SQLException {
-      return createGrant(rs);
+      Grant grant = new Grant();
+      grant.setGrantStatus(getValue(SqlStatements.GRANT_STATUSES, "STATUS", rs.getLong(2)));
+      grant.setFiscalYear(rs.getInt(3));
+      grant.setGrantType(getValue(SqlStatements.GRANT_TYPES, "GRANT_TYPE", rs.getLong(4)));
+      grant.setOrganization(getValue(SqlStatements.ORGANIZATIONS, "ORGANIZATION", rs.getLong(5)));
+      grant.setProject(getValue(SqlStatements.PROJECTS, "PROJECT", rs.getLong(6)));
+      grant.setAmount(rs.getInt(7));
+      grant.setLocation(rs.getString(8));
+      grant.setStrategicPriority(getValue(SqlStatements.STRATEGIC_PRIORITIES, "STRATEGIC_PRIORITY", rs.getLong(9)));
+      grant.setStrategicResults(getValue(SqlStatements.STRATEGIC_RESULTS, "STRATEGIC_RESULT", rs.getLong(10)));
+      grant.setTotalNumberServed(rs.getInt(11));
+      grant.setNumberNativeHawaiiansServed(rs.getInt(12));
+      return grant;
     }
 
   };
@@ -91,34 +103,19 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   @Override
   public List<Grant> retrieveAll() {
     Long count = getJdbcTemplate().queryForObject("SELECT COUNT(*) FROM GRANTS", Long.class);
-    List<Grant> grants = new ArrayList<>();
+    if (count == 0) {
+      return new ArrayList<>();
+    }
+    List<Grant> grants;
     if (count > 1) {
       grants = getJdbcTemplate().query(SqlStatements.GET_ALL_GRANTS, rowMapper);
     }
     else {
-      grants.add(getJdbcTemplate().queryForObject(SqlStatements.GET_ALL_GRANTS, new Object[0], rowMapper));
+      grants = new ArrayList<>();
+      grants.add(getJdbcTemplate().queryForObject(SqlStatements.GET_ALL_GRANTS, rowMapper));
     }
     LOGGER.info("Found " + grants.size() + " grant(s).");
     return grants;
-  }
-
-
-  private Grant createGrant(ResultSet rs) throws SQLException {
-    Grant grant = new Grant();
-    if (rs.next()) {
-      grant.setGrantStatus(getValue(SqlStatements.GRANT_STATUSES, "STATUS", rs.getLong(2)));
-      grant.setFiscalYear(rs.getInt(3));
-      grant.setGrantType(getValue(SqlStatements.GRANT_TYPES, "GRANT_TYPE", rs.getLong(4)));
-      grant.setOrganization(getValue(SqlStatements.ORGANIZATIONS, "ORGANIZATION", rs.getLong(5)));
-      grant.setProject(getValue(SqlStatements.PROJECTS, "PROJECT", rs.getLong(6)));
-      grant.setAmount(rs.getInt(7));
-      grant.setLocation(rs.getString(8));
-      grant.setGrantType(getValue(SqlStatements.STRATEGIC_PRIORITIES, "STRATEGIC_PRIORITY", rs.getLong(9)));
-      grant.setGrantType(getValue(SqlStatements.STRATEGIC_RESULTS, "STRATEGIC_RESULT", rs.getLong(10)));
-      grant.setTotalNumberServed(rs.getInt(11));
-      grant.setNumberNativeHawaiiansServed(rs.getInt(12));
-    }
-    return grant;
   }
 
 
@@ -142,6 +139,9 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   private List<Grant> getGrantsBy(String columnName, Object columnValue) {
     String countStmt = String.format(SqlStatements.COUNT, "GRANTS", columnName);
     Long count = getJdbcTemplate().queryForObject(countStmt, Long.class, columnValue);
+    if (count == 0) {
+      return new ArrayList<>();
+    }
 
     String select = String.format(SqlStatements.GET_GRANT_BY, columnName);
     if (count > 1) {
@@ -179,10 +179,15 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
 
   private String getValue(String tableName, String columnName, long id) {
-    String stmt = String.format(SqlStatements.GET_ID, tableName, columnName);
+    String stmt = String.format(SqlStatements.COUNT, tableName, "ID");
+    Long count = getJdbcTemplate().queryForObject(stmt, Long.class, id);
+    if (count == 0) {
+      return "";
+    }
+    stmt = String.format(SqlStatements.GET_VALUE, columnName, tableName);
     String data = getJdbcTemplate().queryForObject(stmt, String.class, id);
     LOGGER.info("Retrieved data for ID [" + id + "] from table [" + tableName + "]: " + data);
-    return data == null ? "" : data;
+    return data;
   }
 
 }
