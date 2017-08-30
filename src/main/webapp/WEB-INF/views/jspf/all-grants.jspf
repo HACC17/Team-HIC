@@ -50,7 +50,15 @@
             dom: 'Bfrtip',
             buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
+            ],
+            "columnDefs": [
+                { "targets": [ 1 ], "visible": false, "searchable": false },
+                { "targets": [ 6 ], "visible": false, "searchable": false },
+                { "targets": [ 7 ], "visible": false, "searchable": false },
+                { "targets": [ 8 ], "visible": false, "searchable": false },
+                { "targets": [ 9 ], "visible": false, "searchable": false },
+                { "targets": [ 10 ], "visible": false, "searchable": false }
+            ],
         });
         $('.amount').each(function() {
             $(this).html(accounting.formatMoney($(this).html()));
