@@ -18,7 +18,7 @@
 				</div>
 			</div>
 			<div class="row extra-top-margin">
-				<div class="tab-pane" id="all" style="display: none">
+				<div class="tab-pane" id="all">
 					<%@ include file="/WEB-INF/views/jspf/admin/all-grants.jspf" %>
 				</div>
 				<div class="tab-pane" id="search" style="display: none">

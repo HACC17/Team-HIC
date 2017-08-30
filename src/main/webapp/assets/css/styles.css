@@ -27,3 +27,16 @@ a.btn-link:hover {
     border: 2px solid #337AB7;
     text-decoration: none;
 }
+
+tbody > tr {
+    border-bottom: 0.5px solid #000;
+}
+
+tbody > tr > td {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+thead > tr {
+    border-bottom: 2px solid #000;
+}

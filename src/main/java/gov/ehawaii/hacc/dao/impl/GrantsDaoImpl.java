@@ -25,6 +25,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
     @Override
     public Grant mapRow(ResultSet rs, int rowNum) throws SQLException {
       Grant grant = new Grant();
+      grant.setId(rs.getLong(1));
       grant.setGrantStatus(getValue(SqlStatements.GRANT_STATUSES, "STATUS", rs.getLong(2)));
       grant.setFiscalYear(rs.getInt(3));
       grant.setGrantType(getValue(SqlStatements.GRANT_TYPES, "GRANT_TYPE", rs.getLong(4)));

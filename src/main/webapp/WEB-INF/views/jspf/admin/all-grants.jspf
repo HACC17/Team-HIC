@@ -1,0 +1,38 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<table id="grants-table" class="display">
+    <thead>
+        <tr>
+            <th>Grant Status</th>
+            <th>Organization</th>
+            <th>Project</th>
+            <th>Amount</th>
+            <th class="more-info-column"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <c:forEach var="grant" items="${all}">
+            <tr>
+                <td>${grant.fiscalYear}</td>
+                <td>${grant.organization}</td>
+                <td>${grant.project}</td>
+                <td><span class="amount">${grant.amount}</span></td>
+                <td><button id="grant-${grant.id}" class="btn btn-md btn-primary">More Info</button></td>
+            </tr>
+        </c:forEach>
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready( function () {
+        $('#grants-table').DataTable({
+        	aaSorting: [[0, 'desc']]
+        });
+        $('.amount').each(function() {
+            $(this).html(accounting.formatMoney($(this).html()));
+        });
+        $(".more-info-column").removeClass("sorting");
+        $(".more-info-column").css("cursor", "auto");
+        $(".more-info-column").off();
+    });
+</script>

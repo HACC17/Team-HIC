@@ -8,6 +8,7 @@ public class Grant implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  private long id;
   private int fiscalYear;
   private String grantType;
   private String organization;
