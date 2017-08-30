@@ -24,12 +24,3 @@
         </table>
     </div>
 </div>
-
-<div class="row extra-top-margin">
-    <div class="col-md-4">
-        <button class="btn btn-block btn-primary">Export to PDF</button>
-    </div>
-    <div class="col-md-4 col-md-push-4">
-        <button class="btn btn-block btn-primary">Export to CSV</button>
-    </div>
-</div>
