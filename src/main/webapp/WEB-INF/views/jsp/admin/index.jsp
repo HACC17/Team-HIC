@@ -11,10 +11,7 @@
 					<a href="javascript:void(0)" class="btn btn-lg btn-primary btn-block extra-top-margin" data-tab="add">Add Grant</a>
 				</div>
 				<div class="col-md-3">
-					<a href="javascript:void(0)" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="all">All Grants</a>
-				</div>
-				<div class="col-md-3">
-					<a href="javascript:void(0)" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="search">Search</a>
+					<a href="javascript:void(0)" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="all">View Grants</a>
 				</div>
 				<div class="col-md-3">
 					<a href="javascript:void(0)" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="charts">Charts</a>
@@ -26,9 +23,6 @@
 				</div>
 				<div class="tab-pane" id="all" style="display: none">
 					<%@ include file="/WEB-INF/views/jspf/all-grants.jspf" %>
-				</div>
-				<div class="tab-pane" id="search" style="display: none">
-					<%@ include file="/WEB-INF/views/jspf/search.jspf" %>
 				</div>
 				<div class="tab-pane" id="charts" style="display: none">
 					<%@ include file="/WEB-INF/views/jspf/charts.jspf" %>

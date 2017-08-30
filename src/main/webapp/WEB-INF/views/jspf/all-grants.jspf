@@ -46,7 +46,11 @@
     $(document).ready( function () {
         $("#grants > div > div > table").attr("id", "grants-table");
         $('#grants-table').DataTable({
-        	aaSorting: [[0, 'desc']]
+            aaSorting: [[0, 'desc']],
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
         });
         $('.amount').each(function() {
             $(this).html(accounting.formatMoney($(this).html()));
@@ -57,5 +61,8 @@
         $(".more-info-btn").on("click", function() {
             $($(this).data("target")).modal("show");
         });
+        var input = $("#grants-table_filter > label > input").detach();
+        $("#grants-table_filter > label").html("Filter:");
+        $("#grants-table_filter > label").append(input);
     });
 </script>

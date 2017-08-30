@@ -40,9 +40,17 @@
     $(document).ready(function() {
         $("#results > div > div > table").attr("id", "results-table");
         $('#results-table').DataTable({
-        	aaSorting: [[0, 'desc']]
+            aaSorting: [[0, 'desc']],
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
         });
         setupTable();
+        var input = $("#results-table_filter > label > input").detach();
+        $("#results-table_filter > label").html("Filter:");
+        $("#results-table_filter > label").append(input);
+        $("#results-table_wrapper").parent().addClass("extra-top-margin");
         <c:set var="req" value="${pageContext.request}" />
         var url = "<c:out value='${req.scheme}://${req.serverName}:${req.serverPort}' /><c:url value='/' />search/query";
         $("button#submitBtn").on("click", function() {
