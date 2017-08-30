@@ -1,7 +1,5 @@
 package gov.ehawaii.hacc.web.controllers;
 
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.service.GrantsService;
 
@@ -42,13 +38,6 @@ public class AdminController {
       LOGGER.error("Grant [" + grant + "] was not saved successfully.");
     }
     return "redirect:/admin";
-  }
-
-
-  @RequestMapping(value = "/search/query", method = RequestMethod.GET)
-  public void performSearch(@RequestParam("searchString") String searchString,
-      @RequestParam("searchBy") String searchBy, HttpServletResponse response) throws IOException {
-    response.getWriter().write(new ObjectMapper().writeValueAsString(grantsService.find(searchString, searchBy)));
   }
 
 }

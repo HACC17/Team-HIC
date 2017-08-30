@@ -44,7 +44,7 @@
         });
         setupTable();
         <c:set var="req" value="${pageContext.request}" />
-        var url = "<c:out value='${req.scheme}://${req.serverName}:${req.serverPort}' /><c:url value='/' /><c:out value='${path}' />";
+        var url = "<c:out value='${req.scheme}://${req.serverName}:${req.serverPort}' /><c:url value='/' />search/query";
         $("button#submitBtn").on("click", function() {
             $.get(url + "?searchString=" + $("#searchString").val() + "&searchBy=" + $("#searchBy").val(), function(data, status) {
                 $('#results-table').dataTable().fnClearTable();

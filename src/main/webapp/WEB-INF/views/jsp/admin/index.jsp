@@ -25,14 +25,13 @@
 					<%@ include file="/WEB-INF/views/jspf/admin/add-grant-form.jspf" %>
 				</div>
 				<div class="tab-pane" id="all" style="display: none">
-					<%@ include file="/WEB-INF/views/jspf/admin/all-grants.jspf" %>
+					<%@ include file="/WEB-INF/views/jspf/all-grants.jspf" %>
 				</div>
 				<div class="tab-pane" id="search" style="display: none">
-					<c:set var="path" value="admin/search/query" scope="request" />
-					<%@ include file="/WEB-INF/views/jspf/admin/search.jspf" %>
+					<%@ include file="/WEB-INF/views/jspf/search.jspf" %>
 				</div>
 				<div class="tab-pane" id="charts" style="display: none">
-					<%@ include file="/WEB-INF/views/jspf/admin/charts.jspf" %>
+					<%@ include file="/WEB-INF/views/jspf/charts.jspf" %>
 				</div>
 			</div>
 		</div>

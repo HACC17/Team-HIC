@@ -17,11 +17,6 @@ public class SearchController {
   @Autowired
   private GrantsService grantsService;
 
-  @RequestMapping(method = RequestMethod.GET)
-  public String showSearchPage() {
-    return "search";
-  }
-
   @RequestMapping(value = "/query", method = RequestMethod.GET)
   public void performSearch(@RequestParam("searchString") String searchString,
       @RequestParam("searchBy") String searchBy, HttpServletResponse response) throws IOException {
