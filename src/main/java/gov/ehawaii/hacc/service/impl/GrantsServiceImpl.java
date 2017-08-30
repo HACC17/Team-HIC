@@ -30,6 +30,10 @@ public class GrantsServiceImpl implements GrantsService {
 
   @Override
   public List<Grant> find(String searchString, String searchBy) {
+    if (searchString == null || searchString.isEmpty()) {
+      return dao.retrieveAll();
+    }
+
     switch (searchBy) {
     case "FISCAL_YEAR":
       try {
