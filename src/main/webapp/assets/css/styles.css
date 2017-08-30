@@ -2,9 +2,9 @@ a {
     text-decoration: none;
 }
 
-.login-panel, .form {
+/* .login-panel, .form {
     border: 2px solid #0C4064;
-}
+} */
 
 body {
     background-color: #CDDBEB !important;
@@ -17,4 +17,13 @@ body {
 label {
     margin-bottom: 0px;
     padding-top: 2.5px;
+}
+
+.btn-link {
+    border: 2px solid #337AB7;
+}
+
+a.btn-link:hover {
+    border: 2px solid #337AB7;
+    text-decoration: none;
 }

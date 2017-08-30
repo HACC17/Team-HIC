@@ -6,11 +6,50 @@
 		<%@ include file="/WEB-INF/views/jspf/navigation/site-nav.jspf" %>
 		<div class="container" id="body-container">
 			<%@ include file="/WEB-INF/views/jspf/navigation/app-nav.jspf" %>
-			<div class="row">
-				<%@ include file="/WEB-INF/views/jspf/admin/add-grant-form.jspf" %>
+			<div class="row nav-row">
+				<div class="col-md-3">
+					<a href="javascript:void(0)" class="btn btn-lg btn-primary btn-block" data-tab="add">Add Grant</a>
+				</div>
+				<div class="col-md-3">
+					<a href="javascript:void(0)" class="btn btn-lg btn-link btn-block" data-tab="all">All Grants</a>
+				</div>
+				<div class="col-md-3">
+					<a href="javascript:void(0)" class="btn btn-lg btn-link btn-block" data-tab="search">Search</a>
+				</div>
+				<div class="col-md-3">
+					<a href="javascript:void(0)" class="btn btn-lg btn-link btn-block" data-tab="charts">Charts</a>
+				</div>
+			</div>
+			<div class="row extra-top-margin">
+				<div class="tab-pane" id="add">
+					<%@ include file="/WEB-INF/views/jspf/admin/add-grant-form.jspf" %>
+				</div>
+				<div class="tab-pane" id="all" style="display: none">
+					
+				</div>
+				<div class="tab-pane" id="search" style="display: none">
+					
+				</div>
+				<div class="tab-pane" id="charts" style="display: none">
+					
+				</div>
 			</div>
 		</div>
 		<%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
 	</body>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".nav-row > div > a").on("click", function() {
+				$(".nav-row > div > a").removeClass("btn-primary");
+				$(".nav-row > div > a").addClass("btn-link");
+				$(this).removeClass("btn-link");
+				$(this).addClass("btn-primary");
+				$(".tab-pane").hide();
+				var tab = $(this).data("tab");
+				$("#" + tab).show();
+			});
+		});
+	</script>
 
 </html>

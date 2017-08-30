@@ -98,7 +98,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
     else {
       grants.add(getJdbcTemplate().queryForObject(SqlStatements.GET_ALL_GRANTS, new Object[0], rowMapper));
     }
-    LOGGER.info("Found " + grants.size() + " grants.");
+    LOGGER.info("Found " + grants.size() + " grant(s).");
     return grants;
   }
 
@@ -125,7 +125,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   @Override
   public List<Grant> findGrantsByFiscalYear(int fiscalYear) {
     List<Grant> grants = getGrantsBy("FISCAL_YEAR", fiscalYear);
-    LOGGER.info("Found " + grants.size() + " grants with fiscal year [" + fiscalYear + "].");
+    LOGGER.info("Found " + grants.size() + " grant(s) with fiscal year [" + fiscalYear + "].");
     return grants;
   }
 
@@ -134,7 +134,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   public List<Grant> findGrantsByGrantType(String grantType) {
     long grantTypeId = getId(SqlStatements.GRANT_TYPES, "GRANT_TYPE", grantType);
     List<Grant> grants = getGrantsBy("GRANT_TYPE_ID", grantTypeId);
-    LOGGER.info("Found " + grants.size() + " grants with grant type [" + grantType + "].");
+    LOGGER.info("Found " + grants.size() + " grant(s) with grant type [" + grantType + "].");
     return grants;
   }
 
