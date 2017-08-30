@@ -19,7 +19,7 @@ public final class SqlStatements {
   public static final String STRATEGIC_RESULTS = "STRATEGIC_RESULTS";
 
   // INSERT
-  public static final String INSERT_GRANT = "INSERT INTO GRANTS VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  public static final String INSERT_GRANT = "INSERT INTO GRANTS VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
   public static final String INSERT_INTO = "INSERT INTO %s(%s) VALUES(?)";
 

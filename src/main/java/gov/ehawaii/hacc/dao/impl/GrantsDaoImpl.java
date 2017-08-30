@@ -2,6 +2,7 @@ package gov.ehawaii.hacc.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -19,23 +20,11 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
   private static final Logger LOGGER = LogManager.getLogger(GrantsDaoImpl.class);
 
-  private RowMapper<Grant> ROW_MAPPER = new RowMapper<Grant>() {
+  private final RowMapper<Grant> rowMapper = new RowMapper<Grant>() {
 
     @Override
     public Grant mapRow(ResultSet rs, int rowNum) throws SQLException {
-      Grant grant = new Grant();
-      grant.setGrantStatus(getValue(SqlStatements.GRANT_STATUSES, "STATUS", rs.getLong(2)));
-      grant.setFiscalYear(rs.getInt(3));
-      grant.setGrantType(getValue(SqlStatements.GRANT_TYPES, "GRANT_TYPE", rs.getLong(4)));
-      grant.setOrganization(getValue(SqlStatements.ORGANIZATIONS, "ORGANIZATION", rs.getLong(5)));
-      grant.setProject(getValue(SqlStatements.PROJECTS, "PROJECT", rs.getLong(6)));
-      grant.setAmount(rs.getInt(7));
-      grant.setLocation(rs.getString(8));
-      grant.setGrantType(getValue(SqlStatements.STRATEGIC_PRIORITIES, "STRATEGIC_PRIORITY", rs.getLong(9)));
-      grant.setGrantType(getValue(SqlStatements.STRATEGIC_RESULTS, "STRATEGIC_RESULT", rs.getLong(10)));
-      grant.setTotalNumberServed(rs.getInt(11));
-      grant.setNumberNativeHawaiiansServed(rs.getInt(12));
-      return grant;
+      return createGrant(rs);
     }
 
   };
@@ -101,16 +90,41 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
   @Override
   public List<Grant> retrieveAll() {
-    List<Grant> grants = getJdbcTemplate().query(SqlStatements.GET_ALL_GRANTS, ROW_MAPPER);
+    Long count = getJdbcTemplate().queryForObject("SELECT COUNT(*) FROM GRANTS", Long.class);
+    List<Grant> grants = new ArrayList<>();
+    if (count > 1) {
+      grants = getJdbcTemplate().query(SqlStatements.GET_ALL_GRANTS, rowMapper);
+    }
+    else {
+      grants.add(getJdbcTemplate().queryForObject(SqlStatements.GET_ALL_GRANTS, new Object[0], rowMapper));
+    }
     LOGGER.info("Found " + grants.size() + " grants.");
     return grants;
   }
 
 
+  private Grant createGrant(ResultSet rs) throws SQLException {
+    Grant grant = new Grant();
+    if (rs.next()) {
+      grant.setGrantStatus(getValue(SqlStatements.GRANT_STATUSES, "STATUS", rs.getLong(2)));
+      grant.setFiscalYear(rs.getInt(3));
+      grant.setGrantType(getValue(SqlStatements.GRANT_TYPES, "GRANT_TYPE", rs.getLong(4)));
+      grant.setOrganization(getValue(SqlStatements.ORGANIZATIONS, "ORGANIZATION", rs.getLong(5)));
+      grant.setProject(getValue(SqlStatements.PROJECTS, "PROJECT", rs.getLong(6)));
+      grant.setAmount(rs.getInt(7));
+      grant.setLocation(rs.getString(8));
+      grant.setGrantType(getValue(SqlStatements.STRATEGIC_PRIORITIES, "STRATEGIC_PRIORITY", rs.getLong(9)));
+      grant.setGrantType(getValue(SqlStatements.STRATEGIC_RESULTS, "STRATEGIC_RESULT", rs.getLong(10)));
+      grant.setTotalNumberServed(rs.getInt(11));
+      grant.setNumberNativeHawaiiansServed(rs.getInt(12));
+    }
+    return grant;
+  }
+
+
   @Override
   public List<Grant> findGrantsByFiscalYear(int fiscalYear) {
-    String stmt = String.format(SqlStatements.GET_GRANT_BY, "FISCAL_YEAR");
-    List<Grant> grants = getJdbcTemplate().query(stmt, ROW_MAPPER, fiscalYear);
+    List<Grant> grants = getGrantsBy("FISCAL_YEAR", fiscalYear);
     LOGGER.info("Found " + grants.size() + " grants with fiscal year [" + fiscalYear + "].");
     return grants;
   }
@@ -118,11 +132,26 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
   @Override
   public List<Grant> findGrantsByGrantType(String grantType) {
-    String stmt = String.format(SqlStatements.GET_GRANT_BY, "GRANT_TYPE_ID");
     long grantTypeId = getId(SqlStatements.GRANT_TYPES, "GRANT_TYPE", grantType);
-    List<Grant> grants = getJdbcTemplate().query(stmt, ROW_MAPPER, grantTypeId);
+    List<Grant> grants = getGrantsBy("GRANT_TYPE_ID", grantTypeId);
     LOGGER.info("Found " + grants.size() + " grants with grant type [" + grantType + "].");
     return grants;
+  }
+
+
+  private List<Grant> getGrantsBy(String columnName, Object columnValue) {
+    String countStmt = String.format(SqlStatements.COUNT, "GRANTS", columnName);
+    Long count = getJdbcTemplate().queryForObject(countStmt, Long.class, columnValue);
+
+    String select = String.format(SqlStatements.GET_GRANT_BY, columnName);
+    if (count > 1) {
+      return getJdbcTemplate().query(select, rowMapper, columnValue);
+    }
+    else {
+      List<Grant> grants = new ArrayList<>();
+      grants.add(getJdbcTemplate().queryForObject(select, new Object[] { columnValue }, rowMapper));
+      return grants;
+    }
   }
 
 
