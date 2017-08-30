@@ -137,19 +137,19 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
 
   private List<Grant> getGrantsBy(String columnName, Object columnValue) {
-    String countStmt = String.format(SqlStatements.COUNT, "GRANTS", columnName);
-    Long count = getJdbcTemplate().queryForObject(countStmt, Long.class, columnValue);
+    String stmt = String.format(SqlStatements.COUNT, "GRANTS", columnName);
+    Long count = getJdbcTemplate().queryForObject(stmt, Long.class, columnValue);
     if (count == 0) {
       return new ArrayList<>();
     }
 
-    String select = String.format(SqlStatements.GET_GRANT_BY, columnName);
+    stmt = String.format(SqlStatements.GET_GRANT_BY, columnName);
     if (count > 1) {
-      return getJdbcTemplate().query(select, rowMapper, columnValue);
+      return getJdbcTemplate().query(stmt, rowMapper, columnValue);
     }
     else {
       List<Grant> grants = new ArrayList<>();
-      grants.add(getJdbcTemplate().queryForObject(select, new Object[] { columnValue }, rowMapper));
+      grants.add(getJdbcTemplate().queryForObject(stmt, new Object[] { columnValue }, rowMapper));
       return grants;
     }
   }

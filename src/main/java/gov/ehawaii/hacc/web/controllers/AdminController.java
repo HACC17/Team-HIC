@@ -45,7 +45,7 @@ public class AdminController {
   }
 
 
-  @RequestMapping(value = "/search", method = RequestMethod.GET)
+  @RequestMapping(value = "/search/query", method = RequestMethod.GET)
   public void performSearch(@RequestParam("searchString") String searchString,
       @RequestParam("searchBy") String searchBy, HttpServletResponse response) throws IOException {
     response.getWriter().write(new ObjectMapper().writeValueAsString(grantsService.find(searchString, searchBy)));
