@@ -1,27 +1,31 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<table id="grants-table" class="display">
-    <thead>
-        <tr>
-            <th>Grant Status</th>
-            <th>Organization</th>
-            <th>Project</th>
-            <th>Amount</th>
-            <th class="more-info-column"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <c:forEach var="grant" items="${all}">
-            <tr>
-                <td>${grant.fiscalYear}</td>
-                <td>${grant.organization}</td>
-                <td>${grant.project}</td>
-                <td><span class="amount">${grant.amount}</span></td>
-                <td><button class="btn btn-md btn-primary more-info-btn" data-target="#grantModal${grant.id}">More Info</button></td>
-            </tr>
-        </c:forEach>
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-md-12">
+        <table id="grants-table" class="display">
+            <thead>
+                <tr>
+                    <th>Grant Status</th>
+                    <th>Organization</th>
+                    <th>Project</th>
+                    <th>Amount</th>
+                    <th class="more-info-column"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="grant" items="${all}">
+                    <tr>
+                        <td>${grant.fiscalYear}</td>
+                        <td>${grant.organization}</td>
+                        <td>${grant.project}</td>
+                        <td><span class="amount">${grant.amount}</span></td>
+                        <td><button class="btn btn-md btn-primary more-info-btn" data-target="#grantModal${grant.id}">More Info</button></td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <c:forEach var="grant" items="${all}">
 	<div class="modal fade" id="grantModal${grant.id}" tabindex="-1" role="dialog">
@@ -60,6 +64,15 @@
 	    </div>
 	</div>
 </c:forEach>
+
+<div class="row extra-top-margin">
+    <div class="col-md-4">
+        <button class="btn btn-block btn-primary">Export to PDF</button>
+    </div>
+    <div class="col-md-4 col-md-push-4">
+        <button class="btn btn-block btn-primary">Export to CSV</button>
+    </div>
+</div>
 
 <script type="text/javascript">
     $(document).ready( function () {

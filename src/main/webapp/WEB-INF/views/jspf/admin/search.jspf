@@ -21,28 +21,41 @@
     </div>
 </div>
 
-<table id="results-table" class="display">
-    <thead>
-        <tr>
-            <th>Fiscal Year</th>
-            <th>Organization</th>
-            <th>Project</th>
-            <th>Amount</th>
-            <th class="more-info-column"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <c:forEach var="grant" items="${all}">
-            <tr>
-                <td>${grant.fiscalYear}</td>
-                <td>${grant.organization}</td>
-                <td>${grant.project}</td>
-                <td><span class="amount">${grant.amount}</span></td>
-                <td><button class="btn btn-md btn-primary more-info-btn" data-target="#grantModal${grant.id}">More Info</button></td>
-            </tr>
-        </c:forEach>
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-md-12">
+        <table id="results-table" class="display">
+            <thead>
+                <tr>
+                    <th>Fiscal Year</th>
+                    <th>Organization</th>
+                    <th>Project</th>
+                    <th>Amount</th>
+                    <th class="more-info-column"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="grant" items="${all}">
+                    <tr>
+                        <td>${grant.fiscalYear}</td>
+                        <td>${grant.organization}</td>
+                        <td>${grant.project}</td>
+                        <td><span class="amount">${grant.amount}</span></td>
+                        <td><button class="btn btn-md btn-primary more-info-btn" data-target="#grantModal${grant.id}">More Info</button></td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row extra-top-margin">
+    <div class="col-md-4">
+        <button class="btn btn-block btn-primary">Export to PDF</button>
+    </div>
+    <div class="col-md-4 col-md-push-4">
+        <button class="btn btn-block btn-primary">Export to CSV</button>
+    </div>
+</div>
 
 <div id="modals"></div>
 
@@ -61,7 +74,8 @@
         	aaSorting: [[0, 'desc']]
         });
         setupTable();
-        var url = "<c:out value='${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}' /><c:url value='/' /><c:out value='${path}' />";
+        <c:set var="req" value="${pageContext.request}" />
+        var url = "<c:out value='${req.scheme}://${req.serverName}:${req.serverPort}' /><c:url value='/' /><c:out value='${path}' />";
         $("button#submitBtn").on("click", function() {
             $.get(url + "?searchString=" + $("#searchString").val() + "&searchBy=" + $("#searchBy").val(), function(data, status) {
                 $('#results-table').dataTable().fnClearTable();
