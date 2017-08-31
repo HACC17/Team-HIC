@@ -15,7 +15,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4 chart">
+    <div id="fiscalYearDiv" class="col-md-4 chart">
         <canvas id="fiscalYearChart" class="chart" />
     </div>
     <div class="col-md-4 no-data" style="display: none">
@@ -81,6 +81,8 @@
                         }
                     }
                 };
+                $("#fiscalYearChart").remove();
+                $("#fiscalYearDiv").html("<canvas id='fiscalYearChart' class='chart' />");
                 new Chart(document.getElementById("fiscalYearChart").getContext('2d'), config);
             });
         });
