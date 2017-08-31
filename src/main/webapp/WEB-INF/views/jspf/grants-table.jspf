@@ -1,3 +1,5 @@
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+
 <div class="row">
     <div class="col-md-12">
         <table class="display">
@@ -23,7 +25,7 @@
                         <td>${grant.fiscalYear}</td>
                         <td>${grant.organization}</td>
                         <td>${grant.project}</td>
-                        <td><span class="amount">${grant.amount}</span></td>
+                        <td><fmt:formatNumber value="${grant.amount}" type="currency" /></td>
                         <td>${grant.grantStatus}</td>
                         <td>${grant.location}</td>
                         <td>${grant.grantType}</td>
