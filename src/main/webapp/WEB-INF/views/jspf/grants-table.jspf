@@ -33,7 +33,7 @@
                         <td>${grant.strategicResults}</td>
                         <td>${grant.totalNumberServed}</td>
                         <td>${grant.numberNativeHawaiiansServed}</td>
-                        <td><button class="btn btn-md btn-primary more-info-btn" data-target="#grantModal${grant.id}">More Info</button></td>
+                        <td><button class="btn btn-md btn-primary more-info-btn" onclick="$('#grantModal${grant.id}').modal('show');">More Info</button></td>
                     </tr>
                 </c:forEach>
             </tbody>

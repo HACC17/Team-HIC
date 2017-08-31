@@ -9,13 +9,15 @@
 	    <div class="modal-dialog" role="document">
 	        <div class="modal-content">
 	            <div class="modal-header">
-	                <h2 class="modal-title" id="grantModalLabel">${grant.organization} (${grant.fiscalYear}): ${grant.project}</h2>
+	                <h2 class="modal-title" id="grantModalLabel">${grant.organization} (${grant.fiscalYear})</h2>
 	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	                    <span aria-hidden="true">&times;</span>
 	               </button>
 	            </div>
 	            <div class="modal-body">
 	                <dl class="dl-horizontal">
+	                    <dt>Project</dt>
+	                    <dd>${grant.project}</dd>
 	                    <dt>Amount</dt>
 	                    <dd class="amount">${grant.amount}</dd>
 	                    <dt>Status</dt>
@@ -30,7 +32,7 @@
 	                    <dd>${grant.strategicResults}</dd>
 	                    <dt>Total Number Served</dt>
 	                    <dd>${grant.totalNumberServed}</dd>
-	                    <dt>Number of Native Hawaiians<br />Served</dt>
+	                    <dt>Number of Native<br />Hawaiians Served</dt>
 	                    <dd>${grant.numberNativeHawaiiansServed}</dd>
 	                </dl>
 	            </div>
@@ -96,9 +98,6 @@
         $(".more-info-column").removeClass("sorting");
         $(".more-info-column").css("cursor", "auto");
         $(".more-info-column").off();
-        $(".more-info-btn").on("click", function() {
-            $($(this).data("target")).modal("show");
-        });
         var input = $("#grants-table_filter > label > input").detach();
         $("#grants-table_filter > label").html("Filter:");
         $("#grants-table_filter > label").append(input);
