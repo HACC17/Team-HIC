@@ -1,6 +1,7 @@
 package gov.ehawaii.hacc.importers;
 
 import java.io.FileReader;
+import java.io.Reader;
 import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -37,37 +38,60 @@ public class CsvImporter extends Importer {
   @Override
   public boolean importData() {
     try {
-      CSVParser parser = CSVFormat.DEFAULT.parse(new FileReader(csvFile.getFile()));
-      List<CSVRecord> records = parser.getRecords();
-      int count = 0;
-      for (CSVRecord record : records) {
-        if (record.size() != NUMBER_OF_COLUMNS) {
-          continue;
+      Reader reader = new FileReader(csvFile.getFile());
+      try (CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT.withSkipHeaderRecord())) {
+        List<CSVRecord> records = parser.getRecords();
+        records.remove(0);
+        int count = 0;
+        for (CSVRecord record : records) {
+          if (record.size() != NUMBER_OF_COLUMNS) {
+            LOGGER.error("Row does not contain " + NUMBER_OF_COLUMNS + " columns, only " + record.size() + ".");
+            continue;
+          }
+          Grant grant = new Grant();
+          grant.setFiscalYear(stringToInt(record.get(0)));
+          grant.setGrantType(trim(record.get(1)));
+          grant.setOrganization(trim(record.get(2)));
+          grant.setProject(trim(record.get(3)));
+          grant.setAmount(stringToInt(record.get(4)));
+          grant.setLocation(trim(record.get(5)));
+          grant.setStrategicPriority(trim(record.get(6)));
+          grant.setStrategicResults(trim(record.get(7)));
+          grant.setTotalNumberServed(stringToInt(record.get(8)));
+          grant.setNumberNativeHawaiiansServed(stringToInt(record.get(9)));
+          grant.setGrantStatus(dao.getGrantStatusForId(stringToInt(record.get(10))));
+          if (dao.saveGrant(grant)) {
+            LOGGER.info("Successfully saved grant [" + grant + "] to database.");
+            count++;
+          }
         }
-        Grant grant = new Grant();
-        grant.setFiscalYear(Integer.parseInt(record.get(0)));
-        grant.setGrantType(record.get(1));
-        grant.setOrganization(record.get(2));
-        grant.setProject(record.get(3));
-        grant.setAmount(Integer.parseInt(record.get(4)));
-        grant.setLocation(record.get(5));
-        grant.setStrategicPriority(record.get(6));
-        grant.setStrategicResults(record.get(7));
-        grant.setTotalNumberServed(Integer.parseInt(record.get(8)));
-        grant.setNumberNativeHawaiiansServed(Integer.parseInt(record.get(9)));
-        grant.setGrantStatus(dao.getGrantStatusForId(Integer.parseInt(record.get(10))));
-        if (dao.saveGrant(grant)) {
-          LOGGER.info("Successfully saved grant [" + grant + "] to database.");
-          count++;
-        }
+        LOGGER.info("Successfully imported " + count + " grant(s) into database.");
       }
-      LOGGER.info("Successfully imported " + count + " grant(s) into database.");
     }
     catch (Exception e) {
       LOGGER.error("An error occurred while trying to parse CSV file: " + e.getMessage(), e);
       return false;
     }
     return true;
+  }
+
+
+  private static String trim(String value) {
+    return value == null || value.isEmpty() ? "" : (value.length() < 200 ? value : value.substring(0, 200));
+  }
+
+
+  private static int stringToInt(String value) {
+    if (value == null || value.isEmpty()) {
+      return 0;
+    }
+    try {
+      return Integer.parseInt(value);
+    }
+    catch (NumberFormatException nfe) {
+      LOGGER.error("Unable to parse \"" + value + "\" to int.", nfe);
+      return 0;
+    }
   }
 
 }
