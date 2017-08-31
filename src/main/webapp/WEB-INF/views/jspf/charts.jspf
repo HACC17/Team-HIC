@@ -4,9 +4,10 @@
             <div class="form-inline">
                 <label for="fiscalYearSelect">Fiscal Year:</label>
                 <select id="fiscalYearSelect" class="form-control">
-                    <option value="2016" selected>2016</option>
-                    <option value="2017">2017</option>
-                    <option value="2018">2018</option>
+                    <option value="2013" selected>2013</option>
+                    <option value="2014">2014</option>
+                    <option value="2015">2015</option>
+                    <option value="2016">2016</option>
                 </select>
             </div>
         </form>
@@ -25,65 +26,92 @@
 <c:set var="req" value="${pageContext.request}" />
 
 <script type="text/javascript">
+    var datasetsMap = {
+        "2013": [],
+        "2014": [],
+        "2015": [],
+        "2016": []
+    };
+    var labelsMap = {
+        "2013": [],
+        "2014": [],
+        "2015": [],
+        "2016": []
+    };
+
+    function createPieChart(data, year) {
+        var dataset = [];
+        var labels = [];
+        if (data) {
+            var json = JSON.parse(data);
+            if (json.length == 0) {
+                $(".no-data").show();
+                $(".chart").hide();
+                return;
+            } else {
+                $(".no-data").hide();
+                $(".chart").show();
+            }
+            $.each(json, function(index, value) {
+                if (index < 5) {
+                    dataset.push(json[index].amount);
+                }
+            });
+            datasetsMap[year] = dataset;
+            $.each(json, function(index, value) {
+                if (index < 5) {
+                    labels.push(json[index].organization);
+                }
+            });
+            labelsMap[year] = labels;
+        } else {
+            dataset = datasetsMap[year];
+            labels = labelsMap[year];
+        }
+        var colors = [
+            'rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)'
+        ];
+        var config = {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    data: dataset,
+                    backgroundColor: colors.slice(0, dataset.length),
+                    label: 'Fiscal Year ' + $('#fiscalYearSelect :selected').val()
+                }],
+                labels: labels
+            },
+            options: {
+                responsive: true,
+                tooltips: {
+                    enabled: true,
+                    mode: 'single',
+                    callbacks: {
+                        label: function(tooltipItems, data) {
+                            var idx = tooltipItems.index;
+                            return data.labels[idx] + ': ' + accounting.formatMoney(data.datasets[0].data[idx]);
+                        }
+                    }
+                }
+            }
+        };
+        $("#fiscalYearChart").remove();
+        $("#fiscalYearDiv").html("<canvas id='fiscalYearChart' class='chart' />");
+        new Chart(document.getElementById("fiscalYearChart").getContext('2d'), config);
+    }
+
     $(document).ready(function() {
         $("#fiscalYearSelect").change(function(event) {
             event.preventDefault();
             var url = "<c:out value='${req.scheme}://${req.serverName}:${req.serverPort}' /><c:url value='/' />search/query";
-            console.log($('#fiscalYearSelect :selected').val());
-            $.get(url + "?searchString=" + $('#fiscalYearSelect :selected').val() + "&searchBy=FISCAL_YEAR", function(data, status) {
-                var json = JSON.parse(data);
-                if (json.length == 0) {
-                    $(".no-data").show();
-                    $(".chart").hide();
-                    return;
-                } else {
-                    $(".no-data").hide();
-                    $(".chart").show();
-                }
-                var dataset = [];
-                $.each(json, function(index, value) {
-                    if (index < 5) {
-                        dataset.push(json[index].amount);
-                    }
+            var year = $('#fiscalYearSelect :selected').val();
+            if (datasetsMap[year].length > 0) {
+                createPieChart(null, year);
+            } else {
+                $.get(url + "?searchString=" + $('#fiscalYearSelect :selected').val() + "&searchBy=FISCAL_YEAR", function(data, status) {
+                    createPieChart(data, year);
                 });
-                var labels = [];
-                $.each(json, function(index, value) {
-                    if (index < 5) {
-                        labels.push(json[index].organization);
-                    }
-                });
-                console.log(window.chartColors);
-                var colors = [
-                    'rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)'
-                ];
-                var config = {
-                    type: 'pie',
-                    data: {
-                        datasets: [{
-                            data: dataset,
-                            backgroundColor: colors.slice(0, dataset.length),
-                            label: 'Fiscal Year ' + $('#fiscalYearSelect :selected').val()
-                        }],
-                        labels: labels
-                    },
-                    options: {
-                        responsive: true,
-                        tooltips: {
-                            enabled: true,
-                            mode: 'single',
-                            callbacks: {
-                                label: function(tooltipItems, data) {
-                                    var idx = tooltipItems.index;
-                                    return data.labels[idx] + ': ' + accounting.formatMoney(data.datasets[0].data[idx]);
-                                }
-                            }
-                        }
-                    }
-                };
-                $("#fiscalYearChart").remove();
-                $("#fiscalYearDiv").html("<canvas id='fiscalYearChart' class='chart' />");
-                new Chart(document.getElementById("fiscalYearChart").getContext('2d'), config);
-            });
+            }
         });
         $("#fiscalYearSelect").trigger("change");
     });
