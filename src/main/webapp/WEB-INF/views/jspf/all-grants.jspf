@@ -52,7 +52,7 @@
                 'copy', 'csv', 'excel', 'pdf', 'print'
             ],
             "columnDefs": [
-                { "targets": [ 1 ], "visible": false, "searchable": false },
+                { "targets": [ 5 ], "visible": false, "searchable": false },
                 { "targets": [ 6 ], "visible": false, "searchable": false },
                 { "targets": [ 7 ], "visible": false, "searchable": false },
                 { "targets": [ 8 ], "visible": false, "searchable": false },

@@ -4,10 +4,10 @@
             <thead>
                 <tr>
                     <th>Fiscal Year</th>
-                    <th>Status</th>
                     <th>Organization</th>
                     <th>Project</th>
                     <th>Amount</th>
+                    <th>Status</th>
                     <th>Location</th>
                     <th>Grant Type</th>
                     <th>Strategic Priority</th>
@@ -21,10 +21,10 @@
                 <c:forEach var="grant" items="${all}">
                     <tr>
                         <td>${grant.fiscalYear}</td>
-                        <td>${grant.grantStatus}</td>
                         <td>${grant.organization}</td>
                         <td>${grant.project}</td>
                         <td><span class="amount">${grant.amount}</span></td>
+                        <td>${grant.grantStatus}</td>
                         <td>${grant.location}</td>
                         <td>${grant.grantType}</td>
                         <td>${grant.strategicPriority}</td>
