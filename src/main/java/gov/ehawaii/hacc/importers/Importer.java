@@ -6,4 +6,6 @@ public abstract class Importer {
 
   public abstract Resource getFile();
 
+  public abstract boolean importData();
+
 }

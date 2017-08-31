@@ -137,6 +137,12 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
 
+  @Override
+  public String getGrantStatusForId(int grantStatusId) {
+    return getValue(SqlStatements.GRANT_STATUSES, "STATUS", grantStatusId);
+  }
+
+
   private List<Grant> getGrantsBy(String columnName, Object columnValue) {
     String stmt = String.format(SqlStatements.COUNT, "GRANTS", columnName);
     Long count = getJdbcTemplate().queryForObject(stmt, Long.class, columnValue);

@@ -13,4 +13,6 @@ public interface GrantsDao {
 
   List<Grant> findGrantsByGrantType(String grantType);
 
+  String getGrantStatusForId(int grantStatusId);
+
 }
