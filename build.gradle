@@ -16,6 +16,12 @@ eclipse {
   }
 }
 
+if (env.WAR_BASE_NAME != null && env.WAR_BASE_NAME.trim() != "") {
+    war.baseName = env.WAR_BASE_NAME
+}
+
+war.destinationDir = file "$buildDir/dist"
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
