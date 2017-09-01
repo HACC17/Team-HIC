@@ -90,9 +90,28 @@
 </div>
 
 <c:set var="req" value="${pageContext.request}" />
+<c:set var="url" value="${req.scheme}://${req.serverName}:${req.serverPort}" />
 
 <script type="text/javascript">
-    localStorage.setItem("request", "<c:out value='${req.scheme}://${req.serverName}:${req.serverPort}' /><c:url value='/' />");
+    localStorage.setItem("request", "<c:out value='${url}' /><c:url value='/' />");
 </script>
 
 <script src="assets/js/charts.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#orgReportBtn").click(function(event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: "<c:out value='${url}' /><c:url value='/' />reports/org",
+                data: { base64 : $("#over-time-chart-base64").val(), organization : $("#org1_2").val(), criterion : $("#org1_1").val() },
+                contentType: 'application/json',
+                accept: 'application/pdf',
+                headers: {
+                    'X-CSRF-TOKEN': "<c:out value='${_csrf.token}' />"
+                }
+            });
+        });
+    });
+</script>
