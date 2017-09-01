@@ -16,6 +16,9 @@
 				<div class="col-md-3">
 					<a href="javascript:void(0)" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="charts">Charts</a>
 				</div>
+				<div class="col-md-3">
+					<a href="javascript:void(0)" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="reports">Reports</a>
+				</div>
 			</div>
 			<div class="row extra-top-margin">
 				<div class="tab-pane" id="add">

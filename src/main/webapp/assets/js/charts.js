@@ -167,8 +167,8 @@ function createTopPieChart(data, cachedData, cachedLabels, n, field, criterion) 
 }
 
 function chartOrganizationDataOverTime() {
-	var url = localStorage.getItem('request') + "charts/time?org=";
-	url = url + $("#org1_2").val() + "&criterion=" + $("#org1_1").val();
+    var url = localStorage.getItem('request') + "charts/time?org=";
+    url = url + $("#org1_2").val() + "&criterion=" + $("#org1_1").val();
 
     $.get(url, function(data, status) {
         var json = JSON.parse(data);
