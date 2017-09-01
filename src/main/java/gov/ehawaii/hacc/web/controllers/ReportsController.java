@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfNumber;
+import com.itextpdf.text.pdf.PdfPage;
+import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 @Controller
@@ -41,25 +45,36 @@ public class ReportsController {
       }
     }
 
-    byte[] decodedBytes = Base64.decodeBase64(map.get("base64").split(",")[1]);
-
     response.setHeader("Content-Disposition", "attachment; filename=output.pdf");
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    createPdfFile(new Document(), decodedBytes, baos);
+    createPdfFile(new Document(), Base64.decodeBase64(map.get("base64").split(",")[1]), baos);
     return new ResponseEntity<byte[]>(Base64.encodeBase64(baos.toByteArray()), HttpStatus.OK);
   }
 
   private void createPdfFile(Document document, byte[] decodedBytes, OutputStream os) {
     try {
-      PdfWriter.getInstance(document, os);
+      PdfWriter writer = PdfWriter.getInstance(document, os);
+      Rotate event = new Rotate();
+      writer.setPageEvent(event);
       document.open();
       Image image = Image.getInstance(decodedBytes);
+      image.setRotationDegrees(90);
       image.scalePercent(25.0f);
       document.add(image);
       document.close();
     }
     catch (Exception e) {
       e.printStackTrace();
+    }
+  }
+
+  private class Rotate extends PdfPageEventHelper {
+
+    protected PdfNumber orientation = PdfPage.LANDSCAPE;
+
+    @Override
+    public void onStartPage(PdfWriter writer, Document document) {
+      writer.addPageDictEntry(PdfName.ROTATE, orientation);
     }
   }
 
