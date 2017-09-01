@@ -17,7 +17,11 @@ var top_25_labels_map = { "ORGANIZATION_AMOUNT": [], "ORGANIZATION_TOTAL_NUMBER_
                           "PROJECT_AMOUNT": [], "PROJECT_TOTAL_NUMBER_SERVED": [], "PROJECT_NUMBER_NATIVE_HAWAIIANS_SERVED": [] };
 
 var chartColors = [
-    'rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)'
+    'rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)',
+    'rgb(142, 94, 162)', 'rgb(58, 140, 192)', 'rgb(196, 88, 80)', 'rgb(232, 195, 185)', 'rgb(60, 186, 159)',
+    'rgb(166, 206, 227)', 'rgb(31, 120, 180)', 'rgb(178, 223, 138)', 'rgb(51, 160, 44)', 'rgb(251, 154, 153)',
+    'rgb(227, 26, 28)', 'rgb(253, 191, 111)', 'rgb(255, 127, 0)', 'rgb(202, 178, 214)', 'rgb(106, 61, 154)',
+    'rgb(255, 255, 153)', 'rgb(177, 89, 40)', 'rgb(161, 195, 211)', 'rgb(253, 189, 103)', 'rgb(80, 198, 197)'
 ];
 
 var chartOptions = {
@@ -83,7 +87,7 @@ function createFiscalYearPieChart(data, year) {
     new Chart(document.getElementById("fiscalYearChart").getContext('2d'), config);
 }
 
-function createTopPieChart(data, cachedData, n, field, criterion) {
+function createTopPieChart(data, cachedData, cachedLabels, n, field, criterion) {
     var dataset = [];
     var labels = [];
 
@@ -99,7 +103,7 @@ function createTopPieChart(data, cachedData, n, field, criterion) {
         }
 
         $.each(json, function(index, value) {
-            if (index < 5) {
+            if (index < chartColors.length) {
                 dataset.push(json[index].value);
             }
         });
@@ -113,7 +117,7 @@ function createTopPieChart(data, cachedData, n, field, criterion) {
         }
 
         $.each(json, function(index, value) {
-            if (index < 5) {
+            if (index < chartColors.length) {
                 labels.push(json[index].key);
             }
         });
@@ -126,7 +130,7 @@ function createTopPieChart(data, cachedData, n, field, criterion) {
         }
     } else {
         dataset = cachedData;
-        labels = cachedData;
+        labels = cachedLabels;
     }
 
     var config = {
@@ -148,43 +152,42 @@ function createTopPieChart(data, cachedData, n, field, criterion) {
 }
 
 $(document).ready(function() {
+    var baseUrl = localStorage.getItem('request');
+
     $("#fiscalYearSelect").change(function(event) {
         event.preventDefault();
-        var url = localStorage.getItem('request') + "charts/fiscalYear";
         var year = $('#fiscalYearSelect :selected').val();
         if (fiscal_year_data_map[year].length > 0) {
             createFiscalYearPieChart(null, year);
         } else {
-            $.get(url + "?year=" + $('#fiscalYearSelect :selected').val(), function(data, status) {
+            $.get(baseUrl + "charts/fiscalYear?year=" + $('#fiscalYearSelect :selected').val(), function(data, status) {
                 createFiscalYearPieChart(data, year);
             });
         }
     });
-    $("#fiscalYearSelect").trigger("change");
 
     $("#top1_1, #top1_2, #top1_3").change(function(event) {
         event.preventDefault();
-        var url = localStorage.getItem('request') + "charts/top";
         var n = $('#top1_1 :selected').val();
         var field = $('#top1_2 :selected').val();
         var criterion = $('#top1_3 :selected').val();
-        url = url + "?top=" + n;
+        var url = baseUrl + "charts/top?top=" + n;
         url = url + "&field=" + field;
         url = url + "&criterion=" + criterion;
         var key = field + "_" + criterion;
         if (n == "5") {
             if (top_5_data_map[key].length > 0) {
-                createTopPieChart(null, top_5_data_map[key], n, field, criterion);
+                createTopPieChart(null, top_5_data_map[key], top_5_labels_map[key], n, field, criterion);
                 return;
             }
         } else if (n == "10") {
             if (top_10_data_map[key].length > 0) {
-                createTopPieChart(null, top_10_data_map[key], n, field, criterion);
+                createTopPieChart(null, top_10_data_map[key], top_10_labels_map[key], n, field, criterion);
                 return;
             }
         } else {
             if (top_25_data_map[key].length > 0) {
-                createTopPieChart(null, top_25_data_map[key], n, field, criterion);
+                createTopPieChart(null, top_25_data_map[key], top_25_labels_map[key], n, field, criterion);
                 return;
             }
         }
@@ -192,5 +195,7 @@ $(document).ready(function() {
         	createTopPieChart(data, null, n, field, criterion);
         });
     });
+
     $("#top1_1").trigger("change");
+    $("#fiscalYearSelect").trigger("change");
 });

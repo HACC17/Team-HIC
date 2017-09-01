@@ -166,7 +166,11 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
           List<Map<String, Object>> maps = new ArrayList<>();
           while (rs.next()) {
             Map<String, Object> map = new LinkedHashMap<>();
-            map.put("key", getValue(SqlStatements.PROJECTS, "PROJECT", rs.getLong(1)));
+            String project = getValue(SqlStatements.PROJECTS, "PROJECT", rs.getLong(1));
+            if (project.length() > 50) {
+              project = project.substring(0, 50).trim() + "...";
+            }
+            map.put("key", project);
             map.put("value", rs.getLong(2));
             maps.add(map);
           }
@@ -178,7 +182,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
     default:
       throw new IllegalArgumentException(field + " not supported, yet.");
     }
-    LOGGER.info("Found the top " + grants.size() + " " + field + "(s) by " + criterion + ".");
+    LOGGER.info("Found the top " + grants.size() + " " + field.toLowerCase() + "(s) by " + criterion.toLowerCase() + ".");
     return grants;
   }
 
@@ -214,7 +218,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
     stmt = String.format(SqlStatements.GET_ID, tableName, columnName);
     Long id = getJdbcTemplate().queryForObject(stmt, Long.class, value);
     LOGGER.info("Retrieved ID for value [" + value + "] from table [" + tableName + "]: " + id);
-    return id;
+    return id == null ? -1 : id;
   }
 
   private long saveValue(String tableName, String columnName, String value) {
@@ -235,7 +239,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
     stmt = String.format(SqlStatements.GET_VALUE, columnName, tableName);
     String data = getJdbcTemplate().queryForObject(stmt, String.class, id);
     LOGGER.info("Retrieved data for ID [" + id + "] from table [" + tableName + "]: " + data);
-    return data;
+    return data == null ? "" : data;
   }
 
 }

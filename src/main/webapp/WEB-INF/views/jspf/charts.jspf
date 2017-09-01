@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="row extra-top-margin">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form id="fiscalYearForm">
             <div class="form-inline">
                 <label for="fiscalYearSelect">Fiscal Year:</label>
@@ -14,13 +14,13 @@
             </div>
         </form>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-6">
         <form id="topForm">
             <div class="form-inline">
                 <label for="top1_1">Top</label>
                 <select id="top1_1" class="form-control">
-                    <option value="5" selected>5</option>
-                    <option value="10">10</option>
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
                     <option value="25">25</option>
                 </select>
                 <select id="top1_2" class="form-control">
@@ -31,7 +31,7 @@
                 <select id="top1_3" class="form-control">
                     <option value="AMOUNT" selected>Amount</option>
                     <option value="TOTAL_NUMBER_SERVED">Total Number Served</option>
-                    <option value="TOTAL_NATIVE_HAWAIIANS_SERVED">Number of Native Hawaiians Served</option>
+                    <option value="NUMBER_NATIVE_HAWAIIANS_SERVED">Number of Native Hawaiians Served</option>
                 </select>
             </div>
         </form>
@@ -39,16 +39,16 @@
 </div>
 
 <div class="row">
-    <div id="fiscalYearDiv" class="col-md-4 fiscal-year-chart">
+    <div id="fiscalYearDiv" class="col-md-6 fiscal-year-chart">
         <canvas id="fiscalYearChart" class="fiscal-year-chart" />
     </div>
-    <div class="col-md-4 no-fiscal-year-data" style="display: none">
+    <div class="col-md-6 no-fiscal-year-data" style="display: none">
         <div class="alert alert-danger no-fiscal-year-data" style="display: none">No data exists for selected fiscal year.</div>
     </div>
-    <div id="topDiv" class="col-md-8 top-chart">
+    <div id="topDiv" class="col-md-6 top-chart">
         <canvas id="topChart" class="top-chart" />
     </div>
-    <div class="col-md-8 no-top-data" style="display: none">
+    <div class="col-md-6 no-top-data" style="display: none">
         <div class="alert alert-danger no-top-data" style="display: none">No data exists for selected criteria.</div>
     </div>
 </div>
