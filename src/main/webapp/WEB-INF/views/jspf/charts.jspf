@@ -112,7 +112,7 @@
                     'X-CSRF-TOKEN': "<c:out value='${_csrf.token}' />"
                 },
                 success: function(response) {
-                  download("data:application/pdf;base64," + response, "report.pdf", "application/pdf");
+                  download("data:application/pdf;base64," + response, $("#org1_2").val().replace(/ /g,"_") + "-report.pdf", "application/pdf");
                 }
             });
         });

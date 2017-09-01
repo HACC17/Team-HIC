@@ -54,8 +54,7 @@ public class ReportsController {
   private void createPdfFile(Document document, byte[] decodedBytes, OutputStream os) {
     try {
       PdfWriter writer = PdfWriter.getInstance(document, os);
-      Rotate event = new Rotate();
-      writer.setPageEvent(event);
+      writer.setPageEvent(new Rotate());
       document.open();
       Image image = Image.getInstance(decodedBytes);
       image.setRotationDegrees(90);
