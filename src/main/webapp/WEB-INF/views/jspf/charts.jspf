@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <div class="row extra-top-margin">
     <div class="col-md-4">
         <form id="fiscalYearForm">
@@ -12,110 +14,49 @@
             </div>
         </form>
     </div>
+    <div class="col-md-8">
+        <form id="topForm">
+            <div class="form-inline">
+                <label for="top1_1">Top</label>
+                <select id="top1_1" class="form-control">
+                    <option value="5" selected>5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                </select>
+                <select id="top1_2" class="form-control">
+                    <option value="ORGANIZATION" selected>Organizations</option>
+                    <option value="PROJECT">Projects</option>
+                </select>
+                <label for="top1_3">by</label>
+                <select id="top1_3" class="form-control">
+                    <option value="AMOUNT" selected>Amount</option>
+                    <option value="TOTAL_NUMBER_SERVED">Total Number Served</option>
+                    <option value="TOTAL_NATIVE_HAWAIIANS_SERVED">Number of Native Hawaiians Served</option>
+                </select>
+            </div>
+        </form>
+    </div>
 </div>
 
 <div class="row">
-    <div id="fiscalYearDiv" class="col-md-4 chart">
-        <canvas id="fiscalYearChart" class="chart" />
+    <div id="fiscalYearDiv" class="col-md-4 fiscal-year-chart">
+        <canvas id="fiscalYearChart" class="fiscal-year-chart" />
     </div>
-    <div class="col-md-4 no-data" style="display: none">
-        <div class="alert alert-danger no-data" style="display: none">No data exists for selected fiscal year.</div>
+    <div class="col-md-4 no-fiscal-year-data" style="display: none">
+        <div class="alert alert-danger no-fiscal-year-data" style="display: none">No data exists for selected fiscal year.</div>
+    </div>
+    <div id="topDiv" class="col-md-8 top-chart">
+        <canvas id="topChart" class="top-chart" />
+    </div>
+    <div class="col-md-8 no-top-data" style="display: none">
+        <div class="alert alert-danger no-top-data" style="display: none">No data exists for selected criteria.</div>
     </div>
 </div>
 
 <c:set var="req" value="${pageContext.request}" />
 
 <script type="text/javascript">
-    var fiscalYearDataMap = {
-        "2013": [],
-        "2014": [],
-        "2015": [],
-        "2016": []
-    };
-    var fiscalYearLabelsMap = {
-        "2013": [],
-        "2014": [],
-        "2015": [],
-        "2016": []
-    };
-
-    var chartColors = [
-        'rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)'
-    ];
-
-    var chartOptions = {
-        responsive: true,
-        tooltips: {
-            enabled: true,
-            mode: 'single',
-            callbacks: {
-                label: function(tooltipItems, data) {
-                    var idx = tooltipItems.index;
-                    return data.labels[idx] + ': ' + accounting.formatMoney(data.datasets[0].data[idx]);
-                }
-            }
-        }
-    };
-
-    function createPieChart(data, year) {
-        var dataset = [];
-        var labels = [];
-        if (data) {
-            var json = JSON.parse(data);
-            if (json.length == 0) {
-                $(".no-data").show();
-                $(".chart").hide();
-                return;
-            } else {
-                $(".no-data").hide();
-                $(".chart").show();
-            }
-            $.each(json, function(index, value) {
-                if (index < 5) {
-                    dataset.push(json[index].amount);
-                }
-            });
-            fiscalYearDataMap[year] = dataset;
-            $.each(json, function(index, value) {
-                if (index < 5) {
-                    labels.push(json[index].organization);
-                }
-            });
-            fiscalYearLabelsMap[year] = labels;
-        } else {
-            dataset = fiscalYearDataMap[year];
-            labels = fiscalYearLabelsMap[year];
-        }
-        var config = {
-            type: 'pie',
-            data: {
-                datasets: [{
-                    data: dataset,
-                    backgroundColor: chartColors.slice(0, dataset.length),
-                    label: 'Fiscal Year ' + $('#fiscalYearSelect :selected').val()
-                }],
-                labels: labels
-            },
-            options: chartOptions
-        };
-        $("#fiscalYearChart").remove();
-        $("#fiscalYearDiv").html("<canvas id='fiscalYearChart' class='chart' />");
-        new Chart(document.getElementById("fiscalYearChart").getContext('2d'), config);
-    }
-
-    $(document).ready(function() {
-        $("#fiscalYearSelect").change(function(event) {
-            event.preventDefault();
-            var url = "<c:out value='${req.scheme}://${req.serverName}:${req.serverPort}' /><c:url value='/' />search/query";
-            var year = $('#fiscalYearSelect :selected').val();
-            if (fiscalYearDataMap[year].length > 0) {
-                createPieChart(null, year);
-            } else {
-                $.get(url + "?searchString=" + $('#fiscalYearSelect :selected').val() + "&searchBy=FISCAL_YEAR", function(data, status) {
-                    createPieChart(data, year);
-                });
-            }
-        });
-        $("#fiscalYearSelect").trigger("change");
-    });
+    localStorage.setItem("request", "<c:out value='${req.scheme}://${req.serverName}:${req.serverPort}' /><c:url value='/' />");
 </script>
+
+<script src="assets/js/charts.js" type="text/javascript"></script>

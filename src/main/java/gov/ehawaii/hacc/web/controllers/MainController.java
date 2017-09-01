@@ -15,7 +15,7 @@ public class MainController {
 
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public String showIndexPage(Model model) {
-    model.addAttribute("all", grantsService.findAll());
+    model.addAttribute("all", grantsService.getAllData());
     return "index";
   }
 

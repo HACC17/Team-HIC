@@ -129,10 +129,10 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
 
   @Override
-  public List<Grant> findGrantsByGrantType(String grantType) {
-    long grantTypeId = getId(SqlStatements.GRANT_TYPES, "GRANT_TYPE", grantType);
-    List<Grant> grants = getGrantsBy("GRANT_TYPE_ID", grantTypeId);
-    LOGGER.info("Found " + grants.size() + " grant(s) with grant type [" + grantType + "].");
+  public List<Grant> retrieveTop(int top, String field, String criterion) {
+    String stmt = "SELECT DISTINCT " + field + "_ID, " + criterion + " FROM GRANTS ORDER BY " + criterion + " DESC LIMIT " + top;
+    List<Grant> grants = getJdbcTemplate().query(stmt, rowMapper);
+    LOGGER.info("Found the top " + grants.size() + " " + field + "(s) by " + criterion + ".");
     return grants;
   }
 

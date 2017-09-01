@@ -11,7 +11,7 @@ public interface GrantsDao {
 
   List<Grant> findGrantsByFiscalYear(int fiscalYear);
 
-  List<Grant> findGrantsByGrantType(String grantType);
+  List<Grant> retrieveTop(int top, String field, String criterion);
 
   String getGrantStatusForId(int grantStatusId);
 

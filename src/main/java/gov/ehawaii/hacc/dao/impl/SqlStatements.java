@@ -30,7 +30,7 @@ public final class SqlStatements {
 
   public static final String GET_GRANT_BY = "SELECT * FROM GRANTS WHERE %s = ?";
 
-  public static final String GET_ALL_GRANTS = "SELECT * FROM GRANTS";
+  public static final String GET_ALL_GRANTS = "SELECT * FROM GRANTS LIMIT 100";
 
   public static final String COUNT = "SELECT COUNT(*) FROM %s WHERE %s = ?";
 

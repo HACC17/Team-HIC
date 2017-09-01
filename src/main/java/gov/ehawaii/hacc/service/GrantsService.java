@@ -7,8 +7,10 @@ public interface GrantsService {
 
   boolean insertGrant(Grant grant);
 
-  List<Grant> findAll();
+  List<Grant> getAllData();
 
-  List<Grant> find(String searchString, String searchBy);
+  List<Grant> getDataForFiscalYear(String year);
+
+  List<Grant> getTopData(int top, String field, String criterion);
 
 }

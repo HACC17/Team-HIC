@@ -33,7 +33,7 @@ public class AdminController {
   @RequestMapping(method = RequestMethod.GET)
   public String showAdminPage(Model model) {
     model.addAttribute("grant", new Grant());
-    model.addAttribute("all", grantsService.findAll());
+    model.addAttribute("all", grantsService.getAllData());
     return "admin/index";
   }
 

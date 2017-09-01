@@ -1,9 +1,6 @@
 package gov.ehawaii.hacc.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import gov.ehawaii.hacc.dao.GrantsDao;
@@ -13,40 +10,42 @@ import gov.ehawaii.hacc.service.GrantsService;
 @Service
 public class GrantsServiceImpl implements GrantsService {
 
-  private static final Logger LOGGER = LogManager.getLogger(GrantsServiceImpl.class);
-
   @Autowired
   private GrantsDao dao;
+
 
   @Override
   public boolean insertGrant(Grant grant) {
     return dao.saveGrant(grant);
   }
 
+
   @Override
-  public List<Grant> findAll() {
+  public List<Grant> getAllData() {
     return dao.retrieveAll();
   }
 
+
   @Override
-  public List<Grant> find(String searchString, String searchBy) {
-    if (searchString == null || searchString.isEmpty()) {
-      return dao.retrieveAll();
+  public List<Grant> getDataForFiscalYear(String year) {
+    if (year == null || year.isEmpty()) {
+      throw new IllegalArgumentException("year is null or empty.");
     }
 
-    switch (searchBy) {
-    case "FISCAL_YEAR":
-      try {
-        return dao.findGrantsByFiscalYear(Integer.parseInt(searchString));
-      }
-      catch (NumberFormatException nfe) {
-        LOGGER.error("Search string is not an integer: " + searchString, nfe);
-        return new ArrayList<>();
-      }
-    default:
-      LOGGER.error(searchBy + " not implemented, yet.");
-      return new ArrayList<>();
+    return dao.findGrantsByFiscalYear(Integer.parseInt(year));
+  }
+
+
+  @Override
+  public List<Grant> getTopData(int top, String field, String criterion) {
+    if (field == null || field.isEmpty()) {
+      throw new IllegalArgumentException("field is null or empty.");
     }
+    if (criterion == null || criterion.isEmpty()) {
+      throw new IllegalArgumentException("criterion is null or empty.");
+    }
+
+    return dao.retrieveTop(top, field, criterion);
   }
 
 }
