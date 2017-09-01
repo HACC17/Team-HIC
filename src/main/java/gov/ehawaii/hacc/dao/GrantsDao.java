@@ -16,4 +16,8 @@ public interface GrantsDao {
 
   String getGrantStatusForId(int grantStatusId);
 
+  List<String> getAllOrganizations();
+
+  List<Map<String, Long>> getOrganizationDataOverTime(String organization, String criterion);
+
 }

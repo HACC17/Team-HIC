@@ -24,6 +24,7 @@ public class AdminController {
   private static final Logger LOGGER = LogManager.getLogger(AdminController.class);
 
   private final List<Grant> grants = new ArrayList<>();
+  private final List<String> organizations = new ArrayList<>();
 
   @Autowired
   private GrantsService grantsService;
@@ -38,6 +39,7 @@ public class AdminController {
   @PostConstruct
   public void init() {
     grants.addAll(grantsService.getAllData());
+    organizations.addAll(grantsService.getAllOrganizations());
   }
 
 
@@ -45,6 +47,7 @@ public class AdminController {
   public String showAdminPage(Model model) {
     model.addAttribute("grant", new Grant());
     model.addAttribute("all", grants);
+    model.addAttribute("organizations", organizations);
     return "admin/index";
   }
 

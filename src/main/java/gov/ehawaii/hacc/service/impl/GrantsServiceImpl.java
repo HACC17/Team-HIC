@@ -14,18 +14,15 @@ public class GrantsServiceImpl implements GrantsService {
   @Autowired
   private GrantsDao dao;
 
-
   @Override
   public boolean insertGrant(Grant grant) {
     return dao.saveGrant(grant);
   }
 
-
   @Override
   public List<Grant> getAllData() {
     return dao.retrieveAll();
   }
-
 
   @Override
   public List<Grant> getDataForFiscalYear(String year) {
@@ -35,7 +32,6 @@ public class GrantsServiceImpl implements GrantsService {
 
     return dao.findGrantsByFiscalYear(Integer.parseInt(year));
   }
-
 
   @Override
   public List<Map<String, Object>> getTopData(int top, String field, String criterion) {
@@ -47,6 +43,17 @@ public class GrantsServiceImpl implements GrantsService {
     }
 
     return dao.retrieveTop(top, field, criterion);
+  }
+
+  @Override
+  public List<String> getAllOrganizations() {
+    return dao.getAllOrganizations();
+  }
+
+  @Override
+  public List<Map<String, Long>> getOrganizationDataOverTime(String organization,
+      String criterion) {
+    return dao.getOrganizationDataOverTime(organization, criterion);
   }
 
 }

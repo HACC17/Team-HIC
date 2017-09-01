@@ -4,7 +4,7 @@
     <div class="col-md-6">
         <form id="fiscalYearForm">
             <div class="form-inline">
-                <label for="fiscalYearSelect">Total Amount for Fiscal Year:</label>
+                <label for="fiscalYearSelect">Total Amount of Money for Fiscal Year:</label>
                 <select id="fiscalYearSelect" class="form-control">
                     <option value="2013" selected>2013</option>
                     <option value="2014">2014</option>
@@ -29,9 +29,9 @@
                 </select>
                 <label for="top1_3">by</label>
                 <select id="top1_3" class="form-control">
-                    <option value="AMOUNT" selected>Amount</option>
-                    <option value="TOTAL_NUMBER_SERVED">Total Number Served</option>
-                    <option value="NUMBER_NATIVE_HAWAIIANS_SERVED">Number of Native Hawaiians Served</option>
+                    <option value="AMOUNT" selected>Total Amount of Money</option>
+                    <option value="TOTAL_NUMBER_SERVED">Total Number of People Served</option>
+                    <option value="NUMBER_NATIVE_HAWAIIANS_SERVED">Total Number of Native Hawaiians Served</option>
                 </select>
             </div>
         </form>
@@ -50,6 +50,36 @@
     </div>
     <div class="col-md-6 no-top-data" style="display: none">
         <div class="alert alert-danger no-top-data" style="display: none">No data exists for selected criteria.</div>
+    </div>
+</div>
+
+<div class="row extra-top-margin">
+    <div class="col-md-12">
+        <form id="topForm">
+            <div class="form-inline">
+                <select id="org1_1" class="form-control">
+                    <option value="AMOUNT" selected>Amount of Money</option>
+                    <option value="TOTAL_NUMBER_SERVED">Number of People Served</option>
+                    <option value="NUMBER_NATIVE_HAWAIIANS_SERVED">Number of Native Hawaiians Served</option>
+                </select>
+                <label id="org1_2-label" for="org1_2">for</label>
+                <select id="org1_2" class="form-control">
+                    <c:forEach var="org" items="${organizations}">
+                        <option value="${org}"><c:out value="${org}" /></option>
+                    </c:forEach>
+                </select>
+                <label>Over Time</label>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div id="overTimeDiv" class="col-md-12 over-time-chart">
+        <canvas id="overTimeChart" class="over-time-chart" />
+    </div>
+    <div class="col-md-12 no-over-time-data" style="display: none">
+        <div class="alert alert-danger no-over-time-data" style="display: none">No data exists for selected organization.</div>
     </div>
 </div>
 

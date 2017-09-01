@@ -15,6 +15,7 @@ import gov.ehawaii.hacc.service.GrantsService;
 public class MainController {
 
   private final List<Grant> grants = new ArrayList<>();
+  private final List<String> organizations = new ArrayList<>();
 
   @Autowired
   private GrantsService grantsService;
@@ -22,11 +23,13 @@ public class MainController {
   @PostConstruct
   public void init() {
     grants.addAll(grantsService.getAllData());
+    organizations.addAll(grantsService.getAllOrganizations());
   }
 
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public String showIndexPage(Model model) {
     model.addAttribute("all", grants);
+    model.addAttribute("organizations", organizations);
     return "index";
   }
 

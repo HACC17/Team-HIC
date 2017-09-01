@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -128,8 +129,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
   @Override
   public List<Grant> findGrantsByFiscalYear(int fiscalYear) {
-    String stmt = "SELECT ORGANIZATION_ID, SUM(AMOUNT) FROM GRANTS WHERE FISCAL_YEAR = "
-        + fiscalYear + " GROUP BY ORGANIZATION_ID, AMOUNT ORDER BY AMOUNT DESC LIMIT 5";
+    String stmt = String.format(SqlStatements.FISCAL_YEAR, fiscalYear);
     List<Grant> grants = getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Grant>>() {
 
       @Override
@@ -152,8 +152,8 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
   @Override
   public List<Map<String, Object>> retrieveTop(int top, String field, String criterion) {
-    String stmt = "SELECT " + field + "_ID, SUM(" + criterion + ") FROM GRANTS GROUP BY " + field
-        + "_ID, " + criterion + " ORDER BY " + criterion + " DESC LIMIT " + top;
+    String stmt =
+        String.format(SqlStatements.TOP_N, field, criterion, field, criterion, criterion, top);
 
     List<Map<String, Object>> grants;
     switch (field) {
@@ -162,14 +162,14 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
         @Override
         public List<Map<String, Object>> extractData(ResultSet rs) throws SQLException {
-          List<Map<String, Object>> maps = new ArrayList<>();
+          List<Map<String, Object>> rows = new ArrayList<>();
           while (rs.next()) {
-            Map<String, Object> map = new LinkedHashMap<>();
-            map.put("key", getValue(SqlStatements.ORGANIZATIONS, "ORGANIZATION", rs.getLong(1)));
-            map.put("value", rs.getLong(2));
-            maps.add(map);
+            Map<String, Object> row = new LinkedHashMap<>();
+            row.put("key", getValue(SqlStatements.ORGANIZATIONS, "ORGANIZATION", rs.getLong(1)));
+            row.put("value", rs.getLong(2));
+            rows.add(row);
           }
-          return maps;
+          return rows;
         }
 
       });
@@ -179,18 +179,18 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
         @Override
         public List<Map<String, Object>> extractData(ResultSet rs) throws SQLException {
-          List<Map<String, Object>> maps = new ArrayList<>();
+          List<Map<String, Object>> rows = new ArrayList<>();
           while (rs.next()) {
-            Map<String, Object> map = new LinkedHashMap<>();
+            Map<String, Object> row = new LinkedHashMap<>();
             String project = getValue(SqlStatements.PROJECTS, "PROJECT", rs.getLong(1));
             if (project.length() > 50) {
               project = project.substring(0, 50).trim() + "...";
             }
-            map.put("key", project);
-            map.put("value", rs.getLong(2));
-            maps.add(map);
+            row.put("key", project);
+            row.put("value", rs.getLong(2));
+            rows.add(row);
           }
-          return maps;
+          return rows;
         }
 
       });
@@ -208,22 +208,34 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
     return getValue(SqlStatements.GRANT_STATUSES, "STATUS", grantStatusId);
   }
 
-  private List<Grant> getGrantsBy(String columnName, Object columnValue) {
-    String stmt = String.format(SqlStatements.COUNT, "GRANTS", columnName);
-    Long count = getJdbcTemplate().queryForObject(stmt, Long.class, columnValue);
-    if (count == 0) {
-      return new ArrayList<>();
-    }
+  @Override
+  public List<String> getAllOrganizations() {
+    List<String> organizations =
+        getJdbcTemplate().queryForList(SqlStatements.GET_ALL_ORGANIZATIONS, String.class);
+    LOGGER.info("Found " + organizations.size() + " organizations.");
+    return organizations;
+  }
 
-    stmt = String.format(SqlStatements.GET_GRANT_BY, columnName);
-    if (count > 1) {
-      return getJdbcTemplate().query(stmt, rowMapper, columnValue);
-    }
-    else {
-      List<Grant> grants = new ArrayList<>();
-      grants.add(getJdbcTemplate().queryForObject(stmt, new Object[] { columnValue }, rowMapper));
-      return grants;
-    }
+  @Override
+  public List<Map<String, Long>> getOrganizationDataOverTime(String organization, String criterion) {
+    long orgId = getId(SqlStatements.ORGANIZATIONS, "ORGANIZATION", organization);
+    String stmt = String.format(SqlStatements.GET_DATA_FOR_ORG, criterion, orgId);
+    return getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Map<String, Long>>>() {
+
+      @Override
+      public List<Map<String, Long>> extractData(ResultSet rs)
+          throws SQLException, DataAccessException {
+        List<Map<String, Long>> rows = new ArrayList<>();
+        while (rs.next()) {
+          Map<String, Long> row = new LinkedHashMap<>();
+          row.put("value", rs.getLong(1));
+          row.put("year", rs.getLong(2));
+          rows.add(row);
+        }
+        return rows;
+      }
+
+    });
   }
 
   private long getId(String tableName, String columnName, String value) {

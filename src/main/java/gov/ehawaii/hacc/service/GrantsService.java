@@ -14,4 +14,8 @@ public interface GrantsService {
 
   List<Map<String, Object>> getTopData(int top, String field, String criterion);
 
+  List<String> getAllOrganizations();
+
+  List<Map<String, Long>> getOrganizationDataOverTime(String organization, String criterion);
+
 }

@@ -166,6 +166,105 @@ function createTopPieChart(data, cachedData, cachedLabels, n, field, criterion) 
     new Chart(document.getElementById("topChart").getContext('2d'), config);
 }
 
+function chartOrganizationDataOverTime() {
+	var url = localStorage.getItem('request') + "charts/time?org=";
+	url = url + $("#org1_2").val() + "&criterion=" + $("#org1_1").val();
+
+    $.get(url, function(data, status) {
+        var json = JSON.parse(data);
+        console.log(json);
+        var dataset = [];
+        $.each(json, function(index, value) {
+            if (index < chartColors.length) {
+                dataset.push(json[index].value);
+            }
+        });
+        var labels = [];
+        $.each(json, function(index, value) {
+            if (index < chartColors.length) {
+                labels.push(json[index].year);
+            }
+        });
+        var yLabel;
+        if ($("#org1_1").val() == "AMOUNT") {
+            yLabel = "Amount of Money";
+        } else if ($("#org1_1").val() == "TOTAL_NUMBER_SERVED") {
+            yLabel = "Total Number of People Served";
+        } else {
+            yLabel = "Number of Native Hawaiians Served";
+        }
+        var min = 0;
+        var max = 24;
+        var randomIndex = Math.floor(Math.random() * (max - min + 1)) + min;
+        var config = {
+            type: 'line',
+            data: {
+                datasets: [{
+                    data: dataset,
+                    backgroundColor: chartColors[randomIndex],
+                    borderColor: chartColors[randomIndex],
+                    fill: false,
+                    label: $("#org1_2").val()
+                }],
+                labels: labels
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: false
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        label: function(tooltipItems, data) {
+                            var idx = tooltipItems.index;
+                            var isFiscal = $("#org1_1").val() == "AMOUNT";
+                            var d = data.datasets[0].data[idx];
+                            if (!isFiscal) {
+                                if (d == 1) {
+                                    return data.labels[idx] + ': 1 person';
+                                } else if (d == 0) {
+                                    return data.labels[idx] + ': None';
+                                }
+                            }
+                            return data.labels[idx] + ': ' + (isFiscal ? accounting.formatMoney(d) : accounting.formatNumber(d) + " people");
+                        }
+                    }
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Year'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            callback: function(label, index, labels) {
+                                return $("#org1_1").val() == "AMOUNT" ? accounting.formatMoney(label) : accounting.formatNumber(label);
+                            }
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: yLabel
+                        }
+                    }]
+                }
+            }
+        };
+        $("#overTimeChart").remove();
+        $("#overTimeDiv").html("<canvas id='overTimeChart' class='over-time-chart' />");
+        new Chart(document.getElementById("overTimeChart").getContext('2d'), config);
+    });
+}
+
 $(document).ready(function() {
     var baseUrl = localStorage.getItem('request');
 
@@ -211,6 +310,22 @@ $(document).ready(function() {
         });
     });
 
+    $("#org1_1").change(function(event) {
+        event.preventDefault();
+        if ($(this).val() == "AMOUNT") {
+            $("#org1_2-label").html("for");
+        } else {
+            $("#org1_2-label").html("by");
+        }
+        chartOrganizationDataOverTime();
+    });
+
+    $("#org1_2").change(function(event) {
+        event.preventDefault();
+        chartOrganizationDataOverTime();
+    });
+
     $("#top1_1").trigger("change");
     $("#fiscalYearSelect").trigger("change");
+    $("#org1_1").trigger("change");
 });
