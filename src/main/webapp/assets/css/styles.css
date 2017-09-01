@@ -46,3 +46,11 @@ dt {
     padding-right: 10px;
     margin-bottom: 5px;
 }
+
+.extra-extra-top-margin {
+    margin-top: 25px;
+}
+
+.top-border {
+    border-top: 2px solid #337AB7;
+}

@@ -11,6 +11,7 @@
                     <option value="2015">2015</option>
                     <option value="2016">2016</option>
                 </select>
+                <button id="fiscalYearReportBtn" class="btn btn-md btn-primary">Download Report</button>
             </div>
         </form>
     </div>
@@ -33,6 +34,7 @@
                     <option value="TOTAL_NUMBER_SERVED">Total Number of People Served</option>
                     <option value="NUMBER_NATIVE_HAWAIIANS_SERVED">Total Number of Native Hawaiians Served</option>
                 </select>
+                <button id="topReportBtn" class="btn btn-md btn-primary">Download Report</button>
             </div>
         </form>
     </div>
@@ -53,9 +55,9 @@
     </div>
 </div>
 
-<div class="row extra-top-margin">
+<div class="row extra-extra-top-margin top-border">
     <div class="col-md-12">
-        <form id="topForm">
+        <form id="topForm" class="extra-extra-top-margin">
             <div class="form-inline">
                 <select id="org1_1" class="form-control">
                     <option value="AMOUNT" selected>Amount of Money</option>
@@ -69,12 +71,13 @@
                     </c:forEach>
                 </select>
                 <label>Over Time</label>
+                <button id="orgReportBtn" class="btn btn-md btn-primary">Download Report</button>
             </div>
         </form>
     </div>
 </div>
 
-<div class="row">
+<div class="row extra-top-margin">
     <div id="overTimeDiv" class="col-md-12 over-time-chart">
         <canvas id="overTimeChart" class="over-time-chart" />
     </div>
