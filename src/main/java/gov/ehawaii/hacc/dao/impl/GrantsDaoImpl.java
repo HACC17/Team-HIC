@@ -182,11 +182,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
           List<Map<String, Object>> rows = new ArrayList<>();
           while (rs.next()) {
             Map<String, Object> row = new LinkedHashMap<>();
-            String project = getValue(SqlStatements.PROJECTS, "PROJECT", rs.getLong(1));
-            if (project.length() > 50) {
-              project = project.substring(0, 50).trim() + "...";
-            }
-            row.put("key", project);
+            row.put("key", getValue(SqlStatements.PROJECTS, "PROJECT", rs.getLong(1)));
             row.put("value", rs.getLong(2));
             rows.add(row);
           }

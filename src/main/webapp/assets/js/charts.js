@@ -132,7 +132,8 @@ function createTopPieChart(data, cachedData, cachedLabels, n, field, criterion) 
 
         $.each(json, function(index, value) {
             if (index < chartColors.length) {
-                labels.push(json[index].key);
+                var lbl = json[index].key;
+                labels.push(lbl.length > 50 ? lbl.substring(0, 50).trim() + "..." : lbl);
             }
         });
         if (n == "5") {
