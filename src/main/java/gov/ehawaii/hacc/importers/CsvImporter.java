@@ -77,8 +77,7 @@ public class CsvImporter extends Importer {
 
 
   private static String trim(String value) {
-    return value == null || value.isEmpty() ? ""
-        : (value.length() < 200 ? value : value.substring(0, 197).trim() + "...");
+    return value == null || value.isEmpty() ? "" : value.trim();
   }
 
 
