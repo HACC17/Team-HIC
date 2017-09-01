@@ -110,6 +110,9 @@
                 accept: 'application/pdf',
                 headers: {
                     'X-CSRF-TOKEN': "<c:out value='${_csrf.token}' />"
+                },
+                success: function(response) {
+                  download("data:application/pdf;base64," + response, "report.pdf", "application/pdf");
                 }
             });
         });

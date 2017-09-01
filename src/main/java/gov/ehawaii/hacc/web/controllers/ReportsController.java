@@ -1,20 +1,16 @@
 package gov.ehawaii.hacc.web.controllers;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +27,8 @@ public class ReportsController {
   private static final Logger LOGGER = LogManager.getLogger(ReportsController.class);
 
   @RequestMapping(value = "/org", method = RequestMethod.POST)
-  public ResponseEntity<byte[]> generateOrganizationDataOverTimeReport(@RequestBody String json) {
+  public ResponseEntity<byte[]> generateOrganizationDataOverTimeReport(@RequestBody String json,
+      HttpServletResponse response) {
     Map<String, String> map = new LinkedHashMap<>();
     for (String s : json.split("&")) {
       String[] pair = s.split("=");
@@ -46,34 +43,10 @@ public class ReportsController {
 
     byte[] decodedBytes = Base64.decodeBase64(map.get("base64").split(",")[1]);
 
-    Document document = new Document();
+    response.setHeader("Content-Disposition", "attachment; filename=output.pdf");
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    createPdfFile(document, decodedBytes, baos);
-
-    document = new Document();
-    File tempFile;
-    try {
-      tempFile = File.createTempFile("output", ".pdf");
-    }
-    catch (IOException ioe) {
-      throw new RuntimeException("Unable to create temp file.", ioe);
-    }
-    try (FileOutputStream fos = new FileOutputStream(tempFile)) {
-      createPdfFile(document, decodedBytes, fos);
-    }
-    catch (Exception fnfe) {
-      throw new RuntimeException("Unable to create temp file.", fnfe);
-    }
-    LOGGER.info("Path of PDF file: " + tempFile.getAbsolutePath());
-
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.parseMediaType("application/pdf"));
-    String filename = "output.pdf";
-    headers.setContentDispositionFormData(filename, filename);
-    headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-    ResponseEntity<byte[]> response =
-        new ResponseEntity<byte[]>(baos.toByteArray(), headers, HttpStatus.OK);
-    return response;
+    createPdfFile(new Document(), decodedBytes, baos);
+    return new ResponseEntity<byte[]>(Base64.encodeBase64(baos.toByteArray()), HttpStatus.OK);
   }
 
   private void createPdfFile(Document document, byte[] decodedBytes, OutputStream os) {

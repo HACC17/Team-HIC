@@ -7,4 +7,5 @@
 	<script src="assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
 	<script src="assets/js/jquery-1.12.4.min.js" type="text/javascript"></script>
 	<script src="assets/js/accounting.min.js" type="text/javascript"></script>
+	<script src="assets/js/download.js" type="text/javascript"></script>
 </head>
