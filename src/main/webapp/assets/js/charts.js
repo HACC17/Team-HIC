@@ -1,20 +1,20 @@
-var fiscalYearDataMap =   { "2013": [], "2014": [], "2015": [], "2016": [] };
-var fiscalYearLabelsMap = { "2013": [], "2014": [], "2015": [], "2016": [] };
+var fiscal_year_data_map =   { "2013": [], "2014": [], "2015": [], "2016": [] };
+var fiscal_year_labels_map = { "2013": [], "2014": [], "2015": [], "2016": [] };
 
-var top5DataMap =    { "ORGANIZATION_AMOUNT": [], "ORGANIZATION_TOTAL_NUMBER_SERVED": [], "ORGANIZATION_NUMBER_NATIVE_HAWAIIANS_SERVED": [],
-                       "PROJECT_AMOUNT": [], "PROJECT_TOTAL_NUMBER_SERVED": [], "PROJECT_NUMBER_NATIVE_HAWAIIANS_SERVED": [] };
-var top5LabelsMap =  { "ORGANIZATION_AMOUNT": [], "ORGANIZATION_TOTAL_NUMBER_SERVED": [], "ORGANIZATION_NUMBER_NATIVE_HAWAIIANS_SERVED": [],
-                       "PROJECT_AMOUNT": [], "PROJECT_TOTAL_NUMBER_SERVED": [], "PROJECT_NUMBER_NATIVE_HAWAIIANS_SERVED": [] };
+var top_5_data_map =   { "ORGANIZATION_AMOUNT": [], "ORGANIZATION_TOTAL_NUMBER_SERVED": [], "ORGANIZATION_NUMBER_NATIVE_HAWAIIANS_SERVED": [],
+                         "PROJECT_AMOUNT": [], "PROJECT_TOTAL_NUMBER_SERVED": [], "PROJECT_NUMBER_NATIVE_HAWAIIANS_SERVED": [] };
+var top_5_labels_map = { "ORGANIZATION_AMOUNT": [], "ORGANIZATION_TOTAL_NUMBER_SERVED": [], "ORGANIZATION_NUMBER_NATIVE_HAWAIIANS_SERVED": [],
+                         "PROJECT_AMOUNT": [], "PROJECT_TOTAL_NUMBER_SERVED": [], "PROJECT_NUMBER_NATIVE_HAWAIIANS_SERVED": [] };
 
-var top10DataMap =   { "ORGANIZATION_AMOUNT": [], "ORGANIZATION_TOTAL_NUMBER_SERVED": [], "ORGANIZATION_NUMBER_NATIVE_HAWAIIANS_SERVED": [],
-                       "PROJECT_AMOUNT": [], "PROJECT_TOTAL_NUMBER_SERVED": [], "PROJECT_NUMBER_NATIVE_HAWAIIANS_SERVED": [] };
-var top10LabelsMap = { "ORGANIZATION_AMOUNT": [], "ORGANIZATION_TOTAL_NUMBER_SERVED": [], "ORGANIZATION_NUMBER_NATIVE_HAWAIIANS_SERVED": [],
-                       "PROJECT_AMOUNT": [], "PROJECT_TOTAL_NUMBER_SERVED": [], "PROJECT_NUMBER_NATIVE_HAWAIIANS_SERVED": [] };
+var top_10_data_map =   { "ORGANIZATION_AMOUNT": [], "ORGANIZATION_TOTAL_NUMBER_SERVED": [], "ORGANIZATION_NUMBER_NATIVE_HAWAIIANS_SERVED": [],
+                          "PROJECT_AMOUNT": [], "PROJECT_TOTAL_NUMBER_SERVED": [], "PROJECT_NUMBER_NATIVE_HAWAIIANS_SERVED": [] };
+var top_10_labels_map = { "ORGANIZATION_AMOUNT": [], "ORGANIZATION_TOTAL_NUMBER_SERVED": [], "ORGANIZATION_NUMBER_NATIVE_HAWAIIANS_SERVED": [],
+                          "PROJECT_AMOUNT": [], "PROJECT_TOTAL_NUMBER_SERVED": [], "PROJECT_NUMBER_NATIVE_HAWAIIANS_SERVED": [] };
 
-var top25DataMap =   { "ORGANIZATION_AMOUNT": [], "ORGANIZATION_TOTAL_NUMBER_SERVED": [], "ORGANIZATION_NUMBER_NATIVE_HAWAIIANS_SERVED": [],
-                       "PROJECT_AMOUNT": [], "PROJECT_TOTAL_NUMBER_SERVED": [], "PROJECT_NUMBER_NATIVE_HAWAIIANS_SERVED": [] };
-var top10LabelsMap = { "ORGANIZATION_AMOUNT": [], "ORGANIZATION_TOTAL_NUMBER_SERVED": [], "ORGANIZATION_NUMBER_NATIVE_HAWAIIANS_SERVED": [],
-                       "PROJECT_AMOUNT": [], "PROJECT_TOTAL_NUMBER_SERVED": [], "PROJECT_NUMBER_NATIVE_HAWAIIANS_SERVED": [] };
+var top_25_data_map =   { "ORGANIZATION_AMOUNT": [], "ORGANIZATION_TOTAL_NUMBER_SERVED": [], "ORGANIZATION_NUMBER_NATIVE_HAWAIIANS_SERVED": [],
+                          "PROJECT_AMOUNT": [], "PROJECT_TOTAL_NUMBER_SERVED": [], "PROJECT_NUMBER_NATIVE_HAWAIIANS_SERVED": [] };
+var top_25_labels_map = { "ORGANIZATION_AMOUNT": [], "ORGANIZATION_TOTAL_NUMBER_SERVED": [], "ORGANIZATION_NUMBER_NATIVE_HAWAIIANS_SERVED": [],
+                          "PROJECT_AMOUNT": [], "PROJECT_TOTAL_NUMBER_SERVED": [], "PROJECT_NUMBER_NATIVE_HAWAIIANS_SERVED": [] };
 
 var chartColors = [
     'rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)'
@@ -53,16 +53,16 @@ function createFiscalYearPieChart(data, year) {
                 dataset.push(json[index].amount);
             }
         });
-        fiscalYearDataMap[year] = dataset;
+        fiscal_year_data_map[year] = dataset;
         $.each(json, function(index, value) {
             if (index < 5) {
                 labels.push(json[index].organization);
             }
         });
-        fiscalYearLabelsMap[year] = labels;
+        fiscal_year_labels_map[year] = labels;
     } else {
-        dataset = fiscalYearDataMap[year];
-        labels = fiscalYearLabelsMap[year];
+        dataset = fiscal_year_data_map[year];
+        labels = fiscal_year_labels_map[year];
     }
 
     var config = {
@@ -79,7 +79,7 @@ function createFiscalYearPieChart(data, year) {
     };
 
     $("#fiscalYearChart").remove();
-    $("#fiscalYearDiv").html("<canvas id='fiscalYearChart' class='chart' />");
+    $("#fiscalYearDiv").html("<canvas id='fiscalYearChart' class='fiscal-year-chart' />");
     new Chart(document.getElementById("fiscalYearChart").getContext('2d'), config);
 }
 
@@ -90,36 +90,39 @@ function createTopPieChart(data, cachedData, n, field, criterion) {
     if (data) {
         var json = JSON.parse(data);
         if (json.length == 0) {
-            $(".no-fiscal-year-data").show();
-            $(".fiscal-year-chart").hide();
+            $(".no-top-data").show();
+            $(".top-chart").hide();
             return;
         } else {
-            $(".no-fiscal-year-data").hide();
-            $(".fiscal-year-chart").show();
+            $(".no-top-data").hide();
+            $(".top-chart").show();
         }
+
         $.each(json, function(index, value) {
             if (index < 5) {
-                dataset.push(json[index].amount);
+                dataset.push(json[index].value);
+            }
+        });
+        var key = field + "_" + criterion;
+        if (n == "5") {
+            top_5_data_map[key] = dataset;
+        } else if (n == "10") {
+            top_10_data_map[key] = dataset;
+        } else {
+            top_25_data_map[key] = dataset;
+        }
+
+        $.each(json, function(index, value) {
+            if (index < 5) {
+                labels.push(json[index].key);
             }
         });
         if (n == "5") {
-            top5DataMap[field + "_" + criterion] = dataset;
+            top_5_labels_map[key] = labels;
         } else if (n == "10") {
-        	top10DataMap[field + "_" + criterion] = dataset;
+            top_10_labels_map[key] = labels;
         } else {
-        	top25DataMap[field + "_" + criterion] = dataset;
-        }
-        $.each(json, function(index, value) {
-            if (index < 5) {
-                labels.push(json[index].organization);
-            }
-        });
-        if (n == "5") {
-            top5LabelsMap[field + "_" + criterion] = labels;
-        } else if (n == "10") {
-        	top10LabelsMap[field + "_" + criterion] = labels;
-        } else {
-        	top25LabelsMap[field + "_" + criterion] = labels;
+            top_25_labels_map[key] = labels;
         }
     } else {
         dataset = cachedData;
@@ -149,7 +152,7 @@ $(document).ready(function() {
         event.preventDefault();
         var url = localStorage.getItem('request') + "charts/fiscalYear";
         var year = $('#fiscalYearSelect :selected').val();
-        if (fiscalYearDataMap[year].length > 0) {
+        if (fiscal_year_data_map[year].length > 0) {
             createFiscalYearPieChart(null, year);
         } else {
             $.get(url + "?year=" + $('#fiscalYearSelect :selected').val(), function(data, status) {
@@ -170,18 +173,18 @@ $(document).ready(function() {
         url = url + "&criterion=" + criterion;
         var key = field + "_" + criterion;
         if (n == "5") {
-            if (top5DataMap[key].length > 0) {
-                createTopPieChart(null, top5DataMap[key], n, field, criterion);
+            if (top_5_data_map[key].length > 0) {
+                createTopPieChart(null, top_5_data_map[key], n, field, criterion);
                 return;
             }
         } else if (n == "10") {
-            if (top10DataMap[key].length > 0) {
-                createTopPieChart(null, top10DataMap[key], n, field, criterion);
+            if (top_10_data_map[key].length > 0) {
+                createTopPieChart(null, top_10_data_map[key], n, field, criterion);
                 return;
             }
         } else {
-            if (top25DataMap[key].length > 0) {
-                createTopPieChart(null, top25DataMap[key], n, field, criterion);
+            if (top_25_data_map[key].length > 0) {
+                createTopPieChart(null, top_25_data_map[key], n, field, criterion);
                 return;
             }
         }

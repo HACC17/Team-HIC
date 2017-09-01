@@ -1,5 +1,8 @@
 package gov.ehawaii.hacc.web.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,8 @@ public class AdminController {
 
   private static final Logger LOGGER = LogManager.getLogger(AdminController.class);
 
+  private final List<Grant> grants = new ArrayList<>();
+
   @Autowired
   private GrantsService grantsService;
 
@@ -30,10 +35,16 @@ public class AdminController {
   private ExcelImporter excelImporter;
 
 
+  @PostConstruct
+  public void init() {
+    grants.addAll(grantsService.getAllData());
+  }
+
+
   @RequestMapping(method = RequestMethod.GET)
   public String showAdminPage(Model model) {
     model.addAttribute("grant", new Grant());
-    model.addAttribute("all", grantsService.getAllData());
+    model.addAttribute("all", grants);
     return "admin/index";
   }
 

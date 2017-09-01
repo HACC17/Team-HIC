@@ -1,6 +1,7 @@
 package gov.ehawaii.hacc.service.impl;
 
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import gov.ehawaii.hacc.dao.GrantsDao;
@@ -37,7 +38,7 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   @Override
-  public List<Grant> getTopData(int top, String field, String criterion) {
+  public List<Map<String, Object>> getTopData(int top, String field, String criterion) {
     if (field == null || field.isEmpty()) {
       throw new IllegalArgumentException("field is null or empty.");
     }
