@@ -4,7 +4,7 @@
     <div class="col-md-6">
         <form id="fiscalYearForm">
             <div class="form-inline">
-                <label for="fiscalYearSelect">Fiscal Year:</label>
+                <label for="fiscalYearSelect">Total Amount for Fiscal Year:</label>
                 <select id="fiscalYearSelect" class="form-control">
                     <option value="2013" selected>2013</option>
                     <option value="2014">2014</option>

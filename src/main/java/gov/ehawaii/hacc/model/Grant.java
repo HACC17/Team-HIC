@@ -13,7 +13,7 @@ public class Grant implements Serializable {
   private String grantType;
   private String organization;
   private String project;
-  private int amount;
+  private long amount;
   private String location;
   private String strategicPriority;
   private String strategicResults;

@@ -128,15 +128,32 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
   @Override
   public List<Grant> findGrantsByFiscalYear(int fiscalYear) {
-    List<Grant> grants = getGrantsBy("FISCAL_YEAR", fiscalYear);
-    LOGGER.info("Found " + grants.size() + " grant(s) with fiscal year [" + fiscalYear + "].");
+    String stmt = "SELECT ORGANIZATION_ID, SUM(AMOUNT) FROM GRANTS WHERE FISCAL_YEAR = "
+        + fiscalYear + " GROUP BY ORGANIZATION_ID, AMOUNT ORDER BY AMOUNT DESC LIMIT 5";
+    List<Grant> grants = getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Grant>>() {
+
+      @Override
+      public List<Grant> extractData(ResultSet rs) throws SQLException {
+        List<Grant> grants = new ArrayList<>();
+        while (rs.next()) {
+          Grant grant = new Grant();
+          grant.setOrganization(
+              getValue(SqlStatements.ORGANIZATIONS, "ORGANIZATION", rs.getLong(1)));
+          grant.setAmount(rs.getLong(2));
+          grants.add(grant);
+        }
+        return grants;
+      }
+
+    });
+    LOGGER.info("Found top " + grants.size() + " grant(s) for fiscal year " + fiscalYear + ".");
     return grants;
   }
 
   @Override
   public List<Map<String, Object>> retrieveTop(int top, String field, String criterion) {
-    String stmt = "SELECT DISTINCT " + field + "_ID, " + criterion + " FROM GRANTS ORDER BY "
-        + criterion + " DESC LIMIT " + top;
+    String stmt = "SELECT " + field + "_ID, SUM(" + criterion + ") FROM GRANTS GROUP BY " + field
+        + "_ID, " + criterion + " ORDER BY " + criterion + " DESC LIMIT " + top;
 
     List<Map<String, Object>> grants;
     switch (field) {
@@ -148,8 +165,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
           List<Map<String, Object>> maps = new ArrayList<>();
           while (rs.next()) {
             Map<String, Object> map = new LinkedHashMap<>();
-            map.put("key",
-                getValue(SqlStatements.ORGANIZATIONS, "ORGANIZATION", rs.getLong(1)));
+            map.put("key", getValue(SqlStatements.ORGANIZATIONS, "ORGANIZATION", rs.getLong(1)));
             map.put("value", rs.getLong(2));
             maps.add(map);
           }
@@ -182,7 +198,8 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
     default:
       throw new IllegalArgumentException(field + " not supported, yet.");
     }
-    LOGGER.info("Found the top " + grants.size() + " " + field.toLowerCase() + "(s) by " + criterion.toLowerCase() + ".");
+    LOGGER.info("Found the top " + grants.size() + " " + field.toLowerCase() + "(s) by "
+        + criterion.toLowerCase() + ".");
     return grants;
   }
 
