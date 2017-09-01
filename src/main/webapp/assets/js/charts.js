@@ -24,7 +24,7 @@ var chartColors = [
     'rgb(255, 255, 153)', 'rgb(177, 89, 40)', 'rgb(161, 195, 211)', 'rgb(253, 189, 103)', 'rgb(80, 198, 197)'
 ];
 
-var chartOptions = {
+var fiscalChartOptions = {
     responsive: true,
     tooltips: {
         enabled: true,
@@ -33,6 +33,20 @@ var chartOptions = {
             label: function(tooltipItems, data) {
                 var idx = tooltipItems.index;
                 return data.labels[idx] + ': ' + accounting.formatMoney(data.datasets[0].data[idx]);
+            }
+        }
+    }
+};
+
+var peopleChartOptions = {
+    responsive: true,
+    tooltips: {
+        enabled: true,
+        mode: 'single',
+        callbacks: {
+            label: function(tooltipItems, data) {
+                var idx = tooltipItems.index;
+                return data.labels[idx] + ': ' + accounting.formatNumber(data.datasets[0].data[idx]) + ' people';
             }
         }
     }
@@ -79,7 +93,7 @@ function createFiscalYearPieChart(data, year) {
             }],
             labels: labels
         },
-        options: chartOptions
+        options: fiscalChartOptions
     };
 
     $("#fiscalYearChart").remove();
@@ -133,6 +147,7 @@ function createTopPieChart(data, cachedData, cachedLabels, n, field, criterion) 
         labels = cachedLabels;
     }
 
+    var options = $('#top1_3 :selected').val() === "AMOUNT" ? fiscalChartOptions : peopleChartOptions;
     var config = {
         type: 'pie',
         data: {
@@ -143,7 +158,7 @@ function createTopPieChart(data, cachedData, cachedLabels, n, field, criterion) 
             }],
             labels: labels
         },
-        options: chartOptions
+        options: options
     };
 
     $("#topChart").remove();
@@ -192,7 +207,7 @@ $(document).ready(function() {
             }
         }
         $.get(url, function(data, status) {
-        	createTopPieChart(data, null, n, field, criterion);
+            createTopPieChart(data, null, n, field, criterion);
         });
     });
 
