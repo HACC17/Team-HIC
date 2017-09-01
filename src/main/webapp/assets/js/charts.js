@@ -24,7 +24,14 @@ var chartColors = [
     'rgb(255, 255, 153)', 'rgb(177, 89, 40)', 'rgb(161, 195, 211)', 'rgb(253, 189, 103)', 'rgb(80, 198, 197)'
 ];
 
+var fiscalChart, topChart;
+
 var fiscalChartOptions = {
+    animation: {
+        onComplete: function() {
+            $("#fiscal-chart-base64").val(fiscalChart.toBase64Image());
+        }
+    },
     responsive: true,
     tooltips: {
         enabled: true,
@@ -38,7 +45,7 @@ var fiscalChartOptions = {
     }
 };
 
-var peopleChartOptions = {
+var topChartOptions = {
     responsive: true,
     tooltips: {
         enabled: true,
@@ -98,7 +105,7 @@ function createFiscalYearPieChart(data, year) {
 
     $("#fiscalYearChart").remove();
     $("#fiscalYearDiv").html("<canvas id='fiscalYearChart' class='fiscal-year-chart' />");
-    new Chart(document.getElementById("fiscalYearChart").getContext('2d'), config);
+    fiscalChart = new Chart(document.getElementById("fiscalYearChart").getContext('2d'), config);
 }
 
 function createTopPieChart(data, cachedData, cachedLabels, n, field, criterion) {
@@ -148,7 +155,12 @@ function createTopPieChart(data, cachedData, cachedLabels, n, field, criterion) 
         labels = cachedLabels;
     }
 
-    var options = $('#top1_3 :selected').val() === "AMOUNT" ? fiscalChartOptions : peopleChartOptions;
+    var options = $('#top1_3 :selected').val() === "AMOUNT" ? fiscalChartOptions : topChartOptions;
+    options.animation = {
+        onComplete: function() {
+            $("#top-chart-base64").val(topChart.toBase64Image());
+        }
+    };
     var config = {
         type: 'pie',
         data: {
@@ -164,7 +176,7 @@ function createTopPieChart(data, cachedData, cachedLabels, n, field, criterion) 
 
     $("#topChart").remove();
     $("#topDiv").html("<canvas id='topChart' class='top-chart' />");
-    new Chart(document.getElementById("topChart").getContext('2d'), config);
+    topChart = new Chart(document.getElementById("topChart").getContext('2d'), config);
 }
 
 function chartOrganizationDataOverTime() {
@@ -197,7 +209,10 @@ function chartOrganizationDataOverTime() {
         var min = 0;
         var max = 24;
         var randomIndex = Math.floor(Math.random() * (max - min + 1)) + min;
-        var config = {
+
+        $("#overTimeChart").remove();
+        $("#overTimeDiv").html("<canvas id='overTimeChart' class='over-time-chart' />");
+        var overTimeChart = new Chart(document.getElementById("overTimeChart").getContext('2d'), {
             type: 'line',
             data: {
                 datasets: [{
@@ -210,6 +225,11 @@ function chartOrganizationDataOverTime() {
                 labels: labels
             },
             options: {
+                animation: {
+                    onComplete: function() {
+                        $("#over-time-chart-base64").val(overTimeChart.toBase64Image());
+                    }
+                },
                 responsive: true,
                 title: {
                     display: false
@@ -259,10 +279,7 @@ function chartOrganizationDataOverTime() {
                     }]
                 }
             }
-        };
-        $("#overTimeChart").remove();
-        $("#overTimeDiv").html("<canvas id='overTimeChart' class='over-time-chart' />");
-        new Chart(document.getElementById("overTimeChart").getContext('2d'), config);
+        });
     });
 }
 

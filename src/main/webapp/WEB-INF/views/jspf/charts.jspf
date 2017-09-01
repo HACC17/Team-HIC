@@ -47,12 +47,14 @@
     <div class="col-md-6 no-fiscal-year-data" style="display: none">
         <div class="alert alert-danger no-fiscal-year-data" style="display: none">No data exists for selected fiscal year.</div>
     </div>
+    <input type="hidden" id="fiscal-chart-base64" value="" />
     <div id="topDiv" class="col-md-6 top-chart">
         <canvas id="topChart" class="top-chart" />
     </div>
     <div class="col-md-6 no-top-data" style="display: none">
         <div class="alert alert-danger no-top-data" style="display: none">No data exists for selected criteria.</div>
     </div>
+    <input type="hidden" id="top-chart-base64" value="" />
 </div>
 
 <div class="row extra-extra-top-margin top-border">
@@ -84,6 +86,7 @@
     <div class="col-md-12 no-over-time-data" style="display: none">
         <div class="alert alert-danger no-over-time-data" style="display: none">No data exists for selected organization.</div>
     </div>
+    <input type="hidden" id="over-time-chart-base64" value="" />
 </div>
 
 <c:set var="req" value="${pageContext.request}" />
