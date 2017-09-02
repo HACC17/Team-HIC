@@ -110,7 +110,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   @Override
-  public List<Grant> retrieveAll() {
+  public List<Grant> getAllGrants() {
     Long count = getJdbcTemplate().queryForObject("SELECT COUNT(*) FROM GRANTS", Long.class);
     if (count == 0) {
       return new ArrayList<>();
@@ -151,7 +151,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   @Override
-  public List<Map<String, Object>> retrieveTop(int top, String field, String criterion) {
+  public List<Map<String, Object>> getTop(int top, String field, String criterion) {
     String stmt =
         String.format(SqlStatements.TOP_N, field, criterion, field, criterion, criterion, top);
 

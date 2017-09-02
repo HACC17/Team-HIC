@@ -22,7 +22,7 @@ public class MainController {
 
   @PostConstruct
   public void init() {
-    grants.addAll(grantsService.getAllData());
+    grants.addAll(grantsService.getAllGrants());
     organizations.addAll(grantsService.getAllOrganizations());
   }
 

@@ -8,11 +8,11 @@ public interface GrantsService {
 
   boolean insertGrant(Grant grant);
 
-  List<Grant> getAllData();
+  List<Grant> getAllGrants();
 
-  List<Grant> getDataForFiscalYear(String year);
+  List<Grant> getGrantsForFiscalYear(String year);
 
-  List<Map<String, Object>> getTopData(int top, String field, String criterion);
+  List<Map<String, Object>> getTopNData(int top, String field, String criterion);
 
   List<String> getAllOrganizations();
 

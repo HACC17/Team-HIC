@@ -8,11 +8,11 @@ public interface GrantsDao {
 
   boolean saveGrant(Grant grant);
 
-  List<Grant> retrieveAll();
+  List<Grant> getAllGrants();
 
   List<Grant> findGrantsByFiscalYear(int fiscalYear);
 
-  List<Map<String, Object>> retrieveTop(int top, String field, String criterion);
+  List<Map<String, Object>> getTop(int top, String field, String criterion);
 
   String getGrantStatusForId(int grantStatusId);
 

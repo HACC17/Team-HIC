@@ -20,12 +20,12 @@ public class GrantsServiceImpl implements GrantsService {
   }
 
   @Override
-  public List<Grant> getAllData() {
-    return dao.retrieveAll();
+  public List<Grant> getAllGrants() {
+    return dao.getAllGrants();
   }
 
   @Override
-  public List<Grant> getDataForFiscalYear(String year) {
+  public List<Grant> getGrantsForFiscalYear(String year) {
     if (year == null || year.isEmpty()) {
       throw new IllegalArgumentException("year is null or empty.");
     }
@@ -34,7 +34,7 @@ public class GrantsServiceImpl implements GrantsService {
   }
 
   @Override
-  public List<Map<String, Object>> getTopData(int top, String field, String criterion) {
+  public List<Map<String, Object>> getTopNData(int top, String field, String criterion) {
     if (field == null || field.isEmpty()) {
       throw new IllegalArgumentException("field is null or empty.");
     }
@@ -42,7 +42,7 @@ public class GrantsServiceImpl implements GrantsService {
       throw new IllegalArgumentException("criterion is null or empty.");
     }
 
-    return dao.retrieveTop(top, field, criterion);
+    return dao.getTop(top, field, criterion);
   }
 
   @Override
