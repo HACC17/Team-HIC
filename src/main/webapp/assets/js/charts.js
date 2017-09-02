@@ -158,6 +158,9 @@ function createTopPieChart(data, cachedData, cachedLabels, n, field, criterion) 
         labels = cachedLabels;
     }
 
+    localStorage.setItem("top-dataset", dataset);
+    localStorage.setItem("top-labels", labels.join(";"));
+
     var options = $('#top1_3 :selected').val() === "AMOUNT" ? fiscalChartOptions : topChartOptions;
     options.animation = {
         onComplete: function() {

@@ -67,7 +67,7 @@ public final class PdfUtils {
     table.addCell(cell);
     // header row
     for (String heading : columnHeadings) {
-      cell = new PdfPCell(new Phrase(WordUtils.capitalizeFully(heading), font));
+      cell = new PdfPCell(new Phrase(heading, font));
       cell.setFixedHeight(20);
       cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
       cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -90,9 +90,14 @@ public final class PdfUtils {
       if (idx < columnTwoData.length) {
         data = columnTwoData[idx];
       }
-      if (isFiscal && !data.isEmpty()) {
-        data =
-            NumberFormat.getCurrencyInstance(new Locale("en", "US")).format(Integer.parseInt(data));
+      if (!data.isEmpty()) {
+        int num = Integer.parseInt(data);
+        if (isFiscal) {
+          data = NumberFormat.getCurrencyInstance(new Locale("en", "US")).format(num);
+        }
+        else {
+          data = NumberFormat.getNumberInstance(new Locale("en", "US")).format(num);
+        }
       }
       cell = new PdfPCell(new Phrase(WordUtils.capitalizeFully(data)));
       cell.setFixedHeight(20);

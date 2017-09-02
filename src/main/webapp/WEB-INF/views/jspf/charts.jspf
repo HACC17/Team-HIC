@@ -111,8 +111,8 @@
                 data: {
                     base64 : $("#fiscal-chart-base64").val(),
                     year : year,
-                    columnOne: "organization",
-                    columnTwo : "total amount",
+                    columnOne: "Organization",
+                    columnTwo : "Total Amount of Money",
                     dataset: dataset,
                     labels: labels
                 },
@@ -126,19 +126,69 @@
                 }
             });
         });
+        $("#topReportBtn").click(function(event) {
+            event.preventDefault();
+            var dataset = localStorage.getItem("top-dataset");
+            var labels = localStorage.getItem("top-labels");
+            var n = $("#top1_1").val();
+            var columnOne = $("#top1_2").val();
+            columnOne = columnOne.charAt(0).toUpperCase() + columnOne.slice(1).toLowerCase();
+            var isFiscal = true;
+            var columnTwo;
+            if ($("#top1_3").val() == "AMOUNT") {
+                columnTwo = "Total Amount of Money";
+            } else if ($("#top1_3").val() == "TOTAL_NUMBER_SERVED") {
+                isFiscal = false;
+                columnTwo = "Total Number of People Served";
+            } else {
+                isFiscal = false;
+                columnTwo = "Total Number of Native Hawaiians Served";
+            }
+            $.ajax({
+                type: 'POST',
+                url: "<c:out value='${url}' /><c:url value='/' />reports/top",
+                data: {
+                    base64 : $("#top-chart-base64").val(),
+                    n : n,
+                    columnOne: columnOne,
+                    columnTwo : columnTwo,
+                    dataset: dataset,
+                    labels: labels,
+                    isFiscal: isFiscal
+                },
+                contentType: 'application/json',
+                accept: 'application/pdf',
+                headers: {
+                    'X-CSRF-TOKEN': "<c:out value='${_csrf.token}' />"
+                },
+                success: function(response) {
+                  var filename = "top-" + n + "-" + columnOne.toLowerCase() + "-by-";
+                  filename = filename + columnTwo.replace(/ /g, "-").toLowerCase() + "-report.pdf";
+                  download("data:application/pdf;base64," + response, filename, "application/pdf");
+                }
+            });
+        });
         $("#orgReportBtn").click(function(event) {
             event.preventDefault();
             var dataset = localStorage.getItem("over-time-dataset");
             var labels = localStorage.getItem("over-time-labels");
             var isFiscal = $("#org1_1").val() == "AMOUNT";
+            var columnTwo;
+            if ($("#org1_1").val() == "AMOUNT") {
+                columnTwo = "Amount of Money";
+            } else if ($("#org1_1").val() == "TOTAL_NUMBER_SERVED") {
+                columnTwo = "Number of People Served";
+            } else {
+                columnTwo = "Number of Native Hawaiians Served";
+            }
             $.ajax({
                 type: 'POST',
                 url: "<c:out value='${url}' /><c:url value='/' />reports/org",
                 data: {
                     base64 : $("#over-time-chart-base64").val(),
                     organization : $("#org1_2").val(),
-                    columnOne: "year",
-                    columnTwo : $("#org1_1").val(),
+                    columnOne: "Year",
+                    columnTwo : columnTwo,
                     dataset: dataset,
                     labels: labels,
                     isFiscal: isFiscal
