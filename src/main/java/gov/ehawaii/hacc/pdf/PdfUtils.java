@@ -22,20 +22,21 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 public final class PdfUtils {
 
-  private static final float IMAGE_SCALE_PERCENT = 19.0f;
+  public static final float PIE_CHART_IMAGE_SCALE_PERCENT = 30.0f;
+  public static final float LINE_CHART_IMAGE_SCALE_PERCENT = 19.0f;
 
   private PdfUtils() {
   }
 
   public static void createPdfFile(Document document, byte[] decodedBytes, OutputStream os,
-      String tableHeading, String[] columnHeadings, String[] columnOneData, String[] columnTwoData,
-      boolean isFiscal) {
+      float imageScalePercent, String tableHeading, String[] columnHeadings, String[] columnOneData,
+      String[] columnTwoData, boolean isFiscal) {
     try {
       PdfWriter writer = PdfWriter.getInstance(document, os);
       writer.setPageEvent(new Rotate());
       document.open();
       Image image = Image.getInstance(decodedBytes);
-      image.scalePercent(IMAGE_SCALE_PERCENT);
+      image.scalePercent(imageScalePercent);
       document.add(image);
       document.add(createTable(writer, tableHeading, columnHeadings, columnOneData, columnTwoData,
           isFiscal));
@@ -89,7 +90,7 @@ public final class PdfUtils {
       if (idx < columnTwoData.length) {
         data = columnTwoData[idx];
       }
-      if (isFiscal) {
+      if (isFiscal && !data.isEmpty()) {
         data =
             NumberFormat.getCurrencyInstance(new Locale("en", "US")).format(Integer.parseInt(data));
       }

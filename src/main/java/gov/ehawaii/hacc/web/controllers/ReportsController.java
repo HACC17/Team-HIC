@@ -23,6 +23,33 @@ public class ReportsController {
 
   private static final Logger LOGGER = LogManager.getLogger(ReportsController.class);
 
+  @RequestMapping(value = "/fiscalYear", method = RequestMethod.POST)
+  public ResponseEntity<byte[]> generateFiscalYearReport(@RequestBody String json) {
+    Map<String, String> map = new LinkedHashMap<>();
+    for (String s : json.split("&")) {
+      String[] pair = s.split("=");
+      try {
+        map.put(pair[0], URLDecoder.decode(pair[1], "UTF-8"));
+      }
+      catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+        LOGGER.error("Unable to decode string: " + pair[1], e);
+      }
+    }
+
+    String tableHeading = "Total Amount of Money for Fiscal Year " + map.get("year");
+    String[] columnHeadings = { map.get("columnOne"), map.get("columnTwo") };
+    String[] columnOneData = map.get("labels").split(";");
+    String[] columnTwoData = map.get("dataset").split(",");
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    PdfUtils.createPdfFile(new Document(), Base64.decodeBase64(map.get("base64").split(",")[1]),
+        baos, PdfUtils.PIE_CHART_IMAGE_SCALE_PERCENT, tableHeading, columnHeadings, columnOneData,
+        columnTwoData, true);
+
+    return new ResponseEntity<byte[]>(Base64.encodeBase64(baos.toByteArray()), HttpStatus.OK);
+  }
+
   @RequestMapping(value = "/org", method = RequestMethod.POST)
   public ResponseEntity<byte[]> generateOrganizationDataOverTimeReport(@RequestBody String json) {
     Map<String, String> map = new LinkedHashMap<>();
@@ -45,7 +72,8 @@ public class ReportsController {
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     PdfUtils.createPdfFile(new Document(), Base64.decodeBase64(map.get("base64").split(",")[1]),
-        baos, tableHeading, columnHeadings, columnOneData, columnTwoData, isFiscal);
+        baos, PdfUtils.LINE_CHART_IMAGE_SCALE_PERCENT, tableHeading, columnHeadings, columnOneData,
+        columnTwoData, isFiscal);
 
     return new ResponseEntity<byte[]>(Base64.encodeBase64(baos.toByteArray()), HttpStatus.OK);
   }

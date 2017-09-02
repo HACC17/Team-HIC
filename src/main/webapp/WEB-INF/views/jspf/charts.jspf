@@ -100,6 +100,32 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+        $("#fiscalYearReportBtn").click(function(event) {
+            event.preventDefault();
+            var dataset = localStorage.getItem("fiscal-year-dataset");
+            var labels = localStorage.getItem("fiscal-year-labels");
+            var year = $("#fiscalYearSelect").val();
+            $.ajax({
+                type: 'POST',
+                url: "<c:out value='${url}' /><c:url value='/' />reports/fiscalYear",
+                data: {
+                    base64 : $("#fiscal-chart-base64").val(),
+                    year : year,
+                    columnOne: "organization",
+                    columnTwo : "total amount",
+                    dataset: dataset,
+                    labels: labels
+                },
+                contentType: 'application/json',
+                accept: 'application/pdf',
+                headers: {
+                    'X-CSRF-TOKEN': "<c:out value='${_csrf.token}' />"
+                },
+                success: function(response) {
+                  download("data:application/pdf;base64," + response, year + "-report.pdf", "application/pdf");
+                }
+            });
+        });
         $("#orgReportBtn").click(function(event) {
             event.preventDefault();
             var dataset = localStorage.getItem("over-time-dataset");

@@ -27,11 +27,6 @@ var chartColors = [
 var fiscalChart, topChart;
 
 var fiscalChartOptions = {
-    animation: {
-        onComplete: function() {
-            $("#fiscal-chart-base64").val(fiscalChart.toBase64Image());
-        }
-    },
     responsive: true,
     tooltips: {
         enabled: true,
@@ -90,6 +85,14 @@ function createFiscalYearPieChart(data, year) {
         labels = fiscal_year_labels_map[year];
     }
 
+    localStorage.setItem("fiscal-year-dataset", dataset);
+    localStorage.setItem("fiscal-year-labels", labels.join(";"));
+
+    fiscalChartOptions.animation = {
+        onComplete: function() {
+            $("#fiscal-chart-base64").val(fiscalChart.toBase64Image());
+        }
+    };
     var config = {
         type: 'pie',
         data: {
