@@ -102,10 +102,21 @@
     $(document).ready(function() {
         $("#orgReportBtn").click(function(event) {
             event.preventDefault();
+            var dataset = localStorage.getItem("over-time-dataset");
+            var labels = localStorage.getItem("over-time-labels");
+            var isFiscal = $("#org1_1").val() == "AMOUNT";
             $.ajax({
                 type: 'POST',
                 url: "<c:out value='${url}' /><c:url value='/' />reports/org",
-                data: { base64 : $("#over-time-chart-base64").val(), organization : $("#org1_2").val(), criterion : $("#org1_1").val() },
+                data: {
+                    base64 : $("#over-time-chart-base64").val(),
+                    organization : $("#org1_2").val(),
+                    columnOne: "year",
+                    columnTwo : $("#org1_1").val(),
+                    dataset: dataset,
+                    labels: labels,
+                    isFiscal: isFiscal
+                },
                 contentType: 'application/json',
                 accept: 'application/pdf',
                 headers: {

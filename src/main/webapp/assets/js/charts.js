@@ -207,8 +207,11 @@ function chartOrganizationDataOverTime() {
             yLabel = "Number of Native Hawaiians Served";
         }
         var min = 0;
-        var max = 24;
+        var max = 5;
         var randomIndex = Math.floor(Math.random() * (max - min + 1)) + min;
+
+        localStorage.setItem("over-time-dataset", dataset);
+        localStorage.setItem("over-time-labels", labels);
 
         $("#overTimeChart").remove();
         $("#overTimeDiv").html("<canvas id='overTimeChart' class='over-time-chart' />");

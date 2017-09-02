@@ -1,12 +1,10 @@
 package gov.ehawaii.hacc.web.controllers;
 
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,12 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.itextpdf.text.Document;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.pdf.PdfName;
-import com.itextpdf.text.pdf.PdfNumber;
-import com.itextpdf.text.pdf.PdfPage;
-import com.itextpdf.text.pdf.PdfPageEventHelper;
-import com.itextpdf.text.pdf.PdfWriter;
+import gov.ehawaii.hacc.pdf.PdfUtils;
 
 @Controller
 @RequestMapping("/reports")
@@ -31,8 +24,7 @@ public class ReportsController {
   private static final Logger LOGGER = LogManager.getLogger(ReportsController.class);
 
   @RequestMapping(value = "/org", method = RequestMethod.POST)
-  public ResponseEntity<byte[]> generateOrganizationDataOverTimeReport(@RequestBody String json,
-      HttpServletResponse response) {
+  public ResponseEntity<byte[]> generateOrganizationDataOverTimeReport(@RequestBody String json) {
     Map<String, String> map = new LinkedHashMap<>();
     for (String s : json.split("&")) {
       String[] pair = s.split("=");
@@ -45,36 +37,17 @@ public class ReportsController {
       }
     }
 
-    response.setHeader("Content-Disposition", "attachment; filename=output.pdf");
+    String tableHeading = map.get("organization");
+    String[] columnHeadings = { map.get("columnOne"), map.get("columnTwo") };
+    String[] columnOneData = map.get("labels").split(",");
+    String[] columnTwoData = map.get("dataset").split(",");
+    boolean isFiscal = Boolean.parseBoolean(map.get("isFiscal"));
+
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    createPdfFile(new Document(), Base64.decodeBase64(map.get("base64").split(",")[1]), baos);
+    PdfUtils.createPdfFile(new Document(), Base64.decodeBase64(map.get("base64").split(",")[1]),
+        baos, tableHeading, columnHeadings, columnOneData, columnTwoData, isFiscal);
+
     return new ResponseEntity<byte[]>(Base64.encodeBase64(baos.toByteArray()), HttpStatus.OK);
-  }
-
-  private void createPdfFile(Document document, byte[] decodedBytes, OutputStream os) {
-    try {
-      PdfWriter writer = PdfWriter.getInstance(document, os);
-      writer.setPageEvent(new Rotate());
-      document.open();
-      Image image = Image.getInstance(decodedBytes);
-      image.setRotationDegrees(90);
-      image.scalePercent(25.0f);
-      document.add(image);
-      document.close();
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  private class Rotate extends PdfPageEventHelper {
-
-    protected PdfNumber orientation = PdfPage.LANDSCAPE;
-
-    @Override
-    public void onStartPage(PdfWriter writer, Document document) {
-      writer.addPageDictEntry(PdfName.ROTATE, orientation);
-    }
   }
 
 }
