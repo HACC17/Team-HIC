@@ -20,7 +20,7 @@
                         <li><a href="<c:url value='/logout'/>" title="Log out"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
                     </c:if>
                     <c:if test="${empty pageContext.request.userPrincipal}">
-                        <li><a href="<c:url value='/login'/>" title="Log out"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a></li>
+                        <li><a href="<c:url value='/login'/>" title="Log out"><i class="fa fa-sign-in" aria-hidden="true"></i> Admin Login</a></li>
                     </c:if>
                 </ul>
             </div><!-- / Primary Nav -->

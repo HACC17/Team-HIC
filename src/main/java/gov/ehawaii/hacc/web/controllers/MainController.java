@@ -29,8 +29,18 @@ public class MainController {
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public String showIndexPage(Model model) {
     model.addAttribute("all", grants);
-    model.addAttribute("organizations", organizations);
     return "index";
+  }
+
+  @RequestMapping(value = "/charts", method = RequestMethod.GET)
+  public String showChartsPage(Model model) {
+    model.addAttribute("organizations", organizations);
+    return "charts";
+  }
+
+  @RequestMapping(value = "/reports", method = RequestMethod.GET)
+  public String showReportsPage(Model model) {
+    return "reports";
   }
 
   @RequestMapping(value = "/login", method = RequestMethod.GET)

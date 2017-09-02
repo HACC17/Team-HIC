@@ -12,10 +12,10 @@
 						<a href="<c:url value='/admin' />" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="add">Add Grant</a>
 					</div>
 					<div class="col-md-3">
-						<a href="javascript:void(0)" class="btn btn-lg btn-primary btn-block extra-top-margin" data-tab="all">View Grants</a>
+						<a href="<c:url value='/' />" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="all">View Grants</a>
 					</div>
 					<div class="col-md-3">
-						<a href="<c:url value='/charts' />" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="charts">Charts</a>
+						<a href="<c:url value='/charts' />" class="btn btn-lg btn-primary btn-block extra-top-margin" data-tab="charts">Charts</a>
 					</div>
 					<div class="col-md-3">
 						<a href="<c:url value='/reports' />" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="reports">Reports</a>
@@ -23,10 +23,10 @@
 				</c:if>
 				<c:if test="${empty pageContext.request.userPrincipal}">
 					<div class="col-md-4">
-						<a href="javascript:void(0)" class="btn btn-lg btn-primary btn-block extra-top-margin" data-tab="all">View Grants</a>
+						<a href="<c:url value='/' />" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="all">View Grants</a>
 					</div>
 					<div class="col-md-4">
-						<a href="<c:url value='/charts' />" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="charts">Charts</a>
+						<a href="<c:url value='/charts' />" class="btn btn-lg btn-primary btn-block extra-top-margin" data-tab="charts">Charts</a>
 					</div>
 					<div class="col-md-4">
 						<a href="<c:url value='/reports' />" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="reports">Reports</a>
@@ -34,8 +34,8 @@
 				</c:if>
 			</div>
 			<div class="row extra-top-margin">
-				<div class="tab-pane" id="all">
-					<%@ include file="/WEB-INF/views/jspf/all-grants.jspf" %>
+				<div class="tab-pane" id="charts">
+					<%@ include file="/WEB-INF/views/jspf/charts.jspf" %>
 				</div>
 			</div>
 		</div>
