@@ -25,8 +25,47 @@
 					<%@ include file="/WEB-INF/views/jspf/admin/add-grant-form.jspf" %>
 				</div>
 			</div>
+			<div class="row extra-extra-top-margin" id="message" style="display: none">
+				<div class="alert alert-danger" style="display: none">
+					A problem was encountered during the import process: <span id="problem"></span>
+				</div>
+				<div class="alert alert-warning" style="display: none">
+					Importing data... This may take a few minutes.
+				</div>
+				<div class="alert alert-success" style="display: none">
+					Successfully imported data from CSV file!
+				</div>
+			</div>
+			<div class="row extra-extra-top-margin top-border">
+				<div class="col-md-4 col-md-push-4 extra-extra-top-margin">
+					<button id="import-csv" type="button" class="btn btn-lg btn-block btn-primary">Import Grants from CSV File</button>
+				</div>
+			</div>
 		</div>
 		<%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
 	</body>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#import-csv").click(function(event) {
+				event.preventDefault();
+				$("#message").show();
+				$(".alert-warning").show();
+				$.get("<c:url value='/admin/import?ext=csv' />", function(data) {
+					console.log(data);
+				}).done(function() {
+					$(".alert-warning").hide();
+					$("#message").show();
+					$(".alert-success").show();
+					$("#import-csv").attr("disabled", "disabled");
+				}).fail(function(data, textStatus, xhr) {
+					$(".alert-warning").hide();
+					$("#problem").html(xhr);
+					$("#message").show();
+					$(".alert-danger").show();
+				});
+			});
+		});
+	</script>
 
 </html>
