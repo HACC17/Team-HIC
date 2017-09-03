@@ -21,6 +21,8 @@ public final class SqlStatements {
   // Column names
   public static final String STATUS = "STATUS";
 
+  public static final String GRANT_STATUS_ID = "GRANT_STATUS_ID";
+
   // INSERT
   public static final String INSERT_GRANT = "INSERT INTO GRANTS VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 

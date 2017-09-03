@@ -110,13 +110,14 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   @Override
-  public List<Grant> getGrants(String whereClause, Object[] arguments) {
-    String stmt = "SELECT COUNT(*) FROM GRANTS WHERE " + whereClause;
+  public List<Grant> getGrants(String filter, Object[] arguments) {
+    String whereClause = (arguments.length > 0 ? " WHERE " + filter : "");
+    String stmt = "SELECT COUNT(*) FROM GRANTS" + whereClause;
     Long count = getJdbcTemplate().queryForObject(stmt, Long.class, arguments);
     if (count == 0) {
       return new ArrayList<>();
     }
-    stmt = SqlStatements.GET_ALL_GRANTS + " WHERE " + whereClause;
+    stmt = SqlStatements.GET_ALL_GRANTS + whereClause;
     List<Grant> grants;
     if (count > 1) {
       grants = getJdbcTemplate().query(stmt, rowMapper, arguments);

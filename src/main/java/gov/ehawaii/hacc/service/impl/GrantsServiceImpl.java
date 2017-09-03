@@ -17,7 +17,7 @@ public class GrantsServiceImpl implements GrantsService {
 
   private static final Map<String, String> COLUMNS_MAP = new HashMap<>();
   static {
-    COLUMNS_MAP.put("status", "GRANT_STATUS_ID");
+    COLUMNS_MAP.put("status", SqlStatements.GRANT_STATUS_ID);
   }
 
   @Autowired
@@ -32,6 +32,7 @@ public class GrantsServiceImpl implements GrantsService {
   public List<Grant> getGrants(Map<String, Object> parameters) {
     StringBuffer buffer = new StringBuffer();
     List<Object> arguments = new ArrayList<>();
+
     for (Entry<String, Object> entry : parameters.entrySet()) {
       if (entry.getValue() != null && !entry.getValue().toString().isEmpty()) {
         String key = COLUMNS_MAP.get(entry.getKey());
@@ -42,7 +43,7 @@ public class GrantsServiceImpl implements GrantsService {
         buffer.append(" = ?");
 
         switch (key) {
-        case "GRANT_STATUS_ID":
+        case SqlStatements.GRANT_STATUS_ID:
           arguments.add(dao.getId(SqlStatements.GRANT_STATUSES,
               SqlStatements.STATUS, entry.getValue().toString()));
           break;
@@ -52,6 +53,7 @@ public class GrantsServiceImpl implements GrantsService {
 
       }
     }
+
     return dao.getGrants(buffer.toString(), arguments.toArray(new Object[arguments.size()]));
   }
 

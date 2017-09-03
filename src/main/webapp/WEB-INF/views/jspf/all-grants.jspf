@@ -16,6 +16,7 @@
     </div>
 </div>
 
+<div id="modals">
 <c:forEach var="grant" items="${all}">
 	<div class="modal fade" id="grantModal${grant.id}" tabindex="-1" role="dialog">
 	    <div class="modal-dialog" role="document">
@@ -52,6 +53,7 @@
 	    </div>
 	</div>
 </c:forEach>
+</div>
 
 <script type="text/javascript">
     function updateTable() {
@@ -71,7 +73,95 @@
                 'X-CSRF-TOKEN': "<c:out value='${_csrf.token}' />"
             },
             success: function(response) {
-              alert(response);
+                $('#grants-table').dataTable().fnDestroy();
+                var json = $.parseJSON(response);
+                var arrays = [];
+                $.each(json, function(index, object) {
+                    arrays.push([
+                        json[index].fiscalYear,
+                        json[index].organization,
+                        json[index].project,
+                        accounting.formatMoney(json[index].amount),
+                        json[index].grantStatus,
+                        json[index].location,
+                        json[index].grantType,
+                        json[index].strategicPriority,
+                        json[index].totalNumberServed,
+                        json[index].totalNumberServed,
+                        json[index].numberNativeHawaiiansServed,
+                        '<button class="btn btn-md btn-primary more-info-btn" onclick=\'$("#grantModal' + json[index].id + '").modal("show");\'>More Info</button>'
+                    ]);
+                });
+                $('#grants-table').DataTable({
+                    aaSorting: [[3, 'desc']],
+                    dom: 'Bfrtip',
+                    data: arrays,
+                    buttons: [
+                        {
+                            extend: 'copyHtml5',
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+                            },
+                            title: 'Grants'
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+                            },
+                            title: 'Grants'
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+                            },
+                            title: 'Grants'
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            orientation: 'landscape',
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+                            },
+                            title: 'Grants'
+                        },
+                        {
+                            extend: 'print',
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+                            },
+                            title: 'Grants'
+                        }
+                    ],
+                    "columnDefs": [
+                        { "targets": [ 2 ], "visible": false, "searchable": false },
+                        { "targets": [ 5 ], "visible": false, "searchable": false },
+                        { "targets": [ 6 ], "visible": false, "searchable": false },
+                        { "targets": [ 7 ], "visible": false, "searchable": false },
+                        { "targets": [ 8 ], "visible": false, "searchable": false },
+                        { "targets": [ 9 ], "visible": false, "searchable": false },
+                        { "targets": [ 10 ], "visible": false, "searchable": false }
+                    ],
+                });
+                $("#modals").empty();
+                $.each(json, function(index, object) {
+                    var html = '<div class="modal fade" id="grantModal' + json[index].id + '" tabindex="-1" role="dialog">';
+                    html = html + '<div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header">';
+                    html = html + '<h2 class="modal-title" id="grantModalLabel">' + json[index].organization + ' ' + json[index].fiscalYear + ')</h2>'
+                    html = html + '</div><div class="modal-body"><dl class="dl-horizontal">';
+                    html = html + '<dt>Project</dt><dd>' + json[index].project + '</dd>';
+                    html = html + '<dt>Amount</dt><dd>' + accounting.formatMoney(json[index].amount) + '</dd>';
+                    html = html + '<dt>Status</dt><dd>' + json[index].grantStatus + '</dd>';
+                    html = html + '<dt>Grant Type</dt><dd>' + json[index].grantType + '</dd>';
+                    html = html + '<dt>Location</dt><dd>' + json[index].location + '</dd>';
+                    html = html + '<dt>Strategic Priority</dt><dd>' + json[index].strategicPriority + '</dd>';
+                    html = html + '<dt>Strategic Results</dt><dd>' + json[index].strategicResults + '</dd>';
+                    html = html + '<dt>Total Number Served</dt><dd>' + json[index].totalNumberServed + '</dd>';
+                    html = html + '<dt>Number of Native<br />Hawaiians Served</dt><dd>' + json[index].numberNativeHawaiiansServed + '</dd>';
+                    html = html + '</dl></div><div class="modal-footer"><button type="button" class="btn btn-primary" data-dismiss="modal">Close</button></div></div></div></div>'
+                    $("#modals").append(html);
+                });
             }
         });
     }
