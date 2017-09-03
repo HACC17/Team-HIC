@@ -203,8 +203,15 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   @Override
-  public List<Map<String, Long>> getOrganizationDataOverTime(String organization,
-      String field) {
+  public List<String> getAllStatuses() {
+    List<String> statuses =
+        getJdbcTemplate().queryForList(SqlStatements.GET_ALL_STATUSES, String.class);
+    LOGGER.info("Found " + statuses.size() + " grant statuses.");
+    return statuses;
+  }
+
+  @Override
+  public List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field) {
     long orgId = getId(SqlStatements.ORGANIZATIONS, "ORGANIZATION", organization);
     String stmt = String.format(SqlStatements.GET_DATA_FOR_ORG, field, orgId);
     return getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Map<String, Long>>>() {

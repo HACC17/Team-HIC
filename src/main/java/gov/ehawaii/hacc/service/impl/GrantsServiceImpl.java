@@ -18,6 +18,7 @@ public class GrantsServiceImpl implements GrantsService {
   private static final Map<String, String> COLUMNS_MAP = new HashMap<>();
   static {
     COLUMNS_MAP.put("status", SqlStatements.GRANT_STATUS_ID);
+    COLUMNS_MAP.put("organization", SqlStatements.ORGANIZATION_ID);
   }
 
   @Autowired
@@ -40,12 +41,16 @@ public class GrantsServiceImpl implements GrantsService {
           key = entry.getKey();
         }
         buffer.append(key);
-        buffer.append(" = ?");
+        buffer.append(" = ? ");
 
         switch (key) {
         case SqlStatements.GRANT_STATUS_ID:
           arguments.add(dao.getId(SqlStatements.GRANT_STATUSES,
               SqlStatements.STATUS, entry.getValue().toString()));
+          break;
+        case SqlStatements.ORGANIZATION_ID:
+          arguments.add(dao.getId(SqlStatements.ORGANIZATIONS,
+              SqlStatements.ORGANIZATION, entry.getValue().toString()));
           break;
         default:
           arguments.add(entry.getValue());
@@ -53,8 +58,9 @@ public class GrantsServiceImpl implements GrantsService {
 
       }
     }
+    String stmt = buffer.toString().trim().replace(" ? ", " ? AND ");
 
-    return dao.getGrants(buffer.toString(), arguments.toArray(new Object[arguments.size()]));
+    return dao.getGrants(stmt, arguments.toArray(new Object[arguments.size()]));
   }
 
   @Override
@@ -81,6 +87,11 @@ public class GrantsServiceImpl implements GrantsService {
   @Override
   public List<String> getAllOrganizations() {
     return dao.getAllOrganizations();
+  }
+
+  @Override
+  public List<String> getAllStatuses() {
+    return dao.getAllStatuses();
   }
 
   @Override

@@ -30,6 +30,8 @@ public class MainController {
     Map<String, Object> parameters = new HashMap<>();
     parameters.put("FISCAL_YEAR", "2016");
     model.addAttribute("all", grantsService.getGrants(parameters));
+    model.addAttribute("organizations", grantsService.getAllOrganizations());
+    model.addAttribute("statuses", grantsService.getAllStatuses());
     return "index";
   }
 

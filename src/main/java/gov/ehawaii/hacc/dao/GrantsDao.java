@@ -18,6 +18,8 @@ public interface GrantsDao {
 
   List<String> getAllOrganizations();
 
+  List<String> getAllStatuses();
+
   List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field);
 
   long getId(String tableName, String columnName, String value);
