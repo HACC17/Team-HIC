@@ -224,7 +224,8 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
     });
   }
 
-  private long getId(String tableName, String columnName, String value) {
+  @Override
+  public long getId(String tableName, String columnName, String value) {
     String stmt = String.format(SqlStatements.COUNT, tableName, columnName);
     Long count = getJdbcTemplate().queryForObject(stmt, Long.class, value);
     if (count == 0) {

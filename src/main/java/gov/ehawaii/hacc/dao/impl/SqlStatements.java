@@ -18,6 +18,9 @@ public final class SqlStatements {
 
   public static final String STRATEGIC_RESULTS = "STRATEGIC_RESULTS";
 
+  // Column names
+  public static final String STATUS = "STATUS";
+
   // INSERT
   public static final String INSERT_GRANT = "INSERT INTO GRANTS VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 

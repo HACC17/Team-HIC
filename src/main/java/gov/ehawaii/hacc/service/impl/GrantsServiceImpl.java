@@ -1,17 +1,24 @@
 package gov.ehawaii.hacc.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import gov.ehawaii.hacc.dao.GrantsDao;
+import gov.ehawaii.hacc.dao.impl.SqlStatements;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.service.GrantsService;
 
 @Service
 public class GrantsServiceImpl implements GrantsService {
+
+  private static final Map<String, String> COLUMNS_MAP = new HashMap<>();
+  static {
+    COLUMNS_MAP.put("status", "GRANT_STATUS_ID");
+  }
 
   @Autowired
   private GrantsDao dao;
@@ -26,11 +33,26 @@ public class GrantsServiceImpl implements GrantsService {
     StringBuffer buffer = new StringBuffer();
     List<Object> arguments = new ArrayList<>();
     for (Entry<String, Object> entry : parameters.entrySet()) {
-      buffer.append(entry.getKey());
-      buffer.append(" = ?");
-      arguments.add(entry.getValue());
+      if (entry.getValue() != null && !entry.getValue().toString().isEmpty()) {
+        String key = COLUMNS_MAP.get(entry.getKey());
+        if (key == null) {
+          key = entry.getKey();
+        }
+        buffer.append(key);
+        buffer.append(" = ?");
+
+        switch (key) {
+        case "GRANT_STATUS_ID":
+          arguments.add(dao.getId(SqlStatements.GRANT_STATUSES,
+              SqlStatements.STATUS, entry.getValue().toString()));
+          break;
+        default:
+          arguments.add(entry.getValue());
+        }
+
+      }
     }
-    return dao.getGrants(buffer.toString(), arguments.toArray(new String[arguments.size()]));
+    return dao.getGrants(buffer.toString(), arguments.toArray(new Object[arguments.size()]));
   }
 
   @Override

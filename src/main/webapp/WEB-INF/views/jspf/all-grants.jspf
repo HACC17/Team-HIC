@@ -4,6 +4,16 @@
     <div id="grants" class="col-md-6">
         <%@ include file="/WEB-INF/views/jspf/grants-table.jspf" %>
     </div>
+    <div id="filters" class="col-md-6" style="display: none">
+        <form class="form-inline">
+            <label for="status">Status:</label>
+            <select id="status" class="filter form-control" onchange="updateTable();" data-key="status">
+                <option value="">All</option>
+                <option value="Pending">Pending</option>
+                <option value="Awarded">Awarded</option>
+            </select>
+        </form>
+    </div>
 </div>
 
 <c:forEach var="grant" items="${all}">
@@ -44,6 +54,28 @@
 </c:forEach>
 
 <script type="text/javascript">
+    function updateTable() {
+        var data = {};
+        $(".filter").each(function(index, value) {
+            if ($(this).val() != null && $(this).val() != '') {
+                data[$(this).data("key")] = $(this).val();
+            }
+        });
+        $.ajax({
+            type: 'POST',
+            url: "<c:out value='${url}' /><c:url value='/' />filter",
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            accept: 'application/pdf',
+            headers: {
+                'X-CSRF-TOKEN': "<c:out value='${_csrf.token}' />"
+            },
+            success: function(response) {
+              alert(response);
+            }
+        });
+    }
+
     $(document).ready( function () {
         $("#grants > div > div > table").attr("id", "grants-table");
         $('#grants-table').DataTable({
@@ -106,5 +138,6 @@
         var input = $("#grants-table_filter > label > input").detach();
         $("#grants-table_filter > label").html("Filter:");
         $("#grants-table_filter > label").append(input);
+        $("#filters").show();
     });
 </script>
