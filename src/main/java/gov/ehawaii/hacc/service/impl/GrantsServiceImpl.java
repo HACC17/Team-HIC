@@ -25,24 +25,24 @@ public class GrantsServiceImpl implements GrantsService {
   }
 
   @Override
-  public List<Grant> getGrantsForFiscalYear(String year) {
+  public List<Grant> getTopFiveGrantsForFiscalYear(String year) {
     if (year == null || year.isEmpty()) {
       throw new IllegalArgumentException("year is null or empty.");
     }
 
-    return dao.findGrantsByFiscalYear(Integer.parseInt(year));
+    return dao.findTopFiveGrantsForFiscalYear(Integer.parseInt(year));
   }
 
   @Override
-  public List<Map<String, Object>> getTopNData(int top, String field, String criterion) {
-    if (field == null || field.isEmpty()) {
+  public List<Map<String, Object>> getTopNGrants(int top, String field1, String field2) {
+    if (field1 == null || field1.isEmpty()) {
       throw new IllegalArgumentException("field is null or empty.");
     }
-    if (criterion == null || criterion.isEmpty()) {
+    if (field2 == null || field2.isEmpty()) {
       throw new IllegalArgumentException("criterion is null or empty.");
     }
 
-    return dao.getTop(top, field, criterion);
+    return dao.getTopNGrants(top, field1, field2);
   }
 
   @Override
@@ -51,9 +51,8 @@ public class GrantsServiceImpl implements GrantsService {
   }
 
   @Override
-  public List<Map<String, Long>> getOrganizationDataOverTime(String organization,
-      String criterion) {
-    return dao.getOrganizationDataOverTime(organization, criterion);
+  public List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field) {
+    return dao.getOrganizationDataOverTime(organization, field);
   }
 
 }

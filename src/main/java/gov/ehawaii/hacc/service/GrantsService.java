@@ -10,12 +10,12 @@ public interface GrantsService {
 
   List<Grant> getAllGrants();
 
-  List<Grant> getGrantsForFiscalYear(String year);
+  List<Grant> getTopFiveGrantsForFiscalYear(String year);
 
-  List<Map<String, Object>> getTopNData(int top, String field, String criterion);
+  List<Map<String, Object>> getTopNGrants(int top, String field1, String field2);
 
   List<String> getAllOrganizations();
 
-  List<Map<String, Long>> getOrganizationDataOverTime(String organization, String criterion);
+  List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field);
 
 }

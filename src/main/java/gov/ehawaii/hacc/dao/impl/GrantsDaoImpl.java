@@ -128,7 +128,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   @Override
-  public List<Grant> findGrantsByFiscalYear(int fiscalYear) {
+  public List<Grant> findTopFiveGrantsForFiscalYear(int fiscalYear) {
     String stmt = String.format(SqlStatements.FISCAL_YEAR, fiscalYear);
     List<Grant> grants = getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Grant>>() {
 
@@ -151,12 +151,11 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   @Override
-  public List<Map<String, Object>> getTop(int top, String field, String criterion) {
-    String stmt =
-        String.format(SqlStatements.TOP_N, field, criterion, field, criterion, criterion, top);
+  public List<Map<String, Object>> getTopNGrants(int top, String field1, String field2) {
+    String stmt = String.format(SqlStatements.TOP_N, field1, field2, field1, field2, field2, top);
 
     List<Map<String, Object>> grants;
-    switch (field) {
+    switch (field1) {
     case "ORGANIZATION":
       grants = getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Map<String, Object>>>() {
 
@@ -192,10 +191,10 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
       });
       break;
     default:
-      throw new IllegalArgumentException(field + " not supported, yet.");
+      throw new IllegalArgumentException(field1 + " not supported, yet.");
     }
-    LOGGER.info("Found the top " + grants.size() + " " + field.toLowerCase() + "(s) by "
-        + criterion.toLowerCase() + ".");
+    LOGGER.info("Found the top " + grants.size() + " " + field1.toLowerCase() + "(s) by "
+        + field2.toLowerCase() + ".");
     return grants;
   }
 
@@ -213,7 +212,8 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   @Override
-  public List<Map<String, Long>> getOrganizationDataOverTime(String organization, String criterion) {
+  public List<Map<String, Long>> getOrganizationDataOverTime(String organization,
+      String criterion) {
     long orgId = getId(SqlStatements.ORGANIZATIONS, "ORGANIZATION", organization);
     String stmt = String.format(SqlStatements.GET_DATA_FOR_ORG, criterion, orgId);
     return getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Map<String, Long>>>() {

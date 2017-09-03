@@ -10,14 +10,14 @@ public interface GrantsDao {
 
   List<Grant> getAllGrants();
 
-  List<Grant> findGrantsByFiscalYear(int fiscalYear);
+  List<Grant> findTopFiveGrantsForFiscalYear(int fiscalYear);
 
-  List<Map<String, Object>> getTop(int top, String field, String criterion);
+  List<Map<String, Object>> getTopNGrants(int top, String field1, String field2);
 
   String getGrantStatusForId(int grantStatusId);
 
   List<String> getAllOrganizations();
 
-  List<Map<String, Long>> getOrganizationDataOverTime(String organization, String criterion);
+  List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field);
 
 }

@@ -21,7 +21,7 @@ public class ChartsController {
   public void getDataForFiscalYear(@RequestParam("year") String searchString,
       HttpServletResponse response) throws IOException {
     response.getWriter().write(
-        new ObjectMapper().writeValueAsString(grantsService.getGrantsForFiscalYear(searchString)));
+        new ObjectMapper().writeValueAsString(grantsService.getTopFiveGrantsForFiscalYear(searchString)));
   }
 
   @RequestMapping(value = "/top", method = RequestMethod.GET)
@@ -30,7 +30,7 @@ public class ChartsController {
       throws IOException {
     int n = Integer.parseInt(top);
     response.getWriter().write(
-        new ObjectMapper().writeValueAsString(grantsService.getTopNData(n, field, criterion)));
+        new ObjectMapper().writeValueAsString(grantsService.getTopNGrants(n, field, criterion)));
   }
 
   @RequestMapping(value = "/time", method = RequestMethod.GET)
