@@ -59,7 +59,9 @@ public final class SqlStatements {
 
   public static final String AMOUNT_LTE = "AMOUNT <= ? ";
 
-  public static final String FISCAL_YEAR = "FISCAL_YEAR = ? ";
+  public static final String FISCAL_YEAR_GTE = "FISCAL_YEAR >= ? ";
+
+  public static final String FISCAL_YEAR_LTE = "FISCAL_YEAR <= ? ";
 
   public static final String GET_ALL_STRATEGIC_PRIORITIES = "SELECT STRATEGIC_PRIORITY FROM " + STRATEGIC_PRIORITIES + " ORDER BY STRATEGIC_PRIORITY ASC";
 

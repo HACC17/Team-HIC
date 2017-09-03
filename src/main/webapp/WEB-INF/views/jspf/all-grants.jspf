@@ -6,8 +6,13 @@
     </div>
     <div id="filters" class="col-md-6" style="display: none">
         <div class="form-group">
-            <label for="fiscalYear">Fiscal Year:</label>
-            <input type="number" min="2013" max="2016" value="2016" class="filter form-control" id="fiscalYear" data-key="fiscalYear">
+            <div class="form-inline">
+                <label for="start-fiscalYear">Fiscal year between</label>
+                <input type="number" min="2013" max="2016" value="2016" class="filter form-control" id="start-fiscalYear" data-key="fiscalYear-gte">
+                <label for="end-fiscalYear">and</label>
+                <input type="number" min="2013" max="2016" value="2016" class="filter form-control" id="end-fiscalYear" data-key="fiscalYear-lte">
+                <small>(inclusive)</small>
+            </div>
         </div>
         <div class="form-group">
             <label for="organization">Organization:</label>
@@ -203,7 +208,7 @@
 
     $(document).ready(function() {
         updateLabels();
-        $("#fiscalYear").on('change keyup paste', function(event) {
+        $("#start-fiscalYear, #end-fiscalYear").on('change keyup paste', function(event) {
             if ($(this).val() > 2016) {
                 $(this).val(2016);
             }
