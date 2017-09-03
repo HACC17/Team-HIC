@@ -110,18 +110,20 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   @Override
-  public List<Grant> getAllGrants() {
-    Long count = getJdbcTemplate().queryForObject("SELECT COUNT(*) FROM GRANTS", Long.class);
+  public List<Grant> getGrants(String whereClause, Object[] arguments) {
+    String stmt = "SELECT COUNT(*) FROM GRANTS WHERE " + whereClause;
+    Long count = getJdbcTemplate().queryForObject(stmt, Long.class, arguments);
     if (count == 0) {
       return new ArrayList<>();
     }
+    stmt = SqlStatements.GET_ALL_GRANTS + " WHERE " + whereClause;
     List<Grant> grants;
     if (count > 1) {
-      grants = getJdbcTemplate().query(SqlStatements.GET_ALL_GRANTS, rowMapper);
+      grants = getJdbcTemplate().query(stmt, rowMapper, arguments);
     }
     else {
       grants = new ArrayList<>();
-      grants.add(getJdbcTemplate().queryForObject(SqlStatements.GET_ALL_GRANTS, rowMapper));
+      grants.add(getJdbcTemplate().queryForObject(stmt, rowMapper, arguments));
     }
     LOGGER.info("Found " + grants.size() + " grant(s).");
     return grants;
@@ -213,9 +215,9 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
   @Override
   public List<Map<String, Long>> getOrganizationDataOverTime(String organization,
-      String criterion) {
+      String field) {
     long orgId = getId(SqlStatements.ORGANIZATIONS, "ORGANIZATION", organization);
-    String stmt = String.format(SqlStatements.GET_DATA_FOR_ORG, criterion, orgId);
+    String stmt = String.format(SqlStatements.GET_DATA_FOR_ORG, field, orgId);
     return getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Map<String, Long>>>() {
 
       @Override

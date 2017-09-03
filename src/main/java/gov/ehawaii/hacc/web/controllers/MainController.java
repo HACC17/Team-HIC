@@ -1,5 +1,7 @@
 package gov.ehawaii.hacc.web.controllers;
 
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +22,9 @@ public class MainController {
 
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public String showIndexPage(Model model) {
-    model.addAttribute("all", grantsService.getTopFiveGrantsForFiscalYear("2016"));
+    Map<String, Object> parameters = new HashMap<>();
+    parameters.put("FISCAL_YEAR", "2016");
+    model.addAttribute("all", grantsService.getGrants(parameters));
     return "index";
   }
 

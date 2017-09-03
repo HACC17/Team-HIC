@@ -1,7 +1,5 @@
 package gov.ehawaii.hacc.web.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,9 +21,6 @@ public class AdminController {
 
   private static final Logger LOGGER = LogManager.getLogger(AdminController.class);
 
-  private final List<Grant> grants = new ArrayList<>();
-  private final List<String> organizations = new ArrayList<>();
-
   @Autowired
   private GrantsService grantsService;
 
@@ -38,16 +33,12 @@ public class AdminController {
 
   @PostConstruct
   public void init() {
-    grants.addAll(grantsService.getAllGrants());
-    organizations.addAll(grantsService.getAllOrganizations());
   }
 
 
   @RequestMapping(method = RequestMethod.GET)
   public String showAdminPage(Model model) {
     model.addAttribute("grant", new Grant());
-    model.addAttribute("all", grants);
-    model.addAttribute("organizations", organizations);
     return "admin/index";
   }
 

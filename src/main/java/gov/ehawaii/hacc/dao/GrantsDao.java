@@ -8,7 +8,7 @@ public interface GrantsDao {
 
   boolean saveGrant(Grant grant);
 
-  List<Grant> getAllGrants();
+  List<Grant> getGrants(String whereClause, Object[] arguments);
 
   List<Grant> findTopFiveGrantsForFiscalYear(int fiscalYear);
 

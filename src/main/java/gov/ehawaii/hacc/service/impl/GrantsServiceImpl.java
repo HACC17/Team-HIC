@@ -1,7 +1,9 @@
 package gov.ehawaii.hacc.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import gov.ehawaii.hacc.dao.GrantsDao;
@@ -20,8 +22,15 @@ public class GrantsServiceImpl implements GrantsService {
   }
 
   @Override
-  public List<Grant> getAllGrants() {
-    return dao.getAllGrants();
+  public List<Grant> getGrants(Map<String, Object> parameters) {
+    StringBuffer buffer = new StringBuffer();
+    List<Object> arguments = new ArrayList<>();
+    for (Entry<String, Object> entry : parameters.entrySet()) {
+      buffer.append(entry.getKey());
+      buffer.append(" = ?");
+      arguments.add(entry.getValue());
+    }
+    return dao.getGrants(buffer.toString(), arguments.toArray(new String[arguments.size()]));
   }
 
   @Override

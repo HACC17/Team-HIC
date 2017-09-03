@@ -47,7 +47,7 @@
     $(document).ready( function () {
         $("#grants > div > div > table").attr("id", "grants-table");
         $('#grants-table').DataTable({
-            aaSorting: [[0, 'desc']],
+            aaSorting: [[3, 'desc']],
             dom: 'Bfrtip',
             buttons: [
                 {
