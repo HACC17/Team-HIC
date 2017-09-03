@@ -28,7 +28,7 @@ public class MainController {
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public String showIndexPage(Model model) {
     Map<String, Object> parameters = new HashMap<>();
-    parameters.put("FISCAL_YEAR", "2016");
+    parameters.put("fiscalYear", "2016");
     model.addAttribute("all", grantsService.getGrants(parameters));
     model.addAttribute("organizations", grantsService.getAllOrganizations());
     model.addAttribute("statuses", grantsService.getAllStatuses());

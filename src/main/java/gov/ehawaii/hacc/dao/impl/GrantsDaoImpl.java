@@ -132,7 +132,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
   @Override
   public List<Grant> findTopFiveGrantsForFiscalYear(int fiscalYear) {
-    String stmt = String.format(SqlStatements.FISCAL_YEAR, fiscalYear);
+    String stmt = String.format(SqlStatements.GET_FISCAL_YEAR_DATA, fiscalYear);
     List<Grant> grants = getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Grant>>() {
 
       @Override

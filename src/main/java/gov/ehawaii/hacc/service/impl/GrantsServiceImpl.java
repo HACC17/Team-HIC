@@ -15,11 +15,12 @@ import gov.ehawaii.hacc.service.GrantsService;
 @Service
 public class GrantsServiceImpl implements GrantsService {
 
-  private static final Map<String, String> COLUMNS_MAP = new HashMap<>();
+  private static final Map<String, String> FILTERS_MAP = new HashMap<>();
   static {
-    COLUMNS_MAP.put("status", SqlStatements.GRANT_STATUS_ID);
-    COLUMNS_MAP.put("organization", SqlStatements.ORGANIZATION_ID);
-    COLUMNS_MAP.put("amount-gte", SqlStatements.AMOUNT_GTE);
+    FILTERS_MAP.put("status", SqlStatements.GRANT_STATUS_ID);
+    FILTERS_MAP.put("organization", SqlStatements.ORGANIZATION_ID);
+    FILTERS_MAP.put("amount-gte", SqlStatements.AMOUNT_GTE);
+    FILTERS_MAP.put("fiscalYear", SqlStatements.FISCAL_YEAR);
   }
 
   @Autowired
@@ -37,16 +38,11 @@ public class GrantsServiceImpl implements GrantsService {
 
     for (Entry<String, Object> entry : parameters.entrySet()) {
       if (entry.getValue() != null && !entry.getValue().toString().isEmpty()) {
-        String key = COLUMNS_MAP.get(entry.getKey());
+        String key = FILTERS_MAP.get(entry.getKey());
         if (key == null) {
-          key = entry.getKey();
+          throw new IllegalArgumentException(entry.getKey() + " filter not supported, yet.");
         }
         buffer.append(key);
-        if (key.contains("AMOUNT")) {
-          arguments.add(entry.getValue());
-          continue;
-        }
-        buffer.append(" = ? ");
 
         switch (key) {
         case SqlStatements.GRANT_STATUS_ID:

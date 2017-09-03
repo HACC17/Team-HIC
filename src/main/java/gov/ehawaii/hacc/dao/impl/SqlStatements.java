@@ -23,9 +23,9 @@ public final class SqlStatements {
 
   public static final String ORGANIZATION = "ORGANIZATION";
 
-  public static final String GRANT_STATUS_ID = "GRANT_STATUS_ID";
+  public static final String GRANT_STATUS_ID = "GRANT_STATUS_ID = ? ";
 
-  public static final String ORGANIZATION_ID = "ORGANIZATION_ID";
+  public static final String ORGANIZATION_ID = "ORGANIZATION_ID = ? ";
 
   // INSERT
   public static final String INSERT_GRANT = "INSERT INTO GRANTS VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -43,7 +43,7 @@ public final class SqlStatements {
 
   public static final String COUNT = "SELECT COUNT(*) FROM %s WHERE %s = ?";
 
-  public static final String FISCAL_YEAR = "SELECT ORGANIZATION_ID, SUM(AMOUNT) FROM GRANTS WHERE FISCAL_YEAR = %d GROUP BY ORGANIZATION_ID, AMOUNT ORDER BY AMOUNT DESC LIMIT 5";
+  public static final String GET_FISCAL_YEAR_DATA = "SELECT ORGANIZATION_ID, SUM(AMOUNT) FROM GRANTS WHERE FISCAL_YEAR = %d GROUP BY ORGANIZATION_ID, AMOUNT ORDER BY AMOUNT DESC LIMIT 5";
 
   public static final String TOP_N = "SELECT %s_ID, SUM(%s) FROM GRANTS GROUP BY %s_ID, %s ORDER BY %s DESC LIMIT %d";
 
@@ -53,6 +53,8 @@ public final class SqlStatements {
 
   public static final String GET_DATA_FOR_ORG = "SELECT SUM(%s), FISCAL_YEAR FROM GRANTS WHERE ORGANIZATION_ID = %d GROUP BY FISCAL_YEAR ORDER BY FISCAL_YEAR ASC";
 
-  public static final String AMOUNT_GTE = "AMOUNT >= ?";
+  public static final String AMOUNT_GTE = "AMOUNT >= ? ";
+
+  public static final String FISCAL_YEAR = "FISCAL_YEAR = ? ";
 
 }
