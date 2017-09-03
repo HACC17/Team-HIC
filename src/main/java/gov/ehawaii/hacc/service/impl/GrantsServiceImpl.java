@@ -111,4 +111,14 @@ public class GrantsServiceImpl implements GrantsService {
     return dao.getAllStrategicResults();
   }
 
+  @Override
+  public List<String> getAllGrantTypes() {
+    return dao.getAllGrantTypes();
+  }
+
+  @Override
+  public List<String> getAllLocations() {
+    return dao.getAllLocations();
+  }
+
 }

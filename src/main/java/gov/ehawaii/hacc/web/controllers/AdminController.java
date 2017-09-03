@@ -43,6 +43,8 @@ public class AdminController {
     model.addAttribute("statuses", grantsService.getAllStatuses());
     model.addAttribute("priorities", grantsService.getAllStrategicPriorities());
     model.addAttribute("results", grantsService.getAllStrategicResults());
+    model.addAttribute("types", grantsService.getAllGrantTypes());
+    model.addAttribute("locations", grantsService.getAllLocations());
     return "admin/index";
   }
 

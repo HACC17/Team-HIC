@@ -17,7 +17,11 @@
                     <form:label for="grantType" path="grantType">Grant Type</form:label>
                 </div>
                 <div class="col-md-8">
-                    <form:input id="grantType" path="grantType" cssClass="form-control" />
+                    <form:select id="grantType" path="grantType" class="form-control">
+                        <c:forEach var="type" items="${types}">
+                            <form:option value="${type}"><c:out value="${type}" /></form:option>
+                        </c:forEach>
+                    </form:select>
                 </div>
             </div>
         </div>
@@ -39,7 +43,7 @@
                     <form:label for="project" path="project">Project</form:label>
                 </div>
                 <div class="col-md-8">
-                    <form:input id="project" path="project" cssClass="form-control" />
+                    <form:textarea id="project" path="project" cssClass="form-control" />
                 </div>
             </div>
         </div>
@@ -58,16 +62,9 @@
                 </div>
                 <div class="col-md-8">
                     <form:select id="location" path="location" class="form-control">
-                        <form:option value="Hawaii">Hawaii</form:option>
-                        <form:option value="Kahoolawe">Kahoolawe</form:option>
-                        <form:option value="Kauai">Kauai</form:option>
-                        <form:option value="Lanai">Lanai</form:option>
-                        <form:option value="Maui">Maui</form:option>
-                        <form:option value="Molokai">Molokai</form:option>
-                        <form:option value="Oahu">Oahu</form:option>
-                        <form:option value="Statewide">Statewide</form:option>
-                        <form:option value="Continent">Continent</form:option>
-                        <form:option value="International">International</form:option>
+                        <c:forEach var="location" items="${locations}">
+                            <form:option value="${location}"><c:out value="${location}" /></form:option>
+                        </c:forEach>
                     </form:select>
                 </div>
             </div>

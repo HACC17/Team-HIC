@@ -24,4 +24,8 @@ public interface GrantsService {
 
   List<String> getAllStrategicResults();
 
+  List<String> getAllGrantTypes();
+
+  List<String> getAllLocations();
+
 }

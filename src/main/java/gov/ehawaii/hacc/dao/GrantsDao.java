@@ -28,4 +28,8 @@ public interface GrantsDao {
 
   List<String> getAllStrategicResults();
 
+  List<String> getAllGrantTypes();
+
+  List<String> getAllLocations();
+
 }

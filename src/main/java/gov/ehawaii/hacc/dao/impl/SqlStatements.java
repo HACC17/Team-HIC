@@ -14,6 +14,8 @@ public final class SqlStatements {
 
   public static final String PROJECTS = "PROJECTS";
 
+  public static final String LOCATIONS = "LOCATIONS";
+
   public static final String STRATEGIC_PRIORITIES = "STRATEGIC_PRIORITIES";
 
   public static final String STRATEGIC_RESULTS = "STRATEGIC_RESULTS";
@@ -61,6 +63,10 @@ public final class SqlStatements {
 
   public static final String GET_ALL_STRATEGIC_PRIORITIES = "SELECT STRATEGIC_PRIORITY FROM " + STRATEGIC_PRIORITIES + " ORDER BY STRATEGIC_PRIORITY ASC";
 
-  public static final String GET_ALL_STRATEGIC_RESULTS = "SELECT STRATEGIC_RESULT FROM " + STRATEGIC_RESULTS + "  ORDER BY STRATEGIC_RESULT ASC";
+  public static final String GET_ALL_STRATEGIC_RESULTS = "SELECT STRATEGIC_RESULT FROM " + STRATEGIC_RESULTS + " ORDER BY STRATEGIC_RESULT ASC";
+
+  public static final String GET_ALL_GRANT_TYPES = "SELECT GRANT_TYPE FROM " + GRANT_TYPES + " ORDER BY GRANT_TYPE ASC";
+
+  public static final String GET_ALL_LOCATIONS = "SELECT LOCATION FROM " + LOCATIONS + " ORDER BY LOCATION ASC";
 
 }
