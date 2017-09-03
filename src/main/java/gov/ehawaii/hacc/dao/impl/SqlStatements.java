@@ -53,4 +53,6 @@ public final class SqlStatements {
 
   public static final String GET_DATA_FOR_ORG = "SELECT SUM(%s), FISCAL_YEAR FROM GRANTS WHERE ORGANIZATION_ID = %d GROUP BY FISCAL_YEAR ORDER BY FISCAL_YEAR ASC";
 
+  public static final String AMOUNT_GTE = "AMOUNT >= ?";
+
 }

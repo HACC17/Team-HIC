@@ -19,6 +19,7 @@ public class GrantsServiceImpl implements GrantsService {
   static {
     COLUMNS_MAP.put("status", SqlStatements.GRANT_STATUS_ID);
     COLUMNS_MAP.put("organization", SqlStatements.ORGANIZATION_ID);
+    COLUMNS_MAP.put("amount-gte", SqlStatements.AMOUNT_GTE);
   }
 
   @Autowired
@@ -41,6 +42,10 @@ public class GrantsServiceImpl implements GrantsService {
           key = entry.getKey();
         }
         buffer.append(key);
+        if (key.contains("AMOUNT")) {
+          arguments.add(entry.getValue());
+          continue;
+        }
         buffer.append(" = ? ");
 
         switch (key) {
