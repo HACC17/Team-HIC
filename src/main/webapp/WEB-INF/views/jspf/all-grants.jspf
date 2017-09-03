@@ -66,17 +66,66 @@
 </div>
 
 <script type="text/javascript">
+    var buttons = [
+        {
+            extend: 'copyHtml5',
+            exportOptions: {
+                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+            },
+            title: 'Grants'
+        },
+        {
+            extend: 'csvHtml5',
+            exportOptions: {
+                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+            },
+            title: 'Grants'
+        },
+        {
+            extend: 'excelHtml5',
+            exportOptions: {
+                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+            },
+            title: 'Grants'
+        },
+        {
+            extend: 'pdfHtml5',
+            orientation: 'landscape',
+            exportOptions: {
+                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+            },
+            title: 'Grants'
+        },
+        {
+            extend: 'print',
+            exportOptions: {
+                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+            },
+            title: 'Grants'
+        }
+    ];
+
+    var columnDefs = [
+        { "targets": [ 2 ], "visible": false, "searchable": false },
+        { "targets": [ 5 ], "visible": false, "searchable": false },
+        { "targets": [ 6 ], "visible": false, "searchable": false },
+        { "targets": [ 7 ], "visible": false, "searchable": false },
+        { "targets": [ 8 ], "visible": false, "searchable": false },
+        { "targets": [ 9 ], "visible": false, "searchable": false },
+        { "targets": [ 10 ], "visible": false, "searchable": false }
+    ];
+
     function updateTable() {
-        var data = {};
+        var filter = {};
         $(".filter").each(function(index, value) {
             if ($(this).val() != null && $(this).val() != '') {
-                data[$(this).data("key")] = $(this).val();
+                filter[$(this).data("key")] = $(this).val();
             }
         });
         $.ajax({
             type: 'POST',
             url: "<c:out value='${url}' /><c:url value='/' />filter",
-            data: JSON.stringify(data),
+            data: JSON.stringify(filter),
             contentType: 'application/json',
             accept: 'application/pdf',
             headers: {
@@ -106,59 +155,14 @@
                     aaSorting: [[3, 'desc']],
                     dom: 'Bfrtip',
                     data: arrays,
-                    buttons: [
-                        {
-                            extend: 'copyHtml5',
-                            exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-                            },
-                            title: 'Grants'
-                        },
-                        {
-                            extend: 'csvHtml5',
-                            exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-                            },
-                            title: 'Grants'
-                        },
-                        {
-                            extend: 'excelHtml5',
-                            exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-                            },
-                            title: 'Grants'
-                        },
-                        {
-                            extend: 'pdfHtml5',
-                            orientation: 'landscape',
-                            exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-                            },
-                            title: 'Grants'
-                        },
-                        {
-                            extend: 'print',
-                            exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-                            },
-                            title: 'Grants'
-                        }
-                    ],
-                    "columnDefs": [
-                        { "targets": [ 2 ], "visible": false, "searchable": false },
-                        { "targets": [ 5 ], "visible": false, "searchable": false },
-                        { "targets": [ 6 ], "visible": false, "searchable": false },
-                        { "targets": [ 7 ], "visible": false, "searchable": false },
-                        { "targets": [ 8 ], "visible": false, "searchable": false },
-                        { "targets": [ 9 ], "visible": false, "searchable": false },
-                        { "targets": [ 10 ], "visible": false, "searchable": false }
-                    ],
+                    buttons: buttons,
+                    "columnDefs": columnDefs,
                 });
                 $("#modals").empty();
                 $.each(json, function(index, object) {
                     var html = '<div class="modal fade" id="grantModal' + json[index].id + '" tabindex="-1" role="dialog">';
                     html = html + '<div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header">';
-                    html = html + '<h2 class="modal-title" id="grantModalLabel">' + json[index].organization + ' ' + json[index].fiscalYear + ')</h2>'
+                    html = html + '<h2 class="modal-title" id="grantModalLabel">' + json[index].organization + ' (' + json[index].fiscalYear + ')</h2>'
                     html = html + '</div><div class="modal-body"><dl class="dl-horizontal">';
                     html = html + '<dt>Project</dt><dd>' + json[index].project + '</dd>';
                     html = html + '<dt>Amount</dt><dd>' + accounting.formatMoney(json[index].amount) + '</dd>';
@@ -181,53 +185,8 @@
         $('#grants-table').DataTable({
             aaSorting: [[3, 'desc']],
             dom: 'Bfrtip',
-            buttons: [
-                {
-                    extend: 'copyHtml5',
-                    exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-                    },
-                    title: 'Grants'
-                },
-                {
-                    extend: 'csvHtml5',
-                    exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-                    },
-                    title: 'Grants'
-                },
-                {
-                    extend: 'excelHtml5',
-                    exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-                    },
-                    title: 'Grants'
-                },
-                {
-                    extend: 'pdfHtml5',
-                    orientation: 'landscape',
-                    exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-                    },
-                    title: 'Grants'
-                },
-                {
-                    extend: 'print',
-                    exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-                    },
-                    title: 'Grants'
-                }
-            ],
-            "columnDefs": [
-                { "targets": [ 2 ], "visible": false, "searchable": false },
-                { "targets": [ 5 ], "visible": false, "searchable": false },
-                { "targets": [ 6 ], "visible": false, "searchable": false },
-                { "targets": [ 7 ], "visible": false, "searchable": false },
-                { "targets": [ 8 ], "visible": false, "searchable": false },
-                { "targets": [ 9 ], "visible": false, "searchable": false },
-                { "targets": [ 10 ], "visible": false, "searchable": false }
-            ],
+            buttons: buttons,
+            "columnDefs": columnDefs,
         });
         $('.amount').each(function() {
             $(this).html(accounting.formatMoney($(this).html()));
