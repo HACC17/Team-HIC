@@ -153,48 +153,36 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   @Override
-  public List<Map<String, Object>> getTopNGrants(int top, String field1, String field2) {
+  public List<Map<String, Object>> getTopNGrants(int top, final String field1, String field2) {
     String stmt = String.format(SqlStatements.TOP_N, field1, field2, field1, field2, field2, top);
 
-    List<Map<String, Object>> grants;
-    switch (field1) {
-    case "ORGANIZATION":
-      grants = getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Map<String, Object>>>() {
+    List<Map<String, Object>> grants =
+        getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Map<String, Object>>>() {
 
-        @Override
-        public List<Map<String, Object>> extractData(ResultSet rs) throws SQLException {
-          List<Map<String, Object>> rows = new ArrayList<>();
-          while (rs.next()) {
-            Map<String, Object> row = new LinkedHashMap<>();
-            row.put("key", getValue(SqlStatements.ORGANIZATIONS, "ORGANIZATION", rs.getLong(1)));
-            row.put("value", rs.getLong(2));
-            rows.add(row);
+          @Override
+          public List<Map<String, Object>> extractData(ResultSet rs) throws SQLException {
+            List<Map<String, Object>> rows = new ArrayList<>();
+            while (rs.next()) {
+              Map<String, Object> row = new LinkedHashMap<>();
+              switch (field1) {
+              case "ORGANIZATION":
+                row.put("key",
+                    getValue(SqlStatements.ORGANIZATIONS, "ORGANIZATION", rs.getLong(1)));
+                break;
+              case "PROJECT":
+                row.put("key", getValue(SqlStatements.PROJECTS, "PROJECT", rs.getLong(1)));
+                break;
+              default:
+                throw new IllegalArgumentException(field1 + " not supported, yet.");
+              }
+              row.put("key", getValue(SqlStatements.PROJECTS, "PROJECT", rs.getLong(1)));
+              row.put("value", rs.getLong(2));
+              rows.add(row);
+            }
+            return rows;
           }
-          return rows;
-        }
 
-      });
-      break;
-    case "PROJECT":
-      grants = getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Map<String, Object>>>() {
-
-        @Override
-        public List<Map<String, Object>> extractData(ResultSet rs) throws SQLException {
-          List<Map<String, Object>> rows = new ArrayList<>();
-          while (rs.next()) {
-            Map<String, Object> row = new LinkedHashMap<>();
-            row.put("key", getValue(SqlStatements.PROJECTS, "PROJECT", rs.getLong(1)));
-            row.put("value", rs.getLong(2));
-            rows.add(row);
-          }
-          return rows;
-        }
-
-      });
-      break;
-    default:
-      throw new IllegalArgumentException(field1 + " not supported, yet.");
-    }
+        });
     LOGGER.info("Found the top " + grants.size() + " " + field1.toLowerCase() + "(s) by "
         + field2.toLowerCase() + ".");
     return grants;
