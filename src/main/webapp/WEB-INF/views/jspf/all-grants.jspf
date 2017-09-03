@@ -191,6 +191,9 @@
     $(document).ready(function() {
         updateLabels();
         $("#min-amount").on('change keyup paste', function(event) {
+            if ($(this).val() > 1000000000) {
+                $(this).val(1000000000);
+            }
             updateLabels();
             updateTable();
         });
@@ -207,9 +210,6 @@
         $(".more-info-column").removeClass("sorting");
         $(".more-info-column").css("cursor", "auto");
         $(".more-info-column").off();
-        var input = $("#grants-table_filter > label > input").detach();
-        $("#grants-table_filter > label").html("Filter:");
-        $("#grants-table_filter > label").append(input);
         $("#filters").show();
     });
 </script>
