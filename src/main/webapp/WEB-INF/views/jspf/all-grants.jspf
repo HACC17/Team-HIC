@@ -6,6 +6,10 @@
     </div>
     <div id="filters" class="col-md-6" style="display: none">
         <div class="form-group">
+            <label for="fiscalYear">Fiscal Year:</label>
+            <input type="number" min="2013" max="2016" value="2016" class="filter form-control" id="fiscalYear" data-key="fiscalYear">
+        </div>
+        <div class="form-group">
             <label for="organization">Organization:</label>
             <select id="organization" class="filter form-control" onchange="updateTable();" data-key="organization">
                 <option value="">All</option>
@@ -190,6 +194,12 @@
 
     $(document).ready(function() {
         updateLabels();
+        $("#fiscalYear").on('change keyup paste', function(event) {
+            if ($(this).val() > 2016) {
+                $(this).val(2016);
+            }
+            updateTable();
+        });
         $("#min-amount").on('change keyup paste', function(event) {
             if ($(this).val() > 1000000000) {
                 $(this).val(1000000000);
@@ -197,7 +207,6 @@
             updateLabels();
             updateTable();
         });
-        $("#grants > div > div > table").attr("id", "grants-table");
         $('#grants-table').DataTable({
             aaSorting: [[3, 'desc']],
             dom: 'Bfrtip',

@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <table class="display">
+        <table id="grants-table" class="display">
             <thead>
                 <tr>
                     <th>Fiscal Year</th>
