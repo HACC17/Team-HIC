@@ -208,9 +208,21 @@
 
     $(document).ready(function() {
         updateLabels();
-        $("#start-fiscalYear, #end-fiscalYear").on('change keyup paste', function(event) {
+        $("#start-fiscalYear").on('change keyup paste', function(event) {
             if ($(this).val() > 2016) {
                 $(this).val(2016);
+            }
+            if ($(this).val() > $("#end-fiscalYear").val()) {
+                $(this).val($("#end-fiscalYear").val());
+            }
+            updateTable();
+        });
+        $("#end-fiscalYear").on('change keyup paste', function(event) {
+            if ($(this).val() > 2016) {
+                $(this).val(2016);
+            }
+            if ($(this).val() < $("#start-fiscalYear").val()) {
+                $(this).val($("#start-fiscalYear").val());
             }
             updateTable();
         });
