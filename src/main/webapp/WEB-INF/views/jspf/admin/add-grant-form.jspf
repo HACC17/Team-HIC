@@ -52,18 +52,18 @@
                     <form:label for="location" path="location">Location</form:label>
                 </div>
                 <div class="col-md-8">
-					<form:select id="location" path="location" class="form-control">
-					    <form:option value="Hawaii">Hawaii</form:option>
-					    <form:option value="Kahoolawe">Kahoolawe</form:option>
-					    <form:option value="Kauai">Kauai</form:option>
-					    <form:option value="Lanai">Lanai</form:option>
-					    <form:option value="Maui">Maui</form:option>
-					    <form:option value="Molokai">Molokai</form:option>
-					    <form:option value="Oahu">Oahu</form:option>
-					    <form:option value="Statewide">Statewide</form:option>
-					    <form:option value="Continent">Continent</form:option>
-					    <form:option value="International">International</form:option>
-					</form:select>
+                    <form:select id="location" path="location" class="form-control">
+                        <form:option value="Hawaii">Hawaii</form:option>
+                        <form:option value="Kahoolawe">Kahoolawe</form:option>
+                        <form:option value="Kauai">Kauai</form:option>
+                        <form:option value="Lanai">Lanai</form:option>
+                        <form:option value="Maui">Maui</form:option>
+                        <form:option value="Molokai">Molokai</form:option>
+                        <form:option value="Oahu">Oahu</form:option>
+                        <form:option value="Statewide">Statewide</form:option>
+                        <form:option value="Continent">Continent</form:option>
+                        <form:option value="International">International</form:option>
+                    </form:select>
                 </div>
             </div>
         </div>
@@ -73,9 +73,9 @@
                     <form:label for="strategicPriority" path="strategicPriority">Strategic Priority</form:label>
                 </div>
                 <div class="col-md-8">
-					<form:select id="strategicPriority" path="strategicPriority" class="form-control">
-					    <form:option value="Culture">Culture</form:option>
-					</form:select>
+                    <form:select id="strategicPriority" path="strategicPriority" class="form-control">
+                        <form:option value="Culture">Culture</form:option>
+                    </form:select>
                 </div>
             </div>
         </div>
@@ -85,9 +85,9 @@
                     <form:label for="strategicResults" path="strategicResults">Strategic Results</form:label>
                 </div>
                 <div class="col-md-8">
-					<form:select id="strategicResults" path="strategicResults" class="form-control">
-					    <form:option value="Exceed Education Standards">Exceed Education Standards</form:option>
-					</form:select>
+                    <form:select id="strategicResults" path="strategicResults" class="form-control">
+                        <form:option value="Exceed Education Standards">Exceed Education Standards</form:option>
+                    </form:select>
                 </div>
             </div>
         </div>
@@ -117,10 +117,10 @@
                     <form:label for="grantStatus" path="grantStatus">Status</form:label>
                 </div>
                 <div class="col-md-4">
-					<form:select id="grantStatus" path="grantStatus" class="form-control">
-					    <form:option value="Pending">Pending</form:option>
-					    <form:option value="Awarded">Awarded</form:option>
-					</form:select>
+                    <form:select id="grantStatus" path="grantStatus" class="form-control">
+                        <form:option value="Pending">Pending</form:option>
+                        <form:option value="Awarded">Awarded</form:option>
+                    </form:select>
                 </div>
             </div>
         </div>

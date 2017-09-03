@@ -1,7 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div id="grants">
-    <%@ include file="/WEB-INF/views/jspf/grants-table.jspf" %>
+<div class="row">
+    <div id="grants" class="col-md-6">
+        <%@ include file="/WEB-INF/views/jspf/grants-table.jspf" %>
+    </div>
 </div>
 
 <c:forEach var="grant" items="${all}">
@@ -86,6 +88,7 @@
                 }
             ],
             "columnDefs": [
+                { "targets": [ 2 ], "visible": false, "searchable": false },
                 { "targets": [ 5 ], "visible": false, "searchable": false },
                 { "targets": [ 6 ], "visible": false, "searchable": false },
                 { "targets": [ 7 ], "visible": false, "searchable": false },
