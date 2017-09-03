@@ -36,7 +36,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
       grant.setOrganization(getValue(SqlStatements.ORGANIZATIONS, "ORGANIZATION", rs.getLong(5)));
       grant.setProject(getValue(SqlStatements.PROJECTS, "PROJECT", rs.getLong(6)));
       grant.setAmount(rs.getInt(7));
-      grant.setLocation(rs.getString(8));
+      grant.setLocation(getValue(SqlStatements.LOCATIONS, "LOCATION", rs.getLong(8)));
       grant.setStrategicPriority(
           getValue(SqlStatements.STRATEGIC_PRIORITIES, "STRATEGIC_PRIORITY", rs.getLong(9)));
       grant.setStrategicResults(
@@ -181,7 +181,6 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
               default:
                 throw new IllegalArgumentException(field1 + " not supported, yet.");
               }
-              row.put("key", getValue(SqlStatements.PROJECTS, "PROJECT", rs.getLong(1)));
               row.put("value", rs.getLong(2));
               rows.add(row);
             }
@@ -239,44 +238,43 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
   @Override
   public List<String> getAllStrategicPriorities() {
-    List<String> statuses =
+    List<String> priorities =
         getJdbcTemplate().queryForList(SqlStatements.GET_ALL_STRATEGIC_PRIORITIES, String.class);
-    LOGGER.info("Found " + statuses.size() + " strategic priorit(ies).");
-    return statuses;
+    LOGGER.info("Found " + priorities.size() + " strategic priorit(ies).");
+    return priorities;
   }
 
   @Override
   public List<String> getAllStrategicResults() {
-    List<String> statuses =
+    List<String> results =
         getJdbcTemplate().queryForList(SqlStatements.GET_ALL_STRATEGIC_RESULTS, String.class);
-    LOGGER.info("Found " + statuses.size() + " strategic result(s).");
-    return statuses;
+    LOGGER.info("Found " + results.size() + " strategic result(s).");
+    return results;
   }
 
   @Override
   public List<String> getAllGrantTypes() {
-    List<String> statuses =
+    List<String> types =
         getJdbcTemplate().queryForList(SqlStatements.GET_ALL_GRANT_TYPES, String.class);
-    LOGGER.info("Found " + statuses.size() + " grant type(s).");
-    return statuses;
+    LOGGER.info("Found " + types.size() + " grant type(s).");
+    return types;
   }
 
   @Override
   public List<String> getAllLocations() {
-    List<String> statuses =
+    List<String> locations =
         getJdbcTemplate().queryForList(SqlStatements.GET_ALL_LOCATIONS, String.class);
-    LOGGER.info("Found " + statuses.size() + " location(s).");
-    return statuses;
+    LOGGER.info("Found " + locations.size() + " location(s).");
+    return locations;
   }
 
   @Override
   public long getId(String tableName, String columnName, String value) {
-    String stmt = String.format(SqlStatements.COUNT, tableName, columnName);
-    Long count = getJdbcTemplate().queryForObject(stmt, Long.class, value);
+    Long count = getCount(tableName, columnName, value);
     if (count == 0) {
       return -1;
     }
-    stmt = String.format(SqlStatements.GET_ID, tableName, columnName);
+    String stmt = String.format(SqlStatements.GET_ID, tableName, columnName);
     Long id = getJdbcTemplate().queryForObject(stmt, Long.class, value);
     LOGGER.info("Retrieved ID for value [" + value + "] from table [" + tableName + "]: " + id);
     return id == null ? -1 : id;
@@ -292,15 +290,19 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   private String getValue(String tableName, String columnName, long id) {
-    String stmt = String.format(SqlStatements.COUNT, tableName, "ID");
-    Long count = getJdbcTemplate().queryForObject(stmt, Long.class, id);
+    Long count = getCount(tableName, columnName, "ID");
     if (count == 0) {
       return "";
     }
-    stmt = String.format(SqlStatements.GET_VALUE, columnName, tableName);
+    String stmt = String.format(SqlStatements.GET_VALUE, columnName, tableName);
     String data = getJdbcTemplate().queryForObject(stmt, String.class, id);
     LOGGER.info("Retrieved data for ID [" + id + "] from table [" + tableName + "]: " + data);
     return data == null ? "" : data;
+  }
+
+  private long getCount(String tableName, String columnName, String value) {
+    String stmt = String.format(SqlStatements.COUNT, tableName, columnName);
+    return getJdbcTemplate().queryForObject(stmt, Long.class, value);
   }
 
 }
