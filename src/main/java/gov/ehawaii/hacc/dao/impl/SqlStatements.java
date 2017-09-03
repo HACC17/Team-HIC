@@ -55,6 +55,8 @@ public final class SqlStatements {
 
   public static final String AMOUNT_GTE = "AMOUNT >= ? ";
 
+  public static final String AMOUNT_LTE = "AMOUNT <= ? ";
+
   public static final String FISCAL_YEAR = "FISCAL_YEAR = ? ";
 
 }

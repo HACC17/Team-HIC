@@ -31,6 +31,10 @@
             <label for="min-amount">Minimum amount: (<span id="min-amount-value"></span>)</label>
             <input type="number" min="0" max="10000000" value="100000" class="filter form-control" id="min-amount" data-key="amount-gte">
         </div>
+        <div class="form-group">
+            <label for="max-amount">Maximum amount: (<span id="max-amount-value"></span>)</label>
+            <input type="number" min="0" max="10000000" value="1000000" class="filter form-control" id="max-amount" data-key="amount-lte">
+        </div>
     </div>
 </div>
 
@@ -76,6 +80,7 @@
 <script type="text/javascript">
     function updateLabels() {
         $("#min-amount-value").html(accounting.formatMoney($("#min-amount").val()));
+        $("#max-amount-value").html(accounting.formatMoney($("#max-amount").val()));
     }
 
     var buttons = [
@@ -200,7 +205,7 @@
             }
             updateTable();
         });
-        $("#min-amount").on('change keyup paste', function(event) {
+        $("#min-amount, #max-amount").on('change keyup paste', function(event) {
             if ($(this).val() > 1000000000) {
                 $(this).val(1000000000);
             }
@@ -220,5 +225,6 @@
         $(".more-info-column").css("cursor", "auto");
         $(".more-info-column").off();
         $("#filters").show();
+        updateTable();
     });
 </script>

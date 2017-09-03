@@ -20,6 +20,7 @@ public class GrantsServiceImpl implements GrantsService {
     FILTERS_MAP.put("status", SqlStatements.GRANT_STATUS_ID);
     FILTERS_MAP.put("organization", SqlStatements.ORGANIZATION_ID);
     FILTERS_MAP.put("amount-gte", SqlStatements.AMOUNT_GTE);
+    FILTERS_MAP.put("amount-lte", SqlStatements.AMOUNT_LTE);
     FILTERS_MAP.put("fiscalYear", SqlStatements.FISCAL_YEAR);
   }
 
