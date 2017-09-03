@@ -24,4 +24,8 @@ public interface GrantsDao {
 
   long getId(String tableName, String columnName, String value);
 
+  List<String> getAllStrategicPriorities();
+
+  List<String> getAllStrategicResults();
+
 }

@@ -233,6 +233,22 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   @Override
+  public List<String> getAllStrategicPriorities() {
+    List<String> statuses =
+        getJdbcTemplate().queryForList(SqlStatements.GET_ALL_STRATEGIC_PRIORITIES, String.class);
+    LOGGER.info("Found " + statuses.size() + " strategic priorit(ies).");
+    return statuses;
+  }
+
+  @Override
+  public List<String> getAllStrategicResults() {
+    List<String> statuses =
+        getJdbcTemplate().queryForList(SqlStatements.GET_ALL_STRATEGIC_RESULTS, String.class);
+    LOGGER.info("Found " + statuses.size() + " strategic result(s).");
+    return statuses;
+  }
+
+  @Override
   public long getId(String tableName, String columnName, String value) {
     String stmt = String.format(SqlStatements.COUNT, tableName, columnName);
     Long count = getJdbcTemplate().queryForObject(stmt, Long.class, value);

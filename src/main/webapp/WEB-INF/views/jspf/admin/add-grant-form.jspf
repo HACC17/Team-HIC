@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <div class="col-md-8 col-md-push-2 form">
@@ -26,7 +27,11 @@
                     <form:label for="organization" path="organization">Organization</form:label>
                 </div>
                 <div class="col-md-8">
-                    <form:input id="organization" path="organization" cssClass="form-control" />
+                    <form:select id="organization" path="organization" cssClass="form-control">
+                        <c:forEach var="org" items="${organizations}">
+                            <form:option value="${org}"><c:out value="${org}" /></form:option>
+                        </c:forEach>
+                    </form:select>
                 </div>
             </div>
             <div class="col-md-6">
@@ -74,7 +79,9 @@
                 </div>
                 <div class="col-md-8">
                     <form:select id="strategicPriority" path="strategicPriority" class="form-control">
-                        <form:option value="Culture">Culture</form:option>
+                        <c:forEach var="priority" items="${priorities}">
+                            <form:option value="${priority}"><c:out value="${priority}" /></form:option>
+                        </c:forEach>
                     </form:select>
                 </div>
             </div>
@@ -86,7 +93,9 @@
                 </div>
                 <div class="col-md-8">
                     <form:select id="strategicResults" path="strategicResults" class="form-control">
-                        <form:option value="Exceed Education Standards">Exceed Education Standards</form:option>
+                        <c:forEach var="result" items="${results}">
+                            <form:option value="${result}"><c:out value="${result}" /></form:option>
+                        </c:forEach>
                     </form:select>
                 </div>
             </div>
@@ -118,8 +127,9 @@
                 </div>
                 <div class="col-md-4">
                     <form:select id="grantStatus" path="grantStatus" class="form-control">
-                        <form:option value="Pending">Pending</form:option>
-                        <form:option value="Awarded">Awarded</form:option>
+                        <c:forEach var="status" items="${statuses}">
+                            <form:option value="${status}"><c:out value="${status}" /></form:option>
+                        </c:forEach>
                     </form:select>
                 </div>
             </div>

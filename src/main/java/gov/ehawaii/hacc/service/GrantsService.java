@@ -20,4 +20,8 @@ public interface GrantsService {
 
   List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field);
 
+  List<String> getAllStrategicPriorities();
+
+  List<String> getAllStrategicResults();
+
 }

@@ -162,7 +162,7 @@
                         json[index].location,
                         json[index].grantType,
                         json[index].strategicPriority,
-                        json[index].totalNumberServed,
+                        json[index].strategicResults,
                         json[index].totalNumberServed,
                         json[index].numberNativeHawaiiansServed,
                         '<button class="btn btn-md btn-primary more-info-btn" onclick=\'$("#grantModal' + json[index].id + '").modal("show");\'>More Info</button>'
