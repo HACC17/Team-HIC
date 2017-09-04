@@ -25,6 +25,8 @@ public final class SqlStatements {
 
   public static final String PROJECT = "PROJECT";
 
+  public static final String LOCATION = "LOCATION";
+
   public static final String STATUS = "STATUS";
 
   public static final String STRATEGIC_PRIORITY = "STRATEGIC_PRIORITY";
@@ -79,6 +81,8 @@ public final class SqlStatements {
   public static final String ORGANIZATION_ID = "ORGANIZATION_ID = ? ";
 
   public static final String PROJECT_ID = "PROJECT_ID = ? ";
+
+  public static final String LOCATION_ID = "LOCATION_ID = ? ";
 
   public static final String STRATEGIC_PRIORITY_ID = "STRATEGIC_PRIORITY_ID = ? ";
 
