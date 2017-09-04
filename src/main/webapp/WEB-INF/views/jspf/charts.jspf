@@ -89,6 +89,14 @@
     <input type="hidden" id="over-time-chart-base64" value="" />
 </div>
 
+<div class="row extra-top-margin">
+    <div id="locations" class="col-md-12 locations-chart"></div>
+    <div class="col-md-12 locations-data" style="display: none">
+        <div class="alert alert-danger no-locations-data" style="display: none">No data exists for selected organization.</div>
+    </div>
+    <input type="hidden" id="locations-chart-base64" value="" />
+</div>
+
 <c:set var="req" value="${pageContext.request}" />
 <c:set var="url" value="${req.scheme}://${req.serverName}:${req.serverPort}" />
 
@@ -96,7 +104,7 @@
     localStorage.setItem("request", "<c:out value='${url}' /><c:url value='/' />");
 </script>
 
-<script src="assets/js/charts.js" type="text/javascript"></script>
+<script src="assets/js/chartjs.js" type="text/javascript"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -205,3 +213,5 @@
         });
     });
 </script>
+
+<script src="assets/js/highcharts.js" type="text/javascript"></script>
