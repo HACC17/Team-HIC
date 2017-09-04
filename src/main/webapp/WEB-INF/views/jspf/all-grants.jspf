@@ -42,6 +42,24 @@
             </select>
         </div>
         <div class="form-group">
+            <label for="priority">Strategic Priority:</label>
+            <select id="priority" class="filter form-control" onchange="updateTable();" data-key="priority">
+                <option value="">All</option>
+                <c:forEach var="priority" items="${priorities}">
+                    <option value="${priority}"><c:out value="${priority}" /></option>
+                </c:forEach>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="result">Strategic Result:</label>
+            <select id="result" class="filter form-control" onchange="updateTable();" data-key="result">
+                <option value="">All</option>
+                <c:forEach var="result" items="${results}">
+                    <option value="${result}"><c:out value="${result}" /></option>
+                </c:forEach>
+            </select>
+        </div>
+        <div class="form-group">
             <div class="form-inline">
                 <label for="min-amount">Amount between</label>
                 <input type="number" min="0" max="10000000" value="100000" class="filter form-control" id="min-amount" data-key="amount-gte">
@@ -315,9 +333,7 @@
             event.preventDefault();
             $("#start-fiscalYear").val(2013);
             $("#end-fiscalYear").val(2016);
-            $("#organization").val("");
-            $("#project").val("");
-            $("#status").val("");
+            $("select").val("");
 
             var billion = 1000000000;
             $("#min-amount").val(0);

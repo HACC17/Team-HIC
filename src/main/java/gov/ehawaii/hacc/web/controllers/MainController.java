@@ -40,6 +40,8 @@ public class MainController {
     model.addAttribute("statuses", grantsService.getAllGrantStatuses());
     model.addAttribute("organizations", grantsService.getAllOrganizations());
     model.addAttribute("projects", grantsService.getAllProjects());
+    model.addAttribute("priorities", grantsService.getAllStrategicPriorities());
+    model.addAttribute("results", grantsService.getAllStrategicResults());
     return "index";
   }
 

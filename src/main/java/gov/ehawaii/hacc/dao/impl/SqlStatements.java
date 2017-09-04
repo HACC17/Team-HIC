@@ -27,6 +27,10 @@ public final class SqlStatements {
 
   public static final String STATUS = "STATUS";
 
+  public static final String STRATEGIC_PRIORITY = "STRATEGIC_PRIORITY";
+
+  public static final String STRATEGIC_RESULT = "STRATEGIC_RESULT";
+
   // INSERT
   public static final String INSERT_GRANT = "INSERT INTO GRANTS VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -75,6 +79,10 @@ public final class SqlStatements {
   public static final String ORGANIZATION_ID = "ORGANIZATION_ID = ? ";
 
   public static final String PROJECT_ID = "PROJECT_ID = ? ";
+
+  public static final String STRATEGIC_PRIORITY_ID = "STRATEGIC_PRIORITY_ID = ? ";
+
+  public static final String STRATEGIC_RESULTS_ID = "STRATEGIC_RESULT_ID = ? ";
 
   public static final String NUMBER_NATIVE_HAWAIIANS_SERVED_GTE = "NUMBER_NATIVE_HAWAIIANS_SERVED >= ? ";
 
