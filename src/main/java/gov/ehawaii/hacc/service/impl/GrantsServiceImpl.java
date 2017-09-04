@@ -18,6 +18,7 @@ public class GrantsServiceImpl implements GrantsService {
   private static final Map<String, String> FILTERS_MAP = new HashMap<>();
   static {
     FILTERS_MAP.put("status", SqlStatements.GRANT_STATUS_ID);
+    FILTERS_MAP.put("type", SqlStatements.GRANT_TYPE_ID);
     FILTERS_MAP.put("organization", SqlStatements.ORGANIZATION_ID);
     FILTERS_MAP.put("project", SqlStatements.PROJECT_ID);
     FILTERS_MAP.put("location", SqlStatements.LOCATION_ID);
@@ -58,6 +59,9 @@ public class GrantsServiceImpl implements GrantsService {
         switch (key) {
         case SqlStatements.GRANT_STATUS_ID:
           arguments.add(dao.getId(SqlStatements.GRANT_STATUSES, SqlStatements.STATUS, value));
+          break;
+        case SqlStatements.GRANT_TYPE_ID:
+          arguments.add(dao.getId(SqlStatements.GRANT_TYPES, SqlStatements.GRANT_TYPE, value));
           break;
         case SqlStatements.ORGANIZATION_ID:
           arguments.add(dao.getId(SqlStatements.ORGANIZATIONS, SqlStatements.ORGANIZATION, value));

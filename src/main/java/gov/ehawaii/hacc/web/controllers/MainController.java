@@ -38,6 +38,7 @@ public class MainController {
     parameters.put("total-lte", 1000);
     model.addAttribute("all", grantsService.getGrants(parameters));
     model.addAttribute("statuses", grantsService.getAllGrantStatuses());
+    model.addAttribute("types", grantsService.getAllGrantTypes());
     model.addAttribute("organizations", grantsService.getAllOrganizations());
     model.addAttribute("projects", grantsService.getAllProjects());
     model.addAttribute("locations", grantsService.getAllLocations());

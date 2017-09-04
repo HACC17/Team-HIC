@@ -21,6 +21,8 @@ public final class SqlStatements {
   public static final String STRATEGIC_RESULTS = "STRATEGIC_RESULTS";
 
   // Column names
+  public static final String GRANT_TYPE = "GRANT_TYPE";
+
   public static final String ORGANIZATION = "ORGANIZATION";
 
   public static final String PROJECT = "PROJECT";
@@ -77,6 +79,8 @@ public final class SqlStatements {
   public static final String FISCAL_YEAR_LTE = "FISCAL_YEAR <= ? ";
 
   public static final String GRANT_STATUS_ID = "GRANT_STATUS_ID = ? ";
+
+  public static final String GRANT_TYPE_ID = "GRANT_TYPE_ID = ? ";
 
   public static final String ORGANIZATION_ID = "ORGANIZATION_ID = ? ";
 
