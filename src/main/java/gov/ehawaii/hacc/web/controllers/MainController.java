@@ -28,10 +28,12 @@ public class MainController {
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public String showIndexPage(Model model) {
     Map<String, Object> parameters = new HashMap<>();
-    parameters.put("fiscalYear-gte", "2016");
-    parameters.put("fiscalYear-lte", "2016");
+    parameters.put("fiscal-gte", "2016");
+    parameters.put("fiscal-lte", "2016");
     parameters.put("amount-gte", 100000);
     parameters.put("amount-lte", 1000000);
+    parameters.put("total-gte", 0);
+    parameters.put("total-lte", 1000);
     model.addAttribute("all", grantsService.getGrants(parameters));
     model.addAttribute("organizations", grantsService.getAllOrganizations());
     model.addAttribute("statuses", grantsService.getAllGrantStatuses());

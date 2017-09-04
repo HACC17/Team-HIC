@@ -70,4 +70,12 @@ public final class SqlStatements {
 
   public static final String ORGANIZATION_ID = "ORGANIZATION_ID = ? ";
 
+  public static final String NUMBER_NATIVE_HAWAIIANS_SERVED_GTE = "NUMBER_NATIVE_HAWAIIANS_SERVED >= ? ";
+
+  public static final String NUMBER_NATIVE_HAWAIIANS_SERVED_LTE = "NUMBER_NATIVE_HAWAIIANS_SERVED <= ? ";
+
+  public static final String TOTAL_NUMBER_SERVED_GTE = "TOTAL_NUMBER_SERVED >= ? ";
+
+  public static final String TOTAL_NUMBER_SERVED_LTE = "TOTAL_NUMBER_SERVED <= ? ";
+
 }

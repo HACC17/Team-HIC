@@ -290,7 +290,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   private String getValue(String tableName, String columnName, long id) {
-    Long count = getCount(tableName, columnName, "ID");
+    Long count = getCount(tableName, "ID", Long.toString(id));
     if (count == 0) {
       return "";
     }
