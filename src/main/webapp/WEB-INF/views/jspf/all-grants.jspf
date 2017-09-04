@@ -4,10 +4,10 @@
     <div id="grants" class="col-md-6">
         <%@ include file="/WEB-INF/views/jspf/grants-table.jspf" %>
     </div>
-    <div id="filters" class="col-md-6" style="display: none">
+    <div id="filters-panel" class="col-md-6" style="display: none">
         <div class="form-group">
             <h3>Filters</h3>
-            <div id="filters-label" class="alert alert-success"></div>
+            <div id="filters-legend" class="alert alert-success"></div>
         </div>
         <div class="form-group">
             <label for="status">Grant Status:</label>
@@ -255,7 +255,7 @@
             }
         })
         label = label + "</ul>";
-        $("#filters-label").html(label);
+        $("#filters-legend").html(label);
     }
 
     function updateTable() {
@@ -379,7 +379,7 @@
             $("#max-hawaiians").val(million);
             updateTable();
         });
-        $("#filters").show();
+        $("#filters-panel").show();
         updateTable();
     });
 </script>
