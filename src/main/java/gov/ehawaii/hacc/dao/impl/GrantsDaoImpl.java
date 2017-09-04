@@ -137,7 +137,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
   @Override
   public List<Grant> findTopFiveGrantsForFiscalYear(int fiscalYear) {
-    String stmt = String.format(SqlStatements.GET_FISCAL_YEAR_DATA, fiscalYear);
+    String stmt = String.format(SqlStatements.GET_TOTAL_AMOUNTS_FOR_EACH_ORG, fiscalYear);
     List<Grant> grants = getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Grant>>() {
 
       @Override
@@ -160,7 +160,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
   @Override
   public List<Map<String, Object>> getTopNGrants(int top, final String field1, String field2) {
-    String stmt = String.format(SqlStatements.TOP_N, field1, field2, field1, field2, field2, top);
+    String stmt = String.format(SqlStatements.GET_TOP_N_DATA, field1, field2, field1, field2, field2, top);
 
     List<Map<String, Object>> grants =
         getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Map<String, Object>>>() {
@@ -217,7 +217,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   @Override
   public List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field) {
     long orgId = getId(SqlStatements.ORGANIZATIONS, "ORGANIZATION", organization);
-    String stmt = String.format(SqlStatements.GET_DATA_FOR_ORG, field, orgId);
+    String stmt = String.format(SqlStatements.GET_DATA_FOR_ORG_FOR_EACH_FISCAL_YEAR, field, orgId);
     return getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Map<String, Long>>>() {
 
       @Override
