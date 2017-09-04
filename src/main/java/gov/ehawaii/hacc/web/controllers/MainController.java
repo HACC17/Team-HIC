@@ -32,6 +32,8 @@ public class MainController {
     parameters.put("fiscal-lte", "2016");
     parameters.put("amount-gte", 100000);
     parameters.put("amount-lte", 1000000);
+    parameters.put("hawaiians-gte", 0);
+    parameters.put("hawaiians-lte", 1000);
     parameters.put("total-gte", 0);
     parameters.put("total-lte", 1000);
     model.addAttribute("all", grantsService.getGrants(parameters));
