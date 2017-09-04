@@ -102,15 +102,6 @@
 </div>
 
 <script type="text/javascript">
-    function updateLabels() {
-        $("#min-amount-value").html(accounting.formatMoney($("#min-amount").val()));
-        $("#max-amount-value").html(accounting.formatMoney($("#max-amount").val()));
-        $("#min-total-value").html(accounting.formatNumber($("#min-total").val()));
-        $("#max-total-value").html(accounting.formatNumber($("#max-total").val()));
-        $("#min-hawaiians-value").html(accounting.formatNumber($("#min-hawaiians").val()));
-        $("#max-hawaiians-value").html(accounting.formatNumber($("#max-hawaiians").val()));
-    }
-
     var buttons = [
         {
             extend: 'copyHtml5',
@@ -159,6 +150,24 @@
         { "targets": [ 9 ], "visible": false, "searchable": false },
         { "targets": [ 10 ], "visible": false, "searchable": false }
     ];
+
+    function checkYear(id) {
+        if ($(id).val() > 2016) {
+            $(id).val(2016);
+        }
+        if ($(id).val() < 2013) {
+            $(id).val(2013);
+        }
+    }
+
+    function updateLabels() {
+        $("#min-amount-value").html(accounting.formatMoney($("#min-amount").val()));
+        $("#max-amount-value").html(accounting.formatMoney($("#max-amount").val()));
+        $("#min-total-value").html(accounting.formatNumber($("#min-total").val()));
+        $("#max-total-value").html(accounting.formatNumber($("#max-total").val()));
+        $("#min-hawaiians-value").html(accounting.formatNumber($("#min-hawaiians").val()));
+        $("#max-hawaiians-value").html(accounting.formatNumber($("#max-hawaiians").val()));
+    }
 
     function updateTable() {
         var filter = {};
@@ -231,18 +240,14 @@
     $(document).ready(function() {
         updateLabels();
         $("#start-fiscalYear").on('change keyup paste', function(event) {
-            if ($(this).val() > 2016) {
-                $(this).val(2016);
-            }
+            checkYear(this);
             if ($(this).val() > $("#end-fiscalYear").val()) {
                 $(this).val($("#end-fiscalYear").val());
             }
             updateTable();
         });
         $("#end-fiscalYear").on('change keyup paste', function(event) {
-            if ($(this).val() > 2016) {
-                $(this).val(2016);
-            }
+            checkyYear(this);
             if ($(this).val() < $("#start-fiscalYear").val()) {
                 $(this).val($("#start-fiscalYear").val());
             }
