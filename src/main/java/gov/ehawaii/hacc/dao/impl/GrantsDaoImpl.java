@@ -260,8 +260,16 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   public List<String> getAllOrganizations() {
     List<String> organizations =
         getJdbcTemplate().queryForList(SqlStatements.GET_ALL_ORGANIZATIONS, String.class);
-    LOGGER.info("Found " + organizations.size() + " organizations.");
+    LOGGER.info("Found " + organizations.size() + " organization(s).");
     return organizations;
+  }
+
+  @Override
+  public List<String> getAllProjects() {
+    List<String> projects =
+        getJdbcTemplate().queryForList(SqlStatements.GET_ALL_PROJECTS, String.class);
+    LOGGER.info("Found " + projects.size() + " project(s).");
+    return projects;
   }
 
   @Override

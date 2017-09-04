@@ -23,6 +23,8 @@ public final class SqlStatements {
   // Column names
   public static final String ORGANIZATION = "ORGANIZATION";
 
+  public static final String PROJECT = "PROJECT";
+
   public static final String STATUS = "STATUS";
 
   // INSERT
@@ -47,6 +49,8 @@ public final class SqlStatements {
 
   public static final String GET_ALL_ORGANIZATIONS = "SELECT ORGANIZATION FROM ORGANIZATIONS ORDER BY ORGANIZATION ASC";
 
+  public static final String GET_ALL_PROJECTS = "SELECT PROJECT FROM PROJECTS ORDER BY PROJECT ASC";
+
   public static final String GET_ALL_STATUSES = "SELECT STATUS FROM GRANT_STATUSES ORDER BY STATUS ASC";
 
   public static final String GET_ALL_STRATEGIC_PRIORITIES = "SELECT STRATEGIC_PRIORITY FROM " + STRATEGIC_PRIORITIES + " ORDER BY STRATEGIC_PRIORITY ASC";
@@ -69,6 +73,8 @@ public final class SqlStatements {
   public static final String GRANT_STATUS_ID = "GRANT_STATUS_ID = ? ";
 
   public static final String ORGANIZATION_ID = "ORGANIZATION_ID = ? ";
+
+  public static final String PROJECT_ID = "PROJECT_ID = ? ";
 
   public static final String NUMBER_NATIVE_HAWAIIANS_SERVED_GTE = "NUMBER_NATIVE_HAWAIIANS_SERVED >= ? ";
 

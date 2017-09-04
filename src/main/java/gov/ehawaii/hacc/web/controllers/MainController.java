@@ -37,8 +37,9 @@ public class MainController {
     parameters.put("total-gte", 0);
     parameters.put("total-lte", 1000);
     model.addAttribute("all", grantsService.getGrants(parameters));
-    model.addAttribute("organizations", grantsService.getAllOrganizations());
     model.addAttribute("statuses", grantsService.getAllGrantStatuses());
+    model.addAttribute("organizations", grantsService.getAllOrganizations());
+    model.addAttribute("projects", grantsService.getAllProjects());
     return "index";
   }
 

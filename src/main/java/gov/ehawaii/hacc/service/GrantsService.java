@@ -24,6 +24,8 @@ public interface GrantsService {
 
   List<String> getAllOrganizations();
 
+  List<String> getAllProjects();
+
   List<String> getAllStrategicPriorities();
 
   List<String> getAllStrategicResults();

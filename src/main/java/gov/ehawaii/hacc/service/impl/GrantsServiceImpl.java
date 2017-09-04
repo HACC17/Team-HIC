@@ -19,6 +19,7 @@ public class GrantsServiceImpl implements GrantsService {
   static {
     FILTERS_MAP.put("status", SqlStatements.GRANT_STATUS_ID);
     FILTERS_MAP.put("organization", SqlStatements.ORGANIZATION_ID);
+    FILTERS_MAP.put("project", SqlStatements.PROJECT_ID);
     FILTERS_MAP.put("amount-gte", SqlStatements.AMOUNT_GTE);
     FILTERS_MAP.put("amount-lte", SqlStatements.AMOUNT_LTE);
     FILTERS_MAP.put("fiscal-gte", SqlStatements.FISCAL_YEAR_GTE);
@@ -58,8 +59,11 @@ public class GrantsServiceImpl implements GrantsService {
         case SqlStatements.ORGANIZATION_ID:
           arguments.add(dao.getId(SqlStatements.ORGANIZATIONS, SqlStatements.ORGANIZATION, value));
           break;
+        case SqlStatements.PROJECT_ID:
+          arguments.add(dao.getId(SqlStatements.PROJECTS, SqlStatements.PROJECT, value));
+          break;
         default:
-          arguments.add(entry.getValue());
+          arguments.add(value);
         }
 
       }
@@ -113,6 +117,11 @@ public class GrantsServiceImpl implements GrantsService {
   @Override
   public List<String> getAllOrganizations() {
     return dao.getAllOrganizations();
+  }
+
+  @Override
+  public List<String> getAllProjects() {
+    return dao.getAllProjects();
   }
 
   @Override
