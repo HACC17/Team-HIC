@@ -30,4 +30,6 @@ public interface GrantsService {
 
   List<String> getAllStrategicResults();
 
+  List<String> getAllFiscalYears();
+
 }

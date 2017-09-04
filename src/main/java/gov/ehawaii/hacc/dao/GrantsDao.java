@@ -34,4 +34,6 @@ public interface GrantsDao {
 
   List<String> getAllStrategicResults();
 
+  List<String> getAllFiscalYears();
+
 }

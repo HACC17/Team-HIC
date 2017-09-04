@@ -150,4 +150,9 @@ public class GrantsServiceImpl implements GrantsService {
     return dao.getAllStrategicResults();
   }
 
+  @Override
+  public List<String> getAllFiscalYears() {
+    return dao.getAllFiscalYears();
+  }
+
 }

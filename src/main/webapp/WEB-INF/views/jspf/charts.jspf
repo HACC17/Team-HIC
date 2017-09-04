@@ -1,39 +1,55 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="row extra-top-margin">
-    <div class="col-md-6">
+    <div class="col-md-4 col-md-push-4">
         <form id="fiscalYearForm">
-            <div class="form-inline">
-                <label for="fiscalYearSelect">Total Amount of Money for Fiscal Year:</label>
+            <div class="form-group">
                 <select id="fiscalYearSelect" class="form-control">
-                    <option value="2013" selected>2013</option>
-                    <option value="2014">2014</option>
-                    <option value="2015">2015</option>
-                    <option value="2016">2016</option>
+                    <c:forEach var="year" items="${years}">
+                        <option value="${year}"><c:out value="${year}" /></option>
+                    </c:forEach>
                 </select>
+            </div>
+            <div class="form-group">
                 <button id="fiscalYearReportBtn" class="btn btn-md btn-primary">Download Report</button>
             </div>
         </form>
     </div>
-    <div class="col-md-6">
+</div>
+
+<div class="row">
+    <div id="fiscalYearDiv" class="col-md-4 col-md-push-4 fiscal-year-chart">
+        <canvas id="fiscalYearChart" class="fiscal-year-chart" />
+    </div>
+    <div class="col-md-4 col-md-push-4 no-fiscal-year-data" style="display: none">
+        <div class="alert alert-danger no-fiscal-year-data" style="display: none">No data exists for selected fiscal year.</div>
+    </div>
+    <input type="hidden" id="fiscal-chart-base64" value="" />
+</div>
+
+<div class="row extra-extra-top-margin">
+    <div class="col-md-4 col-md-push-4">
         <form id="topForm">
-            <div class="form-inline">
-                <label for="top1_1">Top</label>
+            <div class="form-group">
                 <select id="top1_1" class="form-control">
-                    <option value="5">5</option>
-                    <option value="10" selected>10</option>
-                    <option value="25">25</option>
+                    <option value="5">Top 5</option>
+                    <option value="10" selected>Top 10</option>
                 </select>
+            </div>
+            <div class="form-group">
                 <select id="top1_2" class="form-control">
                     <option value="ORGANIZATION" selected>Organizations</option>
                     <option value="PROJECT">Projects</option>
                 </select>
-                <label for="top1_3">by</label>
+            </div>
+            <div class="form-group">
                 <select id="top1_3" class="form-control">
                     <option value="AMOUNT" selected>Total Amount of Money</option>
                     <option value="TOTAL_NUMBER_SERVED">Total Number of People Served</option>
                     <option value="NUMBER_NATIVE_HAWAIIANS_SERVED">Total Number of Native Hawaiians Served</option>
                 </select>
+            </div>
+            <div class="form-group">
                 <button id="topReportBtn" class="btn btn-md btn-primary">Download Report</button>
             </div>
         </form>
@@ -41,38 +57,33 @@
 </div>
 
 <div class="row">
-    <div id="fiscalYearDiv" class="col-md-6 fiscal-year-chart">
-        <canvas id="fiscalYearChart" class="fiscal-year-chart" />
+    <div id="topDiv" class="col-md-8 col-md-push-4 top-chart">
+        <canvas id="topChart" class="top-chart"/>
     </div>
-    <div class="col-md-6 no-fiscal-year-data" style="display: none">
-        <div class="alert alert-danger no-fiscal-year-data" style="display: none">No data exists for selected fiscal year.</div>
-    </div>
-    <input type="hidden" id="fiscal-chart-base64" value="" />
-    <div id="topDiv" class="col-md-6 top-chart">
-        <canvas id="topChart" class="top-chart" />
-    </div>
-    <div class="col-md-6 no-top-data" style="display: none">
+    <div class="col-md-8 col-md-push-4 no-top-data" style="display: none">
         <div class="alert alert-danger no-top-data" style="display: none">No data exists for selected criteria.</div>
     </div>
     <input type="hidden" id="top-chart-base64" value="" />
 </div>
 
-<div class="row extra-extra-top-margin top-border">
-    <div class="col-md-12">
+<div class="row extra-top-margin">
+    <div class="col-md-4 col-md-push-4">
         <form id="topForm" class="extra-extra-top-margin">
-            <div class="form-inline">
+            <div class="form-group">
                 <select id="org1_1" class="form-control">
                     <option value="AMOUNT" selected>Amount of Money</option>
                     <option value="TOTAL_NUMBER_SERVED">Number of People Served</option>
                     <option value="NUMBER_NATIVE_HAWAIIANS_SERVED">Number of Native Hawaiians Served</option>
                 </select>
-                <label id="org1_2-label" for="org1_2">for</label>
+            </div>
+            <div class="form-group">
                 <select id="org1_2" class="form-control">
                     <c:forEach var="org" items="${organizations}">
                         <option value="${org}"><c:out value="${org}" /></option>
                     </c:forEach>
                 </select>
-                <label>Over Time</label>
+             </div>
+             <div class="form-group">
                 <button id="orgReportBtn" class="btn btn-md btn-primary">Download Report</button>
             </div>
         </form>
@@ -80,21 +91,19 @@
 </div>
 
 <div class="row extra-top-margin">
-    <div id="overTimeDiv" class="col-md-12 over-time-chart">
+    <div id="overTimeDiv" class="col-md-8 col-md-push-2 over-time-chart">
         <canvas id="overTimeChart" class="over-time-chart" />
     </div>
-    <div class="col-md-12 no-over-time-data" style="display: none">
+    <div class="col-md-8 col-md-push-2 no-over-time-data" style="display: none">
         <div class="alert alert-danger no-over-time-data" style="display: none">No data exists for selected organization.</div>
     </div>
     <input type="hidden" id="over-time-chart-base64" value="" />
 </div>
 
-<div class="row extra-top-margin">
-    <div id="locations" class="col-md-12 locations-chart"></div>
-    <div class="col-md-12 locations-data" style="display: none">
-        <div class="alert alert-danger no-locations-data" style="display: none">No data exists for selected organization.</div>
+<div class="row extra-extra-top-margin">
+    <div class="col-md-6">
+        <div id="locations-pie-chart" class="width: 100%; height: 100%"></div>
     </div>
-    <input type="hidden" id="locations-chart-base64" value="" />
 </div>
 
 <c:set var="req" value="${pageContext.request}" />

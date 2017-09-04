@@ -49,6 +49,7 @@ public class MainController {
 
   @RequestMapping(value = "/charts", method = RequestMethod.GET)
   public String showChartsPage(Model model) {
+    model.addAttribute("years", grantsService.getAllFiscalYears());
     model.addAttribute("organizations", grantsService.getAllOrganizations());
     return "charts";
   }

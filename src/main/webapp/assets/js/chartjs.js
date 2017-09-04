@@ -107,7 +107,7 @@ function createFiscalYearPieChart(data, year) {
     };
 
     $("#fiscalYearChart").remove();
-    $("#fiscalYearDiv").html("<canvas id='fiscalYearChart' class='fiscal-year-chart' />");
+    $("#fiscalYearDiv").html("<label>Total Amount of Money for Fiscal Year " + $("#fiscalYearSelect").val() + "<canvas id='fiscalYearChart' class='fiscal-year-chart' /></label>");
     fiscalChart = new Chart(document.getElementById("fiscalYearChart").getContext('2d'), config);
 }
 
@@ -181,7 +181,7 @@ function createTopPieChart(data, cachedData, cachedLabels, n, field, criterion) 
     };
 
     $("#topChart").remove();
-    $("#topDiv").html("<canvas id='topChart' class='top-chart' />");
+    $("#topDiv").html("<label>" + $("#top1_1 option:selected").text() + " " + $("#top1_2 option:selected").text() + " by " + $("#top1_3 option:selected").text() + "<canvas id='topChart' class='top-chart' /></label>");
     topChart = new Chart(document.getElementById("topChart").getContext('2d'), config);
 }
 
@@ -191,7 +191,6 @@ function chartOrganizationDataOverTime() {
 
     $.get(url, function(data, status) {
         var json = JSON.parse(data);
-        console.log(json);
         var dataset = [];
         $.each(json, function(index, value) {
             if (index < chartColors.length) {

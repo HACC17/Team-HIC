@@ -288,6 +288,14 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
     return results;
   }
 
+  @Override
+  public List<String> getAllFiscalYears() {
+    List<String> years =
+        getJdbcTemplate().queryForList(SqlStatements.GET_ALL_FISCAL_YEARS, String.class);
+    LOGGER.info("Found " + years.size() + " fiscal year(s).");
+    return years;
+  }
+
   private long saveValue(String tableName, String columnName, String value) {
     String stmt = String.format(SqlStatements.INSERT_INTO, tableName, columnName);
     if (getJdbcTemplate().update(stmt, value) > 0) {

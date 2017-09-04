@@ -69,6 +69,8 @@ public final class SqlStatements {
 
   public static final String GET_TOP_N_DATA = "SELECT %s_ID, SUM(%s) FROM GRANTS GROUP BY %s_ID, %s ORDER BY %s DESC LIMIT %d";
 
+  public static final String GET_ALL_FISCAL_YEARS = "SELECT DISTINCT FISCAL_YEAR FROM GRANTS ORDER BY FISCAL_YEAR ASC";
+
   // Filters
   public static final String AMOUNT_GTE = "AMOUNT >= ? ";
 

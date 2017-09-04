@@ -1,5 +1,7 @@
+$(document).ready(function() {
+
 // Create the chart
-Highcharts.chart('locations', {
+Highcharts.chart('locations-pie-chart', {
     chart: {
         type: 'pie'
     },
@@ -118,4 +120,6 @@ Highcharts.chart('locations', {
             ]
         }]
     }
+});
+
 });
