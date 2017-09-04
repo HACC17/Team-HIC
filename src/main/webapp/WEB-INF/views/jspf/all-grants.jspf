@@ -160,6 +160,26 @@
         }
     }
 
+    function checkValue(id, min, max) {
+        var billion = 1000000000;
+        if ($(id).val() > billion) {
+            $(id).val(billion);
+        }
+        var value = parseInt($(id).val());
+        if (min) {
+            var otherValue = parseInt($("#min-" + $(id).attr("id").substring(4)).val());
+            if (value < otherValue) {
+                $(id).val(otherValue);
+            }
+        }
+        if (max) {
+            var otherValue = parseInt($("#max-" + $(id).attr("id").substring(4)).val());
+            if (value > otherValue) {
+                $(id).val(otherValue);
+            }
+        }
+    }
+
     function updateLabels() {
         $("#min-amount-value").html(accounting.formatMoney($("#min-amount").val()));
         $("#max-amount-value").html(accounting.formatMoney($("#max-amount").val()));
@@ -167,6 +187,12 @@
         $("#max-total-value").html(accounting.formatNumber($("#max-total").val()));
         $("#min-hawaiians-value").html(accounting.formatNumber($("#min-hawaiians").val()));
         $("#max-hawaiians-value").html(accounting.formatNumber($("#max-hawaiians").val()));
+    }
+
+    function removeSortingArrows() {
+        $(".more-info-column").removeClass("sorting");
+        $(".more-info-column").css("cursor", "auto");
+        $(".more-info-column").off();
     }
 
     function updateTable() {
@@ -230,9 +256,7 @@
                     html = html + '</dl></div><div class="modal-footer"><button type="button" class="btn btn-primary" data-dismiss="modal">Close</button></div></div></div></div>'
                     $("#modals").append(html);
                 });
-                $(".more-info-column").removeClass("sorting");
-                $(".more-info-column").css("cursor", "auto");
-                $(".more-info-column").off();
+                removeSortingArrows();
             }
         });
     }
@@ -241,37 +265,27 @@
         updateLabels();
         $("#start-fiscalYear").on('change keyup paste', function(event) {
             checkYear(this);
-            if ($(this).val() > $("#end-fiscalYear").val()) {
-                $(this).val($("#end-fiscalYear").val());
+            var end = parseInt($("#end-fiscalYear").val());
+            if (parseInt($(this).val()) > end) {
+                $(this).val(end);
             }
             updateTable();
         });
         $("#end-fiscalYear").on('change keyup paste', function(event) {
-            checkyYear(this);
-            if ($(this).val() < $("#start-fiscalYear").val()) {
-                $(this).val($("#start-fiscalYear").val());
+            checkYear(this);
+            var start = parseInt($("#start-fiscalYear").val());
+            if (parseInt($(this).val()) < start) {
+                $(this).val(start);
             }
             updateTable();
         });
         $("#min-amount, #min-total, #min-hawaiians").on('change keyup paste', function(event) {
-            if ($(this).val() > 1000000000) {
-                $(this).val(1000000000);
-            }
-            var id = $(this).attr("id").substring(4);
-            if ($(this).val() > 0 && $(this).val() > $("#max-" + id).val()) {
-                $(this).val($("#max-" + id).val());
-            }
+            checkValue(this, false, true);
             updateLabels();
             updateTable();
         });
         $("#max-amount, #max-total, #max-hawaiians").on('change keyup paste', function(event) {
-            if ($(this).val() > 1000000000) {
-                $(this).val(1000000000);
-            }
-            var id = $(this).attr("id").substring(4);
-            if ($(this).val() > 0 && $(this).val() < $("#min-" + id).val()) {
-                $(this).val($("#min-" + id).val());
-            }
+            checkValue(this, true, false);
             updateLabels();
             updateTable();
         });
@@ -284,9 +298,7 @@
         $('.amount').each(function() {
             $(this).html(accounting.formatMoney($(this).html()));
         });
-        $(".more-info-column").removeClass("sorting");
-        $(".more-info-column").css("cursor", "auto");
-        $(".more-info-column").off();
+        removeSortingArrows();
         $("#filters").show();
         updateTable();
     });
