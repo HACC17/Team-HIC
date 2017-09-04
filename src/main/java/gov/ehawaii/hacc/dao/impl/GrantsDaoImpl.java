@@ -59,9 +59,19 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
   @Override
   public boolean saveGrant(Grant grant) {
+    long grantStatusId = getId(SqlStatements.GRANT_STATUSES, "STATUS", grant.getGrantStatus());
+    if (grantStatusId == -1) {
+      grantStatusId = saveValue(SqlStatements.GRANT_STATUSES, "STATUS", grant.getGrantStatus());
+    }
+
     long grantTypeId = getId(SqlStatements.GRANT_TYPES, "GRANT_TYPE", grant.getGrantType());
     if (grantTypeId == -1) {
       grantTypeId = saveValue(SqlStatements.GRANT_TYPES, "GRANT_TYPE", grant.getGrantType());
+    }
+
+    long locationId = getId(SqlStatements.LOCATIONS, "LOCATION", grant.getLocation());
+    if (locationId == -1) {
+      locationId = saveValue(SqlStatements.LOCATIONS, "LOCATION", grant.getLocation());
     }
 
     long organizationId =
@@ -76,11 +86,6 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
       projectId = saveValue(SqlStatements.PROJECTS, "PROJECT", grant.getProject());
     }
 
-    long locationId = getId(SqlStatements.LOCATIONS, "LOCATION", grant.getLocation());
-    if (locationId == -1) {
-      locationId = saveValue(SqlStatements.LOCATIONS, "LOCATION", grant.getLocation());
-    }
-
     long strategicPriorityId = getId(SqlStatements.STRATEGIC_PRIORITIES, "STRATEGIC_PRIORITY",
         grant.getStrategicPriority());
     if (strategicPriorityId == -1) {
@@ -93,11 +98,6 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
     if (strategicResultId == -1) {
       strategicResultId = saveValue(SqlStatements.STRATEGIC_RESULTS, "STRATEGIC_RESULT",
           grant.getStrategicResults());
-    }
-
-    long grantStatusId = getId(SqlStatements.GRANT_STATUSES, "STATUS", grant.getGrantStatus());
-    if (grantStatusId == -1) {
-      grantStatusId = saveValue(SqlStatements.GRANT_STATUSES, "STATUS", grant.getGrantStatus());
     }
 
     long rows = getJdbcTemplate().update(SqlStatements.INSERT_GRANT, grantStatusId,
@@ -199,22 +199,6 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   @Override
-  public List<String> getAllOrganizations() {
-    List<String> organizations =
-        getJdbcTemplate().queryForList(SqlStatements.GET_ALL_ORGANIZATIONS, String.class);
-    LOGGER.info("Found " + organizations.size() + " organizations.");
-    return organizations;
-  }
-
-  @Override
-  public List<String> getAllStatuses() {
-    List<String> statuses =
-        getJdbcTemplate().queryForList(SqlStatements.GET_ALL_STATUSES, String.class);
-    LOGGER.info("Found " + statuses.size() + " grant statuses.");
-    return statuses;
-  }
-
-  @Override
   public List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field) {
     long orgId = getId(SqlStatements.ORGANIZATIONS, "ORGANIZATION", organization);
     String stmt = String.format(SqlStatements.GET_DATA_FOR_ORG_FOR_EACH_FISCAL_YEAR, field, orgId);
@@ -237,19 +221,23 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   @Override
-  public List<String> getAllStrategicPriorities() {
-    List<String> priorities =
-        getJdbcTemplate().queryForList(SqlStatements.GET_ALL_STRATEGIC_PRIORITIES, String.class);
-    LOGGER.info("Found " + priorities.size() + " strategic priorit(ies).");
-    return priorities;
+  public long getId(String tableName, String columnName, String value) {
+    Long count = getCount(tableName, columnName, value);
+    if (count == 0) {
+      return -1;
+    }
+    String stmt = String.format(SqlStatements.GET_ID, tableName, columnName);
+    Long id = getJdbcTemplate().queryForObject(stmt, Long.class, value);
+    LOGGER.info("Retrieved ID for value [" + value + "] from table [" + tableName + "]: " + id);
+    return id == null ? -1 : id;
   }
 
   @Override
-  public List<String> getAllStrategicResults() {
-    List<String> results =
-        getJdbcTemplate().queryForList(SqlStatements.GET_ALL_STRATEGIC_RESULTS, String.class);
-    LOGGER.info("Found " + results.size() + " strategic result(s).");
-    return results;
+  public List<String> getAllGrantStatuses() {
+    List<String> statuses =
+        getJdbcTemplate().queryForList(SqlStatements.GET_ALL_STATUSES, String.class);
+    LOGGER.info("Found " + statuses.size() + " grant statuses.");
+    return statuses;
   }
 
   @Override
@@ -269,15 +257,27 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   @Override
-  public long getId(String tableName, String columnName, String value) {
-    Long count = getCount(tableName, columnName, value);
-    if (count == 0) {
-      return -1;
-    }
-    String stmt = String.format(SqlStatements.GET_ID, tableName, columnName);
-    Long id = getJdbcTemplate().queryForObject(stmt, Long.class, value);
-    LOGGER.info("Retrieved ID for value [" + value + "] from table [" + tableName + "]: " + id);
-    return id == null ? -1 : id;
+  public List<String> getAllOrganizations() {
+    List<String> organizations =
+        getJdbcTemplate().queryForList(SqlStatements.GET_ALL_ORGANIZATIONS, String.class);
+    LOGGER.info("Found " + organizations.size() + " organizations.");
+    return organizations;
+  }
+
+  @Override
+  public List<String> getAllStrategicPriorities() {
+    List<String> priorities =
+        getJdbcTemplate().queryForList(SqlStatements.GET_ALL_STRATEGIC_PRIORITIES, String.class);
+    LOGGER.info("Found " + priorities.size() + " strategic priorit(ies).");
+    return priorities;
+  }
+
+  @Override
+  public List<String> getAllStrategicResults() {
+    List<String> results =
+        getJdbcTemplate().queryForList(SqlStatements.GET_ALL_STRATEGIC_RESULTS, String.class);
+    LOGGER.info("Found " + results.size() + " strategic result(s).");
+    return results;
   }
 
   private long saveValue(String tableName, String columnName, String value) {

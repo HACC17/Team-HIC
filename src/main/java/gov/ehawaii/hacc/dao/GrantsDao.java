@@ -16,20 +16,20 @@ public interface GrantsDao {
 
   String getGrantStatusForId(int grantStatusId);
 
-  List<String> getAllOrganizations();
-
-  List<String> getAllStatuses();
-
   List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field);
 
   long getId(String tableName, String columnName, String value);
 
-  List<String> getAllStrategicPriorities();
-
-  List<String> getAllStrategicResults();
+  List<String> getAllGrantStatuses();
 
   List<String> getAllGrantTypes();
 
   List<String> getAllLocations();
+
+  List<String> getAllOrganizations();
+
+  List<String> getAllStrategicPriorities();
+
+  List<String> getAllStrategicResults();
 
 }
