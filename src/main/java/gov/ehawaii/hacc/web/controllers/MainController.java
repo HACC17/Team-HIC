@@ -53,11 +53,6 @@ public class MainController {
     return "charts";
   }
 
-  @RequestMapping(value = "/reports", method = RequestMethod.GET)
-  public String showReportsPage(Model model) {
-    return "reports";
-  }
-
   @RequestMapping(value = "/login", method = RequestMethod.GET)
   public String showLoginPage() {
     return "login";
