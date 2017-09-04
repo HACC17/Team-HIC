@@ -6,6 +6,10 @@
     </div>
     <div id="filters" class="col-md-6" style="display: none">
         <div class="form-group">
+            <h3>Filters</h3>
+            <div id="filters-label" class="alert alert-success"></div>
+        </div>
+        <div class="form-group">
             <label for="status">Grant Status:</label>
             <select id="status" class="filter form-control" onchange="updateTable();" data-key="status">
                 <option value="">All</option>
@@ -16,11 +20,10 @@
         </div>
         <div class="form-group">
             <div class="form-inline">
-                <label for="start-fiscalYear">Fiscal year between</label>
+                <label for="start-fiscalYear">Fiscal year:</label>
                 <input type="number" min="2013" max="2016" value="2016" class="filter form-control" id="start-fiscalYear" data-key="fiscal-gte">
-                <label for="end-fiscalYear">and</label>
+                <label for="end-fiscalYear">-</label>
                 <input type="number" min="2013" max="2016" value="2016" class="filter form-control" id="end-fiscalYear" data-key="fiscal-lte">
-                <small>(inclusive)</small>
             </div>
         </div>
         <div class="form-group">
@@ -52,11 +55,10 @@
         </div>
         <div class="form-group">
             <div class="form-inline">
-                <label for="min-amount">Amount between</label>
+                <label for="min-amount">Amount:</label>
                 <input type="number" min="0" max="10000000" value="100000" class="filter form-control" id="min-amount" data-key="amount-gte">
-                <label for="max-amount">and</label>
+                <label for="max-amount">-</label>
                 <input type="number" min="0" max="10000000" value="1000000" class="filter form-control" id="max-amount" data-key="amount-lte">
-                <small>(<span id="min-amount-value"></span> and <span id="max-amount-value"></span>)</small>
             </div>
         </div>
         <div class="form-group">
@@ -88,20 +90,18 @@
         </div>
         <div class="form-group">
             <div class="form-inline">
-                <label for="min-total">Total number of people served between</label>
+                <label for="min-total">Total number of people served:</label>
                 <input type="number" min="0" max="10000000" value="0" class="filter form-control" id="min-total" data-key="total-gte">
-                <label for="max-total">and</label>
+                <label for="max-total">-</label>
                 <input type="number" min="0" max="10000000" value="1000" class="filter form-control" id="max-total" data-key="total-lte">
-                <small>(<span id="min-total-value"></span> and <span id="max-total-value"></span>)</small>
             </div>
         </div>
         <div class="form-group">
             <div class="form-inline">
-                <label for="min-hawaiians">Number of Native Hawaiians served between</label>
+                <label for="min-hawaiians">Number of Native Hawaiians served:</label>
                 <input type="number" min="0" max="10000000" value="0" class="filter form-control" id="min-hawaiians" data-key="hawaiians-gte">
-                <label for="max-hawaiians">and</label>
+                <label for="max-hawaiians">-</label>
                 <input type="number" min="0" max="10000000" value="1000" class="filter form-control" id="max-hawaiians" data-key="hawaiians-lte">
-                <small>(<span id="min-hawaiians-value"></span> and <span id="max-hawaiians-value"></span>)</small>
             </div>
         </div>
         <div class="form-group">
@@ -243,6 +243,21 @@
         $(".more-info-column").off();
     }
 
+    function updateFiltersLabel() {
+        var label = "<ul>";
+        label = label + "<li>Fiscal year: " + $("#start-fiscalYear").val() + " - " + $("#end-fiscalYear").val() + " (inclusive)</li>";
+        label = label + "<li>Amount: " + accounting.formatMoney($("#min-amount").val()) + " - " + accounting.formatMoney($("#max-amount").val()) + " (inclusive)</li>";
+        label = label + "<li>Total number of people served: " + accounting.formatNumber($("#min-total").val()) + " - " + accounting.formatNumber($("#max-total").val()) + " (inclusive)</li>";
+        label = label + "<li>Number of Native Hawaiians served: " + accounting.formatNumber($("#min-hawaiians").val()) + " - " + accounting.formatNumber($("#max-hawaiians").val()) + " (inclusive)</li>";
+        $("select").each(function() {
+            if ($(this).val() != '') {
+                label = label + "<li>" + $("label[for=" + $(this).attr("id") + "]").html() + " " + $(this).val() + "</li>";
+            }
+        })
+        label = label + "</ul>";
+        $("#filters-label").html(label);
+    }
+
     function updateTable() {
         var filter = {};
         $(".filter").each(function(index, value) {
@@ -260,6 +275,7 @@
                 'X-CSRF-TOKEN': "<c:out value='${_csrf.token}' />"
             },
             success: function(response) {
+                updateFiltersLabel();
                 $('#grants-table').dataTable().fnDestroy();
                 var json = $.parseJSON(response);
                 var arrays = [];
@@ -357,9 +373,10 @@
             $("#min-amount").val(0);
             $("#max-amount").val(billion);
             $("#min-total").val(0);
-            $("#max-total").val(billion);
+            var million = 1000000;
+            $("#max-total").val(million);
             $("#min-hawaiians").val(0);
-            $("#max-hawaiians").val(billion);
+            $("#max-hawaiians").val(million);
             updateTable();
         });
         $("#filters").show();
