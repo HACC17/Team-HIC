@@ -46,14 +46,13 @@ public class GrantsServiceImpl implements GrantsService {
         }
         buffer.append(key);
 
+        String value = entry.getValue().toString();
         switch (key) {
         case SqlStatements.GRANT_STATUS_ID:
-          arguments.add(dao.getId(SqlStatements.GRANT_STATUSES,
-              SqlStatements.STATUS, entry.getValue().toString()));
+          arguments.add(dao.getId(SqlStatements.GRANT_STATUSES, SqlStatements.STATUS, value));
           break;
         case SqlStatements.ORGANIZATION_ID:
-          arguments.add(dao.getId(SqlStatements.ORGANIZATIONS,
-              SqlStatements.ORGANIZATION, entry.getValue().toString()));
+          arguments.add(dao.getId(SqlStatements.ORGANIZATIONS, SqlStatements.ORGANIZATION, value));
           break;
         default:
           arguments.add(entry.getValue());
@@ -88,28 +87,13 @@ public class GrantsServiceImpl implements GrantsService {
   }
 
   @Override
-  public List<String> getAllOrganizations() {
-    return dao.getAllOrganizations();
-  }
-
-  @Override
-  public List<String> getAllStatuses() {
-    return dao.getAllStatuses();
-  }
-
-  @Override
   public List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field) {
     return dao.getOrganizationDataOverTime(organization, field);
   }
 
   @Override
-  public List<String> getAllStrategicPriorities() {
-    return dao.getAllStrategicPriorities();
-  }
-
-  @Override
-  public List<String> getAllStrategicResults() {
-    return dao.getAllStrategicResults();
+  public List<String> getAllGrantStatuses() {
+    return dao.getAllGrantStatuses();
   }
 
   @Override
@@ -120,6 +104,21 @@ public class GrantsServiceImpl implements GrantsService {
   @Override
   public List<String> getAllLocations() {
     return dao.getAllLocations();
+  }
+
+  @Override
+  public List<String> getAllOrganizations() {
+    return dao.getAllOrganizations();
+  }
+
+  @Override
+  public List<String> getAllStrategicPriorities() {
+    return dao.getAllStrategicPriorities();
+  }
+
+  @Override
+  public List<String> getAllStrategicResults() {
+    return dao.getAllStrategicResults();
   }
 
 }

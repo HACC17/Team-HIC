@@ -40,7 +40,7 @@ public class AdminController {
   public String showAdminPage(Model model) {
     model.addAttribute("grant", new Grant());
     model.addAttribute("organizations", grantsService.getAllOrganizations());
-    model.addAttribute("statuses", grantsService.getAllStatuses());
+    model.addAttribute("statuses", grantsService.getAllGrantStatuses());
     model.addAttribute("priorities", grantsService.getAllStrategicPriorities());
     model.addAttribute("results", grantsService.getAllStrategicResults());
     model.addAttribute("types", grantsService.getAllGrantTypes());

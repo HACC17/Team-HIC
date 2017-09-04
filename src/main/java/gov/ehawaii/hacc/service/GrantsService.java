@@ -14,18 +14,18 @@ public interface GrantsService {
 
   List<Map<String, Object>> getTopNGrants(int top, String field1, String field2);
 
-  List<String> getAllOrganizations();
-
-  List<String> getAllStatuses();
-
   List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field);
 
-  List<String> getAllStrategicPriorities();
-
-  List<String> getAllStrategicResults();
+  List<String> getAllGrantStatuses();
 
   List<String> getAllGrantTypes();
 
   List<String> getAllLocations();
+
+  List<String> getAllOrganizations();
+
+  List<String> getAllStrategicPriorities();
+
+  List<String> getAllStrategicResults();
 
 }
