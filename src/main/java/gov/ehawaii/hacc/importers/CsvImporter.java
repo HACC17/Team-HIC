@@ -1,7 +1,10 @@
 package gov.ehawaii.hacc.importers;
 
-import java.io.FileReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.Charset;
 import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -28,58 +31,55 @@ public class CsvImporter extends Importer {
   @Value(value = "classpath:data/2013_2016_data.csv")
   private Resource csvFile;
 
-
   @Override
   public Resource getFile() {
     return csvFile;
   }
 
-
   @Override
   public boolean importData() {
-    try {
-      Reader reader = new FileReader(csvFile.getFile());
-      try (CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT.withSkipHeaderRecord())) {
-        List<CSVRecord> records = parser.getRecords();
-        records.remove(0);
-        int count = 0;
-        for (CSVRecord record : records) {
-          if (record.size() != NUMBER_OF_COLUMNS) {
-            LOGGER.error("Row does not contain " + NUMBER_OF_COLUMNS + " columns, only " + record.size() + ".");
-            continue;
-          }
-          Grant grant = new Grant();
-          grant.setFiscalYear(stringToInt(record.get(0)));
-          grant.setGrantType(trim(record.get(1)));
-          grant.setOrganization(trim(record.get(2)));
-          grant.setProject(trim(record.get(3)));
-          grant.setAmount(stringToInt(record.get(4)));
-          grant.setLocation(trim(record.get(5)));
-          grant.setStrategicPriority(trim(record.get(6)));
-          grant.setStrategicResults(trim(record.get(7)));
-          grant.setTotalNumberServed(stringToInt(record.get(8)));
-          grant.setNumberNativeHawaiiansServed(stringToInt(record.get(9)));
-          grant.setGrantStatus(dao.getGrantStatusForId(stringToInt(record.get(10))));
-          if (dao.saveGrant(grant)) {
-            LOGGER.info("Successfully saved grant [" + grant + "] to database.");
-            count++;
-          }
+    try (
+        Reader reader =
+            new InputStreamReader(new FileInputStream(csvFile.getFile()), Charset.defaultCharset());
+        CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT.withSkipHeaderRecord())) {
+      List<CSVRecord> records = parser.getRecords();
+      records.remove(0);
+      int count = 0;
+      for (CSVRecord record : records) {
+        if (record.size() != NUMBER_OF_COLUMNS) {
+          LOGGER.error("Row does not contain " + NUMBER_OF_COLUMNS + " columns, only "
+              + record.size() + ".");
+          continue;
         }
-        LOGGER.info("Successfully imported " + count + " grant(s) into database.");
+        Grant grant = new Grant();
+        grant.setFiscalYear(stringToInt(record.get(0)));
+        grant.setGrantType(trim(record.get(1)));
+        grant.setOrganization(trim(record.get(2)));
+        grant.setProject(trim(record.get(3)));
+        grant.setAmount(stringToInt(record.get(4)));
+        grant.setLocation(trim(record.get(5)));
+        grant.setStrategicPriority(trim(record.get(6)));
+        grant.setStrategicResults(trim(record.get(7)));
+        grant.setTotalNumberServed(stringToInt(record.get(8)));
+        grant.setNumberNativeHawaiiansServed(stringToInt(record.get(9)));
+        grant.setGrantStatus(dao.getGrantStatusForId(stringToInt(record.get(10))));
+        if (dao.saveGrant(grant)) {
+          LOGGER.info("Successfully saved grant [" + grant + "] to database.");
+          count++;
+        }
       }
+      LOGGER.info("Successfully imported " + count + " grant(s) into database.");
+      return true;
     }
-    catch (Exception e) {
-      LOGGER.error("An error occurred while trying to parse CSV file: " + e.getMessage(), e);
+    catch (IOException ioe) {
+      LOGGER.error("An error occurred while trying to parse CSV file: " + ioe.getMessage(), ioe);
       return false;
     }
-    return true;
   }
-
 
   private static String trim(String value) {
     return value == null || value.isEmpty() ? "" : value.trim();
   }
-
 
   private static int stringToInt(String value) {
     if (value == null || value.isEmpty()) {

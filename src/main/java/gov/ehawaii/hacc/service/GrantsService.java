@@ -8,7 +8,7 @@ public interface GrantsService {
 
   boolean insertGrant(Grant grant);
 
-  List<Grant> getGrants(Map<String, Object> parameters);
+  List<Grant> getGrants(Map<String, Object> filters);
 
   List<Grant> getTopFiveGrantsForFiscalYear(String year);
 

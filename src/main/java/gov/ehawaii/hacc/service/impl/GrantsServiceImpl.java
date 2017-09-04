@@ -34,11 +34,11 @@ public class GrantsServiceImpl implements GrantsService {
   }
 
   @Override
-  public List<Grant> getGrants(Map<String, Object> parameters) {
+  public List<Grant> getGrants(Map<String, Object> filters) {
     StringBuffer buffer = new StringBuffer();
     List<Object> arguments = new ArrayList<>();
 
-    for (Entry<String, Object> entry : parameters.entrySet()) {
+    for (Entry<String, Object> entry : filters.entrySet()) {
       if (entry.getValue() != null && !entry.getValue().toString().isEmpty()) {
         String key = FILTERS_MAP.get(entry.getKey());
         if (key == null) {
@@ -77,10 +77,10 @@ public class GrantsServiceImpl implements GrantsService {
   @Override
   public List<Map<String, Object>> getTopNGrants(int top, String field1, String field2) {
     if (field1 == null || field1.isEmpty()) {
-      throw new IllegalArgumentException("field is null or empty.");
+      throw new IllegalArgumentException("field1 is null or empty.");
     }
     if (field2 == null || field2.isEmpty()) {
-      throw new IllegalArgumentException("criterion is null or empty.");
+      throw new IllegalArgumentException("field2 is null or empty.");
     }
 
     return dao.getTopNGrants(top, field1, field2);
