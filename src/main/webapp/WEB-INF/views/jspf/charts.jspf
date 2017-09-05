@@ -100,8 +100,32 @@
     <input type="hidden" id="over-time-chart-base64" value="" />
 </div>
 
+<div class="row extra-top-margin">
+    <div class="col-md-4 col-md-push-4">
+        <form id="fiscalYearForm2">
+            <div class="form-group">
+                <select id="fiscalYearSelect2" class="form-control">
+                    <c:forEach var="year" items="${years}">
+                        <option value="${year}"><c:out value="${year}" /></option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="form-group">
+                <select id="drilldownField" class="form-control">
+                    <option value="AMOUNT" selected>Total Amount of Money</option>
+                    <option value="TOTAL_NUMBER_SERVED">Total Number of People Served</option>
+                    <option value="NUMBER_NATIVE_HAWAIIANS_SERVED">Total Number of Native Hawaiians Served</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button id="fiscalYearReportBtn2" class="btn btn-md btn-primary">Download Report</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="row extra-extra-top-margin">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div id="locations-pie-chart" class="width: 100%; height: 100%"></div>
     </div>
 </div>

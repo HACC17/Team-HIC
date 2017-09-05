@@ -116,8 +116,8 @@ public class GrantsServiceImpl implements GrantsService {
   }
 
   @Override
-  public Map<String, Map<String, Long>> getDataForEachLocation(String year) {
-    return dao.getDataForEachLocation(year);
+  public Map<String, Map<String, Long>> getDataForEachLocation(String year, String field) {
+    return dao.getDataForEachLocation(year, field);
   }
 
   @Override

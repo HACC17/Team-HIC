@@ -224,31 +224,32 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   @Override
-  public Map<String, Map<String, Long>> getDataForEachLocation(String year) {
+  public Map<String, Map<String, Long>> getDataForEachLocation(String year, String field) {
     Map<String, Map<String, Long>> data = new HashMap<>();
 
+    String stmt = String.format(SqlStatements.GET_TOTAL_FOR_EACH_LOCATION, field);
     Map<String, Long> totals =
-        getJdbcTemplate().query(SqlStatements.GET_TOTAL_AMOUNT_FOR_EACH_LOCATION,
-            new ResultSetExtractor<Map<String, Long>>() {
+        getJdbcTemplate().query(stmt, new ResultSetExtractor<Map<String, Long>>() {
 
-              @Override
-              public Map<String, Long> extractData(ResultSet rs)
-                  throws SQLException, DataAccessException {
-                Map<String, Long> data = new HashMap<>();
-                while (rs.next()) {
-                  data.put(rs.getString(1), rs.getLong(2));
-                }
-                return data;
-              }
+          @Override
+          public Map<String, Long> extractData(ResultSet rs)
+              throws SQLException, DataAccessException {
+            Map<String, Long> data = new HashMap<>();
+            while (rs.next()) {
+              data.put(rs.getString(1), rs.getLong(2));
+            }
+            return data;
+          }
 
-            });
+        });
     data.put("totals", totals);
 
     List<String> locations = getAllLocations();
 
+    stmt = String.format(SqlStatements.GET_ALL_DATA_FOR_LOCATION, field);
     for (String location : locations) {
-      Map<String, Long> amounts = getJdbcTemplate().query(
-          SqlStatements.GET_ALL_AMOUNTS_FOR_LOCATION, new ResultSetExtractor<Map<String, Long>>() {
+      Map<String, Long> amounts =
+          getJdbcTemplate().query(stmt, new ResultSetExtractor<Map<String, Long>>() {
 
             @Override
             public Map<String, Long> extractData(ResultSet rs)

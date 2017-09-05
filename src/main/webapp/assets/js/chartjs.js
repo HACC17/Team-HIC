@@ -187,7 +187,7 @@ function createTopPieChart(data, cachedData, cachedLabels, n, field, criterion) 
 
 function chartOrganizationDataOverTime() {
     var url = localStorage.getItem('request') + "charts/time?org=";
-    url = url + $("#org1_2").val() + "&criterion=" + $("#org1_1").val();
+    url = url + $("#org1_2").val() + "&field=" + $("#org1_1").val();
 
     $.get(url, function(data, status) {
         var json = JSON.parse(data);
@@ -319,25 +319,25 @@ $(document).ready(function() {
         var url = baseUrl + "charts/top?top=" + n;
         url = url + "&field1=" + field1;
         url = url + "&field2=" + field2;
-        var key = field + "_" + criterion;
+        var key = field1 + "_" + field2;
         if (n == "5") {
             if (top_5_data_map[key].length > 0) {
-                createTopPieChart(null, top_5_data_map[key], top_5_labels_map[key], n, field, criterion);
+                createTopPieChart(null, top_5_data_map[key], top_5_labels_map[key], n, field1, field2);
                 return;
             }
         } else if (n == "10") {
             if (top_10_data_map[key].length > 0) {
-                createTopPieChart(null, top_10_data_map[key], top_10_labels_map[key], n, field, criterion);
+                createTopPieChart(null, top_10_data_map[key], top_10_labels_map[key], n, field1, field2);
                 return;
             }
         } else {
             if (top_25_data_map[key].length > 0) {
-                createTopPieChart(null, top_25_data_map[key], top_25_labels_map[key], n, field, criterion);
+                createTopPieChart(null, top_25_data_map[key], top_25_labels_map[key], n, field1, field2);
                 return;
             }
         }
         $.get(url, function(data, status) {
-            createTopPieChart(data, null, n, field, criterion);
+            createTopPieChart(data, null, n, field1, field2);
         });
     });
 
