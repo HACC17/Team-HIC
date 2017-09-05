@@ -31,6 +31,24 @@ else {
 
 war.destinationDir = file "$buildDir/dist"
 
+task generateVersionFile(description: 'Generates a version file in the classes directory.') << {
+    // Create version file if it doesn't exist
+    ext.outputFile = file("$sourceSets.main.output.classesDir/version")
+    if (!outputFile.isFile()) {
+        outputFile.parentFile.mkdirs()
+        outputFile.createNewFile()
+    }
+
+    if (env.VERSION != null && env.VERSION.trim() != "") {
+        project.version = env.VERSION
+        outputFile.write "$version"
+    }
+    else {
+        outputFile.write "Build Timestamp: " + new Date()
+    }
+}
+tasks.war.dependsOn 'generateVersionFile', 'check'
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
