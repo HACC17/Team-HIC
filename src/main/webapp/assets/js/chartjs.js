@@ -200,7 +200,7 @@ function chartOrganizationDataOverTime() {
         var labels = [];
         $.each(json, function(index, value) {
             if (index < chartColors.length) {
-                labels.push(json[index].year);
+                labels.push(json[index].key);
             }
         });
         var yLabel;
