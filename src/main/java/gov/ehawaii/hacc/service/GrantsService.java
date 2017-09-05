@@ -6,11 +6,11 @@ import gov.ehawaii.hacc.model.Grant;
 
 public interface GrantsService {
 
-  boolean insertGrant(Grant grant);
+  boolean saveGrant(Grant grant);
 
   List<Grant> getGrants(Map<String, Object> filters);
 
-  List<Grant> getTopFiveGrantsForFiscalYear(String year);
+  List<Grant> getTopFiveOrganizationsForFiscalYear(String year);
 
   List<Map<String, Object>> getTopNGrants(int top, String field1, String field2);
 

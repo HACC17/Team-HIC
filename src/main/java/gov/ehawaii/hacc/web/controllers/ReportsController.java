@@ -3,6 +3,7 @@ package gov.ehawaii.hacc.web.controllers;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,9 +109,9 @@ public class ReportsController {
     for (int n = 0; n < columnTwoData.length; n++) {
       for (int m = 0; m < columnTwoData.length - 1 - n; m++) {
         if (columnTwoData[m] < columnTwoData[m + 1]) {
-          long temp1 = columnTwoData[m];
+          long swapLong = columnTwoData[m];
           columnTwoData[m] = columnTwoData[m + 1];
-          columnTwoData[m + 1] = temp1;
+          columnTwoData[m + 1] = swapLong;
           String swapString = columnOneData[m];
           columnOneData[m] = columnOneData[m + 1];
           columnOneData[m + 1] = swapString;
@@ -118,11 +119,8 @@ public class ReportsController {
       }
     }
 
-    String[] columnTwoDataStrings = new String[columnTwoData.length];
-    int idx = 0;
-    for (long d : columnTwoData) {
-      columnTwoDataStrings[idx++] = String.valueOf(d);
-    }
+    String[] columnTwoDataStrings =
+        Arrays.stream(columnTwoData).mapToObj(String::valueOf).toArray(size -> new String[size]);
 
     boolean isFiscal = Boolean.parseBoolean(map.get("isFiscal"));
 

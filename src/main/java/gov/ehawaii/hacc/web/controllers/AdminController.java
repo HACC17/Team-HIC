@@ -76,7 +76,7 @@ public class AdminController {
 
   @RequestMapping(method = RequestMethod.POST)
   public String addGrant(@ModelAttribute("grant") Grant grant) {
-    if (grantsService.insertGrant(grant)) {
+    if (grantsService.saveGrant(grant)) {
       LOGGER.info("Grant [" + grant + "] saved successfully.");
     }
     else {

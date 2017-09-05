@@ -51,6 +51,8 @@ public final class SqlStatements {
 
   public static final String COUNT = "SELECT COUNT(*) FROM %s WHERE %s = ?";
 
+  public static final String COUNT_ALL_GRANTS = "SELECT COUNT(*) FROM GRANTS";
+
   public static final String GET_ALL_GRANT_TYPES = "SELECT GRANT_TYPE FROM " + GRANT_TYPES + " ORDER BY GRANT_TYPE ASC";
 
   public static final String GET_ALL_LOCATIONS = "SELECT LOCATION FROM " + LOCATIONS + " ORDER BY LOCATION ASC";

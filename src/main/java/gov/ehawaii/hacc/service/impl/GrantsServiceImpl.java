@@ -38,7 +38,7 @@ public class GrantsServiceImpl implements GrantsService {
   private GrantsDao dao;
 
   @Override
-  public boolean insertGrant(Grant grant) {
+  public boolean saveGrant(Grant grant) {
     return dao.saveGrant(grant);
   }
 
@@ -90,12 +90,12 @@ public class GrantsServiceImpl implements GrantsService {
   }
 
   @Override
-  public List<Grant> getTopFiveGrantsForFiscalYear(String year) {
+  public List<Grant> getTopFiveOrganizationsForFiscalYear(String year) {
     if (year == null || year.isEmpty()) {
       throw new IllegalArgumentException("year is null or empty.");
     }
 
-    return dao.findTopFiveGrantsForFiscalYear(Integer.parseInt(year));
+    return dao.getTopFiveOrganizationsForFiscalYear(Integer.parseInt(year));
   }
 
   @Override

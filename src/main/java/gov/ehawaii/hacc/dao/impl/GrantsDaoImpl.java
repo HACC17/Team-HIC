@@ -118,7 +118,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   @Override
   public List<Grant> getGrants(String filter, Object[] arguments) {
     String whereClause = (arguments.length > 0 ? " WHERE " + filter : "");
-    String stmt = "SELECT COUNT(*) FROM GRANTS" + whereClause;
+    String stmt = SqlStatements.COUNT_ALL_GRANTS + whereClause;
     Long count = getJdbcTemplate().queryForObject(stmt, Long.class, arguments);
     if (count == 0) {
       return new ArrayList<>();
@@ -137,7 +137,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   @Override
-  public List<Grant> findTopFiveGrantsForFiscalYear(int fiscalYear) {
+  public List<Grant> getTopFiveOrganizationsForFiscalYear(int fiscalYear) {
     String stmt = String.format(SqlStatements.GET_TOTAL_AMOUNT_FOR_EACH_ORG, fiscalYear);
     List<Grant> grants = getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Grant>>() {
 
@@ -162,6 +162,10 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
   @Override
   public List<Map<String, Object>> getTopNGrants(int top, final String field1, String field2) {
+    if (top <= 0) {
+      throw new IllegalArgumentException("top must be greater than 0.");
+    }
+
     String stmt =
         String.format(SqlStatements.GET_TOP_N_DATA, field1, field2, field1, field2, field2, top);
 
@@ -197,7 +201,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
   @Override
-  public String getGrantStatusForId(int grantStatusId) {
+  public String getGrantStatusForId(long grantStatusId) {
     return getValue(SqlStatements.GRANT_STATUSES, "STATUS", grantStatusId);
   }
 
@@ -227,9 +231,8 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   public Map<String, Map<String, Long>> getDataForEachLocation(String year, String field) {
     Map<String, Map<String, Long>> data = new HashMap<>();
 
-    String stmt = String.format(SqlStatements.GET_TOTAL_FOR_EACH_LOCATION, field);
-    Map<String, Long> totals =
-        getJdbcTemplate().query(stmt, new ResultSetExtractor<Map<String, Long>>() {
+    ResultSetExtractor<Map<String, Long>> rsExtractor =
+        new ResultSetExtractor<Map<String, Long>>() {
 
           @Override
           public Map<String, Long> extractData(ResultSet rs)
@@ -241,27 +244,17 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
             return data;
           }
 
-        });
+        };
+
+    String stmt = String.format(SqlStatements.GET_TOTAL_FOR_EACH_LOCATION, field);
+    Map<String, Long> totals = getJdbcTemplate().query(stmt, rsExtractor);
     data.put("totals", totals);
 
     List<String> locations = getAllLocations();
 
     stmt = String.format(SqlStatements.GET_ALL_DATA_FOR_LOCATION, field);
     for (String location : locations) {
-      Map<String, Long> amounts =
-          getJdbcTemplate().query(stmt, new ResultSetExtractor<Map<String, Long>>() {
-
-            @Override
-            public Map<String, Long> extractData(ResultSet rs)
-                throws SQLException, DataAccessException {
-              Map<String, Long> data = new HashMap<>();
-              while (rs.next()) {
-                data.put(rs.getString(1), rs.getLong(2));
-              }
-              return data;
-            }
-
-          }, location);
+      Map<String, Long> amounts = getJdbcTemplate().query(stmt, rsExtractor, location);
       data.put(location, amounts);
     }
 

@@ -18,14 +18,14 @@ public class ChartsController {
   private GrantsService grantsService;
 
   @RequestMapping(value = "/fiscalYear", method = RequestMethod.GET)
-  public void getDataForFiscalYear(@RequestParam("year") String year,
+  public void getTopFiveOrganizationsForFiscalYear(@RequestParam("year") String year,
       HttpServletResponse response) throws IOException {
     response.getWriter().write(new ObjectMapper()
-        .writeValueAsString(grantsService.getTopFiveGrantsForFiscalYear(year)));
+        .writeValueAsString(grantsService.getTopFiveOrganizationsForFiscalYear(year)));
   }
 
   @RequestMapping(value = "/top", method = RequestMethod.GET)
-  public void getTopData(@RequestParam("top") String top, @RequestParam("field1") String field1,
+  public void getTopNData(@RequestParam("top") String top, @RequestParam("field1") String field1,
       @RequestParam("field2") String field2, HttpServletResponse response) throws IOException {
     int n = Integer.parseInt(top);
     response.getWriter().write(
