@@ -218,8 +218,13 @@ function chartOrganizationDataOverTime() {
         localStorage.setItem("over-time-dataset", dataset);
         localStorage.setItem("over-time-labels", labels);
 
+        var txt = " for ";
+        if ($("#org1_1").val() != "AMOUNT") {
+            txt = " by ";
+        }
+
         $("#overTimeChart").remove();
-        $("#overTimeDiv").html("<canvas id='overTimeChart' class='over-time-chart' />");
+        $("#overTimeDiv").html("<label for='overTimeChart'>" + $("#org1_1 option:selected").text() + txt + $("#org1_2 option:selected").text() + " Over Time<canvas id='overTimeChart' class='over-time-chart' /></label>");
         var overTimeChart = new Chart(document.getElementById("overTimeChart").getContext('2d'), {
             type: 'line',
             data: {
