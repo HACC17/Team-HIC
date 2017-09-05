@@ -314,11 +314,11 @@ $(document).ready(function() {
     $("#top1_1, #top1_2, #top1_3").change(function(event) {
         event.preventDefault();
         var n = $('#top1_1 :selected').val();
-        var field = $('#top1_2 :selected').val();
-        var criterion = $('#top1_3 :selected').val();
+        var field1 = $('#top1_2 :selected').val();
+        var field2 = $('#top1_3 :selected').val();
         var url = baseUrl + "charts/top?top=" + n;
-        url = url + "&field=" + field;
-        url = url + "&criterion=" + criterion;
+        url = url + "&field1=" + field1;
+        url = url + "&field2=" + field2;
         var key = field + "_" + criterion;
         if (n == "5") {
             if (top_5_data_map[key].length > 0) {

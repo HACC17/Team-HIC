@@ -20,17 +20,16 @@ public class ChartsController {
   @RequestMapping(value = "/fiscalYear", method = RequestMethod.GET)
   public void getDataForFiscalYear(@RequestParam("year") String searchString,
       HttpServletResponse response) throws IOException {
-    response.getWriter().write(
-        new ObjectMapper().writeValueAsString(grantsService.getTopFiveGrantsForFiscalYear(searchString)));
+    response.getWriter().write(new ObjectMapper()
+        .writeValueAsString(grantsService.getTopFiveGrantsForFiscalYear(searchString)));
   }
 
   @RequestMapping(value = "/top", method = RequestMethod.GET)
-  public void getTopData(@RequestParam("top") String top, @RequestParam("field") String field,
-      @RequestParam("criterion") String criterion, HttpServletResponse response)
-      throws IOException {
+  public void getTopData(@RequestParam("top") String top, @RequestParam("field1") String field1,
+      @RequestParam("field2") String field2, HttpServletResponse response) throws IOException {
     int n = Integer.parseInt(top);
     response.getWriter().write(
-        new ObjectMapper().writeValueAsString(grantsService.getTopNGrants(n, field, criterion)));
+        new ObjectMapper().writeValueAsString(grantsService.getTopNGrants(n, field1, field2)));
   }
 
   @RequestMapping(value = "/time", method = RequestMethod.GET)
@@ -39,6 +38,13 @@ public class ChartsController {
       throws IOException {
     response.getWriter().write(new ObjectMapper()
         .writeValueAsString(grantsService.getOrganizationDataOverTime(organization, criterion)));
+  }
+
+  @RequestMapping(value = "/locations", method = RequestMethod.GET)
+  public void getDataForEachLocation(@RequestParam("year") String year,
+      @RequestParam("field") String field, HttpServletResponse response) throws IOException {
+    response.getWriter().write(
+        new ObjectMapper().writeValueAsString(grantsService.getDataForEachLocation(year)));
   }
 
 }

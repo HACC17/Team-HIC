@@ -3,6 +3,7 @@ package gov.ehawaii.hacc.dao.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,7 +138,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
   @Override
   public List<Grant> findTopFiveGrantsForFiscalYear(int fiscalYear) {
-    String stmt = String.format(SqlStatements.GET_TOTAL_AMOUNTS_FOR_EACH_ORG, fiscalYear);
+    String stmt = String.format(SqlStatements.GET_TOTAL_AMOUNT_FOR_EACH_ORG, fiscalYear);
     List<Grant> grants = getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Grant>>() {
 
       @Override
@@ -154,13 +155,15 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
       }
 
     });
-    LOGGER.info("Found top " + grants.size() + " grant(s) for fiscal year " + fiscalYear + ".");
+    LOGGER.info(
+        "Found top " + grants.size() + " organization(s) for fiscal year " + fiscalYear + ".");
     return grants;
   }
 
   @Override
   public List<Map<String, Object>> getTopNGrants(int top, final String field1, String field2) {
-    String stmt = String.format(SqlStatements.GET_TOP_N_DATA, field1, field2, field1, field2, field2, top);
+    String stmt =
+        String.format(SqlStatements.GET_TOP_N_DATA, field1, field2, field1, field2, field2, top);
 
     List<Map<String, Object>> grants =
         getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Map<String, Object>>>() {
@@ -218,6 +221,50 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
       }
 
     });
+  }
+
+  @Override
+  public Map<String, Map<String, Long>> getDataForEachLocation(String year) {
+    Map<String, Map<String, Long>> data = new HashMap<>();
+
+    Map<String, Long> totals =
+        getJdbcTemplate().query(SqlStatements.GET_TOTAL_AMOUNT_FOR_EACH_LOCATION,
+            new ResultSetExtractor<Map<String, Long>>() {
+
+              @Override
+              public Map<String, Long> extractData(ResultSet rs)
+                  throws SQLException, DataAccessException {
+                Map<String, Long> data = new HashMap<>();
+                while (rs.next()) {
+                  data.put(rs.getString(1), rs.getLong(2));
+                }
+                return data;
+              }
+
+            });
+    data.put("totals", totals);
+
+    List<String> locations = getAllLocations();
+
+    for (String location : locations) {
+      Map<String, Long> amounts = getJdbcTemplate().query(
+          SqlStatements.GET_ALL_AMOUNTS_FOR_LOCATION, new ResultSetExtractor<Map<String, Long>>() {
+
+            @Override
+            public Map<String, Long> extractData(ResultSet rs)
+                throws SQLException, DataAccessException {
+              Map<String, Long> data = new HashMap<>();
+              while (rs.next()) {
+                data.put(rs.getString(1), rs.getLong(2));
+              }
+              return data;
+            }
+
+          }, location);
+      data.put(location, amounts);
+    }
+
+    return data;
   }
 
   @Override
