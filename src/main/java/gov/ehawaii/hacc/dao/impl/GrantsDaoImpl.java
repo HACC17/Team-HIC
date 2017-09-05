@@ -1,7 +1,5 @@
 package gov.ehawaii.hacc.dao.impl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -12,39 +10,39 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 import gov.ehawaii.hacc.dao.GrantsDao;
 import gov.ehawaii.hacc.model.Grant;
+import gov.ehawaii.hacc.specifications.ColumnSpecification;
+import gov.ehawaii.hacc.specifications.DrilldownLocationSpecification;
+import gov.ehawaii.hacc.specifications.FilteredGrantsSpecification;
+import gov.ehawaii.hacc.specifications.IdSpecification;
+import gov.ehawaii.hacc.specifications.OrganizationSpecification;
+import gov.ehawaii.hacc.specifications.TopNSpecification;
 
 @Repository("GrantsDao")
 public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
   private static final Logger LOGGER = LogManager.getLogger(GrantsDaoImpl.class);
 
-  private final RowMapper<Grant> rowMapper = new RowMapper<Grant>() {
-
-    @Override
-    public Grant mapRow(ResultSet rs, int rowNum) throws SQLException {
-      Grant grant = new Grant();
-      grant.setId(rs.getLong(1));
-      grant.setGrantStatus(getValue(SqlStatements.GRANT_STATUSES, "STATUS", rs.getLong(2)));
-      grant.setFiscalYear(rs.getInt(3));
-      grant.setGrantType(getValue(SqlStatements.GRANT_TYPES, "GRANT_TYPE", rs.getLong(4)));
-      grant.setOrganization(getValue(SqlStatements.ORGANIZATIONS, "ORGANIZATION", rs.getLong(5)));
-      grant.setProject(getValue(SqlStatements.PROJECTS, "PROJECT", rs.getLong(6)));
-      grant.setAmount(rs.getInt(7));
-      grant.setLocation(getValue(SqlStatements.LOCATIONS, "LOCATION", rs.getLong(8)));
-      grant.setStrategicPriority(getValue(SqlStatements.STRATEGIC_PRIORITIES, "STRATEGIC_PRIORITY", rs.getLong(9)));
-      grant.setStrategicResults(getValue(SqlStatements.STRATEGIC_RESULTS, "STRATEGIC_RESULT", rs.getLong(10)));
-      grant.setTotalNumberServed(rs.getInt(11));
-      grant.setNumberNativeHawaiiansServed(rs.getInt(12));
-      return grant;
-    }
-
+  private final RowMapper<Grant> rowMapper = (rs, rowNum) -> {
+    Grant grant = new Grant();
+    grant.setId(rs.getLong(1));
+    grant.setGrantStatus(getValue(Tables.GRANT_STATUSES, SqlStatements.GRANT_STATUS, rs.getString(2)));
+    grant.setFiscalYear(rs.getInt(3));
+    grant.setGrantType(getValue(Tables.GRANT_TYPES, SqlStatements.GRANT_TYPE, rs.getString(4)));
+    grant.setOrganization(getValue(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION, rs.getString(5)));
+    grant.setProject(getValue(Tables.PROJECTS, SqlStatements.PROJECT, rs.getString(6)));
+    grant.setAmount(rs.getInt(7));
+    grant.setLocation(getValue(Tables.LOCATIONS, SqlStatements.LOCATION, rs.getString(8)));
+    grant.setStrategicPriority(getValue(Tables.STRATEGIC_PRIORITIES, SqlStatements.STRATEGIC_PRIORITY, rs.getString(9)));
+    grant.setStrategicResults(getValue(Tables.STRATEGIC_RESULTS, SqlStatements.STRATEGIC_RESULT, rs.getString(10)));
+    grant.setTotalNumberServed(rs.getInt(11));
+    grant.setNumberNativeHawaiiansServed(rs.getInt(12));
+    return grant;
   };
 
   @Resource(name = "dataSource")
@@ -59,16 +57,16 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
 
   @Override
-  public boolean saveGrant(Grant grant) {
-    long grantStatusId = saveValue(SqlStatements.GRANT_STATUSES, "STATUS", grant.getGrantStatus());
-    long grantTypeId = saveValue(SqlStatements.GRANT_TYPES, "GRANT_TYPE", grant.getGrantType());
-    long locationId = saveValue(SqlStatements.LOCATIONS, "LOCATION", grant.getLocation());
-    long organizationId = saveValue(SqlStatements.ORGANIZATIONS, "ORGANIZATION", grant.getOrganization());
-    long projectId = saveValue(SqlStatements.PROJECTS, "PROJECT", grant.getProject());
+  public boolean insertGrant(Grant grant) {
+    long grantStatusId = saveValue(Tables.GRANT_STATUSES, SqlStatements.GRANT_STATUS, grant.getGrantStatus());
+    long grantTypeId = saveValue(Tables.GRANT_TYPES, SqlStatements.GRANT_TYPE, grant.getGrantType());
+    long locationId = saveValue(Tables.LOCATIONS, SqlStatements.LOCATION, grant.getLocation());
+    long organizationId = saveValue(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION, grant.getOrganization());
+    long projectId = saveValue(Tables.PROJECTS, SqlStatements.PROJECT, grant.getProject());
     long strategicPriorityId =
-        saveValue(SqlStatements.STRATEGIC_PRIORITIES, "STRATEGIC_PRIORITY", grant.getStrategicPriority());
+        saveValue(Tables.STRATEGIC_PRIORITIES, SqlStatements.STRATEGIC_PRIORITY, grant.getStrategicPriority());
     long strategicResultId =
-        saveValue(SqlStatements.STRATEGIC_RESULTS, "STRATEGIC_RESULT", grant.getStrategicResults());
+        saveValue(Tables.STRATEGIC_RESULTS, SqlStatements.STRATEGIC_RESULT, grant.getStrategicResults());
 
     long rows = getJdbcTemplate().update(SqlStatements.INSERT_GRANT, grantStatusId, grant.getFiscalYear(), grantTypeId,
         organizationId, projectId, grant.getAmount(), locationId, strategicPriorityId, strategicResultId,
@@ -85,21 +83,20 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
 
   @Override
-  public List<Grant> getGrants(String filter, Object[] arguments) {
-    String whereClause = (arguments.length > 0 ? " WHERE " + filter : "");
-    String stmt = SqlStatements.COUNT_ALL_GRANTS + whereClause;
-    Long count = getJdbcTemplate().queryForObject(stmt, Long.class, arguments);
+  public List<Grant> findGrants(FilteredGrantsSpecification specification) {
+    String countStmt = String.format(SqlStatements.COUNT, specification.getTable()) + specification.toSqlClause();
+    Long count = getJdbcTemplate().queryForObject(countStmt, Long.class, specification.getArguments());
     if (count == 0) {
       return new ArrayList<>();
     }
-    stmt = SqlStatements.GET_ALL_GRANTS + whereClause;
     List<Grant> grants;
+    String select = SqlStatements.GET_ALL_GRANTS + specification.toSqlClause();
     if (count > 1) {
-      grants = getJdbcTemplate().query(stmt, rowMapper, arguments);
+      grants = getJdbcTemplate().query(select, rowMapper, specification.getArguments());
     }
     else {
       grants = new ArrayList<>();
-      grants.add(getJdbcTemplate().queryForObject(stmt, rowMapper, arguments));
+      grants.add(getJdbcTemplate().queryForObject(select, rowMapper, specification.getArguments()));
     }
     LOGGER.info("Found " + grants.size() + " grant(s).");
     return grants;
@@ -107,112 +104,84 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
 
   @Override
-  public List<Grant> getTopFiveOrganizationsForFiscalYear(int fiscalYear) {
-    String stmt = String.format(SqlStatements.GET_TOTAL_AMOUNT_FOR_EACH_ORG, fiscalYear);
-    List<Grant> grants = getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Grant>>() {
+  public List<Map<String, Object>> findTopN(final TopNSpecification specification) {
+    String stmt = String.format(SqlStatements.GET_TOP_N_DATA, specification.getColumn1(), specification.getColumn2());
+    stmt = String.format("%s %s", stmt, specification.toSqlClause());
+    LOGGER.info("SQL statement: " + stmt);
 
-      @Override
-      public List<Grant> extractData(ResultSet rs) throws SQLException {
-        List<Grant> grants = new ArrayList<>();
-        while (rs.next()) {
-          Grant grant = new Grant();
-          grant.setOrganization(getValue(SqlStatements.ORGANIZATIONS, "ORGANIZATION", rs.getLong(1)));
-          grant.setAmount(rs.getLong(2));
-          grants.add(grant);
-        }
-        return grants;
+    return getJdbcTemplate().query(stmt, rs -> {
+      String table, column;
+      switch (specification.getColumn1()) {
+      case SqlStatements.ORGANIZATION_ID:
+        table = Tables.ORGANIZATIONS;
+        column = SqlStatements.ORGANIZATION;
+        break;
+      case SqlStatements.PROJECT_ID:
+        table = Tables.PROJECTS;
+        column = SqlStatements.PROJECT;
+        break;
+      default:
+        throw new IllegalArgumentException("Unsupported column: " + specification.getColumn1());
       }
 
-    });
-    LOGGER.info("Found top " + grants.size() + " organization(s) for fiscal year " + fiscalYear + ".");
-    return grants;
-  }
-
-
-  @Override
-  public List<Map<String, Object>> getTopNGrants(int top, final String field1, String field2) {
-    if (top <= 0) {
-      throw new IllegalArgumentException("top must be greater than 0.");
-    }
-
-    String stmt = String.format(SqlStatements.GET_TOP_N_DATA, field1, field2, field1, field2, field2, top);
-
-    List<Map<String, Object>> grants =
-        getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Map<String, Object>>>() {
-
-          @Override
-          public List<Map<String, Object>> extractData(ResultSet rs) throws SQLException {
-            List<Map<String, Object>> rows = new ArrayList<>();
-            while (rs.next()) {
-              Map<String, Object> row = new LinkedHashMap<>();
-              row.put("key", getValue(field1 + "S", field1, rs.getLong(1)));
-              row.put("value", rs.getLong(2));
-              rows.add(row);
-            }
-            return rows;
-          }
-
-        });
-    LOGGER.info("Found the top " + grants.size() + " " + field1.toLowerCase() + "(s) by " + field2.toLowerCase() + ".");
-    return grants;
-  }
-
-
-  @Override
-  public String getGrantStatusForId(long grantStatusId) {
-    return getValue(SqlStatements.GRANT_STATUSES, "STATUS", grantStatusId);
-  }
-
-
-  @Override
-  public List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field) {
-    long orgId = getId(SqlStatements.ORGANIZATIONS, "ORGANIZATION", organization);
-    String stmt = String.format(SqlStatements.GET_DATA_FOR_ORG_FOR_EACH_FISCAL_YEAR, field, orgId);
-    return getJdbcTemplate().query(stmt, new ResultSetExtractor<List<Map<String, Long>>>() {
-
-      @Override
-      public List<Map<String, Long>> extractData(ResultSet rs) throws SQLException, DataAccessException {
-        List<Map<String, Long>> rows = new ArrayList<>();
-        while (rs.next()) {
-          Map<String, Long> row = new LinkedHashMap<>();
-          row.put("key", rs.getLong(1));
-          row.put("value", rs.getLong(2));
-          rows.add(row);
-        }
-        return rows;
+      List<Map<String, Object>> rows = new ArrayList<>();
+      while (rs.next()) {
+        Map<String, Object> row = new LinkedHashMap<>();
+        row.put("key", getValue(table, column, rs.getString(1)));
+        row.put("value", rs.getLong(2));
+        rows.add(row);
       }
-
+      return rows;
     });
   }
 
 
   @Override
-  public Map<String, Map<String, Long>> getDataForEachLocation(String year, String field) {
+  public String findValueForId(IdSpecification specification) {
+    return getValue(specification.getTable(), specification.getColumn(), specification.getValue());
+  }
+
+
+  @Override
+  public List<Map<String, Long>> findDataOverTime(OrganizationSpecification specification) {
+    long orgId = findIdForValue(
+        new IdSpecification(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION, specification.getOrganization()));
+    String stmt = String.format(SqlStatements.GET_DATA_FOR_ORG_FOR_EACH_FISCAL_YEAR, specification.getColumn(), orgId);
+    LOGGER.info("SQL Statement: " + stmt);
+
+    return getJdbcTemplate().query(stmt, rs -> {
+      List<Map<String, Long>> rows = new ArrayList<>();
+      while (rs.next()) {
+        Map<String, Long> row = new LinkedHashMap<>();
+        row.put("key", rs.getLong(1));
+        row.put("value", rs.getLong(2));
+        rows.add(row);
+      }
+      return rows;
+    });
+  }
+
+
+  @Override
+  public Map<String, Map<String, Long>> findLocationDataForDrilldown(DrilldownLocationSpecification specification) {
     Map<String, Map<String, Long>> data = new HashMap<>();
 
-    ResultSetExtractor<Map<String, Long>> rsExtractor = new ResultSetExtractor<Map<String, Long>>() {
-
-      @Override
-      public Map<String, Long> extractData(ResultSet rs) throws SQLException, DataAccessException {
-        Map<String, Long> data = new HashMap<>();
-        while (rs.next()) {
-          data.put(rs.getString(1), rs.getLong(2));
-        }
-        return data;
+    ResultSetExtractor<Map<String, Long>> rsExtractor = rs -> {
+      Map<String, Long> map = new HashMap<>();
+      while (rs.next()) {
+        map.put(rs.getString(1), rs.getLong(2));
       }
-
+      return map;
     };
 
-    String stmt = String.format(SqlStatements.GET_TOTAL_FOR_EACH_LOCATION, field);
-    Map<String, Long> totals = getJdbcTemplate().query(stmt, rsExtractor);
-    data.put("totals", totals);
+    String stmt = String.format(SqlStatements.GET_TOTAL_FOR_EACH_LOCATION, specification.getAggregateField());
+    data.put("totals", getJdbcTemplate().query(stmt, rsExtractor, specification.getFilterField()));
 
-    List<String> locations = getAllLocations();
+    List<String> locations = findAllValues(new ColumnSpecification(Tables.LOCATIONS, SqlStatements.LOCATION));
 
-    stmt = String.format(SqlStatements.GET_ALL_DATA_FOR_LOCATION, field);
+    stmt = String.format(SqlStatements.GET_ALL_DATA_FOR_LOCATION, specification.getAggregateField());
     for (String location : locations) {
-      Map<String, Long> amounts = getJdbcTemplate().query(stmt, rsExtractor, location);
-      data.put(location, amounts);
+      data.put(location, getJdbcTemplate().query(stmt, rsExtractor, location, specification.getFilterField()));
     }
 
     return data;
@@ -220,110 +189,51 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
 
   @Override
-  public long getId(String tableName, String columnName, String value) {
-    Long count = getCount(tableName, columnName, value);
+  public long findIdForValue(IdSpecification specification) {
+    Long count = getCount(specification.getTable(), specification.getColumn(), specification.getValue());
     if (count == 0) {
       return -1;
     }
-    String stmt = String.format(SqlStatements.GET_ID, tableName, columnName);
-    Long id = getJdbcTemplate().queryForObject(stmt, Long.class, value);
-    LOGGER.info("Retrieved ID for value [" + value + "] from table [" + tableName + "]: " + id);
+    String stmt = String.format(SqlStatements.GET_ID, specification.getTable(), specification.getColumn(),
+        specification.getValue());
+    Long id = getJdbcTemplate().queryForObject(stmt, Long.class);
     return id == null ? -1 : id;
   }
 
 
   @Override
-  public List<String> getAllGrantStatuses() {
-    List<String> statuses = getJdbcTemplate().queryForList(SqlStatements.GET_ALL_STATUSES, String.class);
-    LOGGER.info("Found " + statuses.size() + " grant statuses.");
-    return statuses;
-  }
-
-
-  @Override
-  public List<String> getAllGrantTypes() {
-    List<String> types = getJdbcTemplate().queryForList(SqlStatements.GET_ALL_GRANT_TYPES, String.class);
-    LOGGER.info("Found " + types.size() + " grant type(s).");
-    return types;
-  }
-
-
-  @Override
-  public List<String> getAllLocations() {
-    List<String> locations = getJdbcTemplate().queryForList(SqlStatements.GET_ALL_LOCATIONS, String.class);
-    LOGGER.info("Found " + locations.size() + " location(s).");
-    return locations;
-  }
-
-
-  @Override
-  public List<String> getAllOrganizations() {
-    List<String> organizations = getJdbcTemplate().queryForList(SqlStatements.GET_ALL_ORGANIZATIONS, String.class);
-    LOGGER.info("Found " + organizations.size() + " organization(s).");
-    return organizations;
-  }
-
-
-  @Override
-  public List<String> getAllProjects() {
-    List<String> projects = getJdbcTemplate().queryForList(SqlStatements.GET_ALL_PROJECTS, String.class);
-    LOGGER.info("Found " + projects.size() + " project(s).");
-    return projects;
-  }
-
-
-  @Override
-  public List<String> getAllStrategicPriorities() {
-    List<String> priorities = getJdbcTemplate().queryForList(SqlStatements.GET_ALL_STRATEGIC_PRIORITIES, String.class);
-    LOGGER.info("Found " + priorities.size() + " strategic priorit(ies).");
-    return priorities;
-  }
-
-
-  @Override
-  public List<String> getAllStrategicResults() {
-    List<String> results = getJdbcTemplate().queryForList(SqlStatements.GET_ALL_STRATEGIC_RESULTS, String.class);
-    LOGGER.info("Found " + results.size() + " strategic result(s).");
-    return results;
-  }
-
-
-  @Override
-  public List<String> getAllFiscalYears() {
-    List<String> years = getJdbcTemplate().queryForList(SqlStatements.GET_ALL_FISCAL_YEARS, String.class);
-    LOGGER.info("Found " + years.size() + " fiscal year(s).");
-    return years;
+  public List<String> findAllValues(ColumnSpecification specification) {
+    return getJdbcTemplate().queryForList(specification.toSqlClause(), String.class);
   }
 
 
   private long saveValue(String tableName, String columnName, String value) {
-    long id = getId(tableName, columnName, value);
+    IdSpecification specification = new IdSpecification(tableName, columnName, value);
+    long id = findIdForValue(specification);
     if (id != -1) {
       return id;
     }
     String stmt = String.format(SqlStatements.INSERT_INTO, tableName, columnName);
     if (getJdbcTemplate().update(stmt, value) > 0) {
-      LOGGER.info("Successfully saved value [" + value + "] into table [" + tableName + "].");
-      return getId(tableName, columnName, value);
+      return findIdForValue(specification);
     }
     return -1;
   }
 
 
-  private String getValue(String tableName, String columnName, long id) {
-    long count = getCount(tableName, "ID", Long.toString(id));
+  private String getValue(String tableName, String columnName, String id) {
+    long count = getCount(tableName, "ID", id);
     if (count == 0) {
       return "";
     }
     String stmt = String.format(SqlStatements.GET_VALUE, columnName, tableName);
     String data = getJdbcTemplate().queryForObject(stmt, String.class, id);
-    LOGGER.info("Retrieved data for ID [" + id + "] from table [" + tableName + "]: " + data);
     return data == null ? "" : data;
   }
 
 
   private long getCount(String tableName, String columnName, String value) {
-    String stmt = String.format(SqlStatements.COUNT, tableName, columnName);
+    String stmt = String.format(SqlStatements.COUNT, tableName) + "WHERE " + columnName + " = ?";
     return getJdbcTemplate().queryForObject(stmt, Long.class, value);
   }
 

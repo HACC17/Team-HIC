@@ -10,9 +10,9 @@ public interface GrantsService {
 
   List<Grant> getGrants(Map<String, Object> filters);
 
-  List<Grant> getTopFiveOrganizationsForFiscalYear(String year);
+  List<Map<String, Object>> getTopFiveOrganizationsForFiscalYear(String year);
 
-  List<Map<String, Object>> getTopNGrants(int top, String field1, String field2);
+  List<Map<String, Object>> getTopNData(int top, String field1, String field2);
 
   List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field);
 

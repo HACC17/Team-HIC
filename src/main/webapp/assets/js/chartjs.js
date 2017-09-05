@@ -70,13 +70,13 @@ function createFiscalYearPieChart(data, year) {
         }
         $.each(json, function(index, value) {
             if (index < 5) {
-                dataset.push(json[index].amount);
+                dataset.push(json[index].value);
             }
         });
         fiscal_year_data_map[year] = dataset;
         $.each(json, function(index, value) {
             if (index < 5) {
-                labels.push(json[index].organization);
+                labels.push(json[index].key);
             }
         });
         fiscal_year_labels_map[year] = labels;

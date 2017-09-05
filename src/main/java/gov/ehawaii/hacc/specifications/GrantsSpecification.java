@@ -1,4 +1,4 @@
-package gov.ehawaii.hacc.dao.impl;
+package gov.ehawaii.hacc.specifications;
 
 public interface GrantsSpecification {
 

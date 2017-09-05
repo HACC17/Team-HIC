@@ -1,46 +1,37 @@
 package gov.ehawaii.hacc.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import gov.ehawaii.hacc.dao.GrantsDao;
+import gov.ehawaii.hacc.dao.impl.Filters;
 import gov.ehawaii.hacc.dao.impl.SqlStatements;
+import gov.ehawaii.hacc.dao.impl.Tables;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.service.GrantsService;
+import gov.ehawaii.hacc.specifications.ColumnSpecification;
+import gov.ehawaii.hacc.specifications.DrilldownLocationSpecification;
+import gov.ehawaii.hacc.specifications.FilteredGrantsSpecification;
+import gov.ehawaii.hacc.specifications.IdSpecification;
+import gov.ehawaii.hacc.specifications.OrganizationSpecification;
+import gov.ehawaii.hacc.specifications.TopNFiscalYearSpecification;
+import gov.ehawaii.hacc.specifications.TopNSpecification;
 
 @Service
 public class GrantsServiceImpl implements GrantsService {
 
-  private static final Map<String, String> FILTERS_MAP = new HashMap<>();
-  static {
-    FILTERS_MAP.put("status", SqlStatements.GRANT_STATUS_ID);
-    FILTERS_MAP.put("type", SqlStatements.GRANT_TYPE_ID);
-    FILTERS_MAP.put("organization", SqlStatements.ORGANIZATION_ID);
-    FILTERS_MAP.put("project", SqlStatements.PROJECT_ID);
-    FILTERS_MAP.put("location", SqlStatements.LOCATION_ID);
-    FILTERS_MAP.put("priority", SqlStatements.STRATEGIC_PRIORITY_ID);
-    FILTERS_MAP.put("result", SqlStatements.STRATEGIC_RESULTS_ID);
-    FILTERS_MAP.put("fiscal-gte", SqlStatements.FISCAL_YEAR_GTE);
-    FILTERS_MAP.put("fiscal-lte", SqlStatements.FISCAL_YEAR_LTE);
-    FILTERS_MAP.put("amount-gte", SqlStatements.AMOUNT_GTE);
-    FILTERS_MAP.put("amount-lte", SqlStatements.AMOUNT_LTE);
-    FILTERS_MAP.put("total-gte", SqlStatements.TOTAL_NUMBER_SERVED_GTE);
-    FILTERS_MAP.put("total-lte", SqlStatements.TOTAL_NUMBER_SERVED_LTE);
-    FILTERS_MAP.put("hawaiians-gte", SqlStatements.NUMBER_NATIVE_HAWAIIANS_SERVED_GTE);
-    FILTERS_MAP.put("hawaiians-lte", SqlStatements.NUMBER_NATIVE_HAWAIIANS_SERVED_LTE);
-  }
-
   @Autowired
   private GrantsDao dao;
 
+
   @Override
   public boolean saveGrant(Grant grant) {
-    return dao.saveGrant(grant);
+    return dao.insertGrant(grant);
   }
+
 
   @Override
   public List<Grant> getGrants(Map<String, Object> filters) {
@@ -49,7 +40,7 @@ public class GrantsServiceImpl implements GrantsService {
 
     for (Entry<String, Object> entry : filters.entrySet()) {
       if (entry.getValue() != null && !entry.getValue().toString().isEmpty()) {
-        String key = FILTERS_MAP.get(entry.getKey());
+        String key = Filters.FILTERS_MAP.get(entry.getKey());
         if (key == null) {
           throw new IllegalArgumentException(entry.getKey() + " filter not supported, yet.");
         }
@@ -57,26 +48,26 @@ public class GrantsServiceImpl implements GrantsService {
 
         String value = entry.getValue().toString();
         switch (key) {
-        case SqlStatements.GRANT_STATUS_ID:
-          arguments.add(dao.getId(SqlStatements.GRANT_STATUSES, SqlStatements.STATUS, value));
+        case Filters.GRANT_STATUS_ID_FILTER:
+          arguments.add(getId(Tables.GRANT_STATUSES, SqlStatements.STATUS, value));
           break;
-        case SqlStatements.GRANT_TYPE_ID:
-          arguments.add(dao.getId(SqlStatements.GRANT_TYPES, SqlStatements.GRANT_TYPE, value));
+        case Filters.GRANT_TYPE_ID_FILTER:
+          arguments.add(getId(Tables.GRANT_TYPES, SqlStatements.GRANT_TYPE, value));
           break;
-        case SqlStatements.ORGANIZATION_ID:
-          arguments.add(dao.getId(SqlStatements.ORGANIZATIONS, SqlStatements.ORGANIZATION, value));
+        case Filters.ORGANIZATION_ID_FILTER:
+          arguments.add(getId(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION, value));
           break;
-        case SqlStatements.PROJECT_ID:
-          arguments.add(dao.getId(SqlStatements.PROJECTS, SqlStatements.PROJECT, value));
+        case Filters.PROJECT_ID_FILTER:
+          arguments.add(getId(Tables.PROJECTS, SqlStatements.PROJECT, value));
           break;
-        case SqlStatements.LOCATION_ID:
-          arguments.add(dao.getId(SqlStatements.LOCATIONS, SqlStatements.LOCATION, value));
+        case Filters.LOCATION_ID_FILTER:
+          arguments.add(getId(Tables.LOCATIONS, SqlStatements.LOCATION, value));
           break;
-        case SqlStatements.STRATEGIC_PRIORITY_ID:
-          arguments.add(dao.getId(SqlStatements.STRATEGIC_PRIORITIES, SqlStatements.STRATEGIC_PRIORITY, value));
+        case Filters.STRATEGIC_PRIORITY_ID_FILTER:
+          arguments.add(getId(Tables.STRATEGIC_PRIORITIES, SqlStatements.STRATEGIC_PRIORITY, value));
           break;
-        case SqlStatements.STRATEGIC_RESULTS_ID:
-          arguments.add(dao.getId(SqlStatements.STRATEGIC_RESULTS, SqlStatements.STRATEGIC_RESULT, value));
+        case Filters.STRATEGIC_RESULTS_ID_FILTER:
+          arguments.add(getId(Tables.STRATEGIC_RESULTS, SqlStatements.STRATEGIC_RESULT, value));
           break;
         default:
           arguments.add(value);
@@ -84,22 +75,38 @@ public class GrantsServiceImpl implements GrantsService {
 
       }
     }
-    String stmt = buffer.toString().trim().replace(" ? ", " ? AND ");
+    String filter = buffer.toString().trim().replace(" ? ", " ? AND ");
+    if (filter.contains("?")) {
+      filter = " WHERE " + filter;
+    }
 
-    return dao.getGrants(stmt, arguments.toArray(new Object[arguments.size()]));
+    return dao.findGrants(
+        new FilteredGrantsSpecification(Tables.GRANTS, filter, arguments.toArray(new Object[arguments.size()])));
   }
 
+
+  private long getId(String table, String column, String value) {
+    return dao.findIdForValue(new IdSpecification(table, column, value));
+  }
+
+
   @Override
-  public List<Grant> getTopFiveOrganizationsForFiscalYear(String year) {
+  public List<Map<String, Object>> getTopFiveOrganizationsForFiscalYear(String year) {
     if (year == null || year.isEmpty()) {
       throw new IllegalArgumentException("year is null or empty.");
     }
 
-    return dao.getTopFiveOrganizationsForFiscalYear(Integer.parseInt(year));
+    int fiscalYear = Integer.parseInt(year);
+    return dao.findTopN(new TopNFiscalYearSpecification(5, Tables.GRANTS, SqlStatements.ORGANIZATION_ID,
+        SqlStatements.AMOUNT, fiscalYear));
   }
 
+
   @Override
-  public List<Map<String, Object>> getTopNGrants(int top, String field1, String field2) {
+  public List<Map<String, Object>> getTopNData(int top, String field1, String field2) {
+    if (top < 1) {
+      throw new IllegalArgumentException("top must be greater than 0.");
+    }
     if (field1 == null || field1.isEmpty()) {
       throw new IllegalArgumentException("field1 is null or empty.");
     }
@@ -107,57 +114,75 @@ public class GrantsServiceImpl implements GrantsService {
       throw new IllegalArgumentException("field2 is null or empty.");
     }
 
-    return dao.getTopNGrants(top, field1, field2);
+    return dao.findTopN(new TopNSpecification(top, Tables.GRANTS, field1 + "_ID", field2));
   }
+
 
   @Override
   public List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field) {
-    return dao.getOrganizationDataOverTime(organization, field);
+    if (organization == null || organization.isEmpty()) {
+      throw new IllegalArgumentException("organization is null or empty.");
+    }
+    if (field == null || field.isEmpty()) {
+      throw new IllegalArgumentException("field is null or empty.");
+    }
+
+    return dao.findDataOverTime(new OrganizationSpecification(organization, field));
   }
+
 
   @Override
   public Map<String, Map<String, Long>> getDataForEachLocation(String year, String field) {
-    return dao.getDataForEachLocation(year, field);
+    return dao.findLocationDataForDrilldown(new DrilldownLocationSpecification(field, year));
   }
+
 
   @Override
   public List<String> getAllGrantStatuses() {
-    return dao.getAllGrantStatuses();
+    return dao.findAllValues(new ColumnSpecification(Tables.GRANT_STATUSES, SqlStatements.GRANT_STATUS));
   }
+
 
   @Override
   public List<String> getAllGrantTypes() {
-    return dao.getAllGrantTypes();
+    return dao.findAllValues(new ColumnSpecification(Tables.GRANT_TYPES, SqlStatements.GRANT_TYPE));
   }
+
 
   @Override
   public List<String> getAllLocations() {
-    return dao.getAllLocations();
+    return dao.findAllValues(new ColumnSpecification(Tables.LOCATIONS, SqlStatements.LOCATION));
   }
+
 
   @Override
   public List<String> getAllOrganizations() {
-    return dao.getAllOrganizations();
+    return dao.findAllValues(new ColumnSpecification(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION));
   }
+
 
   @Override
   public List<String> getAllProjects() {
-    return dao.getAllProjects();
+    return dao.findAllValues(new ColumnSpecification(Tables.PROJECTS, SqlStatements.PROJECT));
   }
+
 
   @Override
   public List<String> getAllStrategicPriorities() {
-    return dao.getAllStrategicPriorities();
+    return dao
+        .findAllValues(new ColumnSpecification(Tables.STRATEGIC_PRIORITIES, SqlStatements.STRATEGIC_PRIORITY));
   }
+
 
   @Override
   public List<String> getAllStrategicResults() {
-    return dao.getAllStrategicResults();
+    return dao.findAllValues(new ColumnSpecification(Tables.STRATEGIC_RESULTS, SqlStatements.STRATEGIC_RESULT));
   }
+
 
   @Override
   public List<String> getAllFiscalYears() {
-    return dao.getAllFiscalYears();
+    return dao.findAllValues(new ColumnSpecification(Tables.GRANTS, SqlStatements.FISCAL_YEAR, true));
   }
 
 }

@@ -29,7 +29,7 @@ public class ChartsController {
       @RequestParam("field2") String field2, HttpServletResponse response) throws IOException {
     int n = Integer.parseInt(top);
     response.getWriter().write(
-        new ObjectMapper().writeValueAsString(grantsService.getTopNGrants(n, field1, field2)));
+        new ObjectMapper().writeValueAsString(grantsService.getTopNData(n, field1, field2)));
   }
 
   @RequestMapping(value = "/time", method = RequestMethod.GET)

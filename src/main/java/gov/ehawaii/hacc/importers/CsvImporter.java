@@ -16,7 +16,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import gov.ehawaii.hacc.dao.GrantsDao;
+import gov.ehawaii.hacc.dao.impl.SqlStatements;
+import gov.ehawaii.hacc.dao.impl.Tables;
 import gov.ehawaii.hacc.model.Grant;
+import gov.ehawaii.hacc.specifications.IdSpecification;
 
 @Component
 public class CsvImporter extends Importer {
@@ -62,8 +65,9 @@ public class CsvImporter extends Importer {
         grant.setStrategicResults(trim(record.get(7)));
         grant.setTotalNumberServed(stringToInt(record.get(8)));
         grant.setNumberNativeHawaiiansServed(stringToInt(record.get(9)));
-        grant.setGrantStatus(dao.getGrantStatusForId(stringToInt(record.get(10))));
-        if (dao.saveGrant(grant)) {
+        grant.setGrantStatus(dao.findValueForId(new IdSpecification(Tables.GRANT_STATUSES,
+            SqlStatements.GRANT_STATUS, record.get(10))));
+        if (dao.insertGrant(grant)) {
           LOGGER.info("Successfully saved grant [" + grant + "] to database.");
           count++;
         }

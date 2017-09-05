@@ -3,6 +3,12 @@ package gov.ehawaii.hacc.dao;
 import java.util.List;
 import java.util.Map;
 import gov.ehawaii.hacc.model.Grant;
+import gov.ehawaii.hacc.specifications.ColumnSpecification;
+import gov.ehawaii.hacc.specifications.DrilldownLocationSpecification;
+import gov.ehawaii.hacc.specifications.FilteredGrantsSpecification;
+import gov.ehawaii.hacc.specifications.IdSpecification;
+import gov.ehawaii.hacc.specifications.OrganizationSpecification;
+import gov.ehawaii.hacc.specifications.TopNSpecification;
 
 /**
  * Implementations of this interface are responsible for:
@@ -25,131 +31,69 @@ public interface GrantsDao {
    * @param grant The grant to save.
    * @return <code>true</code> if the grant was successfully saved, <code>false</code> otherwise.
    */
-  boolean saveGrant(Grant grant);
+  boolean insertGrant(Grant grant);
+
 
   /**
    * Retrieves a list of grants from the database that satisfy the given conditions.
    * 
-   * @param filter The filter to apply to the query that returns a list of grants.
-   * @param arguments The values for the filter.
+   * @param specification Contains the conditions.
    * @return A list of grants that satisfy the given conditions.
    */
-  List<Grant> getGrants(String filter, Object[] arguments);
+  List<Grant> findGrants(FilteredGrantsSpecification specification);
+
 
   /**
-   * Sums the amounts for each organization for the given fiscal year and returns a list of the top
-   * five organizations.
+   * Retrieves the top N data (e.g. top 10 organizations by total number of people served).
    * 
-   * @param fiscalYear The fiscal year.
-   * @return A list of the top five organizations.
+   * @param specification Contains the filter that is applied to the query used to retrieve the top N data.
+   * @return A map containing the top N data.
    */
-  List<Grant> getTopFiveOrganizationsForFiscalYear(int fiscalYear);
+  List<Map<String, Object>> findTopN(TopNSpecification specification);
+
 
   /**
-   * Retrieves the top N (<code>top</code>) organizations, projects, locations, etc.
-   * (<code>field1</code>) based on the given data (e.g. amounts, total number of people served, or
-   * number of Native Hawaiians served) (<code>field2</code>).
+   * Retrieves the value associated with the given ID from the given table.
    * 
-   * @param top N, a number greater than 0.
-   * @param field1 Organization, project, location, etc.
-   * @param field2 The type of data (amounts, total number of people served, etc.) to retrieve.
-   * @return A map containing the top <code>top</code> organizations or projects.
+   * @param specification Contains the ID for which to retrieve the value.
+   * @return The value, or an empty string if the given ID is not associated with any values.
    */
-  List<Map<String, Object>> getTopNGrants(int top, String field1, String field2);
+  String findValueForId(IdSpecification specification);
+
 
   /**
-   * Retrieves the grant status associated with the given ID.
+   * Retrieves all the data for an organization over a period of time.
    * 
-   * @param grantStatusId The ID for which to retrieve the status.
-   * @return The status, or an empty string if the given ID is not associated with any status.
+   * @param specification Contains the filter that is applied to the query used to retrieve data for an organization.
+   * @return A list containing the data for the given organization over a period of time.
    */
-  String getGrantStatusForId(long grantStatusId);
+  List<Map<String, Long>> findDataOverTime(OrganizationSpecification specification);
+
 
   /**
-   * Retrieves the given data (e.g. amounts, total number of people served, or number of Native
-   * Hawaiians served) for the given organization for all the fiscal years.
+   * Retrieves all the data for each location for the given fiscal year.
    * 
-   * @param organization The organization for which to retrieve the data.
-   * @param field The type of data (amounts, total number of people served, etc.) to retrieve.
-   * @return A list containing the data for the given organization for all the fiscal years.
+   * @param specification Contains the filter that is applied to the query used to retrieve data for each location.
+   * @return A map containing all the data for each location for the given fiscal year.
    */
-  List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field);
+  Map<String, Map<String, Long>> findLocationDataForDrilldown(DrilldownLocationSpecification specification);
 
-  /**
-   * Retrieves all the data (e.g. amounts, total number of people served, and number of Native
-   * Hawaiians served) for each location (e.g. Oahu, Hawaii, Statewide, etc.) stored in the database
-   * for the given fiscal year.
-   * 
-   * @param year The fiscal year.
-   * @param field The type of data (amounts, total number of people served, etc.) to retrieve.
-   * @return A map containing all the data for each location for the given year.
-   */
-  Map<String, Map<String, Long>> getDataForEachLocation(String year, String field);
 
   /**
    * Retrieves the ID associated with the given value from the given table.
    * 
-   * @param tableName The table that contains the given value.
-   * @param columnName The column in which the given value is located.
-   * @param value The value.
+   * @param specification Contains the value for which to retrieve the ID.
    * @return The ID associated with the given value, or -1 if the ID is not found.
    */
-  long getId(String tableName, String columnName, String value);
+  long findIdForValue(IdSpecification specification);
+
 
   /**
-   * Retrieves a list of all grant statuses from the database.
+   * Retrieves a list of all values found in a column from a table.
    * 
-   * @return A list of grant statuses.
+   * @param specification Contains the name of the table and column from which to retrieve values.
+   * @return A list of all values found in the column from the table.
    */
-  List<String> getAllGrantStatuses();
-
-  /**
-   * Retrieves a list of all grant types from the database.
-   * 
-   * @return A list of grant types.
-   */
-  List<String> getAllGrantTypes();
-
-  /**
-   * Retrieves a list of all locations from the database.
-   * 
-   * @return A list of locations.
-   */
-  List<String> getAllLocations();
-
-  /**
-   * Retrieves a list of all organizations from the database.
-   * 
-   * @return A list of organizations.
-   */
-  List<String> getAllOrganizations();
-
-  /**
-   * Retrieves a list of all projects from the database.
-   * 
-   * @return A list of projects.
-   */
-  List<String> getAllProjects();
-
-  /**
-   * Retrieves a list of strategic priorities from the database.
-   * 
-   * @return A list of strategic priorities.
-   */
-  List<String> getAllStrategicPriorities();
-
-  /**
-   * Retrieves a list of strategic results from the database.
-   * 
-   * @return A list of strategic results.
-   */
-  List<String> getAllStrategicResults();
-
-  /**
-   * Retrieves a list of fiscal years from the database.
-   * 
-   * @return A list of fiscal years.
-   */
-  List<String> getAllFiscalYears();
+  List<String> findAllValues(ColumnSpecification specification);
 
 }
