@@ -42,20 +42,31 @@ $(document).ready(function() {
                 }
             });
 
+            localStorage.setItem("totals", JSON.stringify(series));
+            localStorage.setItem("drilldown", JSON.stringify(drilldown));
+
             var format = '{point.name}: ${point.y}';
             var pointY = '${point.y}'
+            var isFiscal = true;
+
             if (field != "AMOUNT") {
                 format = '{point.name}: {point.y}';
                 pointY = '{point.y}';
+                isFiscal = false;
             }
 
+            localStorage.setItem("isFiscal", isFiscal);
+
+            var title = $("#drilldownField option:selected").text() + ' for Each Location (' + fiscalYear + ')';
+            localStorage.setItem("title", title);
+
             // Create the chart
-            Highcharts.chart('locations-pie-chart', {
+            var chart = Highcharts.chart('locations-pie-chart', {
                 chart: {
                     type: 'pie'
                 },
                 title: {
-                    text: $("#drilldownField option:selected").text() + ' for Each Location (' + fiscalYear + ')'
+                    text: title
                 },
                 subtitle: {
                     text: 'Click on a slice to view the location in more detail.'
@@ -83,6 +94,12 @@ $(document).ready(function() {
                     series: drilldown
                 }
             });
+
+            canvg(document.getElementById("locations-pie-chart-canvas"), chart.getSVG());
+
+            var canvas = document.getElementById("locations-pie-chart-canvas");
+            var img = canvas.toDataURL("image/png");
+            $("#locations-pie-chart-base64").val(img.substring(img.indexOf(',') + 1));
 
         });
     });

@@ -24,6 +24,7 @@ public final class PdfUtils {
 
   public static final float PIE_CHART_IMAGE_SCALE_PERCENT = 30.0f;
   public static final float LINE_CHART_IMAGE_SCALE_PERCENT = 19.0f;
+  public static final float LOCATIONS_PIE_CHART_IMAGE_SCALE_PERCENT = 80.0f;
 
   private PdfUtils() {
   }

@@ -130,6 +130,16 @@
     </div>
 </div>
 
+<div class="row extra-extra-top-margin">
+    <div class="col-md-12">
+        <button id="locationsReportBtn" class="btn btn-md btn-primary">Download Report</button>
+    </div>
+</div>
+
+<canvas id="locations-pie-chart-canvas" style="display: none"></canvas>
+
+<input type="hidden" id="locations-pie-chart-base64" value="" />
+
 <c:set var="req" value="${pageContext.request}" />
 <c:set var="url" value="${req.scheme}://${req.serverName}:${req.serverPort}" />
 
@@ -152,10 +162,10 @@
                 data: {
                     base64 : $("#fiscal-chart-base64").val(),
                     year : year,
-                    columnOne: "Organization",
+                    columnOne : "Organization",
                     columnTwo : "Total Amount of Money",
-                    dataset: dataset,
-                    labels: labels
+                    dataset : dataset,
+                    labels : labels
                 },
                 contentType: 'application/json',
                 accept: 'application/pdf',
@@ -191,11 +201,11 @@
                 data: {
                     base64 : $("#top-chart-base64").val(),
                     n : n,
-                    columnOne: columnOne,
+                    columnOne : columnOne,
                     columnTwo : columnTwo,
-                    dataset: dataset,
-                    labels: labels,
-                    isFiscal: isFiscal
+                    dataset : dataset,
+                    labels : labels,
+                    isFiscal : isFiscal
                 },
                 contentType: 'application/json',
                 accept: 'application/pdf',
@@ -228,11 +238,11 @@
                 data: {
                     base64 : $("#over-time-chart-base64").val(),
                     organization : $("#org1_2").val(),
-                    columnOne: "Year",
+                    columnOne : "Year",
                     columnTwo : columnTwo,
-                    dataset: dataset,
-                    labels: labels,
-                    isFiscal: isFiscal
+                    dataset : dataset,
+                    labels : labels,
+                    isFiscal : isFiscal
                 },
                 contentType: 'application/json',
                 accept: 'application/pdf',
@@ -241,6 +251,42 @@
                 },
                 success: function(response) {
                   download("data:application/pdf;base64," + response, $("#org1_2").val().replace(/ /g,"_") + "-report.pdf", "application/pdf");
+                }
+            });
+        });
+        $("#locationsReportBtn").click(function(event) {
+            event.preventDefault();
+            var totals = localStorage.getItem("totals");
+            var drilldown = localStorage.getItem("drilldown");
+            var year = $("#fiscalYearSelect").val();
+            var columnTwo;
+            if ($("#org1_1").val() == "AMOUNT") {
+                columnTwo = "Amount of Money";
+            } else if ($("#org1_1").val() == "TOTAL_NUMBER_SERVED") {
+                columnTwo = "Number of People Served";
+            } else {
+                columnTwo = "Number of Native Hawaiians Served";
+            }
+            $.ajax({
+                type: 'POST',
+                url: "<c:out value='${url}' /><c:url value='/' />reports/locations",
+                data: {
+                    base64 : $("#locations-pie-chart-base64").val(),
+                    year : year,
+                    title : localStorage.getItem("title"),
+                    columnOne : "Location",
+                    columnTwo : columnTwo,
+                    totals : totals,
+                    drilldown : drilldown,
+                    isFiscal : localStorage.getItem("isFiscal")
+                },
+                contentType: 'application/json',
+                accept: 'application/pdf',
+                headers: {
+                    'X-CSRF-TOKEN': "<c:out value='${_csrf.token}' />"
+                },
+                success: function(response) {
+                  download("data:application/pdf;base64," + response, year + "-locations-report.pdf", "application/pdf");
                 }
             });
         });
