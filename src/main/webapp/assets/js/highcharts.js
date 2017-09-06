@@ -106,11 +106,16 @@ $(document).ready(function() {
 
     $("#fiscalYearSelect2").trigger("change");
 
-    $("#fiscalYearSelect3, #barChartFilter1, #barChartFilter2").change(function() {
-        
+    $("#fiscalYearSelect3, #stackedBarChartFilter").change(function() {
+        var year = $("#fiscalYearSelect3").val();
+        var field = $("#stackedBarChartFilter").val();
+
+        $.get(baseUrl + "charts/fiscalYearTop?top=5&year=" + year + "&field="+ field, function(data, status) {
+            console.log(data);
+        });
     });
 
-    Highcharts.chart('number-native-hawaiians-served-chart', {
+    Highcharts.chart('top-5-orgs-chart', {
         chart: {
             type: 'bar'
         },

@@ -305,7 +305,7 @@ $(document).ready(function() {
         if (fiscal_year_data_map[year].length > 0) {
             createFiscalYearPieChart(null, year);
         } else {
-            $.get(baseUrl + "charts/fiscalYear?year=" + $('#fiscalYearSelect :selected').val(), function(data, status) {
+            $.get(baseUrl + "charts/fiscalYear?year=" + year, function(data, status) {
                 createFiscalYearPieChart(data, year);
             });
         }

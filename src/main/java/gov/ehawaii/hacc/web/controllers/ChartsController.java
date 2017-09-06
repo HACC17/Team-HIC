@@ -48,4 +48,12 @@ public class ChartsController {
         grantsService.getAggregateDataForEachLocation(aggregateField, filter, filterValue)));
   }
 
+  @RequestMapping(value = "/fiscalYearTop", method = RequestMethod.GET)
+  public void getTopNDataForEachLocation(@RequestParam("top") String top,
+      @RequestParam("year") String year, @RequestParam("field") String field,
+      HttpServletResponse response) throws IOException {
+    response.getWriter().write(new ObjectMapper().writeValueAsString(
+        grantsService.getTopNDataForEachLocation(Integer.parseInt(top), field, "fiscal", year)));
+  }
+
 }

@@ -143,14 +143,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <select id="barChartFilter1" class="form-control">
-                    <c:forEach var="location" items="${locations}">
-                        <option value="${location}"><c:out value="${location}" /></option>
-                    </c:forEach>
-                </select>
-            </div>
-            <div class="form-group">
-                <select id="barChartFilter2" class="form-control">
+                <select id="stackedBarChartFilter" class="form-control">
                     <option value="AMOUNT" selected>Total Amount of Money</option>
                     <option value="TOTAL_NUMBER_SERVED">Total Number of People Served</option>
                     <option value="NUMBER_NATIVE_HAWAIIANS_SERVED">Total Number of Native Hawaiians Served</option>
@@ -165,7 +158,7 @@
 
 <div class="row extra-top-margin">
     <div class="col-md-12">
-        <div id="number-native-hawaiians-served-chart" class="width: 100%; height: 100%"></div>
+        <div id="top-5-orgs-chart" class="width: 100%; height: 100%"></div>
     </div>
 </div>
 
