@@ -3,7 +3,7 @@ package gov.ehawaii.hacc.specifications;
 import lombok.Getter;
 
 @Getter
-public class ColumnSpecification implements GrantsSpecification {
+public class ColumnSpecification implements SqlSpecification {
 
   private final String table;
   private final String column;
@@ -19,6 +19,21 @@ public class ColumnSpecification implements GrantsSpecification {
     this.table = table;
     this.column = column;
     this.distinct = distinct;
+  }
+
+  @Override
+  public String getTable() {
+    return table;
+  }
+
+  @Override
+  public String getColumn() {
+    return column;
+  }
+
+  @Override
+  public Object getValue() {
+    throw new UnsupportedOperationException("This method is not supported.");
   }
 
   @Override

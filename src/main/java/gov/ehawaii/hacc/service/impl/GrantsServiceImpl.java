@@ -6,15 +6,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import gov.ehawaii.hacc.dao.GrantsDao;
-import gov.ehawaii.hacc.dao.impl.Filters;
-import gov.ehawaii.hacc.dao.impl.SqlStatements;
-import gov.ehawaii.hacc.dao.impl.Tables;
 import gov.ehawaii.hacc.model.Grant;
+import gov.ehawaii.hacc.repositories.GrantsRepository;
+import gov.ehawaii.hacc.repositories.impl.Filters;
+import gov.ehawaii.hacc.repositories.impl.SqlStatements;
+import gov.ehawaii.hacc.repositories.impl.Tables;
 import gov.ehawaii.hacc.service.GrantsService;
+import gov.ehawaii.hacc.specifications.AggregateSpecification;
 import gov.ehawaii.hacc.specifications.ColumnSpecification;
-import gov.ehawaii.hacc.specifications.AggregateDataSpecification;
-import gov.ehawaii.hacc.specifications.FilteredGrantsSpecification;
+import gov.ehawaii.hacc.specifications.FilteredSpecification;
 import gov.ehawaii.hacc.specifications.IdSpecification;
 import gov.ehawaii.hacc.specifications.TimeSeriesSpecification;
 import gov.ehawaii.hacc.specifications.TopNFiscalYearSpecification;
@@ -24,7 +24,7 @@ import gov.ehawaii.hacc.specifications.TopNSpecification;
 public class GrantsServiceImpl implements GrantsService {
 
   @Autowired
-  private GrantsDao dao;
+  private GrantsRepository dao;
 
 
   @Override
@@ -78,7 +78,7 @@ public class GrantsServiceImpl implements GrantsService {
     String filter = buffer.toString().trim().replace(" ? ", " ? AND ");
     Object[] filterValues = arguments.toArray(new Object[arguments.size()]);
 
-    return dao.findGrants(new FilteredGrantsSpecification(Tables.GRANTS, filter, filterValues));
+    return dao.findGrants(new FilteredSpecification(Tables.GRANTS, filter, filterValues));
   }
 
 
@@ -125,16 +125,16 @@ public class GrantsServiceImpl implements GrantsService {
 
     return dao.findTimeSeriesData(
         new TimeSeriesSpecification(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION, organization,
-            SqlStatements.GET_DATA_FOR_ORG_FOR_EACH_FISCAL_YEAR, field));
+            SqlStatements.GET_AGGREGATE_DATA_FOR_ORGANIZATION, field));
   }
 
 
   @Override
   public Map<String, Map<String, Long>> getAggregateDataForEachLocation(String aggregateField,
       String filter, String filterValue) {
-    return dao.findAggregateData(new AggregateDataSpecification(
+    return dao.findAggregateData(new AggregateSpecification(
         SqlStatements.GET_TOTAL_FOR_EACH_LOCATION, SqlStatements.GET_ALL_DATA_FOR_LOCATION,
-        aggregateField, new String[] { filter }, new String[] { filterValue }));
+        aggregateField, new String[] { filter }, new Object[] { filterValue }));
   }
 
 

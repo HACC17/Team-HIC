@@ -1,4 +1,4 @@
-package gov.ehawaii.hacc.dao.impl;
+package gov.ehawaii.hacc.repositories.impl;
 
 import java.util.Collections;
 import java.util.HashMap;

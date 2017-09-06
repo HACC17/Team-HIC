@@ -1,14 +1,9 @@
-package gov.ehawaii.hacc.dao;
+package gov.ehawaii.hacc.repositories;
 
 import java.util.List;
 import java.util.Map;
 import gov.ehawaii.hacc.model.Grant;
-import gov.ehawaii.hacc.specifications.ColumnSpecification;
-import gov.ehawaii.hacc.specifications.AggregateDataSpecification;
-import gov.ehawaii.hacc.specifications.FilteredGrantsSpecification;
-import gov.ehawaii.hacc.specifications.IdSpecification;
-import gov.ehawaii.hacc.specifications.TimeSeriesSpecification;
-import gov.ehawaii.hacc.specifications.TopNSpecification;
+import gov.ehawaii.hacc.specifications.Specification;
 
 /**
  * Implementations of this interface are responsible for:
@@ -23,7 +18,7 @@ import gov.ehawaii.hacc.specifications.TopNSpecification;
  * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
  * @version 1.0
  */
-public interface GrantsDao {
+public interface GrantsRepository {
 
   /**
    * Saves the given grant to the underlying database.
@@ -40,7 +35,7 @@ public interface GrantsDao {
    * @param specification Contains the conditions.
    * @return A list of grants that satisfy the given conditions.
    */
-  List<Grant> findGrants(FilteredGrantsSpecification specification);
+  List<Grant> findGrants(Specification specification);
 
 
   /**
@@ -49,7 +44,7 @@ public interface GrantsDao {
    * @param specification Contains the filter that is applied to the query used to retrieve the top N data.
    * @return A map containing the top N data.
    */
-  List<Map<String, Object>> findTopN(TopNSpecification specification);
+  List<Map<String, Object>> findTopN(Specification specification);
 
 
   /**
@@ -58,7 +53,7 @@ public interface GrantsDao {
    * @param specification Contains the ID for which to retrieve the value.
    * @return The value, or an empty string if the given ID is not associated with any values.
    */
-  String findValueForId(IdSpecification specification);
+  String findValueForId(Specification specification);
 
 
   /**
@@ -67,7 +62,7 @@ public interface GrantsDao {
    * @param specification Contains the query and aggregate field used to retrieve time series data.
    * @return A list containing time series data.
    */
-  List<Map<String, Long>> findTimeSeriesData(TimeSeriesSpecification specification);
+  List<Map<String, Long>> findTimeSeriesData(Specification specification);
 
 
   /**
@@ -77,7 +72,7 @@ public interface GrantsDao {
    * @param specification Contains the queries and filters that are used to retrieve data for each location.
    * @return A map containing all the data for each location for the given fiscal year.
    */
-  Map<String, Map<String, Long>> findAggregateData(AggregateDataSpecification specification);
+  Map<String, Map<String, Long>> findAggregateData(Specification specification);
 
 
   /**
@@ -86,7 +81,7 @@ public interface GrantsDao {
    * @param specification Contains the value for which to retrieve the ID.
    * @return The ID associated with the given value, or -1 if the ID is not found.
    */
-  long findIdForValue(IdSpecification specification);
+  long findIdForValue(Specification specification);
 
 
   /**
@@ -95,6 +90,6 @@ public interface GrantsDao {
    * @param specification Contains the name of the table and column from which to retrieve values.
    * @return A list of all values found in the column from the table.
    */
-  List<String> findAllValues(ColumnSpecification specification);
+  List<String> findAllValues(Specification specification);
 
 }

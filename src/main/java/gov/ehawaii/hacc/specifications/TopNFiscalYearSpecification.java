@@ -1,6 +1,12 @@
 package gov.ehawaii.hacc.specifications;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import gov.ehawaii.hacc.repositories.impl.SqlStatements;
+
 public class TopNFiscalYearSpecification extends TopNSpecification {
+
+  private static final Logger LOGGER = LogManager.getLogger(TopNFiscalYearSpecification.class);
 
   private final int fiscalYear;
 
@@ -11,7 +17,11 @@ public class TopNFiscalYearSpecification extends TopNSpecification {
 
   @Override
   public String toSqlClause() {
-    return String.format("WHERE FISCAL_YEAR = %d %s", fiscalYear, super.toSqlClause());
+    String stmt = String.format(
+        SqlStatements.GET_TOP_N_DATA + " WHERE FISCAL_YEAR = %d GROUP BY %s, %s ORDER BY %s DESC LIMIT %d",
+        getColumn1(), getColumn2(), fiscalYear, getColumn1(), getColumn2(), getColumn2(), getN());
+    LOGGER.info("SQL Statement: " + stmt);
+    return stmt;
   }
 
 }

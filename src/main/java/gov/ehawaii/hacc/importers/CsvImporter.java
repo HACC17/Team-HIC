@@ -15,10 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import gov.ehawaii.hacc.dao.GrantsDao;
-import gov.ehawaii.hacc.dao.impl.SqlStatements;
-import gov.ehawaii.hacc.dao.impl.Tables;
 import gov.ehawaii.hacc.model.Grant;
+import gov.ehawaii.hacc.repositories.GrantsRepository;
+import gov.ehawaii.hacc.repositories.impl.SqlStatements;
+import gov.ehawaii.hacc.repositories.impl.Tables;
 import gov.ehawaii.hacc.specifications.IdSpecification;
 
 @Component
@@ -29,7 +29,7 @@ public class CsvImporter extends Importer {
   private static final int NUMBER_OF_COLUMNS = 11;
 
   @Autowired
-  private GrantsDao dao;
+  private GrantsRepository dao;
 
   @Value(value = "classpath:data/2013_2016_data.csv")
   private Resource csvFile;

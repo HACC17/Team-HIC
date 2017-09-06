@@ -3,7 +3,7 @@ package gov.ehawaii.hacc.specifications;
 import lombok.Getter;
 
 @Getter
-public class TimeSeriesSpecification implements GrantsSpecification {
+public class TimeSeriesSpecification implements SqlSpecification {
 
   private final String table;
   private final String column;
@@ -22,8 +22,23 @@ public class TimeSeriesSpecification implements GrantsSpecification {
   }
 
   @Override
+  public String getTable() {
+    return table;
+  }
+
+  @Override
+  public String getColumn() {
+    return column;
+  }
+
+  @Override
+  public Object getValue() {
+    return value;
+  }
+
+  @Override
   public String toSqlClause() {
-    return " GROUP BY FISCAL_YEAR ORDER BY FISCAL_YEAR ASC";
+    return timeSeriesQuery + " GROUP BY FISCAL_YEAR ORDER BY FISCAL_YEAR ASC";
   }
 
 }

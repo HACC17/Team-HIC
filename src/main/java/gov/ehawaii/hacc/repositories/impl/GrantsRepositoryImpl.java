@@ -1,4 +1,4 @@
-package gov.ehawaii.hacc.dao.impl;
+package gov.ehawaii.hacc.repositories.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,19 +15,21 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
-import gov.ehawaii.hacc.dao.GrantsDao;
 import gov.ehawaii.hacc.model.Grant;
-import gov.ehawaii.hacc.specifications.AggregateDataSpecification;
+import gov.ehawaii.hacc.repositories.GrantsRepository;
+import gov.ehawaii.hacc.specifications.AggregateSpecification;
 import gov.ehawaii.hacc.specifications.ColumnSpecification;
-import gov.ehawaii.hacc.specifications.FilteredGrantsSpecification;
+import gov.ehawaii.hacc.specifications.FilteredSpecification;
 import gov.ehawaii.hacc.specifications.IdSpecification;
+import gov.ehawaii.hacc.specifications.Specification;
+import gov.ehawaii.hacc.specifications.SqlSpecification;
 import gov.ehawaii.hacc.specifications.TimeSeriesSpecification;
 import gov.ehawaii.hacc.specifications.TopNSpecification;
 
-@Repository("GrantsDao")
-public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
+@Repository("GrantsRepository")
+public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsRepository {
 
-  private static final Logger LOGGER = LogManager.getLogger(GrantsDaoImpl.class);
+  private static final Logger LOGGER = LogManager.getLogger(GrantsRepositoryImpl.class);
 
   private final RowMapper<Grant> rowMapper = (rs, rowNum) -> {
     Grant grant = new Grant();
@@ -84,35 +86,43 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
 
   @Override
-  public List<Grant> findGrants(FilteredGrantsSpecification specification) {
-    String countStmt = String.format(SqlStatements.COUNT, specification.getTable()) + specification.toSqlClause();
-    Long count = getJdbcTemplate().queryForObject(countStmt, Long.class, specification.getArguments());
+  public List<Grant> findGrants(Specification specification) {
+    FilteredSpecification filteredSpecification = (FilteredSpecification) specification;
+
+    Object[] arguments = filteredSpecification.getArguments();
+
+    String countStmt = String.format(SqlStatements.COUNT, filteredSpecification.getTable());
+    countStmt = countStmt + filteredSpecification.toSqlClause();
+    Long count = getJdbcTemplate().queryForObject(countStmt, Long.class, arguments);
     if (count == 0) {
       return new ArrayList<>();
     }
+
     List<Grant> grants;
-    String select = SqlStatements.GET_ALL_GRANTS + specification.toSqlClause();
+    String selectStmt = String.format(SqlStatements.GET_ALL_GRANTS, filteredSpecification.getTable());
+    selectStmt = selectStmt + filteredSpecification.toSqlClause();
     if (count > 1) {
-      grants = getJdbcTemplate().query(select, rowMapper, specification.getArguments());
+      grants = getJdbcTemplate().query(selectStmt, rowMapper, arguments);
     }
     else {
       grants = new ArrayList<>();
-      grants.add(getJdbcTemplate().queryForObject(select, rowMapper, specification.getArguments()));
+      grants.add(getJdbcTemplate().queryForObject(selectStmt, rowMapper, arguments));
     }
+
     LOGGER.info("Found " + grants.size() + " grant(s).");
     return grants;
   }
 
 
   @Override
-  public List<Map<String, Object>> findTopN(final TopNSpecification specification) {
-    String stmt = String.format(SqlStatements.GET_TOP_N_DATA, specification.getColumn1(), specification.getColumn2());
-    stmt = String.format("%s %s", stmt, specification.toSqlClause());
-    LOGGER.info("SQL statement: " + stmt);
+  public List<Map<String, Object>> findTopN(Specification specification) {
+    TopNSpecification topNSpecification = (TopNSpecification) specification;
 
-    return getJdbcTemplate().query(stmt, rs -> {
+    String column1 = topNSpecification.getColumn1();
+
+    return getJdbcTemplate().query(topNSpecification.toSqlClause(), rs -> {
       String table, column;
-      switch (specification.getColumn1()) {
+      switch (column1) {
       case SqlStatements.ORGANIZATION_ID:
         table = Tables.ORGANIZATIONS;
         column = SqlStatements.ORGANIZATION;
@@ -122,7 +132,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
         column = SqlStatements.PROJECT;
         break;
       default:
-        throw new IllegalArgumentException("Unsupported column: " + specification.getColumn1());
+        throw new IllegalArgumentException("Unsupported column: " + column1);
       }
 
       List<Map<String, Object>> rows = new ArrayList<>();
@@ -138,17 +148,20 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
 
   @Override
-  public String findValueForId(IdSpecification specification) {
-    return getValue(specification.getTable(), specification.getColumn(), specification.getValue());
+  public String findValueForId(Specification specification) {
+    SqlSpecification sqlSpecification = (SqlSpecification) specification;
+    return getValue(sqlSpecification.getTable(), sqlSpecification.getColumn(), sqlSpecification.getValue());
   }
 
 
   @Override
-  public List<Map<String, Long>> findTimeSeriesData(TimeSeriesSpecification specification) {
-    long id = findIdForValue(new IdSpecification(specification.getTable(),
-        specification.getColumn(), specification.getValue()));
-    String stmt =
-        String.format(specification.getTimeSeriesQuery(), specification.getAggregateField(), id);
+  public List<Map<String, Long>> findTimeSeriesData(Specification specification) {
+    TimeSeriesSpecification tsSpecification = (TimeSeriesSpecification) specification;
+
+    long id = findIdForValue(new IdSpecification(tsSpecification.getTable(),
+        tsSpecification.getColumn(), tsSpecification.getValue()));
+    String timeSeriesQuery = tsSpecification.toSqlClause();
+    String stmt = String.format(timeSeriesQuery, tsSpecification.getAggregateField(), id);
     LOGGER.info("SQL Statement: " + stmt);
 
     return getJdbcTemplate().query(stmt, rs -> {
@@ -165,7 +178,9 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
 
   @Override
-  public Map<String, Map<String, Long>> findAggregateData(AggregateDataSpecification specification) {
+  public Map<String, Map<String, Long>> findAggregateData(Specification specification) {
+    AggregateSpecification aggregateSpecification = (AggregateSpecification) specification;
+
     Map<String, Map<String, Long>> data = new HashMap<>();
 
     ResultSetExtractor<Map<String, Long>> rsExtractor = rs -> {
@@ -176,14 +191,18 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
       return map;
     };
 
-    String stmt = String.format(specification.getTotalsQuery(), specification.getAggregateField(), specification.toSqlClause());
-    data.put("totals", getJdbcTemplate().query(stmt, rsExtractor, (Object[]) specification.getFilterValues()));
+    String aggregateField = aggregateSpecification.getAggregateField();
+    String sqlClause = aggregateSpecification.toSqlClause();
+    Object[] filterValues = aggregateSpecification.getFilterValues();
+
+    String stmt = String.format(aggregateSpecification.getTotalsQuery(), aggregateField, sqlClause);
+    data.put("totals", getJdbcTemplate().query(stmt, rsExtractor, filterValues));
 
     List<String> locations = findAllValues(new ColumnSpecification(Tables.LOCATIONS, SqlStatements.LOCATION));
 
-    stmt = String.format(specification.getAllQuery(), specification.getAggregateField(), specification.toSqlClause());
+    stmt = String.format(aggregateSpecification.getAllQuery(), aggregateField, sqlClause);
     for (String location : locations) {
-      Object[] filterValues = ArrayUtils.addAll(new Object[] { location }, specification.getFilterValues());
+      filterValues = ArrayUtils.addAll(new Object[] { location }, aggregateSpecification.getFilterValues());
       data.put(location, getJdbcTemplate().query(stmt, rsExtractor, filterValues));
     }
 
@@ -192,25 +211,31 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
 
   @Override
-  public long findIdForValue(IdSpecification specification) {
-    Long count = getCount(specification.getTable(), specification.getColumn(), specification.getValue());
+  public long findIdForValue(Specification specification) {
+    SqlSpecification sqlSpecification = (SqlSpecification) specification;
+
+    String table = sqlSpecification.getTable();
+    String column = sqlSpecification.getColumn();
+    Object value = sqlSpecification.getValue();
+
+    Long count = getCount(table, column, value);
     if (count == 0) {
       return -1;
     }
-    String stmt = String.format(SqlStatements.GET_ID, specification.getTable(), specification.getColumn(),
-        specification.getValue());
+    String stmt = String.format(SqlStatements.GET_ID, table, column, value);
     Long id = getJdbcTemplate().queryForObject(stmt, Long.class);
     return id == null ? -1 : id;
   }
 
 
   @Override
-  public List<String> findAllValues(ColumnSpecification specification) {
-    return getJdbcTemplate().queryForList(specification.toSqlClause(), String.class);
+  public List<String> findAllValues(Specification specification) {
+    SqlSpecification sqlSpecification = (SqlSpecification) specification;
+    return getJdbcTemplate().queryForList(sqlSpecification.toSqlClause(), String.class);
   }
 
 
-  private long saveValue(String tableName, String columnName, String value) {
+  private long saveValue(String tableName, String columnName, Object value) {
     IdSpecification specification = new IdSpecification(tableName, columnName, value);
     long id = findIdForValue(specification);
     if (id != -1) {
@@ -224,7 +249,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
 
-  private String getValue(String tableName, String columnName, String id) {
+  private String getValue(String tableName, String columnName, Object id) {
     long count = getCount(tableName, "ID", id);
     if (count == 0) {
       return "";
@@ -235,7 +260,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
   }
 
 
-  private long getCount(String tableName, String columnName, String value) {
+  private long getCount(String tableName, String columnName, Object value) {
     String stmt = String.format(SqlStatements.COUNT, tableName) + "WHERE " + columnName + " = ?";
     return getJdbcTemplate().queryForObject(stmt, Long.class, value);
   }

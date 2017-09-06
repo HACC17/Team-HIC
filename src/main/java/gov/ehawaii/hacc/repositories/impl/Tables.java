@@ -1,4 +1,4 @@
-package gov.ehawaii.hacc.dao.impl;
+package gov.ehawaii.hacc.repositories.impl;
 
 /**
  * This class contains constants representing table names.

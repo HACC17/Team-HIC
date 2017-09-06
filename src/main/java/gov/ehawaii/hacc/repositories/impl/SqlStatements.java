@@ -1,4 +1,4 @@
-package gov.ehawaii.hacc.dao.impl;
+package gov.ehawaii.hacc.repositories.impl;
 
 public final class SqlStatements {
 
@@ -40,13 +40,11 @@ public final class SqlStatements {
 
   public static final String GET_VALUE = "SELECT %s FROM %s WHERE ID = ?";
 
-  public static final String GET_ALL_GRANTS = "SELECT * FROM GRANTS";
-
-  public static final String GET_TOTAL_AMOUNT_FOR_EACH_ORG = "SELECT ORGANIZATION_ID, SUM(AMOUNT) FROM GRANTS WHERE FISCAL_YEAR = %d GROUP BY ORGANIZATION_ID, AMOUNT ORDER BY AMOUNT DESC LIMIT 5";
+  public static final String GET_ALL_GRANTS = "SELECT * FROM %s";
 
   public static final String COUNT = "SELECT COUNT(*) FROM %s ";
 
-  public static final String GET_DATA_FOR_ORG_FOR_EACH_FISCAL_YEAR = "SELECT FISCAL_YEAR, SUM(%s) FROM GRANTS WHERE ORGANIZATION_ID = %d GROUP BY FISCAL_YEAR ORDER BY FISCAL_YEAR ASC";
+  public static final String GET_AGGREGATE_DATA_FOR_ORGANIZATION = "SELECT FISCAL_YEAR, SUM(%s) FROM GRANTS WHERE ORGANIZATION_ID = %d";
 
   public static final String GET_TOP_N_DATA = "SELECT %s, SUM(%s) FROM GRANTS";
 
