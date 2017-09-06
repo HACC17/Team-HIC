@@ -46,39 +46,35 @@ public class GrantsServiceImpl implements GrantsService {
         }
         buffer.append(key);
 
-        String value = entry.getValue().toString();
-        switch (key) {
-        case Filters.GRANT_STATUS_ID_FILTER:
-          arguments.add(getId(Tables.GRANT_STATUSES, SqlStatements.STATUS, value));
-          break;
-        case Filters.GRANT_TYPE_ID_FILTER:
-          arguments.add(getId(Tables.GRANT_TYPES, SqlStatements.GRANT_TYPE, value));
-          break;
-        case Filters.ORGANIZATION_ID_FILTER:
-          arguments.add(getId(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION, value));
-          break;
-        case Filters.PROJECT_ID_FILTER:
-          arguments.add(getId(Tables.PROJECTS, SqlStatements.PROJECT, value));
-          break;
-        case Filters.LOCATION_ID_FILTER:
-          arguments.add(getId(Tables.LOCATIONS, SqlStatements.LOCATION, value));
-          break;
-        case Filters.STRATEGIC_PRIORITY_ID_FILTER:
-          arguments.add(getId(Tables.STRATEGIC_PRIORITIES, SqlStatements.STRATEGIC_PRIORITY, value));
-          break;
-        case Filters.STRATEGIC_RESULTS_ID_FILTER:
-          arguments.add(getId(Tables.STRATEGIC_RESULTS, SqlStatements.STRATEGIC_RESULT, value));
-          break;
-        default:
-          arguments.add(value);
-        }
-
+        arguments.add(getId(key, entry.getValue().toString()));
       }
     }
     String filter = buffer.toString().trim().replace(" ? ", " ? AND ");
     Object[] filterValues = arguments.toArray(new Object[arguments.size()]);
 
     return dao.findGrants(new FilteredSpecification(Tables.GRANTS, filter, filterValues));
+  }
+
+
+  private Object getId(String key, String value) {
+    switch (key) {
+    case Filters.GRANT_STATUS_ID_FILTER:
+      return getId(Tables.GRANT_STATUSES, SqlStatements.STATUS, value);
+    case Filters.GRANT_TYPE_ID_FILTER:
+      return getId(Tables.GRANT_TYPES, SqlStatements.GRANT_TYPE, value);
+    case Filters.ORGANIZATION_ID_FILTER:
+      return getId(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION, value);
+    case Filters.PROJECT_ID_FILTER:
+      return getId(Tables.PROJECTS, SqlStatements.PROJECT, value);
+    case Filters.LOCATION_ID_FILTER:
+      return getId(Tables.LOCATIONS, SqlStatements.LOCATION, value);
+    case Filters.STRATEGIC_PRIORITY_ID_FILTER:
+      return getId(Tables.STRATEGIC_PRIORITIES, SqlStatements.STRATEGIC_PRIORITY, value);
+    case Filters.STRATEGIC_RESULTS_ID_FILTER:
+      return getId(Tables.STRATEGIC_RESULTS, SqlStatements.STRATEGIC_RESULT, value);
+    default:
+      return value;
+    }
   }
 
 
@@ -141,12 +137,26 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   @Override
-  public Map<String, Map<String, Long>> getTopNDataForEachLocation(int top, String aggregateField, String filter,
-      String filterValue) {
+  public Map<String, Map<String, Long>> getTopNDataForEachLocation(int top, String aggregateField, Map<String, String> filters) {
     String stmt = SqlStatements.GET_TOP_N_ORGANIZATIONS_FOR_EACH_LOCATION.replace("xxx", aggregateField).replace("yyy",
         String.valueOf(top));
+    String[] filtersArray = new String[filters.size()];
+    Object[] filterValuesArray = new Object[filters.size()];
+
+    int index = 0;
+    for (Entry<String, String> entry : filters.entrySet()) {
+      String key = entry.getKey();
+      filtersArray[index] = key;
+
+      String filterKey = Filters.FILTERS_MAP.get(key);
+      if (filterKey == null) {
+        throw new IllegalArgumentException(key + " filter not supported, yet.");
+      }
+      filterValuesArray[index++] = getId(filterKey, entry.getValue());
+    }
+
     return dao.findAggregateData(
-        new AggregateSpecification(stmt, null, aggregateField, new String[] { filter }, new Object[] { filterValue }));
+        new AggregateSpecification(stmt, null, aggregateField, filtersArray, filterValuesArray));
   }
 
 

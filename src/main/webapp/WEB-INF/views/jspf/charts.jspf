@@ -143,7 +143,14 @@
                 </select>
             </div>
             <div class="form-group">
-                <select id="stackedBarChartFilter" class="form-control">
+                <select id="stackedBarChartFilter1" class="form-control">
+                    <c:forEach var="location" items="${locations}">
+                        <option value="${location}"><c:out value="${location}" /></option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="form-group">
+                <select id="stackedBarChartFilter2" class="form-control">
                     <option value="AMOUNT" selected>Total Amount of Money</option>
                     <option value="TOTAL_NUMBER_SERVED">Total Number of People Served</option>
                     <option value="NUMBER_NATIVE_HAWAIIANS_SERVED">Total Number of Native Hawaiians Served</option>

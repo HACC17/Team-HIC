@@ -1,6 +1,8 @@
 package gov.ehawaii.hacc.web.controllers;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,11 +51,15 @@ public class ChartsController {
   }
 
   @RequestMapping(value = "/fiscalYearTop", method = RequestMethod.GET)
-  public void getTopNDataForEachLocation(@RequestParam("top") String top,
-      @RequestParam("year") String year, @RequestParam("field") String field,
-      HttpServletResponse response) throws IOException {
-    response.getWriter().write(new ObjectMapper().writeValueAsString(
-        grantsService.getTopNDataForEachLocation(Integer.parseInt(top), field, "fiscal", year)));
+  public void getTopNDataForEachLocation(@RequestParam("top") String top, @RequestParam("year") String year,
+      @RequestParam("location") String location, @RequestParam("field") String field, HttpServletResponse response)
+      throws IOException {
+    int n = Integer.parseInt(top);
+    Map<String, String> filters = new HashMap<>();
+    filters.put("location", location);
+    filters.put("fiscal", year);
+    response.getWriter()
+        .write(new ObjectMapper().writeValueAsString(grantsService.getTopNDataForEachLocation(n, field, filters)));
   }
 
 }

@@ -106,11 +106,12 @@ $(document).ready(function() {
 
     $("#fiscalYearSelect2").trigger("change");
 
-    $("#fiscalYearSelect3, #stackedBarChartFilter").change(function() {
+    $("#fiscalYearSelect3, #stackedBarChartFilter1, #stackedBarChartFilter2").change(function() {
         var year = $("#fiscalYearSelect3").val();
-        var field = $("#stackedBarChartFilter").val();
+        var location = $("#stackedBarChartFilter1").val();
+        var field = $("#stackedBarChartFilter2").val();
 
-        $.get(baseUrl + "charts/fiscalYearTop?top=5&year=" + year + "&field="+ field, function(data, status) {
+        $.get(baseUrl + "charts/fiscalYearTop?top=5&year=" + year + "&location=" + location + "&field="+ field, function(data, status) {
             console.log(data);
         });
     });
