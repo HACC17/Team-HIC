@@ -118,7 +118,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <button id="fiscalYearReportBtn2" class="btn btn-md btn-primary">Download Report</button>
+                <button id="locationsReportBtn" class="btn btn-md btn-primary">Download Report</button>
             </div>
         </form>
     </div>
@@ -127,12 +127,6 @@
 <div class="row extra-extra-top-margin">
     <div class="col-md-12">
         <div id="locations-pie-chart" class="width: 100%; height: 100%"></div>
-    </div>
-</div>
-
-<div class="row extra-extra-top-margin">
-    <div class="col-md-12">
-        <button id="locationsReportBtn" class="btn btn-md btn-primary">Download Report</button>
     </div>
 </div>
 
