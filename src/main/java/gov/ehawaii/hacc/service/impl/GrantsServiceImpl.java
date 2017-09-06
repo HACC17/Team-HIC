@@ -132,9 +132,11 @@ public class GrantsServiceImpl implements GrantsService {
   @Override
   public Map<String, Map<String, Long>> getAggregateDataForEachLocation(String aggregateField,
       String filter, String filterValue) {
-    return dao.findAggregateData(new AggregateSpecification(
+    AggregateSpecification aggregateSpecification = new AggregateSpecification(
         SqlStatements.GET_TOTAL_FOR_EACH_LOCATION, SqlStatements.GET_ALL_DATA_FOR_LOCATION,
-        aggregateField, new String[] { filter }, new Object[] { filterValue }));
+        aggregateField, new String[] { filter }, new Object[] { filterValue });
+    aggregateSpecification.setColSpec(new ColumnSpecification(Tables.LOCATIONS, SqlStatements.LOCATION));
+    return dao.findAggregateData(aggregateSpecification);
   }
 
 

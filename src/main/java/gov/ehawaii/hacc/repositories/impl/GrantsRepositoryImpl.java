@@ -202,13 +202,13 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
       return data;
     }
 
-    List<String> locations = findAllValues(new ColumnSpecification(Tables.LOCATIONS, SqlStatements.LOCATION));
+    List<String> values = findAllValues(aggregateSpecification.getColSpec());
 
     aggregateSpecification.setUseAllQuery(true);
 
-    for (String location : locations) {
-      filterValues = ArrayUtils.addAll(new Object[] { location }, aggregateSpecification.getFilterValues());
-      data.put(location, getJdbcTemplate().query(aggregateSpecification.toSqlClause(), rsExtractor, filterValues));
+    for (String value : values) {
+      filterValues = ArrayUtils.addAll(new Object[] { value }, aggregateSpecification.getFilterValues());
+      data.put(value, getJdbcTemplate().query(aggregateSpecification.toSqlClause(), rsExtractor, filterValues));
     }
 
     return data;

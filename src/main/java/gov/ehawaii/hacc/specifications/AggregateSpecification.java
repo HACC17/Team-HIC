@@ -14,6 +14,8 @@ public class AggregateSpecification implements SqlSpecification {
   private final Object[] filterValues;
   @Setter
   private boolean useAllQuery;
+  @Setter
+  private ColumnSpecification colSpec;
 
   public AggregateSpecification(String totalsQuery, String allQuery, String aggregateField,
       String[] filters, Object[] filterValues) {
