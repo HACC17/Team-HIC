@@ -134,6 +134,12 @@
 
 <input type="hidden" id="locations-pie-chart-base64" value="" />
 
+<div class="row extra-extra-top-margin">
+    <div class="col-md-12">
+        <div id="number-native-hawaiians-served-chart" class="width: 100%; height: 100%"></div>
+    </div>
+</div>
+
 <c:set var="req" value="${pageContext.request}" />
 <c:set var="url" value="${req.scheme}://${req.serverName}:${req.serverPort}" />
 
