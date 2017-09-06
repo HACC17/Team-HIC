@@ -33,7 +33,7 @@ public final class SqlStatements {
   // INSERT
   public static final String INSERT_GRANT = "INSERT INTO GRANTS VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-  public static final String INSERT_INTO = "INSERT INTO %s(%s) VALUES(?)";
+  public static final String INSERT_INTO = "INSERT INTO %s (%s) VALUES (?)";
 
   // SELECT
   public static final String GET_ID = "SELECT ID FROM %s WHERE %s = '%s'";

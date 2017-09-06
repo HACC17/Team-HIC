@@ -1,5 +1,6 @@
 package gov.ehawaii.hacc.repositories.impl;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -14,12 +15,13 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+import com.mysql.jdbc.Statement;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.repositories.GrantsRepository;
 import gov.ehawaii.hacc.specifications.AggregateSpecification;
-import gov.ehawaii.hacc.specifications.ColumnSpecification;
 import gov.ehawaii.hacc.specifications.FilteredSpecification;
 import gov.ehawaii.hacc.specifications.IdSpecification;
 import gov.ehawaii.hacc.specifications.Specification;
@@ -246,11 +248,14 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
     if (id != -1) {
       return id;
     }
-    String stmt = String.format(SqlStatements.INSERT_INTO, tableName, columnName);
-    if (getJdbcTemplate().update(stmt, value) > 0) {
-      return findIdForValue(specification);
-    }
-    return -1;
+    GeneratedKeyHolder holder = new GeneratedKeyHolder();
+    getJdbcTemplate().update(conn -> {
+      String stmt = String.format(SqlStatements.INSERT_INTO, tableName, columnName);
+      PreparedStatement ps = conn.prepareStatement(stmt, Statement.RETURN_GENERATED_KEYS);
+      ps.setString(1, value.toString());
+      return ps;
+    }, holder);
+    return holder.getKey().longValue();
   }
 
 
