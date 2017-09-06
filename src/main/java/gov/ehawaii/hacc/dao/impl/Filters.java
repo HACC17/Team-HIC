@@ -1,5 +1,6 @@
 package gov.ehawaii.hacc.dao.impl;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,23 +58,25 @@ public class Filters {
   public static final String TOTAL_NUMBER_SERVED_LTE = "TOTAL_NUMBER_SERVED <= ? ";
 
   /** This map contains filters that are used in queries. */
-  public static final Map<String, String> FILTERS_MAP = new HashMap<>();
+  public static final Map<String, String> FILTERS_MAP;
   static {
-    FILTERS_MAP.put("status", GRANT_STATUS_ID_FILTER);
-    FILTERS_MAP.put("type", GRANT_TYPE_ID_FILTER);
-    FILTERS_MAP.put("organization", ORGANIZATION_ID_FILTER);
-    FILTERS_MAP.put("project", PROJECT_ID_FILTER);
-    FILTERS_MAP.put("location", LOCATION_ID_FILTER);
-    FILTERS_MAP.put("priority", STRATEGIC_PRIORITY_ID_FILTER);
-    FILTERS_MAP.put("result", STRATEGIC_RESULTS_ID_FILTER);
-    FILTERS_MAP.put("fiscal-gte", FISCAL_YEAR_GTE);
-    FILTERS_MAP.put("fiscal-lte", FISCAL_YEAR_LTE);
-    FILTERS_MAP.put("amount-gte", AMOUNT_GTE);
-    FILTERS_MAP.put("amount-lte", AMOUNT_LTE);
-    FILTERS_MAP.put("total-gte", TOTAL_NUMBER_SERVED_GTE);
-    FILTERS_MAP.put("total-lte", TOTAL_NUMBER_SERVED_LTE);
-    FILTERS_MAP.put("hawaiians-gte", NUMBER_NATIVE_HAWAIIANS_SERVED_GTE);
-    FILTERS_MAP.put("hawaiians-lte", NUMBER_NATIVE_HAWAIIANS_SERVED_LTE);
+    Map<String, String> filters = new HashMap<>();
+    filters.put("status", GRANT_STATUS_ID_FILTER);
+    filters.put("type", GRANT_TYPE_ID_FILTER);
+    filters.put("organization", ORGANIZATION_ID_FILTER);
+    filters.put("project", PROJECT_ID_FILTER);
+    filters.put("location", LOCATION_ID_FILTER);
+    filters.put("priority", STRATEGIC_PRIORITY_ID_FILTER);
+    filters.put("result", STRATEGIC_RESULTS_ID_FILTER);
+    filters.put("fiscal-gte", FISCAL_YEAR_GTE);
+    filters.put("fiscal-lte", FISCAL_YEAR_LTE);
+    filters.put("amount-gte", AMOUNT_GTE);
+    filters.put("amount-lte", AMOUNT_LTE);
+    filters.put("total-gte", TOTAL_NUMBER_SERVED_GTE);
+    filters.put("total-lte", TOTAL_NUMBER_SERVED_LTE);
+    filters.put("hawaiians-gte", NUMBER_NATIVE_HAWAIIANS_SERVED_GTE);
+    filters.put("hawaiians-lte", NUMBER_NATIVE_HAWAIIANS_SERVED_LTE);
+    FILTERS_MAP = Collections.unmodifiableMap(filters);
   }
 
   /** Do not instantiate this class. */

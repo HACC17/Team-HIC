@@ -15,6 +15,10 @@ public class FilteredGrantsSpecification implements GrantsSpecification {
     this.arguments = arguments == null ? new String[0] : arguments.clone();
   }
 
+  public Object[] getArguments() {
+    return arguments.clone();
+  }
+
   @Override
   public String toSqlClause() {
     return filter;
