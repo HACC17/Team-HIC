@@ -13,7 +13,7 @@ import gov.ehawaii.hacc.dao.impl.Tables;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.service.GrantsService;
 import gov.ehawaii.hacc.specifications.ColumnSpecification;
-import gov.ehawaii.hacc.specifications.DrilldownLocationSpecification;
+import gov.ehawaii.hacc.specifications.AggregateDataSpecification;
 import gov.ehawaii.hacc.specifications.FilteredGrantsSpecification;
 import gov.ehawaii.hacc.specifications.IdSpecification;
 import gov.ehawaii.hacc.specifications.OrganizationSpecification;
@@ -134,7 +134,7 @@ public class GrantsServiceImpl implements GrantsService {
   @Override
   public Map<String, Map<String, Long>> getAggregateDataForEachLocation(String aggregateField,
       String filter, String filterValue) {
-    return dao.findAggregateDataForEachLocation(new DrilldownLocationSpecification(aggregateField,
+    return dao.findAggregateDataForEachLocation(new AggregateDataSpecification(aggregateField,
         Filters.FILTERS_MAP.get(filter), filterValue));
   }
 

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 import gov.ehawaii.hacc.dao.GrantsDao;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.specifications.ColumnSpecification;
-import gov.ehawaii.hacc.specifications.DrilldownLocationSpecification;
+import gov.ehawaii.hacc.specifications.AggregateDataSpecification;
 import gov.ehawaii.hacc.specifications.FilteredGrantsSpecification;
 import gov.ehawaii.hacc.specifications.IdSpecification;
 import gov.ehawaii.hacc.specifications.OrganizationSpecification;
@@ -163,7 +163,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
 
   @Override
-  public Map<String, Map<String, Long>> findAggregateDataForEachLocation(DrilldownLocationSpecification specification) {
+  public Map<String, Map<String, Long>> findAggregateDataForEachLocation(AggregateDataSpecification specification) {
     Map<String, Map<String, Long>> data = new HashMap<>();
 
     ResultSetExtractor<Map<String, Long>> rsExtractor = rs -> {

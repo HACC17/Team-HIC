@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.specifications.ColumnSpecification;
-import gov.ehawaii.hacc.specifications.DrilldownLocationSpecification;
+import gov.ehawaii.hacc.specifications.AggregateDataSpecification;
 import gov.ehawaii.hacc.specifications.FilteredGrantsSpecification;
 import gov.ehawaii.hacc.specifications.IdSpecification;
 import gov.ehawaii.hacc.specifications.OrganizationSpecification;
@@ -71,12 +71,13 @@ public interface GrantsDao {
 
 
   /**
-   * Aggregates all the data for each location and then returns a list of data grouped by grant type for the given fiscal year.
+   * Aggregates all the data for each location and then returns a list of data grouped by grant type. A filter can be
+   * added to the given specification, which can then be used in the query for aggregate data.
    * 
    * @param specification Contains the filter that is applied to the query used to retrieve data for each location.
    * @return A map containing all the data for each location for the given fiscal year.
    */
-  Map<String, Map<String, Long>> findAggregateDataForEachLocation(DrilldownLocationSpecification specification);
+  Map<String, Map<String, Long>> findAggregateDataForEachLocation(AggregateDataSpecification specification);
 
 
   /**
