@@ -106,6 +106,10 @@ $(document).ready(function() {
 
     $("#fiscalYearSelect2").trigger("change");
 
+    $("#fiscalYearSelect3, #barChartFilter1, #barChartFilter2").change(function() {
+        
+    });
+
     Highcharts.chart('number-native-hawaiians-served-chart', {
         chart: {
             type: 'bar'

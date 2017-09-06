@@ -100,7 +100,7 @@
     <input type="hidden" id="over-time-chart-base64" value="" />
 </div>
 
-<div class="row extra-top-margin">
+<div class="row extra-extra-top-margin">
     <div class="col-md-4 col-md-push-4">
         <form id="fiscalYearForm2">
             <div class="form-group">
@@ -124,7 +124,7 @@
     </div>
 </div>
 
-<div class="row extra-extra-top-margin">
+<div class="row extra-top-margin">
     <div class="col-md-12">
         <div id="locations-pie-chart" class="width: 100%; height: 100%"></div>
     </div>
@@ -135,6 +135,37 @@
 <input type="hidden" id="locations-pie-chart-base64" value="" />
 
 <div class="row extra-extra-top-margin">
+    <div class="col-md-4 col-md-push-4">
+        <form id="fiscalYearForm2">
+            <div class="form-group">
+                <select id="fiscalYearSelect3" class="form-control">
+                    <c:forEach var="year" items="${years}">
+                        <option value="${year}"><c:out value="${year}" /></option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="form-group">
+                <select id="barChartFilter1" class="form-control">
+                    <c:forEach var="location" items="${locations}">
+                        <option value="${location}"><c:out value="${location}" /></option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="form-group">
+                <select id="barChartFilter2" class="form-control">
+                    <option value="AMOUNT" selected>Total Amount of Money</option>
+                    <option value="TOTAL_NUMBER_SERVED">Total Number of People Served</option>
+                    <option value="NUMBER_NATIVE_HAWAIIANS_SERVED">Total Number of Native Hawaiians Served</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button id="locationsReportBtn" class="btn btn-md btn-primary">Download Report</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row extra-top-margin">
     <div class="col-md-12">
         <div id="number-native-hawaiians-served-chart" class="width: 100%; height: 100%"></div>
     </div>

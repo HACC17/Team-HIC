@@ -51,6 +51,7 @@ public class MainController {
   public String showChartsPage(Model model) {
     model.addAttribute("years", grantsService.getAllFiscalYears());
     model.addAttribute("organizations", grantsService.getAllOrganizations());
+    model.addAttribute("locations", grantsService.getAllLocations());
     return "charts";
   }
 
