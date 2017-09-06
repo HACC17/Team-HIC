@@ -21,7 +21,7 @@ public class FilteredGrantsSpecification implements GrantsSpecification {
 
   @Override
   public String toSqlClause() {
-    return filter;
+    return (filter.contains("?") ? " WHERE " : "") + filter;
   }
 
 }

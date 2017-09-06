@@ -7,7 +7,7 @@ import gov.ehawaii.hacc.specifications.ColumnSpecification;
 import gov.ehawaii.hacc.specifications.AggregateDataSpecification;
 import gov.ehawaii.hacc.specifications.FilteredGrantsSpecification;
 import gov.ehawaii.hacc.specifications.IdSpecification;
-import gov.ehawaii.hacc.specifications.OrganizationSpecification;
+import gov.ehawaii.hacc.specifications.TimeSeriesSpecification;
 import gov.ehawaii.hacc.specifications.TopNSpecification;
 
 /**
@@ -67,17 +67,17 @@ public interface GrantsDao {
    * @param specification Contains the filter that is applied to the query used to retrieve data for an organization.
    * @return A list containing the data for the given organization over a period of time.
    */
-  List<Map<String, Long>> findDataOverTime(OrganizationSpecification specification);
+  List<Map<String, Long>> findDataOverTime(TimeSeriesSpecification specification);
 
 
   /**
-   * Aggregates all the data for each location and then returns a list of data grouped by grant type. A filter can be
-   * added to the given specification, which can then be used in the query for aggregate data.
+   * Aggregates and returns all the data. Queries and filters are added to the given specification and then are used
+   * to retrieve aggregated data.
    * 
-   * @param specification Contains the filter that is applied to the query used to retrieve data for each location.
+   * @param specification Contains the queries and filters that are used to retrieve data for each location.
    * @return A map containing all the data for each location for the given fiscal year.
    */
-  Map<String, Map<String, Long>> findAggregateDataForEachLocation(AggregateDataSpecification specification);
+  Map<String, Map<String, Long>> findAggregateData(AggregateDataSpecification specification);
 
 
   /**

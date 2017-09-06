@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -16,11 +17,11 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 import gov.ehawaii.hacc.dao.GrantsDao;
 import gov.ehawaii.hacc.model.Grant;
-import gov.ehawaii.hacc.specifications.ColumnSpecification;
 import gov.ehawaii.hacc.specifications.AggregateDataSpecification;
+import gov.ehawaii.hacc.specifications.ColumnSpecification;
 import gov.ehawaii.hacc.specifications.FilteredGrantsSpecification;
 import gov.ehawaii.hacc.specifications.IdSpecification;
-import gov.ehawaii.hacc.specifications.OrganizationSpecification;
+import gov.ehawaii.hacc.specifications.TimeSeriesSpecification;
 import gov.ehawaii.hacc.specifications.TopNSpecification;
 
 @Repository("GrantsDao")
@@ -143,10 +144,11 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
 
   @Override
-  public List<Map<String, Long>> findDataOverTime(OrganizationSpecification specification) {
-    long orgId = findIdForValue(
-        new IdSpecification(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION, specification.getOrganization()));
-    String stmt = String.format(SqlStatements.GET_DATA_FOR_ORG_FOR_EACH_FISCAL_YEAR, specification.getColumn(), orgId);
+  public List<Map<String, Long>> findDataOverTime(TimeSeriesSpecification specification) {
+    long id = findIdForValue(new IdSpecification(specification.getTable(),
+        specification.getColumn(), specification.getValue()));
+    String stmt =
+        String.format(specification.getTimeSeriesQuery(), specification.getAggregateField(), id);
     LOGGER.info("SQL Statement: " + stmt);
 
     return getJdbcTemplate().query(stmt, rs -> {
@@ -163,7 +165,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
 
   @Override
-  public Map<String, Map<String, Long>> findAggregateDataForEachLocation(AggregateDataSpecification specification) {
+  public Map<String, Map<String, Long>> findAggregateData(AggregateDataSpecification specification) {
     Map<String, Map<String, Long>> data = new HashMap<>();
 
     ResultSetExtractor<Map<String, Long>> rsExtractor = rs -> {
@@ -174,16 +176,15 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
       return map;
     };
 
-    String stmt = String.format(SqlStatements.GET_TOTAL_FOR_EACH_LOCATION, specification.getAggregateField(),
-        specification.getFilter());
-    data.put("totals", getJdbcTemplate().query(stmt, rsExtractor, specification.getFilterValue()));
+    String stmt = String.format(specification.getTotalsQuery(), specification.getAggregateField(), specification.toSqlClause());
+    data.put("totals", getJdbcTemplate().query(stmt, rsExtractor, (Object[]) specification.getFilterValues()));
 
     List<String> locations = findAllValues(new ColumnSpecification(Tables.LOCATIONS, SqlStatements.LOCATION));
 
-    stmt = String.format(SqlStatements.GET_ALL_DATA_FOR_LOCATION, specification.getAggregateField(),
-        specification.getFilter());
+    stmt = String.format(specification.getAllQuery(), specification.getAggregateField(), specification.toSqlClause());
     for (String location : locations) {
-      data.put(location, getJdbcTemplate().query(stmt, rsExtractor, location, specification.getFilterValue()));
+      Object[] filterValues = ArrayUtils.addAll(new Object[] { location }, specification.getFilterValues());
+      data.put(location, getJdbcTemplate().query(stmt, rsExtractor, filterValues));
     }
 
     return data;

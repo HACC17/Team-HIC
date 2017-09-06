@@ -16,7 +16,7 @@ import gov.ehawaii.hacc.specifications.ColumnSpecification;
 import gov.ehawaii.hacc.specifications.AggregateDataSpecification;
 import gov.ehawaii.hacc.specifications.FilteredGrantsSpecification;
 import gov.ehawaii.hacc.specifications.IdSpecification;
-import gov.ehawaii.hacc.specifications.OrganizationSpecification;
+import gov.ehawaii.hacc.specifications.TimeSeriesSpecification;
 import gov.ehawaii.hacc.specifications.TopNFiscalYearSpecification;
 import gov.ehawaii.hacc.specifications.TopNSpecification;
 
@@ -76,12 +76,9 @@ public class GrantsServiceImpl implements GrantsService {
       }
     }
     String filter = buffer.toString().trim().replace(" ? ", " ? AND ");
-    if (filter.contains("?")) {
-      filter = " WHERE " + filter;
-    }
+    Object[] filterValues = arguments.toArray(new Object[arguments.size()]);
 
-    return dao.findGrants(
-        new FilteredGrantsSpecification(Tables.GRANTS, filter, arguments.toArray(new Object[arguments.size()])));
+    return dao.findGrants(new FilteredGrantsSpecification(Tables.GRANTS, filter, filterValues));
   }
 
 
@@ -96,9 +93,8 @@ public class GrantsServiceImpl implements GrantsService {
       throw new IllegalArgumentException("year is null or empty.");
     }
 
-    int fiscalYear = Integer.parseInt(year);
     return dao.findTopN(new TopNFiscalYearSpecification(5, Tables.GRANTS, SqlStatements.ORGANIZATION_ID,
-        SqlStatements.AMOUNT, fiscalYear));
+        SqlStatements.AMOUNT, Integer.parseInt(year)));
   }
 
 
@@ -127,15 +123,18 @@ public class GrantsServiceImpl implements GrantsService {
       throw new IllegalArgumentException("field is null or empty.");
     }
 
-    return dao.findDataOverTime(new OrganizationSpecification(organization, field));
+    return dao.findDataOverTime(
+        new TimeSeriesSpecification(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION, organization,
+            SqlStatements.GET_DATA_FOR_ORG_FOR_EACH_FISCAL_YEAR, field));
   }
 
 
   @Override
   public Map<String, Map<String, Long>> getAggregateDataForEachLocation(String aggregateField,
       String filter, String filterValue) {
-    return dao.findAggregateDataForEachLocation(new AggregateDataSpecification(aggregateField,
-        Filters.FILTERS_MAP.get(filter), filterValue));
+    return dao.findAggregateData(new AggregateDataSpecification(
+        SqlStatements.GET_TOTAL_FOR_EACH_LOCATION, SqlStatements.GET_ALL_DATA_FOR_LOCATION,
+        aggregateField, new String[] { filter }, new String[] { filterValue }));
   }
 
 
