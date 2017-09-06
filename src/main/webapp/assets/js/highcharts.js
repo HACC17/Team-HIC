@@ -112,44 +112,47 @@ $(document).ready(function() {
         var field = $("#stackedBarChartFilter2").val();
 
         $.get(baseUrl + "charts/fiscalYearTop?top=5&year=" + year + "&location=" + location + "&field="+ field, function(data, status) {
-            console.log(data);
+            var json = JSON.parse(data);
+            console.log(json);
+
+            var categories = [], values = [];
+            $.each(json["totals"], function(i, val) {
+                categories.push(i);
+                values.push(val);
+            });
+
+            Highcharts.chart('top-5-orgs-chart', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Top 5 Organizations by ' + field + ' for ' + year + ' (' + location + ')'
+                },
+                xAxis: {
+                    categories: categories
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Organization'
+                    }
+                },
+                legend: {
+                    reversed: true
+                },
+                plotOptions: {
+                    series: {
+                        stacking: 'normal'
+                    }
+                },
+                series: [{
+                    data: values
+                }]
+            });
+
         });
     });
 
-    Highcharts.chart('top-5-orgs-chart', {
-        chart: {
-            type: 'bar'
-        },
-        title: {
-            text: 'Stacked bar chart'
-        },
-        xAxis: {
-            categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: 'Total fruit consumption'
-            }
-        },
-        legend: {
-            reversed: true
-        },
-        plotOptions: {
-            series: {
-                stacking: 'normal'
-            }
-        },
-        series: [{
-            name: 'John',
-            data: [5, 3, 4, 7, 2]
-        }, {
-            name: 'Jane',
-            data: [2, 2, 3, 2, 1]
-        }, {
-            name: 'Joe',
-            data: [3, 4, 4, 2, 5]
-        }]
-    });
+    $("#fiscalYearSelect3").trigger("change");
 
 });

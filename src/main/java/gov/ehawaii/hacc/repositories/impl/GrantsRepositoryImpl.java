@@ -187,7 +187,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
     Map<String, Map<String, Long>> data = new HashMap<>();
 
     ResultSetExtractor<Map<String, Long>> rsExtractor = rs -> {
-      Map<String, Long> map = new HashMap<>();
+      Map<String, Long> map = new LinkedHashMap<>();
       while (rs.next()) {
         map.put(rs.getString(1), rs.getLong(2));
       }
