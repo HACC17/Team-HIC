@@ -191,19 +191,17 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
       return map;
     };
 
-    String aggregateField = aggregateSpecification.getAggregateField();
-    String sqlClause = aggregateSpecification.toSqlClause();
     Object[] filterValues = aggregateSpecification.getFilterValues();
 
-    String stmt = String.format(aggregateSpecification.getTotalsQuery(), aggregateField, sqlClause);
-    data.put("totals", getJdbcTemplate().query(stmt, rsExtractor, filterValues));
+    data.put("totals", getJdbcTemplate().query(aggregateSpecification.toSqlClause(), rsExtractor, filterValues));
 
     List<String> locations = findAllValues(new ColumnSpecification(Tables.LOCATIONS, SqlStatements.LOCATION));
 
-    stmt = String.format(aggregateSpecification.getAllQuery(), aggregateField, sqlClause);
+    aggregateSpecification.setUseAllQuery(true);
+
     for (String location : locations) {
       filterValues = ArrayUtils.addAll(new Object[] { location }, aggregateSpecification.getFilterValues());
-      data.put(location, getJdbcTemplate().query(stmt, rsExtractor, filterValues));
+      data.put(location, getJdbcTemplate().query(aggregateSpecification.toSqlClause(), rsExtractor, filterValues));
     }
 
     return data;

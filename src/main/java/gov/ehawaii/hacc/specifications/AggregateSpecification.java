@@ -2,6 +2,7 @@ package gov.ehawaii.hacc.specifications;
 
 import gov.ehawaii.hacc.repositories.impl.Filters;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public class AggregateSpecification implements SqlSpecification {
@@ -11,6 +12,8 @@ public class AggregateSpecification implements SqlSpecification {
   private final String aggregateField;
   private final String[] filters;
   private final Object[] filterValues;
+  @Setter
+  private boolean useAllQuery;
 
   public AggregateSpecification(String totalsQuery, String allQuery, String aggregateField,
       String[] filters, Object[] filterValues) {
@@ -38,7 +41,7 @@ public class AggregateSpecification implements SqlSpecification {
 
   @Override
   public String toSqlClause() {
-    return buildFilter();
+    return String.format(useAllQuery ? allQuery : totalsQuery, aggregateField, buildFilter());
   }
 
   public String[] getFilters() {
