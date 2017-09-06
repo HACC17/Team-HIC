@@ -6,11 +6,13 @@ import lombok.Getter;
 public class DrilldownLocationSpecification implements GrantsSpecification {
 
   private final String aggregateField;
-  private final String filterField;
+  private final String filter;
+  private final String filterValue;
 
-  public DrilldownLocationSpecification(String aggregateField, String filterField) {
+  public DrilldownLocationSpecification(String aggregateField, String filter, String filterValue) {
     this.aggregateField = aggregateField;
-    this.filterField = filterField;
+    this.filter = filter;
+    this.filterValue = filterValue;
   }
 
   @Override

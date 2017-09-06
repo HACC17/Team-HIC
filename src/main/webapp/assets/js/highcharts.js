@@ -12,7 +12,7 @@ $(document).ready(function() {
         var fiscalYear = $("#fiscalYearSelect2").val();
         var field = $("#drilldownField").val();
 
-        $.get(baseUrl + "charts/locations?year=" + fiscalYear + "&field=" + field, function(data, status) {
+        $.get(baseUrl + "charts/locations?aggregateField=" + field + "&filter=fiscal&filterValue="+ fiscalYear, function(data, status) {
             var json = JSON.parse(data);
 
             var series = [];

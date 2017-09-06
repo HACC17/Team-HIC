@@ -71,12 +71,12 @@ public interface GrantsDao {
 
 
   /**
-   * Retrieves all the data for each location for the given fiscal year.
+   * Aggregates all the data for each location and then returns a list of data grouped by grant type for the given fiscal year.
    * 
    * @param specification Contains the filter that is applied to the query used to retrieve data for each location.
    * @return A map containing all the data for each location for the given fiscal year.
    */
-  Map<String, Map<String, Long>> findLocationDataForDrilldown(DrilldownLocationSpecification specification);
+  Map<String, Map<String, Long>> findAggregateDataForEachLocation(DrilldownLocationSpecification specification);
 
 
   /**

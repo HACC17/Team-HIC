@@ -41,10 +41,11 @@ public class ChartsController {
   }
 
   @RequestMapping(value = "/locations", method = RequestMethod.GET)
-  public void getDataForEachLocation(@RequestParam("year") String year,
-      @RequestParam("field") String field, HttpServletResponse response) throws IOException {
-    response.getWriter().write(
-        new ObjectMapper().writeValueAsString(grantsService.getDataForEachLocation(year, field)));
+  public void getDataForEachLocation(@RequestParam("aggregateField") String aggregateField,
+      @RequestParam("filter") String filter, @RequestParam("filterValue") String filterValue,
+      HttpServletResponse response) throws IOException {
+    response.getWriter().write(new ObjectMapper().writeValueAsString(
+        grantsService.getAggregateDataForEachLocation(aggregateField, filter, filterValue)));
   }
 
 }

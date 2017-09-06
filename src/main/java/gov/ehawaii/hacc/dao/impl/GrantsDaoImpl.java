@@ -163,7 +163,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
 
   @Override
-  public Map<String, Map<String, Long>> findLocationDataForDrilldown(DrilldownLocationSpecification specification) {
+  public Map<String, Map<String, Long>> findAggregateDataForEachLocation(DrilldownLocationSpecification specification) {
     Map<String, Map<String, Long>> data = new HashMap<>();
 
     ResultSetExtractor<Map<String, Long>> rsExtractor = rs -> {
@@ -174,14 +174,16 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
       return map;
     };
 
-    String stmt = String.format(SqlStatements.GET_TOTAL_FOR_EACH_LOCATION, specification.getAggregateField());
-    data.put("totals", getJdbcTemplate().query(stmt, rsExtractor, specification.getFilterField()));
+    String stmt = String.format(SqlStatements.GET_TOTAL_FOR_EACH_LOCATION, specification.getAggregateField(),
+        specification.getFilter());
+    data.put("totals", getJdbcTemplate().query(stmt, rsExtractor, specification.getFilterValue()));
 
     List<String> locations = findAllValues(new ColumnSpecification(Tables.LOCATIONS, SqlStatements.LOCATION));
 
-    stmt = String.format(SqlStatements.GET_ALL_DATA_FOR_LOCATION, specification.getAggregateField());
+    stmt = String.format(SqlStatements.GET_ALL_DATA_FOR_LOCATION, specification.getAggregateField(),
+        specification.getFilter());
     for (String location : locations) {
-      data.put(location, getJdbcTemplate().query(stmt, rsExtractor, location, specification.getFilterField()));
+      data.put(location, getJdbcTemplate().query(stmt, rsExtractor, location, specification.getFilterValue()));
     }
 
     return data;

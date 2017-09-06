@@ -132,8 +132,10 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   @Override
-  public Map<String, Map<String, Long>> getDataForEachLocation(String year, String field) {
-    return dao.findLocationDataForDrilldown(new DrilldownLocationSpecification(field, year));
+  public Map<String, Map<String, Long>> getAggregateDataForEachLocation(String aggregateField,
+      String filter, String filterValue) {
+    return dao.findAggregateDataForEachLocation(new DrilldownLocationSpecification(aggregateField,
+        Filters.FILTERS_MAP.get(filter), filterValue));
   }
 
 

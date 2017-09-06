@@ -18,6 +18,9 @@ public class Filters {
   /** AMOUNT values that are less than or equal to <code>value</code>. */
   public static final String AMOUNT_LTE = "AMOUNT <= ? ";
 
+  /** FISCAL_YEAR values that are equal to <code>value</code>. */
+  public static final String FISCAL_YEAR = "FISCAL_YEAR = ? ";
+
   /** FISCAL_YEAR values that are greater than or equal to <code>value</code>. */
   public static final String FISCAL_YEAR_GTE = "FISCAL_YEAR >= ? ";
 
@@ -68,6 +71,7 @@ public class Filters {
     filters.put("location", LOCATION_ID_FILTER);
     filters.put("priority", STRATEGIC_PRIORITY_ID_FILTER);
     filters.put("result", STRATEGIC_RESULTS_ID_FILTER);
+    filters.put("fiscal", FISCAL_YEAR);
     filters.put("fiscal-gte", FISCAL_YEAR_GTE);
     filters.put("fiscal-lte", FISCAL_YEAR_LTE);
     filters.put("amount-gte", AMOUNT_GTE);
