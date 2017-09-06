@@ -144,7 +144,7 @@ public class GrantsDaoImpl extends JdbcDaoSupport implements GrantsDao {
 
 
   @Override
-  public List<Map<String, Long>> findDataOverTime(TimeSeriesSpecification specification) {
+  public List<Map<String, Long>> findTimeSeriesData(TimeSeriesSpecification specification) {
     long id = findIdForValue(new IdSpecification(specification.getTable(),
         specification.getColumn(), specification.getValue()));
     String stmt =

@@ -62,12 +62,12 @@ public interface GrantsDao {
 
 
   /**
-   * Retrieves all the data for an organization over a period of time.
+   * Retrieves all the data over a period of time.
    * 
-   * @param specification Contains the filter that is applied to the query used to retrieve data for an organization.
-   * @return A list containing the data for the given organization over a period of time.
+   * @param specification Contains the query and aggregate field used to retrieve time series data.
+   * @return A list containing time series data.
    */
-  List<Map<String, Long>> findDataOverTime(TimeSeriesSpecification specification);
+  List<Map<String, Long>> findTimeSeriesData(TimeSeriesSpecification specification);
 
 
   /**

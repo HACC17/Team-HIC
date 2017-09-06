@@ -123,7 +123,7 @@ public class GrantsServiceImpl implements GrantsService {
       throw new IllegalArgumentException("field is null or empty.");
     }
 
-    return dao.findDataOverTime(
+    return dao.findTimeSeriesData(
         new TimeSeriesSpecification(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION, organization,
             SqlStatements.GET_DATA_FOR_ORG_FOR_EACH_FISCAL_YEAR, field));
   }
