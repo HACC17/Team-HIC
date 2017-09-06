@@ -20,11 +20,11 @@
 <div class="row">
     <div id="fiscalYearDiv" class="col-md-4 col-md-push-4 fiscal-year-chart">
         <canvas id="fiscalYearChart" class="fiscal-year-chart" />
+        <input type="hidden" id="fiscal-chart-base64" value="" />
     </div>
     <div class="col-md-4 col-md-push-4 no-fiscal-year-data" style="display: none">
         <div class="alert alert-danger no-fiscal-year-data" style="display: none">No data exists for selected fiscal year.</div>
     </div>
-    <input type="hidden" id="fiscal-chart-base64" value="" />
 </div>
 
 <div class="row extra-extra-top-margin">
@@ -59,11 +59,11 @@
 <div class="row">
     <div id="topDiv" class="col-md-8 col-md-push-4 top-chart">
         <canvas id="topChart" class="top-chart"/>
+        <input type="hidden" id="top-chart-base64" value="" />
     </div>
     <div class="col-md-8 col-md-push-4 no-top-data" style="display: none">
         <div class="alert alert-danger no-top-data" style="display: none">No data exists for selected criteria.</div>
     </div>
-    <input type="hidden" id="top-chart-base64" value="" />
 </div>
 
 <div class="row extra-top-margin">
@@ -93,11 +93,11 @@
 <div class="row extra-top-margin">
     <div id="overTimeDiv" class="col-md-8 col-md-push-2 over-time-chart">
         <canvas id="overTimeChart" class="over-time-chart" />
+        <input type="hidden" id="over-time-chart-base64" value="" />
     </div>
     <div class="col-md-8 col-md-push-2 no-over-time-data" style="display: none">
         <div class="alert alert-danger no-over-time-data" style="display: none">No data exists for selected organization.</div>
     </div>
-    <input type="hidden" id="over-time-chart-base64" value="" />
 </div>
 
 <div class="row extra-extra-top-margin">
@@ -127,12 +127,10 @@
 <div class="row extra-top-margin">
     <div class="col-md-12">
         <div id="locations-pie-chart" class="width: 100%; height: 100%"></div>
+        <canvas id="locations-pie-chart-canvas" style="display: none"></canvas>
+        <input type="hidden" id="locations-pie-chart-base64" value="" />
     </div>
 </div>
-
-<canvas id="locations-pie-chart-canvas" style="display: none"></canvas>
-
-<input type="hidden" id="locations-pie-chart-base64" value="" />
 
 <div class="row extra-extra-top-margin">
     <div class="col-md-4 col-md-push-4">
@@ -176,11 +174,7 @@
 
 <script type="text/javascript">
     localStorage.setItem("request", "<c:out value='${url}' /><c:url value='/' />");
-</script>
 
-<script src="assets/js/chartjs.js" type="text/javascript"></script>
-
-<script type="text/javascript">
     $(document).ready(function() {
         $("#fiscalYearReportBtn").click(function(event) {
             event.preventDefault();
@@ -323,5 +317,7 @@
         });
     });
 </script>
+
+<script src="assets/js/chartjs.js" type="text/javascript"></script>
 
 <script src="assets/js/highcharts.js" type="text/javascript"></script>
