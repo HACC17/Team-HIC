@@ -18,6 +18,8 @@ public interface GrantsService {
 
   Map<String, Map<String, Long>> getAggregateDataForEachLocation(String aggregateField, String filter, String filterValue);
 
+  Map<String, Map<String, Long>> getTopNDataForEachLocation(int top, String aggregateField, String filter, String filterValue);
+
   List<String> getAllGrantStatuses();
 
   List<String> getAllGrantTypes();

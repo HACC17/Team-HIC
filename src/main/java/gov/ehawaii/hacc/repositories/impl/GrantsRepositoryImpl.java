@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.repositories.GrantsRepository;
 import gov.ehawaii.hacc.specifications.AggregateSpecification;
@@ -193,7 +194,13 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
 
     Object[] filterValues = aggregateSpecification.getFilterValues();
 
+    aggregateSpecification.setUseAllQuery(false);
+
     data.put("totals", getJdbcTemplate().query(aggregateSpecification.toSqlClause(), rsExtractor, filterValues));
+
+    if (StringUtils.isEmpty(aggregateSpecification.getAllQuery())) {
+      return data;
+    }
 
     List<String> locations = findAllValues(new ColumnSpecification(Tables.LOCATIONS, SqlStatements.LOCATION));
 

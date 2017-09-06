@@ -139,6 +139,15 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   @Override
+  public Map<String, Map<String, Long>> getTopNDataForEachLocation(int top, String aggregateField, String filter,
+      String filterValue) {
+    String stmt = SqlStatements.GET_TOP_N_ORGANIZATIONS_FOR_EACH_LOCATION.replace("xxx", aggregateField).replace("yyy", String.valueOf(top));
+    return dao.findAggregateData(
+        new AggregateSpecification(stmt, null, aggregateField, new String[] { filter }, new Object[] { filterValue }));
+  }
+
+
+  @Override
   public List<String> getAllGrantStatuses() {
     return dao.findAllValues(new ColumnSpecification(Tables.GRANT_STATUSES, SqlStatements.GRANT_STATUS));
   }
