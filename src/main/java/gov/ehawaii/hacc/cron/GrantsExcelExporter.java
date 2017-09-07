@@ -12,9 +12,12 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.service.GrantsService;
 
+@Component("ExcelExportTask")
 public class GrantsExcelExporter implements Runnable {
 
   private static final Logger LOGGER = LogManager.getLogger(GrantsExcelExporter.class);
@@ -36,6 +39,8 @@ public class GrantsExcelExporter implements Runnable {
 
 
   private void export(List<Grant> grants) {
+    Assert.notNull(grants, "grants must not be null.");
+
     XSSFWorkbook workbook = new XSSFWorkbook();
     XSSFSheet sheet = workbook.createSheet("Grants");
     String[] headings = { "Fiscal Year", "Organization", "Project", "Amount", "Status", "Location", "Grant Type",
@@ -79,9 +84,11 @@ public class GrantsExcelExporter implements Runnable {
       currentRow++;
     }
 
-    try (FileOutputStream fos = new FileOutputStream(exportDir + exportFilename)) {
+    String filename = exportDir + exportFilename;
+    try (FileOutputStream fos = new FileOutputStream(filename)) {
       workbook.write(fos);
       workbook.close();
+      LOGGER.info("Successfully created " + filename + ".");
     }
     catch (IOException ioe) {
       LOGGER.error("An error occurred while trying to create Excel file: " + ioe.getMessage(), ioe);
