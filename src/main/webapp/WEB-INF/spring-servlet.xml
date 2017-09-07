@@ -56,7 +56,7 @@
         </property>
         <property name="triggers">
             <list>
-                <ref local="cron.excelExportTrigger" />
+                <ref bean="cron.excelExportTrigger" />
             </list>
         </property>
     </bean>

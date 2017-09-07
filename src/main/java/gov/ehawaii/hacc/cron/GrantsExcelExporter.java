@@ -2,6 +2,8 @@ package gov.ehawaii.hacc.cron;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -25,15 +27,19 @@ public class GrantsExcelExporter implements Runnable {
   @Autowired
   private GrantsService grantsService;
 
-  @Value("${exportDir}")
-  private String exportDir;
+  @Value("${exportDirectory}")
+  private String exportDirectory;
 
-  @Value("${exportFilename")
-  private String exportFilename;
+  @Value("${filenamePrefix}")
+  private String filenamePrefix;
+
+  @Value("${filenameSuffix}")
+  private String filenameSuffix;
 
 
   @Override
   public void run() {
+    LOGGER.info("GrantsExcelExporter task started.");
     export(grantsService.getGrants(new HashMap<>()));
   }
 
@@ -84,7 +90,9 @@ public class GrantsExcelExporter implements Runnable {
       currentRow++;
     }
 
-    String filename = exportDir + exportFilename;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd-HH_mm_ss");
+    String filename =
+        exportDirectory + filenamePrefix + "_" + formatter.format(LocalDateTime.now()) + "." + filenameSuffix;
     try (FileOutputStream fos = new FileOutputStream(filename)) {
       workbook.write(fos);
       workbook.close();
