@@ -70,6 +70,7 @@ public class GrantsServiceImpl implements GrantsService {
 
     String filter = buffer.toString().replace(" OR )", ") AND ").trim();
     filter = filter.substring(0, filter.lastIndexOf(")") + 1);
+    filter = (filter.contains("?") ? " WHERE " : "") + filter;
     LOGGER.info("Filter: " + filter);
     Object[] filterValues = arguments.toArray(new Object[arguments.size()]);
 

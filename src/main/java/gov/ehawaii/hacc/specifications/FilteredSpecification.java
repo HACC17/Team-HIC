@@ -32,7 +32,7 @@ public class FilteredSpecification implements SqlSpecification {
 
   @Override
   public String toSqlClause() {
-    return (filter.contains("?") ? " WHERE " : "") + filter;
+    return filter;
   }
 
   public Object[] getArguments() {

@@ -95,25 +95,9 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
   public List<Grant> findGrants(Specification specification) {
     FilteredSpecification filteredSpecification = (FilteredSpecification) specification;
 
-    Object[] arguments = filteredSpecification.getArguments();
-
-    String countStmt = String.format(SqlStatements.COUNT, filteredSpecification.getTable());
-    countStmt = countStmt + filteredSpecification.toSqlClause();
-    Long count = getJdbcTemplate().queryForObject(countStmt, Long.class, arguments);
-    if (count == 0) {
-      return new ArrayList<>();
-    }
-
-    List<Grant> grants;
     String selectStmt = String.format(SqlStatements.GET_ALL_GRANTS, filteredSpecification.getTable());
     selectStmt = selectStmt + filteredSpecification.toSqlClause();
-    if (count > 1) {
-      grants = getJdbcTemplate().query(selectStmt, rowMapper, arguments);
-    }
-    else {
-      grants = new ArrayList<>();
-      grants.add(getJdbcTemplate().queryForObject(selectStmt, rowMapper, arguments));
-    }
+    List<Grant> grants = getJdbcTemplate().query(selectStmt, rowMapper, filteredSpecification.getArguments());
 
     LOGGER.info("Found " + grants.size() + " grant(s).");
     return grants;
