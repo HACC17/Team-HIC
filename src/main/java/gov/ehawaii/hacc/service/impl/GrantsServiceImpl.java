@@ -53,7 +53,7 @@ public class GrantsServiceImpl implements GrantsService {
 
       @SuppressWarnings("unchecked")
       ArrayList<String> filterValues = (ArrayList<String>) obj;
-      if (filterValues != null && !filterValues.isEmpty()) {
+      if (!filterValues.isEmpty()) {
         String filter = Filters.FILTERS_MAP.get(key);
         if (filter == null) {
           throw new IllegalArgumentException(key + " filter not supported, yet.");
@@ -68,7 +68,7 @@ public class GrantsServiceImpl implements GrantsService {
       }
     }
 
-    String filter = buffer.toString().replace(" OR )", " ) AND ").replace("? )", "?)").trim();
+    String filter = buffer.toString().replace(" OR )", ") AND ").trim();
     filter = filter.substring(0, filter.lastIndexOf(")") + 1);
     LOGGER.info("Filter: " + filter);
     Object[] filterValues = arguments.toArray(new Object[arguments.size()]);

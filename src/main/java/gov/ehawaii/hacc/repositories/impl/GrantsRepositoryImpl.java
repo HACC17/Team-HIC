@@ -20,6 +20,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import com.mysql.jdbc.Statement;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.repositories.GrantsRepository;
 import gov.ehawaii.hacc.specifications.AggregateSpecification;
@@ -31,6 +32,7 @@ import gov.ehawaii.hacc.specifications.TimeSeriesSpecification;
 import gov.ehawaii.hacc.specifications.TopNSpecification;
 
 @Repository("GrantsRepository")
+@SuppressFBWarnings("OBL_UNSATISFIED_OBLIGATION_EXCEPTION_EDGE")
 public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsRepository {
 
   private static final Logger LOGGER = LogManager.getLogger(GrantsRepositoryImpl.class);
