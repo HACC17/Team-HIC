@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -225,13 +226,14 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
     String column = sqlSpecification.getColumn();
     Object value = sqlSpecification.getValue();
 
-    Long count = getCount(table, column, value);
-    if (count == 0) {
+    String stmt = String.format(SqlStatements.GET_ID, table, column, value);
+    try {
+      return getJdbcTemplate().queryForObject(stmt, Long.class);
+    }
+    catch (DataAccessException dae) {
+      LOGGER.error("An error occurred while trying to execute the following query: " + stmt, dae);
       return -1;
     }
-    String stmt = String.format(SqlStatements.GET_ID, table, column, value);
-    Long id = getJdbcTemplate().queryForObject(stmt, Long.class);
-    return id == null ? -1 : id;
   }
 
 
@@ -243,8 +245,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
 
 
   private long saveValue(String tableName, String columnName, Object value) {
-    IdSpecification specification = new IdSpecification(tableName, columnName, value);
-    long id = findIdForValue(specification);
+    long id = findIdForValue(new IdSpecification(tableName, columnName, value));
     if (id != -1) {
       return id;
     }
