@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import gov.ehawaii.hacc.model.Grant;
@@ -23,6 +25,8 @@ import gov.ehawaii.hacc.specifications.TopNSpecification;
 @Service
 public class GrantsServiceImpl implements GrantsService {
 
+  private static final Logger LOGGER = LogManager.getLogger(GrantsServiceImpl.class);
+
   @Autowired
   private GrantsRepository dao;
 
@@ -39,24 +43,41 @@ public class GrantsServiceImpl implements GrantsService {
     List<Object> arguments = new ArrayList<>();
 
     for (Entry<String, Object> entry : filters.entrySet()) {
-      if (entry.getValue() != null && !entry.getValue().toString().isEmpty()) {
-        String key = Filters.FILTERS_MAP.get(entry.getKey());
-        if (key == null) {
-          throw new IllegalArgumentException(entry.getKey() + " filter not supported, yet.");
-        }
-        buffer.append(key);
+      String key = entry.getKey();
+      Object obj = entry.getValue();
 
-        arguments.add(getId(key, entry.getValue().toString()));
+      if (!(obj instanceof ArrayList)) {
+        String errorMessage = "Expected list of values, but type was " + obj.getClass() + ".";
+        throw new IllegalArgumentException(errorMessage);
+      }
+
+      @SuppressWarnings("unchecked")
+      ArrayList<String> filterValues = (ArrayList<String>) obj;
+      if (filterValues != null && !filterValues.isEmpty()) {
+        String filter = Filters.FILTERS_MAP.get(key);
+        if (filter == null) {
+          throw new IllegalArgumentException(key + " filter not supported, yet.");
+        }
+        buffer.append("(");
+        for (String value : filterValues) {
+          buffer.append(filter);
+          buffer.append("OR ");
+          arguments.add(getIdForFilterValue(filter, value));
+        }
+        buffer.append(")");
       }
     }
-    String filter = buffer.toString().trim().replace(" ? ", " ? AND ");
+
+    String filter = buffer.toString().replace(" OR )", " ) AND ").replace("? )", "?)").trim();
+    filter = filter.substring(0, filter.lastIndexOf(")") + 1);
+    LOGGER.info("Filter: " + filter);
     Object[] filterValues = arguments.toArray(new Object[arguments.size()]);
 
     return dao.findGrants(new FilteredSpecification(Tables.GRANTS, filter, filterValues));
   }
 
 
-  private Object getId(String key, String value) {
+  private Object getIdForFilterValue(String key, String value) {
     switch (key) {
     case Filters.GRANT_STATUS_ID_FILTER:
       return getId(Tables.GRANT_STATUSES, SqlStatements.STATUS, value);
@@ -152,7 +173,7 @@ public class GrantsServiceImpl implements GrantsService {
       if (filterKey == null) {
         throw new IllegalArgumentException(key + " filter not supported, yet.");
       }
-      filterValuesArray[index++] = getId(filterKey, entry.getValue());
+      filterValuesArray[index++] = getIdForFilterValue(filterKey, entry.getValue());
     }
 
     return dao.findAggregateData(

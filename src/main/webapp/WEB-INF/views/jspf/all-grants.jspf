@@ -27,10 +27,10 @@
             </div>
         </div>
         <div class="form-group">
-            <input type="checkbox" class="filter form-control grant-status" value="Ahahui" onchange="updateTable();" data-key="types">
-            <input type="checkbox" class="filter form-control grant-status" value="BOC Initiative" onchange="updateTable();" data-key="types">
-            <input type="checkbox" class="filter form-control grant-status" value="Community Grant" onchange="updateTable();" data-key="types">
-            <input type="checkbox" class="filter form-control grant-status" value="Sponsorship" onchange="updateTable();" data-key="types">
+            <label for="type1"><input id="type1" type="checkbox" class="filter grant-status" value="Ahahui" onchange="updateTable();" data-key="type"> Ahahui</label>
+            <label for="type2"><input id="type2" type="checkbox" class="filter grant-status" value="BOC Initiative" onchange="updateTable();" data-key="type"> BOC Initiative</label>
+            <label for="type3"><input id="type3" type="checkbox" class="filter grant-status" value="Community Grant" onchange="updateTable();" data-key="type"> Community Grant</label>
+            <label for="type4"><input id="type4" type="checkbox" class="filter grant-status" value="Sponsorship" onchange="updateTable();" data-key="type"> Sponsorship</label>
         </div>
         <div class="form-group">
             <label for="organization">Organization:</label>
