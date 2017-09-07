@@ -121,12 +121,21 @@ $(document).ready(function() {
                 values.push(val);
             });
 
+            var filter;
+            if ($("#stackedBarChartFilter2").val() == "AMOUNT") {
+                filter = "Amount of Money";
+            } else if ($("#stackedBarChartFilter2").val() == "TOTAL_NUMBER_SERVED") {
+                filter = "Number of People Served";
+            } else {
+                filter = "Number of Native Hawaiians Served";
+            }
+
             Highcharts.chart('top-5-orgs-chart', {
                 chart: {
                     type: 'bar'
                 },
                 title: {
-                    text: 'Top 5 Organizations by ' + field + ' for ' + year + ' (' + location + ')'
+                    text: 'Top 5 Organizations in ' + year + ' by ' + filter + ' (' + location + ')'
                 },
                 xAxis: {
                     categories: categories
@@ -134,7 +143,7 @@ $(document).ready(function() {
                 yAxis: {
                     min: 0,
                     title: {
-                        text: 'Organization'
+                        text: filter
                     }
                 },
                 legend: {
@@ -146,6 +155,7 @@ $(document).ready(function() {
                     }
                 },
                 series: [{
+                    name: filter,
                     data: values
                 }]
             });
