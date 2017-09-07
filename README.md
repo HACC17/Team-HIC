@@ -1,8 +1,8 @@
-# Team HIC / eHawaii.gov
+# Team HIC
 
 ![Hawaii Information Consortium logo](http://www.bjpeterdelacruz.com/images/hic.png)
 
-## Introduction
+## About the Project
 
 ## Features
 
@@ -27,6 +27,12 @@ the libraries required to develop the application. The command will also generat
 
 - BJ Peter DeLaCruz (Team Captain) ([e-mail](bjpeter@ehawaii.gov))
 - Christopher Cosner
+
+## About HIC
+
+Hawaii Information Consortium (HIC), a Hawaii corporation and wholly owned subsidiary
+of eGovernment firm [NIC Inc.](http://www.egov.com), partners with state, county, and
+federal agencies to build online services that improve government efficiency.
 
 ## Company Website
 
