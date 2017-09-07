@@ -1,9 +1,13 @@
 package gov.ehawaii.hacc.cron;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -62,30 +66,42 @@ public class GrantsExcelExporter implements Runnable {
 
     currentRow++;
 
+    Collections.sort(grants, (grant1, grant2) -> grant1.getOrganization().compareTo(grant2.getOrganization()));
+
     for (Grant grant : grants) {
       row = sheet.createRow(currentRow);
       currentColumn = 0;
       Cell cell = row.createCell(currentColumn);
       cell.setCellValue(grant.getFiscalYear());
       currentColumn++;
+      cell = row.createCell(currentColumn);
       cell.setCellValue(grant.getOrganization());
       currentColumn++;
+      cell = row.createCell(currentColumn);
       cell.setCellValue(grant.getProject());
       currentColumn++;
+      cell = row.createCell(currentColumn);
       cell.setCellValue(grant.getAmount());
       currentColumn++;
+      cell = row.createCell(currentColumn);
       cell.setCellValue(grant.getGrantStatus());
       currentColumn++;
+      cell = row.createCell(currentColumn);
       cell.setCellValue(grant.getLocation());
       currentColumn++;
+      cell = row.createCell(currentColumn);
       cell.setCellValue(grant.getGrantType());
       currentColumn++;
+      cell = row.createCell(currentColumn);
       cell.setCellValue(grant.getStrategicPriority());
       currentColumn++;
+      cell = row.createCell(currentColumn);
       cell.setCellValue(grant.getStrategicResults());
       currentColumn++;
+      cell = row.createCell(currentColumn);
       cell.setCellValue(grant.getTotalNumberServed());
       currentColumn++;
+      cell = row.createCell(currentColumn);
       cell.setCellValue(grant.getNumberNativeHawaiiansServed());
       currentRow++;
     }
@@ -93,13 +109,34 @@ public class GrantsExcelExporter implements Runnable {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd-HH_mm_ss");
     String filename =
         exportDirectory + filenamePrefix + "_" + formatter.format(LocalDateTime.now()) + "." + filenameSuffix;
-    try (FileOutputStream fos = new FileOutputStream(filename)) {
-      workbook.write(fos);
-      workbook.close();
-      LOGGER.info("Successfully created " + filename + ".");
+    LOGGER.info("Path: " + filename);
+
+    File file;
+    try {
+      Files.createDirectories(Paths.get(exportDirectory));
+      file = new File(filename);
+      if (!file.exists()) {
+        Files.createFile(file.toPath());
+      }
     }
     catch (IOException ioe) {
       LOGGER.error("An error occurred while trying to create Excel file: " + ioe.getMessage(), ioe);
+      try {
+        workbook.close();
+      }
+      catch (IOException e) {
+        LOGGER.error("An error occurred while trying to close Excel file: " + e.getMessage(), e);
+      }
+      return;
+    }
+
+    try (FileOutputStream fos = new FileOutputStream(file)) {
+      workbook.write(fos);
+      workbook.close();
+      LOGGER.info("Successfully wrote " + grants.size() + " grants to " + file + ".");
+    }
+    catch (IOException ioe) {
+      LOGGER.error("An error occurred while trying to close Excel file: " + ioe.getMessage(), ioe);
     }
   }
 
