@@ -25,8 +25,8 @@ the libraries required to develop the application. The command will also generat
 
 ## Team Members
 
-- BJ Peter DeLaCruz (Team Captain) ([e-mail](bjpeter@ehawaii.gov))
-- Christopher Cosner
+- BJ Peter DeLaCruz (Team Captain), Java developer ([e-mail](bjpeter@ehawaii.gov))
+- Christopher Cosner, designer
 
 ## About HIC
 
