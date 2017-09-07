@@ -261,19 +261,15 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
 
 
   private String getValue(String tableName, String columnName, Object id) {
-    long count = getCount(tableName, "ID", id);
-    if (count == 0) {
+    String stmt = String.format(SqlStatements.GET_VALUE, columnName, tableName);
+    try {
+     String result = getJdbcTemplate().queryForObject(stmt, String.class, id);
+     return result == null ? "" : result;
+    }
+    catch (DataAccessException dae) {
+      LOGGER.error("An error occurred while trying to execute the following query: " + stmt, dae);
       return "";
     }
-    String stmt = String.format(SqlStatements.GET_VALUE, columnName, tableName);
-    String data = getJdbcTemplate().queryForObject(stmt, String.class, id);
-    return data == null ? "" : data;
-  }
-
-
-  private long getCount(String tableName, String columnName, Object value) {
-    String stmt = String.format(SqlStatements.COUNT, tableName) + "WHERE " + columnName + " = ?";
-    return getJdbcTemplate().queryForObject(stmt, Long.class, value);
   }
 
 }
