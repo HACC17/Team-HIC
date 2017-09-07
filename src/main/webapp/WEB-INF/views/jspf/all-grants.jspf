@@ -27,10 +27,10 @@
             </div>
         </div>
         <div class="form-group">
-            <input type="checkbox" class="form-control grant-status" value="Ahahui">
-            <input type="checkbox" class="form-control grant-status" value="BOC Initiative">
-            <input type="checkbox" class="form-control grant-status" value="Community Grant">
-            <input type="checkbox" class="form-control grant-status" value="Sponsorship">
+            <input type="checkbox" class="filter form-control grant-status" value="Ahahui" onchange="updateTable();" data-key="types">
+            <input type="checkbox" class="filter form-control grant-status" value="BOC Initiative" onchange="updateTable();" data-key="types">
+            <input type="checkbox" class="filter form-control grant-status" value="Community Grant" onchange="updateTable();" data-key="types">
+            <input type="checkbox" class="filter form-control grant-status" value="Sponsorship" onchange="updateTable();" data-key="types">
         </div>
         <div class="form-group">
             <label for="organization">Organization:</label>
@@ -258,8 +258,21 @@
     function updateTable() {
         var filter = {};
         $(".filter").each(function(index, value) {
-            if ($(this).val() != null && $(this).val() != '') {
-                filter[$(this).data("key")] = $(this).val();
+            if ($(this).is(':checkbox')) {
+                if ($(this).is(':checked')) {
+                    var array = filter[$(this).data("key")];
+                    if (array == null) {
+                        filter[$(this).data("key")] = [];
+                    }
+                    filter[$(this).data("key")].push($(this).val());
+            	}
+            }
+            else if ($(this).val() != null && $(this).val() != '') {
+                var array = filter[$(this).data("key")];
+                if (array == null) {
+                    filter[$(this).data("key")] = [];
+                }
+                filter[$(this).data("key")].push($(this).val());
             }
         });
         $.ajax({
