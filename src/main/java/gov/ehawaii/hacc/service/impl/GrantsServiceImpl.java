@@ -14,7 +14,6 @@ import gov.ehawaii.hacc.repositories.impl.Filters;
 import gov.ehawaii.hacc.repositories.impl.SqlStatements;
 import gov.ehawaii.hacc.repositories.impl.Tables;
 import gov.ehawaii.hacc.service.GrantsService;
-import gov.ehawaii.hacc.specifications.AggregateSpecification;
 import gov.ehawaii.hacc.specifications.ColumnSpecification;
 import gov.ehawaii.hacc.specifications.FilteredSpecification;
 import gov.ehawaii.hacc.specifications.IdSpecification;
