@@ -21,6 +21,7 @@ import gov.ehawaii.hacc.specifications.IdSpecification;
 import gov.ehawaii.hacc.specifications.TimeSeriesSpecification;
 import gov.ehawaii.hacc.specifications.TopNFiscalYearSpecification;
 import gov.ehawaii.hacc.specifications.TopNSpecification;
+import gov.ehawaii.hacc.specifications.TotalsSpecification;
 
 @Service
 public class GrantsServiceImpl implements GrantsService {
@@ -150,11 +151,17 @@ public class GrantsServiceImpl implements GrantsService {
   @Override
   public Map<String, Map<String, Long>> getAggregateDataForEachLocation(String aggregateField,
       String filter, String filterValue) {
-    AggregateSpecification aggregateSpecification = new AggregateSpecification(
-        SqlStatements.GET_TOTAL_FOR_EACH_LOCATION, SqlStatements.GET_ALL_DATA_FOR_LOCATION,
+    TotalsSpecification totalsSpecification = new TotalsSpecification(
+        SqlStatements.GET_TOTAL_FOR_EACH_LOCATION,
         aggregateField, new String[] { filter }, new Object[] { filterValue });
-    aggregateSpecification.setColSpec(new ColumnSpecification(Tables.LOCATIONS, SqlStatements.LOCATION));
-    return dao.findAggregateData(aggregateSpecification);
+    Map<String, Map<String, Long>> data = dao.findAggregateData(totalsSpecification);
+
+    totalsSpecification = new TotalsSpecification(
+        SqlStatements.GET_ALL_DATA_FOR_LOCATION,
+        aggregateField, new String[] { filter }, new Object[] { filterValue });
+    totalsSpecification.setColSpec(new ColumnSpecification(Tables.LOCATIONS, SqlStatements.LOCATION));
+    data.putAll(dao.findAggregateData(totalsSpecification));
+    return data;
   }
 
 
@@ -177,8 +184,7 @@ public class GrantsServiceImpl implements GrantsService {
       filterValuesArray[index++] = getIdForFilterValue(filterKey, entry.getValue());
     }
 
-    return dao.findAggregateData(
-        new AggregateSpecification(stmt, null, aggregateField, filtersArray, filterValuesArray));
+    return dao.findAggregateData(new TotalsSpecification(stmt, aggregateField, filtersArray, filterValuesArray));
   }
 
 

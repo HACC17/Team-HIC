@@ -18,18 +18,17 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 import com.mysql.jdbc.Statement;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.repositories.GrantsRepository;
-import gov.ehawaii.hacc.specifications.AggregateSpecification;
 import gov.ehawaii.hacc.specifications.FilteredSpecification;
 import gov.ehawaii.hacc.specifications.IdSpecification;
 import gov.ehawaii.hacc.specifications.Specification;
 import gov.ehawaii.hacc.specifications.SqlSpecification;
 import gov.ehawaii.hacc.specifications.TimeSeriesSpecification;
 import gov.ehawaii.hacc.specifications.TopNSpecification;
+import gov.ehawaii.hacc.specifications.TotalsSpecification;
 
 @Repository("GrantsRepository")
 @SuppressFBWarnings("OBL_UNSATISFIED_OBLIGATION_EXCEPTION_EDGE")
@@ -169,7 +168,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
 
   @Override
   public Map<String, Map<String, Long>> findAggregateData(Specification specification) {
-    AggregateSpecification aggregateSpecification = (AggregateSpecification) specification;
+    TotalsSpecification totalsSpecification = (TotalsSpecification) specification;
 
     Map<String, Map<String, Long>> data = new HashMap<>();
 
@@ -181,23 +180,18 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
       return map;
     };
 
-    Object[] filterValues = aggregateSpecification.getFilterValues();
+    Object[] filterValues = totalsSpecification.getFilterValues();
 
-    aggregateSpecification.setUseAllQuery(false);
-
-    data.put("totals", getJdbcTemplate().query(aggregateSpecification.toSqlClause(), rsExtractor, filterValues));
-
-    if (StringUtils.isEmpty(aggregateSpecification.getAllQuery())) {
+    if (totalsSpecification.getColSpec() == null) {
+      data.put("totals", getJdbcTemplate().query(totalsSpecification.toSqlClause(), rsExtractor, filterValues));
       return data;
     }
 
-    List<String> values = findAllValues(aggregateSpecification.getColSpec());
-
-    aggregateSpecification.setUseAllQuery(true);
+    List<String> values = findAllValues(totalsSpecification.getColSpec());
 
     for (String value : values) {
-      filterValues = ArrayUtils.addAll(new Object[] { value }, aggregateSpecification.getFilterValues());
-      data.put(value, getJdbcTemplate().query(aggregateSpecification.toSqlClause(), rsExtractor, filterValues));
+      filterValues = ArrayUtils.addAll(new Object[] { value }, totalsSpecification.getFilterValues());
+      data.put(value, getJdbcTemplate().query(totalsSpecification.toSqlClause(), rsExtractor, filterValues));
     }
 
     return data;

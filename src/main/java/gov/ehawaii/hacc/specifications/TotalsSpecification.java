@@ -5,22 +5,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class AggregateSpecification implements SqlSpecification {
+public class TotalsSpecification implements SqlSpecification {
 
   private final String totalsQuery;
-  private final String allQuery;
   private final String aggregateField;
   private final String[] filters;
   private final Object[] filterValues;
   @Setter
-  private boolean useAllQuery;
-  @Setter
   private ColumnSpecification colSpec;
 
-  public AggregateSpecification(String totalsQuery, String allQuery, String aggregateField,
+  public TotalsSpecification(String totalsQuery, String aggregateField,
       String[] filters, Object[] filterValues) {
     this.totalsQuery = totalsQuery;
-    this.allQuery = allQuery;
     this.aggregateField = aggregateField;
     this.filters = filters == null ? new String[0] : filters.clone();
     this.filterValues = filterValues == null ? new String[0] : filterValues.clone();
@@ -43,7 +39,7 @@ public class AggregateSpecification implements SqlSpecification {
 
   @Override
   public String toSqlClause() {
-    return String.format(useAllQuery ? allQuery : totalsQuery, aggregateField, buildFilter());
+    return String.format(totalsQuery, aggregateField, buildFilter());
   }
 
   public String[] getFilters() {
