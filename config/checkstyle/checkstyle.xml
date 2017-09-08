@@ -61,12 +61,12 @@
 
     <!-- Miscellaneous other checks.                   -->
     <!-- See http://checkstyle.sf.net/config_misc.html -->
-    <module name="RegexpSingleline">
+    <!-- <module name="RegexpSingleline">
        <property name="format" value="\s+$"/>
        <property name="minimum" value="0"/>
        <property name="maximum" value="0"/>
        <property name="message" value="Line has trailing spaces."/>
-    </module>
+    </module> -->
 
     <module name="TreeWalker">
 
@@ -74,7 +74,7 @@
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->
         <module name="JavadocMethod"/>
         <module name="JavadocType"/>
-        <module name="JavadocVariable"/>
+        <!-- <module name="JavadocVariable"/> -->
         <module name="JavadocStyle"/>
 
 
@@ -129,8 +129,8 @@
         <module name="EmptyForIteratorPad"/>
         <module name="GenericWhitespace"/>
         <module name="MethodParamPad"/>
-        <module name="NoWhitespaceAfter"/>
-        <module name="NoWhitespaceBefore"/>
+        <!-- <module name="NoWhitespaceAfter"/> -->
+        <!-- <module name="NoWhitespaceBefore"/> -->
         <module name="OperatorWrap"/>
         <module name="ParenPad"/>
         <module name="TypecastParenPad"/>

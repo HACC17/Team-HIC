@@ -33,13 +33,13 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   @Override
-  public boolean saveGrant(Grant grant) {
+  public final boolean saveGrant(Grant grant) {
     return repository.insertGrant(grant);
   }
 
 
   @Override
-  public List<Grant> getGrants(Map<String, Object> filters) {
+  public final List<Grant> getGrants(Map<String, Object> filters) {
     StringBuffer buffer = new StringBuffer();
     List<Object> arguments = new ArrayList<>();
 
@@ -107,7 +107,7 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   @Override
-  public List<Map<String, Object>> getTopFiveOrganizationsForFiscalYear(String year) {
+  public final List<Map<String, Object>> getTopFiveOrganizationsForFiscalYear(String year) {
     if (year == null || year.isEmpty()) {
       throw new IllegalArgumentException("year is null or empty.");
     }
@@ -118,7 +118,7 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   @Override
-  public List<Map<String, Object>> getTopNData(int top, String field1, String field2) {
+  public final List<Map<String, Object>> getTopNData(int top, String field1, String field2) {
     if (top < 1) {
       throw new IllegalArgumentException("top must be greater than 0.");
     }
@@ -134,7 +134,7 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   @Override
-  public List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field) {
+  public final List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field) {
     if (organization == null || organization.isEmpty()) {
       throw new IllegalArgumentException("organization is null or empty.");
     }
@@ -149,7 +149,7 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   @Override
-  public Map<String, Map<String, Long>> getAggregateDataForEachLocation(String aggregateField,
+  public final Map<String, Map<String, Long>> getAggregateDataForEachLocation(String aggregateField,
       String filter, String filterValue) {
     TotalsSpecification totalsSpecification = new TotalsSpecification(
         SqlStatements.GET_TOTAL_FOR_EACH_LOCATION,
@@ -166,7 +166,7 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   @Override
-  public Map<String, Map<String, Long>> getTopNDataForEachLocation(int top, String aggregateField, Map<String, String> filters) {
+  public final Map<String, Map<String, Long>> getTopNDataForEachLocation(int top, String aggregateField, Map<String, String> filters) {
     String stmt = SqlStatements.GET_TOP_N_ORGANIZATIONS_FOR_EACH_LOCATION.replace("xxx", aggregateField).replace("yyy",
         String.valueOf(top));
     String[] filtersArray = new String[filters.size()];
@@ -189,50 +189,50 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   @Override
-  public List<String> getAllGrantStatuses() {
+  public final List<String> getAllGrantStatuses() {
     return repository.findAllValues(new ColumnSpecification(Tables.GRANT_STATUSES, Columns.GRANT_STATUS));
   }
 
 
   @Override
-  public List<String> getAllGrantTypes() {
+  public final List<String> getAllGrantTypes() {
     return repository.findAllValues(new ColumnSpecification(Tables.GRANT_TYPES, Columns.GRANT_TYPE));
   }
 
 
   @Override
-  public List<String> getAllLocations() {
+  public final List<String> getAllLocations() {
     return repository.findAllValues(new ColumnSpecification(Tables.LOCATIONS, Columns.LOCATION));
   }
 
 
   @Override
-  public List<String> getAllOrganizations() {
+  public final List<String> getAllOrganizations() {
     return repository.findAllValues(new ColumnSpecification(Tables.ORGANIZATIONS, Columns.ORGANIZATION));
   }
 
 
   @Override
-  public List<String> getAllProjects() {
+  public final List<String> getAllProjects() {
     return repository.findAllValues(new ColumnSpecification(Tables.PROJECTS, Columns.PROJECT));
   }
 
 
   @Override
-  public List<String> getAllStrategicPriorities() {
+  public final List<String> getAllStrategicPriorities() {
     return repository
         .findAllValues(new ColumnSpecification(Tables.STRATEGIC_PRIORITIES, Columns.STRATEGIC_PRIORITY));
   }
 
 
   @Override
-  public List<String> getAllStrategicResults() {
+  public final List<String> getAllStrategicResults() {
     return repository.findAllValues(new ColumnSpecification(Tables.STRATEGIC_RESULTS, Columns.STRATEGIC_RESULT));
   }
 
 
   @Override
-  public List<String> getAllFiscalYears() {
+  public final List<String> getAllFiscalYears() {
     return repository.findAllValues(new ColumnSpecification(Tables.GRANTS, Columns.FISCAL_YEAR, true));
   }
 

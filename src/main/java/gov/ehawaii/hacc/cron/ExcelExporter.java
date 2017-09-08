@@ -48,7 +48,7 @@ public class ExcelExporter implements Runnable {
 
 
   @Override
-  public void run() {
+  public final void run() {
     LOGGER.info("GrantsExcelExporter task started.");
     export(grantsService.getGrants(new HashMap<>()));
   }
