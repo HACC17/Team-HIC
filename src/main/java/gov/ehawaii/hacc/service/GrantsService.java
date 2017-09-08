@@ -8,6 +8,12 @@ public interface GrantsService {
 
   boolean saveGrant(Grant grant);
 
+  /**
+   * Returns a list of grants that satisfy the given conditions.
+   * 
+   * @param filters Conditions that must be satisfied.
+   * @return A list of grants.
+   */
   List<Grant> getGrants(Map<String, Object> filters);
 
   List<Map<String, Object>> getTopFiveOrganizationsForFiscalYear(String year);
