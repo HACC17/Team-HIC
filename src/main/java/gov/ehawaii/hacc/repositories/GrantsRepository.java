@@ -9,8 +9,8 @@ import gov.ehawaii.hacc.specifications.Specification;
  * Implementations of this interface are responsible for:
  * 
  * <ul>
- * <li>Saving a grant to the database</li>
- * <li>Retrieving a list of grants from the database that satisfy one or more conditions</li>
+ * <li>Saving a grant to the data source</li>
+ * <li>Retrieving a list of grants from the data source that satisfy one or more conditions</li>
  * </ul>
  * 
  * Delete operations are currently not supported in this version of the interface.
@@ -21,7 +21,7 @@ import gov.ehawaii.hacc.specifications.Specification;
 public interface GrantsRepository {
 
   /**
-   * Saves the given grant to the underlying database.
+   * Saves the given grant to the underlying data source.
    * 
    * @param grant The grant to save.
    * @return <code>true</code> if the grant was successfully saved, <code>false</code> otherwise.
@@ -30,7 +30,7 @@ public interface GrantsRepository {
 
 
   /**
-   * Retrieves a list of grants from the database that satisfy the given conditions.
+   * Retrieves a list of grants from the data source that satisfy the given conditions.
    * 
    * @param specification Contains the conditions.
    * @return A list of grants that satisfy the given conditions.

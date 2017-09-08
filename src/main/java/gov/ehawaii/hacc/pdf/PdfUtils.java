@@ -20,15 +20,36 @@ import com.itextpdf.text.pdf.PdfPage;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
+/**
+ * This utility class contains methods related to PDFs, such as creating a PDF and adding a table to a PDF.
+ * 
+ * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
+ * @version 1.0
+ */
 public final class PdfUtils {
 
   public static final float PIE_CHART_IMAGE_SCALE_PERCENT = 30.0f;
   public static final float LINE_CHART_IMAGE_SCALE_PERCENT = 50.0f;
   public static final float LOCATIONS_PIE_CHART_IMAGE_SCALE_PERCENT = 80.0f;
 
+  /** Do not instantiate this class. */
   private PdfUtils() {
   }
 
+  /**
+   * This method creates a PDF file with an image and a two-column table below the image. The file is
+   * written to the given output stream.
+   * 
+   * @param document The document used to create a PDF.
+   * @param decodedBytes A base-64 string that represents an image and is <b>already</b> decoded.
+   * @param os The output stream to which to write the PDF.
+   * @param imageScalePercent The scale in percent, used to resize the image.
+   * @param tableHeading The name for the table.
+   * @param columnHeadings An array of column headings.
+   * @param columnOneData An array of data for the first column in the table.
+   * @param columnTwoData An array of data for the second column in the table.
+   * @param isFiscal <code>true</code> if the data in the second column is fiscal, <code>false</code> otherwise.
+   */
   public static void createPdfFile(Document document, byte[] decodedBytes, OutputStream os,
       float imageScalePercent, String tableHeading, String[] columnHeadings, String[] columnOneData,
       String[] columnTwoData, boolean isFiscal) {
@@ -58,57 +79,53 @@ public final class PdfUtils {
 
     Font font = new Font();
     font.setColor(BaseColor.WHITE);
-    PdfPCell cell = new PdfPCell(new Phrase(tableHeading, font));
-    cell.setFixedHeight(20);
+
+    PdfPCell cell = createCell(tableHeading, font);
     cell.setColspan(2);
-    cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-    cell.setBorder(Rectangle.BOX);
     cell.setBackgroundColor(new BaseColor(45, 65, 84));
     table.addCell(cell);
+
     // header row
     for (String heading : columnHeadings) {
-      cell = new PdfPCell(new Phrase(heading, font));
-      cell.setFixedHeight(20);
-      cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-      cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-      cell.setBorder(Rectangle.BOX);
+      cell = createCell(heading, font);
       cell.setBackgroundColor(new BaseColor(45, 65, 84));
       table.addCell(cell);
     }
+
     for (int idx = 0; idx < Math.max(columnOneData.length, columnTwoData.length); idx++) {
-      String data = "";
-      if (idx < columnOneData.length) {
-        data = columnOneData[idx];
-      }
-      cell = new PdfPCell(new Phrase(WordUtils.capitalizeFully(data)));
-      cell.setFixedHeight(20);
-      cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-      cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-      cell.setBorder(Rectangle.BOX);
-      table.addCell(cell);
-      data = "";
-      if (idx < columnTwoData.length) {
-        data = columnTwoData[idx];
-      }
+      String data = idx < columnOneData.length ? "" : columnOneData[idx];
+      table.addCell(createCell(WordUtils.capitalizeFully(data), null));
+
+      data = idx < columnTwoData.length ? "" : columnTwoData[idx];
       if (!data.isEmpty()) {
+        Locale en = new Locale("en", "US");
         int num = Integer.parseInt(data);
         if (isFiscal) {
-          data = NumberFormat.getCurrencyInstance(new Locale("en", "US")).format(num);
+          data = NumberFormat.getCurrencyInstance(en).format(num);
         }
         else {
-          data = NumberFormat.getNumberInstance(new Locale("en", "US")).format(num);
+          data = NumberFormat.getNumberInstance(en).format(num);
         }
       }
-      cell = new PdfPCell(new Phrase(WordUtils.capitalizeFully(data)));
-      cell.setFixedHeight(20);
-      cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-      cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-      cell.setBorder(Rectangle.BOX);
-      table.addCell(cell);
+      table.addCell(createCell(WordUtils.capitalizeFully(data), null));
     }
 
     return table;
+  }
+
+  private static PdfPCell createCell(String cellValue, Font font) {
+    PdfPCell cell;
+    if (font == null) {
+      cell = new PdfPCell(new Phrase(cellValue));
+    }
+    else {
+      cell = new PdfPCell(new Phrase(cellValue, font));
+    }
+    cell.setFixedHeight(20);
+    cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+    cell.setBorder(Rectangle.BOX);
+    return cell;
   }
 
   private static class Rotate extends PdfPageEventHelper {
