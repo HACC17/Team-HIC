@@ -23,6 +23,12 @@ import org.springframework.util.Assert;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.service.GrantsService;
 
+/**
+ * This background task exports ALL the grants in a repository to a Microsoft Excel file.
+ * 
+ * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
+ * @version 1.0
+ */
 @Component("ExcelExportTask")
 public class ExcelExporter implements Runnable {
 
@@ -48,6 +54,12 @@ public class ExcelExporter implements Runnable {
   }
 
 
+  /**
+   * Exports the given list of grants to a Microsoft Excel file. The file is sorted alphabetically in ascending order
+   * by organization.
+   * 
+   * @param grants The list of grants to save to a Microsoft Excel file.
+   */
   private void export(List<Grant> grants) {
     Assert.notNull(grants, "grants must not be null.");
 
