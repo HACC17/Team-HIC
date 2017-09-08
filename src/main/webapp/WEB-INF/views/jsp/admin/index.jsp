@@ -36,6 +36,7 @@
 			<div class="row extra-extra-top-margin top-border">
 				<div class="col-md-4 col-md-push-4 extra-extra-top-margin">
 					<button id="import-csv" type="button" class="btn btn-lg btn-block btn-primary">Import Grants Data from CSV File</button>
+					<button id="import-excel" type="button" class="btn btn-lg btn-block btn-primary">Import Grants Data from Excel File</button>
 				</div>
 			</div>
 		</div>
@@ -54,6 +55,24 @@
 					$(".alert-warning").hide();
 					$(".alert-success").show();
 					$("#import-csv").attr("disabled", "disabled");
+					$("#import-excel").attr("disabled", "disabled");
+				}).fail(function(data, textStatus, xhr) {
+					$(".alert-warning").hide();
+					$("#problem").html(xhr);
+					$(".alert-danger").show();
+				});
+			});
+			$("#import-excel").click(function(event) {
+				event.preventDefault();
+				$("#message").show();
+				$(".alert-warning").show();
+				$.get("<c:url value='/admin/import?ext=excel' />", function(data) {
+					console.log(data);
+				}).done(function() {
+					$(".alert-warning").hide();
+					$(".alert-success").show();
+					$("#import-csv").attr("disabled", "disabled");
+					$("#import-excel").attr("disabled", "disabled");
 				}).fail(function(data, textStatus, xhr) {
 					$(".alert-warning").hide();
 					$("#problem").html(xhr);

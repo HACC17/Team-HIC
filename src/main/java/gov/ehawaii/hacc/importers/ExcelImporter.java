@@ -1,7 +1,5 @@
 package gov.ehawaii.hacc.importers;
 
-import static gov.ehawaii.hacc.importers.Importer.stringToInt;
-import static gov.ehawaii.hacc.importers.Importer.stringToLong;
 import static gov.ehawaii.hacc.importers.Importer.trim;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -44,25 +42,25 @@ public class ExcelImporter implements Importer {
       Iterator<Row> iterator = datatypeSheet.iterator();
 
       int count = 0;
+      Row currentRow = iterator.next(); // skip header row
       while (iterator.hasNext()) {
-        Row currentRow = iterator.next();
+        currentRow = iterator.next();
         Iterator<Cell> cellIterator = currentRow.iterator();
 
         while (cellIterator.hasNext()) {
           Grant grant = new Grant();
-          grant.setFiscalYear(stringToInt(cellIterator.next().getStringCellValue()));
+          grant.setFiscalYear((int) cellIterator.next().getNumericCellValue());
           grant.setGrantType(trim(cellIterator.next().getStringCellValue()));
           grant.setOrganization(trim(cellIterator.next().getStringCellValue()));
           grant.setProject(trim(cellIterator.next().getStringCellValue()));
-          grant.setAmount(stringToLong(cellIterator.next().getStringCellValue()));
+          grant.setAmount((long) cellIterator.next().getNumericCellValue());
           grant.setLocation(trim(cellIterator.next().getStringCellValue()));
           grant.setStrategicPriority(trim(cellIterator.next().getStringCellValue()));
           grant.setStrategicResults(trim(cellIterator.next().getStringCellValue()));
-          grant.setTotalNumberServed(stringToInt(cellIterator.next().getStringCellValue()));
-          grant.setNumberNativeHawaiiansServed(
-              stringToInt(cellIterator.next().getStringCellValue()));
+          grant.setTotalNumberServed(getIntCellValue(cellIterator.next()));
+          grant.setNumberNativeHawaiiansServed(getIntCellValue(cellIterator.next()));
           grant.setGrantStatus(repository.findValueForId(new IdSpecification(Tables.GRANT_STATUSES,
-              SqlStatements.GRANT_STATUS, cellIterator.next().getStringCellValue())));
+              SqlStatements.GRANT_STATUS, getIntCellValue(cellIterator.next()))));
           if (repository.insertGrant(grant)) {
             LOGGER.info("Successfully saved grant [" + grant + "] to repository.");
             count++;
@@ -76,6 +74,22 @@ public class ExcelImporter implements Importer {
     catch (IOException ioe) {
       LOGGER.error("An error occurred while trying to parse CSV file: " + ioe.getMessage(), ioe);
       return false;
+    }
+  }
+
+  /**
+   * Gets an <code>int</code> from a cell.
+   * 
+   * @param cell The cell from which to get an <code>int</code>.
+   * @return The <code>int</code> value, or 0 if the value is a string that cannot be converted, e.g. "NULL".
+   */
+  private static int getIntCellValue(Cell cell) {
+    try {
+      return (int) cell.getNumericCellValue();
+    }
+    catch (IllegalStateException ise) {
+      LOGGER.info("Cannot convert \"" + cell.getStringCellValue() + "\" to int.");
+      return 0;
     }
   }
 
