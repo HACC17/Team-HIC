@@ -44,7 +44,7 @@ public final class SqlStatements {
 
   public static final String COUNT = "SELECT COUNT(*) FROM %s ";
 
-  public static final String GET_AGGREGATE_DATA_FOR_ORGANIZATION = "SELECT FISCAL_YEAR, SUM(%s) FROM GRANTS WHERE ORGANIZATION_ID = %d";
+  public static final String GET_AGGREGATE_DATA_FOR_ORGANIZATION = "SELECT FISCAL_YEAR, SUM(%s) FROM GRANTS WHERE ORGANIZATION_ID = ?";
 
   public static final String GET_TOP_N_DATA = "SELECT %s, SUM(%s) FROM GRANTS";
 

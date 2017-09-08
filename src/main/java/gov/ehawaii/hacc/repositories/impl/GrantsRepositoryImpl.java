@@ -149,11 +149,8 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
 
     long id = findIdForValue(new IdSpecification(tsSpecification.getTable(),
         tsSpecification.getColumn(), tsSpecification.getValue()));
-    String timeSeriesQuery = tsSpecification.toSqlClause();
-    String stmt = String.format(timeSeriesQuery, tsSpecification.getAggregateField(), id);
-    LOGGER.info("SQL Statement: " + stmt);
 
-    return getJdbcTemplate().query(stmt, rs -> {
+    return getJdbcTemplate().query(tsSpecification.toSqlClause(), rs -> {
       List<Map<String, Long>> rows = new ArrayList<>();
       while (rs.next()) {
         Map<String, Long> row = new LinkedHashMap<>();
@@ -162,7 +159,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
         rows.add(row);
       }
       return rows;
-    });
+    }, id);
   }
 
 

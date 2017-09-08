@@ -38,7 +38,7 @@ public class TimeSeriesSpecification implements SqlSpecification {
 
   @Override
   public String toSqlClause() {
-    return timeSeriesQuery + " GROUP BY FISCAL_YEAR ORDER BY FISCAL_YEAR ASC";
+    return String.format(timeSeriesQuery + " GROUP BY FISCAL_YEAR ORDER BY FISCAL_YEAR ASC", aggregateField);
   }
 
 }
