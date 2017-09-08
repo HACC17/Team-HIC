@@ -20,6 +20,9 @@ import gov.ehawaii.hacc.repositories.GrantsRepository;
 import gov.ehawaii.hacc.repositories.impl.SqlStatements;
 import gov.ehawaii.hacc.repositories.impl.Tables;
 import gov.ehawaii.hacc.specifications.IdSpecification;
+import static gov.ehawaii.hacc.importers.Importer.trim;
+import static gov.ehawaii.hacc.importers.Importer.stringToInt;
+import static gov.ehawaii.hacc.importers.Importer.stringToLong;
 
 /**
  * This importer will read in a CSV file and insert all the grants found in it into the repository.
@@ -35,7 +38,7 @@ public class CsvImporter implements Importer {
   private static final int NUMBER_OF_COLUMNS = 11;
 
   @Autowired
-  private GrantsRepository dao;
+  private GrantsRepository repository;
 
   @Value(value = "classpath:data/2013_2016_data.csv")
   private Resource csvFile;
@@ -60,54 +63,25 @@ public class CsvImporter implements Importer {
         grant.setGrantType(trim(record.get(1)));
         grant.setOrganization(trim(record.get(2)));
         grant.setProject(trim(record.get(3)));
-        grant.setAmount(stringToInt(record.get(4)));
+        grant.setAmount(stringToLong(record.get(4)));
         grant.setLocation(trim(record.get(5)));
         grant.setStrategicPriority(trim(record.get(6)));
         grant.setStrategicResults(trim(record.get(7)));
         grant.setTotalNumberServed(stringToInt(record.get(8)));
         grant.setNumberNativeHawaiiansServed(stringToInt(record.get(9)));
-        grant.setGrantStatus(dao.findValueForId(new IdSpecification(Tables.GRANT_STATUSES,
+        grant.setGrantStatus(repository.findValueForId(new IdSpecification(Tables.GRANT_STATUSES,
             SqlStatements.GRANT_STATUS, record.get(10))));
-        if (dao.insertGrant(grant)) {
-          LOGGER.info("Successfully saved grant [" + grant + "] to database.");
+        if (repository.insertGrant(grant)) {
+          LOGGER.info("Successfully saved grant [" + grant + "] to repository.");
           count++;
         }
       }
-      LOGGER.info("Successfully imported " + count + " grant(s) into database.");
+      LOGGER.info("Successfully imported " + count + " grant(s) into repository.");
       return true;
     }
     catch (IOException ioe) {
       LOGGER.error("An error occurred while trying to parse CSV file: " + ioe.getMessage(), ioe);
       return false;
-    }
-  }
-
-  /**
-   * Trims off any whitespace characters at both ends of the given string.
-   * 
-   * @param value The string from which to strip whitespace characters at the beginning and end.
-   * @return A string with no whitespace characters at either end, or an empty string.
-   */
-  private static String trim(String value) {
-    return value == null || value.isEmpty() ? "" : value.trim();
-  }
-
-  /**
-   * Converts the given string to an integer.
-   * 
-   * @param value The string to convert.
-   * @return An integer, or 0 if the string cannot be converted.
-   */
-  private static int stringToInt(String value) {
-    if (value == null || value.isEmpty()) {
-      return 0;
-    }
-    try {
-      return Integer.parseInt(value);
-    }
-    catch (NumberFormatException nfe) {
-      LOGGER.error("Unable to parse \"" + value + "\" to int.", nfe);
-      return 0;
     }
   }
 
