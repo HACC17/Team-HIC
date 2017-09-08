@@ -3,6 +3,14 @@ package gov.ehawaii.hacc.specifications;
 import gov.ehawaii.hacc.repositories.impl.SqlStatements;
 import lombok.Getter;
 
+/**
+ * This specification uses the following query to retrieve the ID for a given value:<br /><br />
+ * 
+ * <code>&nbsp;&nbsp;SELECT ID FROM [table] WHERE [column] = [value]</code>
+ * 
+ * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
+ * @version 1.0
+ */
 @Getter
 public class IdSpecification implements SqlSpecification {
 
@@ -31,6 +39,9 @@ public class IdSpecification implements SqlSpecification {
     return value;
   }
 
+  /**
+   * @return The following query: <code>SELECT ID FROM [table] WHERE [column] = [value]</code>.
+   */
   @Override
   public String toSqlClause() {
     return String.format(SqlStatements.GET_ID, table, column, value);
