@@ -23,6 +23,14 @@ import gov.ehawaii.hacc.specifications.TopNFiscalYearSpecification;
 import gov.ehawaii.hacc.specifications.TopNSpecification;
 import gov.ehawaii.hacc.specifications.TotalsSpecification;
 
+/**
+ * This service will save grants to and retrieve grants from a {@link GrantsRepository}. Methods in this
+ * class will create one or more {@link Specification}s that will be passed to the repository and used
+ * to fetch grants from it.
+ * 
+ * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
+ * @version 1.0
+ */
 @Service
 public class GrantsServiceImpl implements GrantsService {
 
@@ -79,6 +87,13 @@ public class GrantsServiceImpl implements GrantsService {
   }
 
 
+  /**
+   * Gets the ID for the given value. When querying the GRANTS table, the ID is needed for some columns.
+   * 
+   * @param key A key from the filters map, which can be found in the Filters class.
+   * @param value The value for which to get the ID.
+   * @return The ID, -1 if the value does not have an ID associated with it, or the value if the key cannot be found in the filters map.
+   */
   private Object getIdForFilterValue(String key, String value) {
     switch (key) {
     case Filters.GRANT_STATUS_ID_FILTER:
@@ -101,6 +116,14 @@ public class GrantsServiceImpl implements GrantsService {
   }
 
 
+  /**
+   * Gets the ID for the given value from the given table.
+   * 
+   * @param table The table from which to get the ID.
+   * @param column The column that contains the given value.
+   * @param value The value for which to get the ID.
+   * @return The ID, or -1 if the value does not have an ID associated with it.
+   */
   private long getId(String table, String column, String value) {
     return repository.findIdForValue(new IdSpecification(table, column, value));
   }
