@@ -60,8 +60,7 @@ public final class PdfUtils {
       Image image = Image.getInstance(decodedBytes);
       image.scalePercent(imageScalePercent);
       document.add(image);
-      document.add(createTable(writer, tableHeading, columnHeadings, columnOneData, columnTwoData,
-          isFiscal));
+      document.add(createTable(tableHeading, columnHeadings, columnOneData, columnTwoData, isFiscal));
       document.close();
     }
     catch (Exception e) {
@@ -69,9 +68,19 @@ public final class PdfUtils {
     }
   }
 
-  private static PdfPTable createTable(PdfWriter writer, String tableHeading,
-      String[] columnHeadings, String[] columnOneData, String[] columnTwoData, boolean isFiscal)
-      throws DocumentException {
+  /**
+   * Creates a table that can be inserted into a PDF file.
+   * 
+   * @param tableHeading The name for the table.
+   * @param columnHeadings An array of column headings.
+   * @param columnOneData An array of data for the first column in the table.
+   * @param columnTwoData An array of data for the second column in the table.
+   * @param isFiscal <code>true</code> if the data in the second column is fiscal, <code>false</code> otherwise.
+   * @return A table that can be inserted into a PDF file.
+   * @throws DocumentException If there are problems creating the table.
+   */
+  private static PdfPTable createTable(String tableHeading, String[] columnHeadings,
+      String[] columnOneData, String[] columnTwoData, boolean isFiscal) throws DocumentException {
     PdfPTable table = new PdfPTable(2);
     table.setTotalWidth(new float[] { 250, 250 });
     table.setLockedWidth(true);
@@ -113,6 +122,13 @@ public final class PdfUtils {
     return table;
   }
 
+  /**
+   * Creates a cell that can be inserted into a table.
+   * 
+   * @param cellValue The value for the cell.
+   * @param font Cell font (optional).
+   * @return A cell containing a value.
+   */
   private static PdfPCell createCell(String cellValue, Font font) {
     PdfPCell cell;
     if (font == null) {
@@ -128,6 +144,12 @@ public final class PdfUtils {
     return cell;
   }
 
+  /**
+   * This class is used to set the orientation of a page in a PDF file.
+   * 
+   * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
+   * @version 1.0
+   */
   private static class Rotate extends PdfPageEventHelper {
 
     protected PdfNumber orientation = PdfPage.PORTRAIT;
