@@ -28,12 +28,12 @@ public class GrantsServiceImpl implements GrantsService {
   private static final Logger LOGGER = LogManager.getLogger(GrantsServiceImpl.class);
 
   @Autowired
-  private GrantsRepository dao;
+  private GrantsRepository repository;
 
 
   @Override
   public boolean saveGrant(Grant grant) {
-    return dao.insertGrant(grant);
+    return repository.insertGrant(grant);
   }
 
 
@@ -74,7 +74,7 @@ public class GrantsServiceImpl implements GrantsService {
     LOGGER.info("Filter: " + filter);
     Object[] filterValues = arguments.toArray(new Object[arguments.size()]);
 
-    return dao.findGrants(new FilteredSpecification(Tables.GRANTS, filter, filterValues));
+    return repository.findGrants(new FilteredSpecification(Tables.GRANTS, filter, filterValues));
   }
 
 
@@ -101,7 +101,7 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   private long getId(String table, String column, String value) {
-    return dao.findIdForValue(new IdSpecification(table, column, value));
+    return repository.findIdForValue(new IdSpecification(table, column, value));
   }
 
 
@@ -111,7 +111,7 @@ public class GrantsServiceImpl implements GrantsService {
       throw new IllegalArgumentException("year is null or empty.");
     }
 
-    return dao.findTopN(new TopNFiscalYearSpecification(5, Tables.GRANTS, SqlStatements.ORGANIZATION_ID,
+    return repository.findTopN(new TopNFiscalYearSpecification(5, SqlStatements.ORGANIZATION_ID,
         SqlStatements.AMOUNT, Integer.parseInt(year)));
   }
 
@@ -128,7 +128,7 @@ public class GrantsServiceImpl implements GrantsService {
       throw new IllegalArgumentException("field2 is null or empty.");
     }
 
-    return dao.findTopN(new TopNSpecification(top, Tables.GRANTS, field1 + "_ID", field2));
+    return repository.findTopN(new TopNSpecification(top, field1 + "_ID", field2));
   }
 
 
@@ -141,7 +141,7 @@ public class GrantsServiceImpl implements GrantsService {
       throw new IllegalArgumentException("field is null or empty.");
     }
 
-    return dao.findTimeSeriesData(
+    return repository.findTimeSeriesData(
         new TimeSeriesSpecification(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION, organization,
             SqlStatements.GET_AGGREGATE_DATA_FOR_ORGANIZATION, field));
   }
@@ -153,13 +153,13 @@ public class GrantsServiceImpl implements GrantsService {
     TotalsSpecification totalsSpecification = new TotalsSpecification(
         SqlStatements.GET_TOTAL_FOR_EACH_LOCATION,
         aggregateField, new String[] { filter }, new Object[] { filterValue });
-    Map<String, Map<String, Long>> data = dao.findAggregateData(totalsSpecification);
+    Map<String, Map<String, Long>> data = repository.findAggregateData(totalsSpecification);
 
     totalsSpecification = new TotalsSpecification(
         SqlStatements.GET_ALL_DATA_FOR_LOCATION,
         aggregateField, new String[] { filter }, new Object[] { filterValue });
     totalsSpecification.setColSpec(new ColumnSpecification(Tables.LOCATIONS, SqlStatements.LOCATION));
-    data.putAll(dao.findAggregateData(totalsSpecification));
+    data.putAll(repository.findAggregateData(totalsSpecification));
     return data;
   }
 
@@ -183,56 +183,56 @@ public class GrantsServiceImpl implements GrantsService {
       filterValuesArray[index++] = getIdForFilterValue(filterKey, entry.getValue());
     }
 
-    return dao.findAggregateData(new TotalsSpecification(stmt, aggregateField, filtersArray, filterValuesArray));
+    return repository.findAggregateData(new TotalsSpecification(stmt, aggregateField, filtersArray, filterValuesArray));
   }
 
 
   @Override
   public List<String> getAllGrantStatuses() {
-    return dao.findAllValues(new ColumnSpecification(Tables.GRANT_STATUSES, SqlStatements.GRANT_STATUS));
+    return repository.findAllValues(new ColumnSpecification(Tables.GRANT_STATUSES, SqlStatements.GRANT_STATUS));
   }
 
 
   @Override
   public List<String> getAllGrantTypes() {
-    return dao.findAllValues(new ColumnSpecification(Tables.GRANT_TYPES, SqlStatements.GRANT_TYPE));
+    return repository.findAllValues(new ColumnSpecification(Tables.GRANT_TYPES, SqlStatements.GRANT_TYPE));
   }
 
 
   @Override
   public List<String> getAllLocations() {
-    return dao.findAllValues(new ColumnSpecification(Tables.LOCATIONS, SqlStatements.LOCATION));
+    return repository.findAllValues(new ColumnSpecification(Tables.LOCATIONS, SqlStatements.LOCATION));
   }
 
 
   @Override
   public List<String> getAllOrganizations() {
-    return dao.findAllValues(new ColumnSpecification(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION));
+    return repository.findAllValues(new ColumnSpecification(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION));
   }
 
 
   @Override
   public List<String> getAllProjects() {
-    return dao.findAllValues(new ColumnSpecification(Tables.PROJECTS, SqlStatements.PROJECT));
+    return repository.findAllValues(new ColumnSpecification(Tables.PROJECTS, SqlStatements.PROJECT));
   }
 
 
   @Override
   public List<String> getAllStrategicPriorities() {
-    return dao
+    return repository
         .findAllValues(new ColumnSpecification(Tables.STRATEGIC_PRIORITIES, SqlStatements.STRATEGIC_PRIORITY));
   }
 
 
   @Override
   public List<String> getAllStrategicResults() {
-    return dao.findAllValues(new ColumnSpecification(Tables.STRATEGIC_RESULTS, SqlStatements.STRATEGIC_RESULT));
+    return repository.findAllValues(new ColumnSpecification(Tables.STRATEGIC_RESULTS, SqlStatements.STRATEGIC_RESULT));
   }
 
 
   @Override
   public List<String> getAllFiscalYears() {
-    return dao.findAllValues(new ColumnSpecification(Tables.GRANTS, SqlStatements.FISCAL_YEAR, true));
+    return repository.findAllValues(new ColumnSpecification(Tables.GRANTS, SqlStatements.FISCAL_YEAR, true));
   }
 
 }
