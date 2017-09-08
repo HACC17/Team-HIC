@@ -24,9 +24,9 @@ import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.service.GrantsService;
 
 @Component("ExcelExportTask")
-public class GrantsExcelExporter implements Runnable {
+public class ExcelExporter implements Runnable {
 
-  private static final Logger LOGGER = LogManager.getLogger(GrantsExcelExporter.class);
+  private static final Logger LOGGER = LogManager.getLogger(ExcelExporter.class);
 
   @Autowired
   private GrantsService grantsService;
@@ -71,37 +71,27 @@ public class GrantsExcelExporter implements Runnable {
     for (Grant grant : grants) {
       row = sheet.createRow(currentRow);
       currentColumn = 0;
-      Cell cell = row.createCell(currentColumn);
+      Cell cell = row.createCell(currentColumn++);
       cell.setCellValue(grant.getFiscalYear());
-      currentColumn++;
-      cell = row.createCell(currentColumn);
+      cell = row.createCell(currentColumn++);
       cell.setCellValue(grant.getOrganization());
-      currentColumn++;
-      cell = row.createCell(currentColumn);
+      cell = row.createCell(currentColumn++);
       cell.setCellValue(grant.getProject());
-      currentColumn++;
-      cell = row.createCell(currentColumn);
+      cell = row.createCell(currentColumn++);
       cell.setCellValue(grant.getAmount());
-      currentColumn++;
-      cell = row.createCell(currentColumn);
+      cell = row.createCell(currentColumn++);
       cell.setCellValue(grant.getGrantStatus());
-      currentColumn++;
-      cell = row.createCell(currentColumn);
+      cell = row.createCell(currentColumn++);
       cell.setCellValue(grant.getLocation());
-      currentColumn++;
-      cell = row.createCell(currentColumn);
+      cell = row.createCell(currentColumn++);
       cell.setCellValue(grant.getGrantType());
-      currentColumn++;
-      cell = row.createCell(currentColumn);
+      cell = row.createCell(currentColumn++);
       cell.setCellValue(grant.getStrategicPriority());
-      currentColumn++;
-      cell = row.createCell(currentColumn);
+      cell = row.createCell(currentColumn++);
       cell.setCellValue(grant.getStrategicResults());
-      currentColumn++;
-      cell = row.createCell(currentColumn);
+      cell = row.createCell(currentColumn++);
       cell.setCellValue(grant.getTotalNumberServed());
-      currentColumn++;
-      cell = row.createCell(currentColumn);
+      cell = row.createCell(currentColumn++);
       cell.setCellValue(grant.getNumberNativeHawaiiansServed());
       currentRow++;
     }
