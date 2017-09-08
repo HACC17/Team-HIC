@@ -5,7 +5,6 @@ public final class SqlStatements {
   private SqlStatements() {
   }
 
-  // Column names
   public static final String AMOUNT = "AMOUNT";
 
   public static final String FISCAL_YEAR = "FISCAL_YEAR";
