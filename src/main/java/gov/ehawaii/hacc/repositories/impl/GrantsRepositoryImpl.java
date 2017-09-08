@@ -30,6 +30,12 @@ import gov.ehawaii.hacc.specifications.TimeSeriesSpecification;
 import gov.ehawaii.hacc.specifications.TopNSpecification;
 import gov.ehawaii.hacc.specifications.TotalsSpecification;
 
+/**
+ * This repository interacts with an SQL database to store or retrieve information about grants.
+ * 
+ * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
+ * @version 1.0
+ */
 @Repository("GrantsRepository")
 @SuppressFBWarnings("OBL_UNSATISFIED_OBLIGATION_EXCEPTION_EDGE")
 public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsRepository {
@@ -57,6 +63,9 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
   private DataSource dataSource;
 
 
+  /**
+   * Initializes the data source after an instance of this class is created.
+   */
   @PostConstruct
   void init() {
     setDataSource(dataSource);
@@ -221,6 +230,14 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
   }
 
 
+  /**
+   * Saves the given value in the database.
+   * 
+   * @param tableName The name of the table in which to save the given data.
+   * @param columnName The name of the column that will contain the given data.
+   * @param value The data to save.
+   * @return The ID of the row that contains the data that was saved.
+   */
   private long saveValue(String tableName, String columnName, Object value) {
     long id = findIdForValue(new IdSpecification(tableName, columnName, value));
     if (id != -1) {
@@ -237,6 +254,14 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
   }
 
 
+  /**
+   * Retrieves a value from the database.
+   * 
+   * @param tableName The name of the table from which to retrieve a value.
+   * @param columnName The name of the column that contains the value.
+   * @param id The row number.
+   * @return A string representing the value, or an empty string if there is none.
+   */
   private String getValue(String tableName, String columnName, Object id) {
     String stmt = String.format(SqlStatements.GET_VALUE, columnName, tableName);
     try {

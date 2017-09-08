@@ -1,5 +1,11 @@
 package gov.ehawaii.hacc.repositories.impl;
 
+/**
+ * This class contains SQL statements that are used to query an SQL database or insert data into the database.
+ * 
+ * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
+ * @version 1.0
+ */
 public final class SqlStatements {
 
   public static final String INSERT_GRANT = "INSERT INTO GRANTS VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
