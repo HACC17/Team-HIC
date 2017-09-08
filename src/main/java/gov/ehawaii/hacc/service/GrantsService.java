@@ -4,8 +4,20 @@ import java.util.List;
 import java.util.Map;
 import gov.ehawaii.hacc.model.Grant;
 
+/**
+ * Implementations of this interface will interact with a <code>GrantsRepository</code> to store and retrieve grants.
+ * 
+ * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
+ * @version 1.0
+ */
 public interface GrantsService {
 
+  /**
+   * Saves the given grant to the repository.
+   * 
+   * @param grant The grant to save.
+   * @return <code>true</code> if the grant was saved successfully, <code>false</code> otherwise.
+   */
   boolean saveGrant(Grant grant);
 
   /**
@@ -25,7 +37,7 @@ public interface GrantsService {
   List<Map<String, Object>> getTopFiveOrganizationsForFiscalYear(String year);
 
   /**
-   * Returns a list of the top N (N = <code>top</code>) organizations, projects, etc. (<code>field1</code>) by the given criterion (<code>field2</code>).
+   * Returns the top N organizations, projects, etc. by the given criterion.
    * 
    * @param top N, a number greater than 0.
    * @param field1 Organizations, projects, etc.
@@ -38,6 +50,14 @@ public interface GrantsService {
 
   Map<String, Map<String, Long>> getAggregateDataForEachLocation(String aggregateField, String filter, String filterValue);
 
+  /**
+   * Returns the top N grants by the given criterion for each location stored in the repository.
+   * 
+   * @param top N, a number greater than 0.
+   * @param aggregateField The criterion.
+   * @param filters Conditions that must be satisfied.
+   * @return A map containing the top N data for each location.
+   */
   Map<String, Map<String, Long>> getTopNDataForEachLocation(int top, String aggregateField, Map<String, String> filters);
 
   /**
