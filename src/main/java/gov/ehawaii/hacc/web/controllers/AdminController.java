@@ -1,6 +1,5 @@
 package gov.ehawaii.hacc.web.controllers;
 
-import javax.annotation.PostConstruct;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,12 @@ import gov.ehawaii.hacc.importers.ExcelImporter;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.service.GrantsService;
 
+/**
+ * This controller handles all requests going to the <code>/admin</code> endpoint.
+ * 
+ * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -31,11 +36,12 @@ public class AdminController {
   private ExcelImporter excelImporter;
 
 
-  @PostConstruct
-  public void init() {
-  }
-
-
+  /**
+   * Displays the main page for an admin user. The page contains a form that the admin submits in order to add a grant to the database.
+   * 
+   * @param model The model to which to add data for the form.
+   * @return The name of the JSP file that contains the form.
+   */
   @RequestMapping(method = RequestMethod.GET)
   public String showAdminPage(Model model) {
     model.addAttribute("grant", new Grant());
@@ -49,6 +55,17 @@ public class AdminController {
   }
 
 
+  /**
+   * When a <code>GET</code> request is sent to the <code>/import</code> endpoint, the application will import sample data from a file.
+   * The type of the file depends on the value of the parameter that is sent with the request. Two file types are supported:
+   * <ul>
+   * <li><code>csv</code>: A CSV file</li>
+   * <li><code>excel</code>: A Microsoft Excel file</li>
+   * </ul>
+   * 
+   * @param ext The type of the file from which to get data to import.
+   * @return The admin user will be redirected to the <code>/admin</code> endpoint.
+   */
   @RequestMapping(value = "/import", method = RequestMethod.GET)
   public String importSampleData(@RequestParam("ext") String ext) {
     if (ext == null || ext.isEmpty()) {
@@ -74,6 +91,13 @@ public class AdminController {
   }
 
 
+  /**
+   * A <code>POST</code> request is sent to the </code>/admin</code> endpoint to add a grant to the database.
+   * Information about the grant is sent along with the request.
+   * 
+   * @param grant The grant to add to the database.
+   * @return The admin user will be redirected to the <code>/admin</code> endpoint.
+   */
   @RequestMapping(method = RequestMethod.POST)
   public String addGrant(@ModelAttribute("grant") Grant grant) {
     if (grantsService.saveGrant(grant)) {
