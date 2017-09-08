@@ -3,7 +3,7 @@ package gov.ehawaii.hacc.specifications;
 import lombok.Getter;
 
 /**
- * This specification is used to retrieve all values from a given column.
+ * This specification is used to retrieve values from a given column.
  * 
  * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
  * @version 1.0
