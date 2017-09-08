@@ -39,15 +39,15 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
   private final RowMapper<Grant> rowMapper = (rs, rowNum) -> {
     Grant grant = new Grant();
     grant.setId(rs.getLong(1));
-    grant.setGrantStatus(getValue(Tables.GRANT_STATUSES, SqlStatements.GRANT_STATUS, rs.getString(2)));
+    grant.setGrantStatus(getValue(Tables.GRANT_STATUSES, Columns.GRANT_STATUS, rs.getString(2)));
     grant.setFiscalYear(rs.getInt(3));
-    grant.setGrantType(getValue(Tables.GRANT_TYPES, SqlStatements.GRANT_TYPE, rs.getString(4)));
-    grant.setOrganization(getValue(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION, rs.getString(5)));
-    grant.setProject(getValue(Tables.PROJECTS, SqlStatements.PROJECT, rs.getString(6)));
+    grant.setGrantType(getValue(Tables.GRANT_TYPES, Columns.GRANT_TYPE, rs.getString(4)));
+    grant.setOrganization(getValue(Tables.ORGANIZATIONS, Columns.ORGANIZATION, rs.getString(5)));
+    grant.setProject(getValue(Tables.PROJECTS, Columns.PROJECT, rs.getString(6)));
     grant.setAmount(rs.getInt(7));
-    grant.setLocation(getValue(Tables.LOCATIONS, SqlStatements.LOCATION, rs.getString(8)));
-    grant.setStrategicPriority(getValue(Tables.STRATEGIC_PRIORITIES, SqlStatements.STRATEGIC_PRIORITY, rs.getString(9)));
-    grant.setStrategicResults(getValue(Tables.STRATEGIC_RESULTS, SqlStatements.STRATEGIC_RESULT, rs.getString(10)));
+    grant.setLocation(getValue(Tables.LOCATIONS, Columns.LOCATION, rs.getString(8)));
+    grant.setStrategicPriority(getValue(Tables.STRATEGIC_PRIORITIES, Columns.STRATEGIC_PRIORITY, rs.getString(9)));
+    grant.setStrategicResults(getValue(Tables.STRATEGIC_RESULTS, Columns.STRATEGIC_RESULT, rs.getString(10)));
     grant.setTotalNumberServed(rs.getInt(11));
     grant.setNumberNativeHawaiiansServed(rs.getInt(12));
     return grant;
@@ -66,15 +66,15 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
 
   @Override
   public boolean insertGrant(Grant grant) {
-    long grantStatusId = saveValue(Tables.GRANT_STATUSES, SqlStatements.GRANT_STATUS, grant.getGrantStatus());
-    long grantTypeId = saveValue(Tables.GRANT_TYPES, SqlStatements.GRANT_TYPE, grant.getGrantType());
-    long locationId = saveValue(Tables.LOCATIONS, SqlStatements.LOCATION, grant.getLocation());
-    long organizationId = saveValue(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION, grant.getOrganization());
-    long projectId = saveValue(Tables.PROJECTS, SqlStatements.PROJECT, grant.getProject());
+    long grantStatusId = saveValue(Tables.GRANT_STATUSES, Columns.GRANT_STATUS, grant.getGrantStatus());
+    long grantTypeId = saveValue(Tables.GRANT_TYPES, Columns.GRANT_TYPE, grant.getGrantType());
+    long locationId = saveValue(Tables.LOCATIONS, Columns.LOCATION, grant.getLocation());
+    long organizationId = saveValue(Tables.ORGANIZATIONS, Columns.ORGANIZATION, grant.getOrganization());
+    long projectId = saveValue(Tables.PROJECTS, Columns.PROJECT, grant.getProject());
     long strategicPriorityId =
-        saveValue(Tables.STRATEGIC_PRIORITIES, SqlStatements.STRATEGIC_PRIORITY, grant.getStrategicPriority());
+        saveValue(Tables.STRATEGIC_PRIORITIES, Columns.STRATEGIC_PRIORITY, grant.getStrategicPriority());
     long strategicResultId =
-        saveValue(Tables.STRATEGIC_RESULTS, SqlStatements.STRATEGIC_RESULT, grant.getStrategicResults());
+        saveValue(Tables.STRATEGIC_RESULTS, Columns.STRATEGIC_RESULT, grant.getStrategicResults());
 
     long rows = getJdbcTemplate().update(SqlStatements.INSERT_GRANT, grantStatusId, grant.getFiscalYear(), grantTypeId,
         organizationId, projectId, grant.getAmount(), locationId, strategicPriorityId, strategicResultId,
@@ -112,13 +112,13 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
     return getJdbcTemplate().query(topNSpecification.toSqlClause(), rs -> {
       String table, column;
       switch (column1) {
-      case SqlStatements.ORGANIZATION_ID:
+      case Columns.ORGANIZATION_ID:
         table = Tables.ORGANIZATIONS;
-        column = SqlStatements.ORGANIZATION;
+        column = Columns.ORGANIZATION;
         break;
-      case SqlStatements.PROJECT_ID:
+      case Columns.PROJECT_ID:
         table = Tables.PROJECTS;
-        column = SqlStatements.PROJECT;
+        column = Columns.PROJECT;
         break;
       default:
         throw new IllegalArgumentException("Unsupported column: " + column1);

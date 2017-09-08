@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.repositories.GrantsRepository;
+import gov.ehawaii.hacc.repositories.impl.Columns;
 import gov.ehawaii.hacc.repositories.impl.Filters;
 import gov.ehawaii.hacc.repositories.impl.SqlStatements;
 import gov.ehawaii.hacc.repositories.impl.Tables;
@@ -81,19 +82,19 @@ public class GrantsServiceImpl implements GrantsService {
   private Object getIdForFilterValue(String key, String value) {
     switch (key) {
     case Filters.GRANT_STATUS_ID_FILTER:
-      return getId(Tables.GRANT_STATUSES, SqlStatements.STATUS, value);
+      return getId(Tables.GRANT_STATUSES, Columns.GRANT_STATUS, value);
     case Filters.GRANT_TYPE_ID_FILTER:
-      return getId(Tables.GRANT_TYPES, SqlStatements.GRANT_TYPE, value);
+      return getId(Tables.GRANT_TYPES, Columns.GRANT_TYPE, value);
     case Filters.ORGANIZATION_ID_FILTER:
-      return getId(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION, value);
+      return getId(Tables.ORGANIZATIONS, Columns.ORGANIZATION, value);
     case Filters.PROJECT_ID_FILTER:
-      return getId(Tables.PROJECTS, SqlStatements.PROJECT, value);
+      return getId(Tables.PROJECTS, Columns.PROJECT, value);
     case Filters.LOCATION_ID_FILTER:
-      return getId(Tables.LOCATIONS, SqlStatements.LOCATION, value);
+      return getId(Tables.LOCATIONS, Columns.LOCATION, value);
     case Filters.STRATEGIC_PRIORITY_ID_FILTER:
-      return getId(Tables.STRATEGIC_PRIORITIES, SqlStatements.STRATEGIC_PRIORITY, value);
+      return getId(Tables.STRATEGIC_PRIORITIES, Columns.STRATEGIC_PRIORITY, value);
     case Filters.STRATEGIC_RESULTS_ID_FILTER:
-      return getId(Tables.STRATEGIC_RESULTS, SqlStatements.STRATEGIC_RESULT, value);
+      return getId(Tables.STRATEGIC_RESULTS, Columns.STRATEGIC_RESULT, value);
     default:
       return value;
     }
@@ -111,8 +112,8 @@ public class GrantsServiceImpl implements GrantsService {
       throw new IllegalArgumentException("year is null or empty.");
     }
 
-    return repository.findTopN(new TopNFiscalYearSpecification(5, SqlStatements.ORGANIZATION_ID,
-        SqlStatements.AMOUNT, Integer.parseInt(year)));
+    return repository.findTopN(new TopNFiscalYearSpecification(5, Columns.ORGANIZATION_ID,
+        Columns.AMOUNT, Integer.parseInt(year)));
   }
 
 
@@ -142,7 +143,7 @@ public class GrantsServiceImpl implements GrantsService {
     }
 
     return repository.findTimeSeriesData(
-        new TimeSeriesSpecification(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION, organization,
+        new TimeSeriesSpecification(Tables.ORGANIZATIONS, Columns.ORGANIZATION, organization,
             SqlStatements.GET_AGGREGATE_DATA_FOR_ORGANIZATION, field));
   }
 
@@ -158,7 +159,7 @@ public class GrantsServiceImpl implements GrantsService {
     totalsSpecification = new TotalsSpecification(
         SqlStatements.GET_ALL_DATA_FOR_LOCATION,
         aggregateField, new String[] { filter }, new Object[] { filterValue });
-    totalsSpecification.setColSpec(new ColumnSpecification(Tables.LOCATIONS, SqlStatements.LOCATION));
+    totalsSpecification.setColSpec(new ColumnSpecification(Tables.LOCATIONS, Columns.LOCATION));
     data.putAll(repository.findAggregateData(totalsSpecification));
     return data;
   }
@@ -189,50 +190,50 @@ public class GrantsServiceImpl implements GrantsService {
 
   @Override
   public List<String> getAllGrantStatuses() {
-    return repository.findAllValues(new ColumnSpecification(Tables.GRANT_STATUSES, SqlStatements.GRANT_STATUS));
+    return repository.findAllValues(new ColumnSpecification(Tables.GRANT_STATUSES, Columns.GRANT_STATUS));
   }
 
 
   @Override
   public List<String> getAllGrantTypes() {
-    return repository.findAllValues(new ColumnSpecification(Tables.GRANT_TYPES, SqlStatements.GRANT_TYPE));
+    return repository.findAllValues(new ColumnSpecification(Tables.GRANT_TYPES, Columns.GRANT_TYPE));
   }
 
 
   @Override
   public List<String> getAllLocations() {
-    return repository.findAllValues(new ColumnSpecification(Tables.LOCATIONS, SqlStatements.LOCATION));
+    return repository.findAllValues(new ColumnSpecification(Tables.LOCATIONS, Columns.LOCATION));
   }
 
 
   @Override
   public List<String> getAllOrganizations() {
-    return repository.findAllValues(new ColumnSpecification(Tables.ORGANIZATIONS, SqlStatements.ORGANIZATION));
+    return repository.findAllValues(new ColumnSpecification(Tables.ORGANIZATIONS, Columns.ORGANIZATION));
   }
 
 
   @Override
   public List<String> getAllProjects() {
-    return repository.findAllValues(new ColumnSpecification(Tables.PROJECTS, SqlStatements.PROJECT));
+    return repository.findAllValues(new ColumnSpecification(Tables.PROJECTS, Columns.PROJECT));
   }
 
 
   @Override
   public List<String> getAllStrategicPriorities() {
     return repository
-        .findAllValues(new ColumnSpecification(Tables.STRATEGIC_PRIORITIES, SqlStatements.STRATEGIC_PRIORITY));
+        .findAllValues(new ColumnSpecification(Tables.STRATEGIC_PRIORITIES, Columns.STRATEGIC_PRIORITY));
   }
 
 
   @Override
   public List<String> getAllStrategicResults() {
-    return repository.findAllValues(new ColumnSpecification(Tables.STRATEGIC_RESULTS, SqlStatements.STRATEGIC_RESULT));
+    return repository.findAllValues(new ColumnSpecification(Tables.STRATEGIC_RESULTS, Columns.STRATEGIC_RESULT));
   }
 
 
   @Override
   public List<String> getAllFiscalYears() {
-    return repository.findAllValues(new ColumnSpecification(Tables.GRANTS, SqlStatements.FISCAL_YEAR, true));
+    return repository.findAllValues(new ColumnSpecification(Tables.GRANTS, Columns.FISCAL_YEAR, true));
   }
 
 }

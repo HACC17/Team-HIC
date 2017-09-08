@@ -17,7 +17,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.repositories.GrantsRepository;
-import gov.ehawaii.hacc.repositories.impl.SqlStatements;
+import gov.ehawaii.hacc.repositories.impl.Columns;
 import gov.ehawaii.hacc.repositories.impl.Tables;
 import gov.ehawaii.hacc.specifications.IdSpecification;
 import static gov.ehawaii.hacc.importers.Importer.trim;
@@ -70,7 +70,7 @@ public class CsvImporter implements Importer {
         grant.setTotalNumberServed(stringToInt(record.get(8)));
         grant.setNumberNativeHawaiiansServed(stringToInt(record.get(9)));
         grant.setGrantStatus(repository.findValueForId(new IdSpecification(Tables.GRANT_STATUSES,
-            SqlStatements.GRANT_STATUS, record.get(10))));
+            Columns.GRANT_STATUS, record.get(10))));
         if (repository.insertGrant(grant)) {
           LOGGER.info("Successfully saved grant [" + grant + "] to repository.");
           count++;

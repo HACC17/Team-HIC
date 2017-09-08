@@ -15,7 +15,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.repositories.GrantsRepository;
-import gov.ehawaii.hacc.repositories.impl.SqlStatements;
+import gov.ehawaii.hacc.repositories.impl.Columns;
 import gov.ehawaii.hacc.repositories.impl.Tables;
 import gov.ehawaii.hacc.specifications.IdSpecification;
 
@@ -60,7 +60,7 @@ public class ExcelImporter implements Importer {
           grant.setTotalNumberServed(getIntCellValue(cellIterator.next()));
           grant.setNumberNativeHawaiiansServed(getIntCellValue(cellIterator.next()));
           grant.setGrantStatus(repository.findValueForId(new IdSpecification(Tables.GRANT_STATUSES,
-              SqlStatements.GRANT_STATUS, getIntCellValue(cellIterator.next()))));
+              Columns.GRANT_STATUS, getIntCellValue(cellIterator.next()))));
           if (repository.insertGrant(grant)) {
             LOGGER.info("Successfully saved grant [" + grant + "] to repository.");
             count++;
