@@ -116,11 +116,11 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
   public List<Map<String, Object>> findTopN(Specification specification) {
     TopNSpecification topNSpecification = (TopNSpecification) specification;
 
-    String column1 = topNSpecification.getColumn1();
+    String groupBy = topNSpecification.getGroupByColumn();
 
     return getJdbcTemplate().query(topNSpecification.toSqlClause(), rs -> {
       String table, column;
-      switch (column1) {
+      switch (groupBy) {
       case Columns.ORGANIZATION_ID:
         table = Tables.ORGANIZATIONS;
         column = Columns.ORGANIZATION;
@@ -130,7 +130,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
         column = Columns.PROJECT;
         break;
       default:
-        throw new IllegalArgumentException("Unsupported column: " + column1);
+        throw new IllegalArgumentException("Unsupported column: " + groupBy);
       }
 
       List<Map<String, Object>> rows = new ArrayList<>();
