@@ -21,8 +21,14 @@ import gov.ehawaii.hacc.repositories.impl.SqlStatements;
 import gov.ehawaii.hacc.repositories.impl.Tables;
 import gov.ehawaii.hacc.specifications.IdSpecification;
 
+/**
+ * This importer will read in a CSV file and insert all the grants found in it into the repository.
+ * 
+ * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
+ * @version 1.0
+ */
 @Component
-public class CsvImporter extends Importer {
+public class CsvImporter implements Importer {
 
   private static final Logger LOGGER = LogManager.getLogger(CsvImporter.class);
 
@@ -33,11 +39,6 @@ public class CsvImporter extends Importer {
 
   @Value(value = "classpath:data/2013_2016_data.csv")
   private Resource csvFile;
-
-  @Override
-  public Resource getFile() {
-    return csvFile;
-  }
 
   @Override
   public boolean importData() {
@@ -81,10 +82,22 @@ public class CsvImporter extends Importer {
     }
   }
 
+  /**
+   * Trims off any whitespace characters at both ends of the given string.
+   * 
+   * @param value The string from which to strip whitespace characters at the beginning and end.
+   * @return A string with no whitespace characters at either end, or an empty string.
+   */
   private static String trim(String value) {
     return value == null || value.isEmpty() ? "" : value.trim();
   }
 
+  /**
+   * Converts the given string to an integer.
+   * 
+   * @param value The string to convert.
+   * @return An integer, or 0 if the string cannot be converted.
+   */
   private static int stringToInt(String value) {
     if (value == null || value.isEmpty()) {
       return 0;

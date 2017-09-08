@@ -5,16 +5,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ExcelImporter extends Importer {
+public class ExcelImporter implements Importer {
 
   @Value(value = "classpath:data/2013_2016_data.xlsx")
   private Resource excelFile;
-
-
-  @Override
-  public Resource getFile() {
-    return excelFile;
-  }
 
 
   @Override
