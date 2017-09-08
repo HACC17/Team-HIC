@@ -46,8 +46,23 @@ public interface GrantsService {
    */
   List<Map<String, Object>> getTopNData(int top, String field1, String field2);
 
+  /**
+   * Returns time series data for an organization over a period of time.
+   * 
+   * @param organization The organization for which to retrieve data.
+   * @param field The type of data to retrieve.
+   * @return A list of time series data.
+   */
   List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field);
 
+  /**
+   * Returns aggregate data for each location stored in the repository.
+   * 
+   * @param aggregateField The type of data on which to aggregate.
+   * @param filter The condition used to filter out data.
+   * @param filterValue The value of the given condition.
+   * @return A map of aggregate data for each location.
+   */
   Map<String, Map<String, Long>> getAggregateDataForEachLocation(String aggregateField, String filter, String filterValue);
 
   /**
