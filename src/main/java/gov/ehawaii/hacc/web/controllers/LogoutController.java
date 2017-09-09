@@ -26,7 +26,7 @@ public class LogoutController {
    * @return Redirects the user to the main page of the application.
    */
   @RequestMapping(value = "/logout", method = RequestMethod.GET)
-  public String logout(HttpServletRequest request, HttpServletResponse response) {
+  public final String logout(final HttpServletRequest request, final HttpServletResponse response) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication != null) {
       new SecurityContextLogoutHandler().logout(request, response, authentication);

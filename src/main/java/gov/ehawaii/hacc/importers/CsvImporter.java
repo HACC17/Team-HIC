@@ -9,8 +9,6 @@ import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -33,8 +31,6 @@ import static gov.ehawaii.hacc.importers.Importer.stringToLong;
 @Component
 public class CsvImporter implements Importer {
 
-  private static final Logger LOGGER = LogManager.getLogger(CsvImporter.class);
-
   private static final int NUMBER_OF_COLUMNS = 11;
 
   @Autowired
@@ -54,8 +50,7 @@ public class CsvImporter implements Importer {
       int count = 0;
       for (CSVRecord record : records) {
         if (record.size() != NUMBER_OF_COLUMNS) {
-          LOGGER.error("Row does not contain " + NUMBER_OF_COLUMNS + " columns, only "
-              + record.size() + ".");
+          LOGGER.error("Expected " + NUMBER_OF_COLUMNS + " columns but found " + record.size() + ".");
           continue;
         }
         Grant grant = new Grant();

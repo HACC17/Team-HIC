@@ -37,7 +37,7 @@ public class MainController {
    * @return The main page.
    */
   @RequestMapping(value = "/", method = RequestMethod.GET)
-  public String showIndexPage(Model model) {
+  public final String showIndexPage(final Model model) {
     Map<String, Object> parameters = new HashMap<>();
     /* parameters.put("fiscal-gte", new ArrayList<>(Arrays.asList("2016")));
     parameters.put("fiscal-lte", new ArrayList<>(Arrays.asList("2016")));
@@ -64,7 +64,7 @@ public class MainController {
    * @return The login page.
    */
   @RequestMapping(value = "/login", method = RequestMethod.GET)
-  public String showLoginPage() {
+  public final String showLoginPage() {
     return "login";
   }
 
@@ -79,7 +79,7 @@ public class MainController {
    * @throws IOException If problems are encountered while trying to parse the JSON string or get the list of grants.
    */
   @RequestMapping(value = "/filter", method = RequestMethod.POST)
-  public void getGrants(@RequestBody String json, HttpServletResponse response)
+  public final void getGrants(@RequestBody final String json, final HttpServletResponse response)
       throws IOException {
     LOGGER.info("JSON: " + json);
     Map<String, Object> parameters =
