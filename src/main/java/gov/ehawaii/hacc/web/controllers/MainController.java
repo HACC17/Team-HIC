@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,10 +27,6 @@ public class MainController {
 
   @Autowired
   private GrantsService grantsService;
-
-  @PostConstruct
-  public void init() {
-  }
 
   /**
    * Displays the main page of this application. A model is populated with lists that are used in a filter panel to populate dropdown lists.
