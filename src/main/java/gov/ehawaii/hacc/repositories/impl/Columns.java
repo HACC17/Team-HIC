@@ -6,7 +6,7 @@ package gov.ehawaii.hacc.repositories.impl;
  * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
  * @version 1.0
  */
-public class Columns {
+public final class Columns {
 
   /** AMOUNT column in GRANTS table. */
   public static final String AMOUNT = "AMOUNT";

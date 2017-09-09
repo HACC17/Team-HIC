@@ -21,6 +21,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.text.Document;
 import gov.ehawaii.hacc.pdf.PdfUtils;
 
+/**
+ * This controller handles all requests going to the <code>/reports</code> endpoint. The methods in this
+ * class generate a PDF file with a chart and table in it, and send the PDF file back to the client.
+ * 
+ * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("/reports")
 public class ReportsController {

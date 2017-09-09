@@ -10,7 +10,7 @@ import java.util.Map;
  * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
  * @version 1.0
  */
-public class Filters {
+public final class Filters {
 
   /** AMOUNT values that are greater than or equal to <code>value</code>. */
   public static final String AMOUNT_GTE = "AMOUNT >= ? ";
