@@ -1,6 +1,7 @@
 package gov.ehawaii.hacc.specifications;
 
 import gov.ehawaii.hacc.repositories.impl.Filters;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ public class TotalsSpecification implements SqlSpecification {
 
   private final String totalsQuery;
   private final String sumColumn;
+  @Getter(AccessLevel.NONE)
   private final String[] filters;
   private final Object[] filterValues;
   @Setter
