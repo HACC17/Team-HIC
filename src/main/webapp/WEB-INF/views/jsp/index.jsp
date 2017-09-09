@@ -139,14 +139,14 @@
                                     <label for="min-amount">min</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">$</div>
-                                        <input type="number" min="0" max="10000000" value="100000" class="filter form-control" id="min-amount" data-key="amount-gte">
+                                        <input type="number" min="0" max="10000000" value="0" class="filter form-control" id="min-amount" data-key="amount-gte">
                                     </div>
                                 </div>
                                  <div class="form-group">
                                     <label for="min-amount">max</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">$</div>
-                                        <input type="number" min="0" max="10000000" value="1000000" class="filter form-control" id="max-amount" data-key="amount-lte">
+                                        <input type="number" min="0" max="10000000" value="10000000" class="filter form-control" id="max-amount" data-key="amount-lte">
                                     </div>
                                 </div>
                                 <a href="#" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
@@ -157,7 +157,7 @@
                         <label class="fieldset-label" data-toggle="collapse" data-target="#people"><i class="fa fa-users"></i>People Served<i class="toggle-icon fa fa-angle-left"></i></label>
                         <div id="people" class="collapse">
                             <fieldset>
-                                <label for="min-total">Total people</label>
+                                <label for="min-total">Total</label>
                                 <fieldset>
                                     <div class="form-group">
                                         <label for="max-total">min</label>
@@ -165,10 +165,10 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="max-total">max</label>
-                                        <input type="number" min="0" max="10000000" value="1000" class="filter form-control" id="max-total" data-key="total-lte">
+                                        <input type="number" min="0" max="10000000" value="100000" class="filter form-control" id="max-total" data-key="total-lte">
                                     </div>
                                 </fieldset>
-                                <label for="min-hawaiians">Number of Native Hawaiians</label>
+                                <label for="min-hawaiians">Native Hawaiians</label>
                                 <fieldset>
                                     <div class="form-group">
                                         <label for="max-total">min</label>
@@ -176,7 +176,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="max-hawaiians">max</label>
-                                        <input type="number" min="0" max="10000000" value="1000" class="filter form-control" id="max-hawaiians" data-key="hawaiians-lte">
+                                        <input type="number" min="0" max="10000000" value="100000" class="filter form-control" id="max-hawaiians" data-key="hawaiians-lte">
                                     </div>
                                 </fieldset>
                                 <a href="#" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
