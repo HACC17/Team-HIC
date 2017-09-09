@@ -19,7 +19,7 @@
 
 <div class="row">
     <div id="fiscalYearDiv" class="col-md-4 col-md-push-4 fiscal-year-chart">
-        <canvas id="fiscalYearChart" class="fiscal-year-chart" />
+        <canvas id="fiscalYearChart" class="fiscal-year-chart"></canvas>
         <input type="hidden" id="fiscal-chart-base64" value="" />
     </div>
     <div class="col-md-4 col-md-push-4 no-fiscal-year-data" style="display: none">
@@ -58,7 +58,7 @@
 
 <div class="row">
     <div id="topDiv" class="col-md-8 col-md-push-4 top-chart">
-        <canvas id="topChart" class="top-chart"/>
+        <canvas id="topChart" class="top-chart"></canvas>
         <input type="hidden" id="top-chart-base64" value="" />
     </div>
     <div class="col-md-8 col-md-push-4 no-top-data" style="display: none">
@@ -92,7 +92,7 @@
 
 <div class="row extra-top-margin">
     <div id="overTimeDiv" class="col-md-8 col-md-push-2 over-time-chart">
-        <canvas id="overTimeChart" class="over-time-chart" />
+        <canvas id="overTimeChart" class="over-time-chart"></canvas>
         <input type="hidden" id="over-time-chart-base64" value="" />
     </div>
     <div class="col-md-8 col-md-push-2 no-over-time-data" style="display: none">
