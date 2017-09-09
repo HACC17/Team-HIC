@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.repositories.GrantsRepository;
 import gov.ehawaii.hacc.repositories.impl.Columns;
@@ -131,9 +132,7 @@ public class GrantsServiceImpl implements GrantsService {
 
   @Override
   public final List<Map<String, Object>> getTopFiveOrganizationsForFiscalYear(String year) {
-    if (year == null || year.isEmpty()) {
-      throw new IllegalArgumentException("year is null or empty.");
-    }
+    Assert.hasLength(year, "year must not be null or empty.");
 
     return repository.findTopN(new TopNFiscalYearSpecification(5, Columns.ORGANIZATION_ID,
         Columns.AMOUNT, Integer.parseInt(year)));
@@ -141,29 +140,21 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   @Override
-  public final List<Map<String, Object>> getTopNData(int top, String field1, String field2) {
+  public final List<Map<String, Object>> getTopNData(int top, String name, String aggregateField) {
     if (top < 1) {
       throw new IllegalArgumentException("top must be greater than 0.");
     }
-    if (field1 == null || field1.isEmpty()) {
-      throw new IllegalArgumentException("field1 is null or empty.");
-    }
-    if (field2 == null || field2.isEmpty()) {
-      throw new IllegalArgumentException("field2 is null or empty.");
-    }
+    Assert.hasLength(name, "name must not be null or empty.");
+    Assert.hasLength(aggregateField, "aggregateField must not be null or empty.");
 
-    return repository.findTopN(new TopNSpecification(top, field1 + "_ID", field2));
+    return repository.findTopN(new TopNSpecification(top, name + "_ID", aggregateField));
   }
 
 
   @Override
   public final List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field) {
-    if (organization == null || organization.isEmpty()) {
-      throw new IllegalArgumentException("organization is null or empty.");
-    }
-    if (field == null || field.isEmpty()) {
-      throw new IllegalArgumentException("field is null or empty.");
-    }
+    Assert.hasLength(organization, "organization must not be null or empty.");
+    Assert.hasLength(field, "field must not be null or empty.");
 
     return repository.findTimeSeriesData(
         new TimeSeriesSpecification(Tables.ORGANIZATIONS, Columns.ORGANIZATION, organization,

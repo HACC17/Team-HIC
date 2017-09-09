@@ -37,14 +37,14 @@ public interface GrantsService {
   List<Map<String, Object>> getTopFiveOrganizationsForFiscalYear(String year);
 
   /**
-   * Returns the top N organizations, projects, etc. by the given criterion.
+   * Returns the top N organizations, projects, locations, etc. by the given field.
    * 
    * @param top N, a number greater than 0.
-   * @param field1 Organizations, projects, etc.
-   * @param field2 The criterion.
+   * @param name Organization, project, location, etc.
+   * @param aggregateField The type of data on which to aggregate.
    * @return A list of grants of size N.
    */
-  List<Map<String, Object>> getTopNData(int top, String field1, String field2);
+  List<Map<String, Object>> getTopNData(int top, String name, String aggregateField);
 
   /**
    * Returns time series data for an organization over a period of time.
