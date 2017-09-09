@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
  */
 public interface Importer {
 
-  final Logger LOGGER = LogManager.getLogger(Importer.class);
+  Logger LOGGER = LogManager.getLogger(Importer.class);
 
   /**
    * This method will read in all the grants from a file and then import them into a repository.

@@ -40,7 +40,7 @@ public class CsvImporter implements Importer {
   private Resource csvFile;
 
   @Override
-  public boolean importData() {
+  public final boolean importData() {
     try (
         Reader reader =
             new InputStreamReader(new FileInputStream(csvFile.getFile()), Charset.defaultCharset());

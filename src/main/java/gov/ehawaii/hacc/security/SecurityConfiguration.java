@@ -24,14 +24,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
    * @throws Exception If there are problems configuring the admin account.
    */
   @Autowired
-  public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
+  public final void configureGlobalSecurity(final AuthenticationManagerBuilder auth) throws Exception {
     auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
   }
 
 
   /** {@inheritDoc} */
   @Override
-  protected void configure(HttpSecurity http) throws Exception {
+  protected final void configure(final HttpSecurity http) throws Exception {
     http.authorizeRequests().antMatchers("/", "/login").permitAll().antMatchers("/admin/**").access("hasRole('ADMIN')")
         .and().formLogin().loginPage("/login").and().exceptionHandling().accessDeniedPage("/Access_Denied");
   }

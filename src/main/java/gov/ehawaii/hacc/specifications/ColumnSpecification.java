@@ -21,7 +21,7 @@ public class ColumnSpecification implements SqlSpecification {
    * @param table The table that contains the given column.
    * @param column The column from which to retrieve all values.
    */
-  public ColumnSpecification(String table, String column) {
+  public ColumnSpecification(final String table, final String column) {
     this(table, column, false);
   }
 
@@ -32,29 +32,29 @@ public class ColumnSpecification implements SqlSpecification {
    * @param column The column from which to retrieve values.
    * @param distinct <code>true</code> to retrieve only distinct values, <code>false</code> to retrieve all values.
    */
-  public ColumnSpecification(String table, String column, boolean distinct) {
+  public ColumnSpecification(final String table, final String column, final boolean distinct) {
     this.table = table;
     this.column = column;
     this.distinct = distinct;
   }
 
   @Override
-  public String getTable() {
+  public final String getTable() {
     return table;
   }
 
   @Override
-  public String getColumn() {
+  public final String getColumn() {
     return column;
   }
 
   @Override
-  public Object getValue() {
+  public final Object getValue() {
     throw new UnsupportedOperationException("This method is not supported.");
   }
 
   @Override
-  public String toSqlClause() {
+  public final String toSqlClause() {
     if (distinct) {
       return String.format("SELECT DISTINCT %s FROM %s ORDER BY %s ASC", column, table, column);
     }

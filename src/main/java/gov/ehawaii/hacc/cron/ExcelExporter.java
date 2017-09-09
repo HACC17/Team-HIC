@@ -60,7 +60,7 @@ public class ExcelExporter implements Runnable {
    * 
    * @param grants The list of grants to save to a Microsoft Excel file.
    */
-  private void export(List<Grant> grants) {
+  private void export(final List<Grant> grants) {
     Assert.notNull(grants, "grants must not be null.");
 
     XSSFWorkbook workbook = new XSSFWorkbook();
