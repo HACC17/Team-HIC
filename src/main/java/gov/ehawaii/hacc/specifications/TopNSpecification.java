@@ -27,24 +27,24 @@ public class TopNSpecification implements SqlSpecification {
    * @param groupByColumn The column that will be specified in the <code>GROUP BY</code> clause.
    * @param sumColumn The column whose values are summed together.
    */
-  public TopNSpecification(int n, String groupByColumn, String sumColumn) {
+  public TopNSpecification(final int n, final String groupByColumn, final String sumColumn) {
     this.n = n;
     this.groupByColumn = groupByColumn;
     this.sumColumn = sumColumn;
   }
 
   @Override
-  public String getTable() {
+  public final String getTable() {
     throw new UnsupportedOperationException("This method is not supported.");
   }
 
   @Override
-  public String getColumn() {
+  public final String getColumn() {
     throw new UnsupportedOperationException("This method is not supported.");
   }
 
   @Override
-  public Object getValue() {
+  public final Object getValue() {
     throw new UnsupportedOperationException("This method is not supported.");
   }
 
@@ -53,7 +53,7 @@ public class TopNSpecification implements SqlSpecification {
    * 
    * @return A <code>SELECT</code> statement without any other clauses, e.g. <code>WHERE</code>, <code>GROUP BY</code>, etc.
    */
-  String getSelect() {
+  final String getSelect() {
     return String.format(SqlStatements.GET_TOP_N_DATA, groupByColumn, sumColumn);
   }
 
@@ -62,12 +62,12 @@ public class TopNSpecification implements SqlSpecification {
    * 
    * @return The following SQL clause: <code>GROUP BY [groupByColumn] ORDER BY SUM([sumColumn]) DESC LIMIT [n]</code>.
    */
-  String getFilter() {
+  final String getFilter() {
     return String.format(" GROUP BY %s ORDER BY SUM(%s) DESC LIMIT %d", groupByColumn, sumColumn, n);
   }
 
   @Override
-  public String toSqlClause() {
+  public final String toSqlClause() {
     String stmt = String.format("%s %s", getSelect(), getFilter());
     LOGGER.info("SQL Statement: " + stmt);
     return stmt;
