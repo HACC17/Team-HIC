@@ -50,9 +50,9 @@ public final class PdfUtils {
    * @param columnTwoData An array of data for the second column in the table.
    * @param isFiscal <code>true</code> if the data in the second column is fiscal, <code>false</code> otherwise.
    */
-  public static void createPdfFile(Document document, byte[] decodedBytes, OutputStream os,
-      float imageScalePercent, String tableHeading, String[] columnHeadings, String[] columnOneData,
-      String[] columnTwoData, boolean isFiscal) {
+  public static void createPdfFile(final Document document, final byte[] decodedBytes, final OutputStream os,
+      final float imageScalePercent, final String tableHeading, final String[] columnHeadings, final String[] columnOneData,
+      final String[] columnTwoData, final boolean isFiscal) {
     try {
       PdfWriter writer = PdfWriter.getInstance(document, os);
       writer.setPageEvent(new Rotate());
@@ -79,8 +79,8 @@ public final class PdfUtils {
    * @return A table that can be inserted into a PDF file.
    * @throws DocumentException If there are problems creating the table.
    */
-  private static PdfPTable createTable(String tableHeading, String[] columnHeadings,
-      String[] columnOneData, String[] columnTwoData, boolean isFiscal) throws DocumentException {
+  private static PdfPTable createTable(final String tableHeading, final String[] columnHeadings,
+      final String[] columnOneData, final String[] columnTwoData, final boolean isFiscal) throws DocumentException {
     PdfPTable table = new PdfPTable(2);
     table.setTotalWidth(new float[] { 250, 250 });
     table.setLockedWidth(true);
@@ -129,7 +129,7 @@ public final class PdfUtils {
    * @param font Cell font (optional).
    * @return A cell containing a value.
    */
-  private static PdfPCell createCell(String cellValue, Font font) {
+  private static PdfPCell createCell(final String cellValue, final Font font) {
     PdfPCell cell;
     if (font == null) {
       cell = new PdfPCell(new Phrase(cellValue));
@@ -155,7 +155,7 @@ public final class PdfUtils {
     protected PdfNumber orientation = PdfPage.PORTRAIT;
 
     @Override
-    public void onStartPage(PdfWriter writer, Document document) {
+    public void onStartPage(final PdfWriter writer, final Document document) {
       writer.addPageDictEntry(PdfName.ROTATE, orientation);
     }
   }
