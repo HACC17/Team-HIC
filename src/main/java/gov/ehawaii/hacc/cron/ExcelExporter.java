@@ -76,12 +76,10 @@ public class ExcelExporter implements Runnable {
       row.createCell(currentColumn++).setCellValue(heading);
     }
 
-    currentRow++;
-
     Collections.sort(grants, (grant1, grant2) -> grant1.getOrganization().compareTo(grant2.getOrganization()));
 
     for (Grant grant : grants) {
-      row = sheet.createRow(currentRow);
+      row = sheet.createRow(++currentRow);
       currentColumn = 0;
       Cell cell = row.createCell(currentColumn++);
       cell.setCellValue(grant.getFiscalYear());
@@ -105,7 +103,6 @@ public class ExcelExporter implements Runnable {
       cell.setCellValue(grant.getTotalNumberServed());
       cell = row.createCell(currentColumn++);
       cell.setCellValue(grant.getNumberNativeHawaiiansServed());
-      currentRow++;
     }
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd-HH_mm_ss");
