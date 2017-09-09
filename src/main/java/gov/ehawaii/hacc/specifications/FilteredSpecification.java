@@ -3,7 +3,7 @@ package gov.ehawaii.hacc.specifications;
 import lombok.Getter;
 
 /**
- * This specification contains a filter and values for that filter, which will be used in a query on the given table.
+ * This specification contains a filter and values for that filter, which can be used in a query.
  * 
  * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
  * @version 1.0
