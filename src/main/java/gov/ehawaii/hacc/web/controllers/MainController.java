@@ -17,6 +17,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.ehawaii.hacc.service.GrantsService;
 
+/**
+ * This controller handles all requests going to the main page of the application.
+ * 
+ * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
+ * @version 1.0
+ */
 @Controller
 public class MainController {
 
@@ -27,6 +33,12 @@ public class MainController {
   public void init() {
   }
 
+  /**
+   * Displays the main page of this application. A model is populated with lists that are used in a filter panel to populate dropdown lists.
+   * 
+   * @param model Used to store lists of values that are used to populate dropdown lists on the main page.
+   * @return The main page.
+   */
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public String showIndexPage(Model model) {
     Map<String, Object> parameters = new HashMap<>();
@@ -49,21 +61,28 @@ public class MainController {
     return "index";
   }
 
-  @RequestMapping(value = "/charts", method = RequestMethod.GET)
-  public String showChartsPage(Model model) {
-    model.addAttribute("years", grantsService.getAllFiscalYears());
-    model.addAttribute("organizations", grantsService.getAllOrganizations());
-    model.addAttribute("locations", grantsService.getAllLocations());
-    return "charts";
-  }
-
+  /**
+   * Displays the login page.
+   * 
+   * @return The login page.
+   */
   @RequestMapping(value = "/login", method = RequestMethod.GET)
   public String showLoginPage() {
     return "login";
   }
 
+  /**
+   * A <code>POST</code> request sent to the <code>/filter</code> endpoint <strong>must</strong> contain a JSON object that contains
+   * a list of lists of filters in the request body.<br /><br />
+   * 
+   * A list of grants that satisfy the conditions in the filters will be sent in the response back to the client.
+   * 
+   * @param json A JSON string that contains the filters that will be used in the query to retrieve grants.
+   * @param response The response that will contain the list of grants that satisfy the conditions.
+   * @throws IOException If problems are encountered while trying to parse the JSON string or get the list of grants.
+   */
   @RequestMapping(value = "/filter", method = RequestMethod.POST)
-  public void getDataForFiscalYear(@RequestBody String json, HttpServletResponse response)
+  public void getGrants(@RequestBody String json, HttpServletResponse response)
       throws IOException {
     Map<String, Object> parameters =
         new ObjectMapper().readValue(json, new TypeReference<Map<String, Object>>() {

@@ -92,7 +92,7 @@ public class AdminController {
 
 
   /**
-   * A <code>POST</code> request is sent to the </code>/admin</code> endpoint to add a grant to the database.
+   * A <code>POST</code> request is sent to the <code>/admin</code> endpoint to add a grant to the database.
    * Information about the grant is sent along with the request.
    * 
    * @param grant The grant to add to the database.
