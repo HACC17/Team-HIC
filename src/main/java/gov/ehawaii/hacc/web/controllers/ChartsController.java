@@ -34,8 +34,8 @@ public class ChartsController {
    * @throws IOException If there are problems sending the data back to the client.
    */
   @RequestMapping(value = "/fiscalYear", method = RequestMethod.GET)
-  public void getTopFiveOrganizationsForFiscalYear(@RequestParam("year") String year,
-      HttpServletResponse response) throws IOException {
+  public final void getTopFiveOrganizationsForFiscalYear(@RequestParam("year") final String year,
+      final HttpServletResponse response) throws IOException {
     response.getWriter().write(new ObjectMapper()
         .writeValueAsString(grantsService.getTopFiveOrganizationsForFiscalYear(year)));
   }
@@ -50,8 +50,8 @@ public class ChartsController {
    * @throws IOException If there are problems sending the data back to the client.
    */
   @RequestMapping(value = "/top", method = RequestMethod.GET)
-  public void getTopNData(@RequestParam("top") String top, @RequestParam("field1") String name,
-      @RequestParam("field2") String aggregateField, HttpServletResponse response)
+  public final void getTopNData(@RequestParam("top") final String top, @RequestParam("field1") final String name,
+      @RequestParam("field2") final String aggregateField, final HttpServletResponse response)
       throws IOException {
     response.getWriter().write(new ObjectMapper().writeValueAsString(
         grantsService.getTopNData(Integer.parseInt(top), name, aggregateField)));
@@ -66,8 +66,8 @@ public class ChartsController {
    * @throws IOException If there are problems sending the data back to the client.
    */
   @RequestMapping(value = "/time", method = RequestMethod.GET)
-  public void getOrganizationDataOverTime(@RequestParam("org") String organization,
-      @RequestParam("field") String field, HttpServletResponse response)
+  public final void getOrganizationDataOverTime(@RequestParam("org") final String organization,
+      @RequestParam("field") final String field, final HttpServletResponse response)
       throws IOException {
     response.getWriter().write(new ObjectMapper()
         .writeValueAsString(grantsService.getOrganizationDataOverTime(organization, field)));
@@ -83,9 +83,9 @@ public class ChartsController {
    * @throws IOException If there are problems sending the data back to the client.
    */
   @RequestMapping(value = "/locations", method = RequestMethod.GET)
-  public void getDataForEachLocation(@RequestParam("aggregateField") String aggregateField,
-      @RequestParam("filter") String filter, @RequestParam("filterValue") String filterValue,
-      HttpServletResponse response) throws IOException {
+  public final void getDataForEachLocation(@RequestParam("aggregateField") final String aggregateField,
+      @RequestParam("filter") final String filter, @RequestParam("filterValue") final String filterValue,
+      final HttpServletResponse response) throws IOException {
     response.getWriter().write(new ObjectMapper().writeValueAsString(
         grantsService.getAggregateDataForEachLocation(aggregateField, filter, filterValue)));
   }
@@ -101,9 +101,9 @@ public class ChartsController {
    * @throws IOException If there are problems sending the data back to the client.
    */
   @RequestMapping(value = "/fiscalYearTop", method = RequestMethod.GET)
-  public void getTopNDataForEachLocation(@RequestParam("top") String top,
-      @RequestParam("year") String year, @RequestParam("location") String location,
-      @RequestParam("field") String field, HttpServletResponse response) throws IOException {
+  public final void getTopNDataForEachLocation(@RequestParam("top") final String top,
+      @RequestParam("year") final String year, @RequestParam("location") final String location,
+      @RequestParam("field") final String field, final HttpServletResponse response) throws IOException {
     Map<String, String> filters = new HashMap<>();
     filters.put("location", location);
     filters.put("fiscal", year);
