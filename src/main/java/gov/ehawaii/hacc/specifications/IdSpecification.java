@@ -14,9 +14,9 @@ import lombok.Getter;
 @Getter
 public class IdSpecification implements SqlSpecification {
 
-  public final String table;
-  public final String column;
-  public final Object value;
+  private final String table;
+  private final String column;
+  private final Object value;
 
   /**
    * Creates a new {@link IdSpecification}.
@@ -25,24 +25,24 @@ public class IdSpecification implements SqlSpecification {
    * @param column The column in the given table.
    * @param value The value for which to retrieve the ID.
    */
-  public IdSpecification(String table, String column, Object value) {
+  public IdSpecification(final String table, final String column, final Object value) {
     this.table = table;
     this.column = column;
     this.value = value;
   }
 
   @Override
-  public String getTable() {
+  public final String getTable() {
     return table;
   }
 
   @Override
-  public String getColumn() {
+  public final String getColumn() {
     return column;
   }
 
   @Override
-  public Object getValue() {
+  public final Object getValue() {
     return value;
   }
 
@@ -50,7 +50,7 @@ public class IdSpecification implements SqlSpecification {
    * @return The following query: <code>SELECT ID FROM [table] WHERE [column] = [value]</code>.
    */
   @Override
-  public String toSqlClause() {
+  public final String toSqlClause() {
     return String.format(SqlStatements.GET_ID, table, column, value);
   }
 

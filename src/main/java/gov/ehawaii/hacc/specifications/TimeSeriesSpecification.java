@@ -33,8 +33,8 @@ public class TimeSeriesSpecification implements SqlSpecification {
    * @param timeSeriesQuery The time series query.
    * @param aggregateField The field used to aggregate data for the time series query.
    */
-  public TimeSeriesSpecification(String table, String column, String value,
-      String timeSeriesQuery, String aggregateField) {
+  public TimeSeriesSpecification(final String table, final String column, final String value,
+      final String timeSeriesQuery, final String aggregateField) {
     this.table = table;
     this.column = column;
     this.value = value;
@@ -43,22 +43,22 @@ public class TimeSeriesSpecification implements SqlSpecification {
   }
 
   @Override
-  public String getTable() {
+  public final String getTable() {
     return table;
   }
 
   @Override
-  public String getColumn() {
+  public final String getColumn() {
     return column;
   }
 
   @Override
-  public Object getValue() {
+  public final Object getValue() {
     return value;
   }
 
   @Override
-  public String toSqlClause() {
+  public final String toSqlClause() {
     return String.format(timeSeriesQuery + " GROUP BY FISCAL_YEAR ORDER BY FISCAL_YEAR ASC", aggregateField);
   }
 
