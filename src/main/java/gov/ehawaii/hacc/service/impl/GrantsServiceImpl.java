@@ -42,13 +42,13 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   @Override
-  public final boolean saveGrant(Grant grant) {
+  public final boolean saveGrant(final Grant grant) {
     return repository.insertGrant(grant);
   }
 
 
   @Override
-  public final List<Grant> getGrants(Map<String, Object> filters) {
+  public final List<Grant> getGrants(final Map<String, Object> filters) {
     StringBuffer buffer = new StringBuffer();
     List<Object> arguments = new ArrayList<>();
 
@@ -95,7 +95,7 @@ public class GrantsServiceImpl implements GrantsService {
    * @param value The value for which to get the ID.
    * @return The ID, -1 if the value does not have an ID associated with it, or the value if the key cannot be found in the filters map.
    */
-  private Object getIdForFilterValue(String key, String value) {
+  private Object getIdForFilterValue(final String key, final String value) {
     switch (key) {
     case Filters.GRANT_STATUS_ID_FILTER:
       return getId(Tables.GRANT_STATUSES, Columns.GRANT_STATUS, value);
@@ -125,13 +125,13 @@ public class GrantsServiceImpl implements GrantsService {
    * @param value The value for which to get the ID.
    * @return The ID, or -1 if the value does not have an ID associated with it.
    */
-  private long getId(String table, String column, String value) {
+  private long getId(final String table, final String column, final String value) {
     return repository.findIdForValue(new IdSpecification(table, column, value));
   }
 
 
   @Override
-  public final List<Map<String, Object>> getTopFiveOrganizationsForFiscalYear(String year) {
+  public final List<Map<String, Object>> getTopFiveOrganizationsForFiscalYear(final String year) {
     Assert.hasLength(year, "year must not be null or empty.");
 
     return repository.findTopN(new TopNFiscalYearSpecification(5, Columns.ORGANIZATION_ID,
@@ -140,7 +140,7 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   @Override
-  public final List<Map<String, Object>> getTopNData(int top, String name, String aggregateField) {
+  public final List<Map<String, Object>> getTopNData(final int top, final String name, final String aggregateField) {
     if (top < 1) {
       throw new IllegalArgumentException("top must be greater than 0.");
     }
@@ -152,7 +152,7 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   @Override
-  public final List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field) {
+  public final List<Map<String, Long>> getOrganizationDataOverTime(final String organization, final String field) {
     Assert.hasLength(organization, "organization must not be null or empty.");
     Assert.hasLength(field, "field must not be null or empty.");
 
@@ -163,8 +163,8 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   @Override
-  public final Map<String, Map<String, Long>> getAggregateDataForEachLocation(String aggregateField,
-      String filter, String filterValue) {
+  public final Map<String, Map<String, Long>> getAggregateDataForEachLocation(final String aggregateField,
+      final String filter, final String filterValue) {
     TotalsSpecification totalsSpecification = new TotalsSpecification(
         SqlStatements.GET_TOTAL_FOR_EACH_LOCATION,
         aggregateField, new String[] { filter }, new Object[] { filterValue });
@@ -180,7 +180,7 @@ public class GrantsServiceImpl implements GrantsService {
 
 
   @Override
-  public final Map<String, Map<String, Long>> getTopNDataForEachLocation(int top, String aggregateField, Map<String, String> filters) {
+  public final Map<String, Map<String, Long>> getTopNDataForEachLocation(final int top, final String aggregateField, final Map<String, String> filters) {
     String stmt = SqlStatements.GET_TOP_N_ORGANIZATIONS_FOR_EACH_LOCATION.replace("xxx", aggregateField).replace("yyy",
         String.valueOf(top));
     String[] filtersArray = new String[filters.size()];
