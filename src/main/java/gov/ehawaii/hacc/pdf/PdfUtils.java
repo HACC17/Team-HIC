@@ -152,7 +152,7 @@ public final class PdfUtils {
    */
   private static class Rotate extends PdfPageEventHelper {
 
-    protected PdfNumber orientation = PdfPage.PORTRAIT;
+    private final PdfNumber orientation = PdfPage.PORTRAIT;
 
     @Override
     public void onStartPage(final PdfWriter writer, final Document document) {

@@ -67,14 +67,14 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
    * Initializes the data source after an instance of this class is created.
    */
   @PostConstruct
-  void init() {
+  final void init() {
     setDataSource(dataSource);
     LOGGER.info("GrantDaoImpl initialized.");
   }
 
 
   @Override
-  public boolean insertGrant(Grant grant) {
+  public final boolean insertGrant(final Grant grant) {
     long grantStatusId = saveValue(Tables.GRANT_STATUSES, Columns.GRANT_STATUS, grant.getGrantStatus());
     long grantTypeId = saveValue(Tables.GRANT_TYPES, Columns.GRANT_TYPE, grant.getGrantType());
     long locationId = saveValue(Tables.LOCATIONS, Columns.LOCATION, grant.getLocation());
@@ -100,7 +100,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
 
 
   @Override
-  public List<Grant> findGrants(Specification specification) {
+  public final List<Grant> findGrants(final Specification specification) {
     FilteredSpecification filteredSpecification = (FilteredSpecification) specification;
 
     String selectStmt = String.format(SqlStatements.GET_ALL_GRANTS, filteredSpecification.getTable());
@@ -113,7 +113,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
 
 
   @Override
-  public List<Map<String, Object>> findTopN(Specification specification) {
+  public final List<Map<String, Object>> findTopN(final Specification specification) {
     TopNSpecification topNSpecification = (TopNSpecification) specification;
 
     String groupBy = topNSpecification.getGroupByColumn();
@@ -146,14 +146,14 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
 
 
   @Override
-  public String findValueForId(Specification specification) {
+  public final String findValueForId(final Specification specification) {
     SqlSpecification sqlSpecification = (SqlSpecification) specification;
     return getValue(sqlSpecification.getTable(), sqlSpecification.getColumn(), sqlSpecification.getValue());
   }
 
 
   @Override
-  public List<Map<String, Long>> findTimeSeriesData(Specification specification) {
+  public final List<Map<String, Long>> findTimeSeriesData(final Specification specification) {
     TimeSeriesSpecification tsSpecification = (TimeSeriesSpecification) specification;
 
     long id = findIdForValue(new IdSpecification(tsSpecification.getTable(),
@@ -173,7 +173,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
 
 
   @Override
-  public Map<String, Map<String, Long>> findAggregateData(Specification specification) {
+  public final Map<String, Map<String, Long>> findAggregateData(final Specification specification) {
     TotalsSpecification totalsSpecification = (TotalsSpecification) specification;
 
     Map<String, Map<String, Long>> data = new HashMap<>();
@@ -205,7 +205,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
 
 
   @Override
-  public long findIdForValue(Specification specification) {
+  public final long findIdForValue(final Specification specification) {
     SqlSpecification sqlSpecification = (SqlSpecification) specification;
 
     String table = sqlSpecification.getTable();
@@ -224,7 +224,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
 
 
   @Override
-  public List<String> findAllValues(Specification specification) {
+  public final List<String> findAllValues(final Specification specification) {
     SqlSpecification sqlSpecification = (SqlSpecification) specification;
     return getJdbcTemplate().queryForList(sqlSpecification.toSqlClause(), String.class);
   }
@@ -238,7 +238,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
    * @param value The data to save.
    * @return The ID of the row that contains the data that was saved.
    */
-  private long saveValue(String tableName, String columnName, Object value) {
+  private long saveValue(final String tableName, final String columnName, final Object value) {
     long id = findIdForValue(new IdSpecification(tableName, columnName, value));
     if (id != -1) {
       return id;
@@ -262,7 +262,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
    * @param id The row number.
    * @return A string representing the value, or an empty string if there is none.
    */
-  private String getValue(String tableName, String columnName, Object id) {
+  private String getValue(final String tableName, final String columnName, final Object id) {
     String stmt = String.format(SqlStatements.GET_VALUE, columnName, tableName);
     try {
      String result = getJdbcTemplate().queryForObject(stmt, String.class, id);

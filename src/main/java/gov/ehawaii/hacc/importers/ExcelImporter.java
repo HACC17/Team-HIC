@@ -35,7 +35,7 @@ public class ExcelImporter implements Importer {
   private Resource excelFile;
 
   @Override
-  public boolean importData() {
+  public final boolean importData() {
     try (FileInputStream file = new FileInputStream(excelFile.getFile());
         Workbook workbook = new XSSFWorkbook(file)) {
       Sheet datatypeSheet = workbook.getSheetAt(0);
@@ -83,7 +83,7 @@ public class ExcelImporter implements Importer {
    * @param cell The cell from which to get an <code>int</code>.
    * @return The <code>int</code> value, or 0 if the value is a string that cannot be converted, e.g. "NULL".
    */
-  private static int getIntCellValue(Cell cell) {
+  private static int getIntCellValue(final Cell cell) {
     try {
       return (int) cell.getNumericCellValue();
     }

@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
  */
 public interface Importer {
 
-  static final Logger LOGGER = LogManager.getLogger(Importer.class);
+  final Logger LOGGER = LogManager.getLogger(Importer.class);
 
   /**
    * This method will read in all the grants from a file and then import them into a repository.
@@ -26,7 +26,7 @@ public interface Importer {
    * @param value The string from which to strip whitespace characters at the beginning and end.
    * @return A string with no whitespace characters at either end, or an empty string.
    */
-  public static String trim(String value) {
+  static String trim(String value) {
     return value == null || value.isEmpty() ? "" : value.trim();
   }
 
@@ -36,7 +36,7 @@ public interface Importer {
    * @param value The string to convert.
    * @return An integer, or 0 if the string cannot be converted.
    */
-  public static int stringToInt(String value) {
+  static int stringToInt(String value) {
     if (value == null || value.isEmpty()) {
       return 0;
     }
@@ -55,7 +55,7 @@ public interface Importer {
    * @param value The string to convert.
    * @return A long, or 0 if the string cannot be converted.
    */
-  public static long stringToLong(String value) {
+  static long stringToLong(String value) {
     if (value == null || value.isEmpty()) {
       return 0;
     }
