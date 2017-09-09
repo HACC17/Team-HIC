@@ -1,17 +1,22 @@
 <head>
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="assets/css/font-awesome.min.css" />
-	<link rel="stylesheet" href="assets/css/styles.css" />
-	<link rel="stylesheet" href="assets/css/jquery.dataTables.min.css" />
-	<link rel="stylesheet" href="assets/css/buttons.dataTables.min.css" />
-	<script src="assets/js/jquery/jquery-3.2.1.min.js" type="text/javascript"></script>
-	<script src="assets/js/jquery/jquery-1.12.4.min.js" type="text/javascript"></script>
-	<script src="assets/js/accounting.min.js" type="text/javascript"></script>
-	<script src="assets/js/download.js" type="text/javascript"></script>
-	<script src="assets/js/jquery/jquery.maskedinput.min.js" type="text/javascript"></script>
-	<script src="assets/js/highcharts/highcharts.js" type="text/javascript"></script>
-	<script src="assets/js/highcharts/data.js" type="text/javascript"></script>
-	<script src="assets/js/highcharts/drilldown.js" type="text/javascript"></script>
-	<script src="assets/js/highcharts/exporting.js" type="text/javascript"></script>
-	<script src="assets/js/canvg.js" type="text/javascript"></script>
+    <!--<link rel="stylesheet" href="assets/css/bootstrap.min.css" />-->
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+    <!--<link rel="stylesheet" href="assets/css/styles.css" />-->
+    <link rel="stylesheet" href="assets/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="assets/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap-slider.min.css" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script src="assets/js/jquery/jquery-3.2.1.min.js" type="text/javascript"></script>
+    <script src="assets/js/jquery/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script src="assets/js/accounting.min.js" type="text/javascript"></script>
+    <script src="assets/js/download.js" type="text/javascript"></script>
+    <script src="assets/js/jquery/jquery.maskedinput.min.js" type="text/javascript"></script>
+    <script src="assets/js/highcharts/highcharts.js" type="text/javascript"></script>
+    <script src="assets/js/highcharts/data.js" type="text/javascript"></script>
+    <script src="assets/js/highcharts/drilldown.js" type="text/javascript"></script>
+    <script src="assets/js/highcharts/exporting.js" type="text/javascript"></script>
+    <script src="assets/js/canvg.js" type="text/javascript"></script>
+    <script src="assets/js/jquery/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="assets/js/bootstrap-slider.min.js" type="text/javascript"></script>
+    <link href="https://fonts.googleapis.com/css?family=Oxygen:300,400,700|Raleway:300,400,700" rel="stylesheet">
 </head>

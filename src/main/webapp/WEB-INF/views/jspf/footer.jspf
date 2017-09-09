@@ -1,15 +1,53 @@
 <footer>
-	<script src="assets/js/popper.min.js" type="text/javascript"></script>
-	<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="assets/js/scripts.min.js" type="text/javascript"></script>
-	<script src="assets/js/jquery/jquery.dataTables.min.js" type="text/javascript"></script>
-	<script src="assets/js/dataTables.buttons.min.js" type="text/javascript"></script>
-	<script src="assets/js/buttons.html5.min.js" type="text/javascript"></script>
-	<script src="assets/js/buttons.flash.min.js" type="text/javascript"></script>
-	<script src="assets/js/buttons.print.min.js" type="text/javascript"></script>
-	<script src="assets/js/jszip.min.js" type="text/javascript"></script>
-	<script src="assets/js/pdfmake.min.js" type="text/javascript"></script>
-	<script src="assets/js/vfs_fonts.js" type="text/javascript"></script>
-	<script src="assets/js/chartjs/Chart.min.js" type="text/javascript"></script>
-	<script src="assets/js/chartjs/Chart.bundle.min.js" type="text/javascript"></script>
+    <script src="assets/js/popper.min.js" type="text/javascript"></script>
+    <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="assets/js/scripts.min.js" type="text/javascript"></script>
+    <script src="assets/js/jquery/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="assets/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
+    <script src="assets/js/dataTables.buttons.min.js" type="text/javascript"></script>
+    <script src="assets/js/buttons.html5.min.js" type="text/javascript"></script>
+    <script src="assets/js/buttons.flash.min.js" type="text/javascript"></script>
+    <script src="assets/js/buttons.print.min.js" type="text/javascript"></script>
+    <script src="assets/js/jszip.min.js" type="text/javascript"></script>
+    <script src="assets/js/pdfmake.min.js" type="text/javascript"></script>
+    <script src="assets/js/vfs_fonts.js" type="text/javascript"></script>
+    <script src="assets/js/chartjs/Chart.min.js" type="text/javascript"></script>
+    <script src="assets/js/chartjs/Chart.bundle.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function(){
+            $('.sidebar-scroll').slimScroll({
+                height: '100%'
+            });
+        });
+        
+        $("#ex18b").slider({
+            min: 2013,
+            max: 2016,
+            value: [2013, 2016],
+            labelledby: ['ex18-label-2a', 'ex18-label-2b']
+        });
+        
+        $('.collapse').on('shown.bs.collapse', function () {
+            $(this).prev().find(".toggle-icon").removeClass("fa-angle-left").addClass("fa-angle-down");
+        });
+        
+        //The reverse of the above on hidden event:
+        
+        $('.collapse').on('hidden.bs.collapse', function () {
+            $(this).prev().find(".toggle-icon").removeClass("fa-angle-down").addClass("fa-angle-left");
+        });
+        $('.select-all').click(function(event) {
+          if(this.checked) {
+              // Iterate each checkbox
+              $(':checkbox').each(function() {
+                  this.checked = true;
+              });
+          }
+          else {
+            $(':checkbox').each(function() {
+                  this.checked = false;
+              });
+          }
+        });
+    </script>
 </footer>
