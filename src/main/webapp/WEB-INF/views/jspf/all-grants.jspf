@@ -1,149 +1,42 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="row">
-    <div id="grants" class="col-md-6">
-        <%@ include file="/WEB-INF/views/jspf/grants-table.jspf" %>
-    </div>
-    <div id="filters-panel" class="col-md-6" style="display: none">
-        <div class="form-group">
-            <h3>Filters</h3>
-            <div id="filters-legend" class="alert alert-success"></div>
-        </div>
-        <div class="form-group">
-            <label for="status">Grant Status:</label>
-            <select id="status" class="filter form-control" onchange="updateTable();" data-key="status">
-                <option value="">All</option>
-                <c:forEach var="status" items="${statuses}">
-                    <option value="${status}"><c:out value="${status}" /></option>
-                </c:forEach>
-            </select>
-        </div>
-        <div class="form-group">
-            <div class="form-inline">
-                <label for="start-fiscalYear">Fiscal year:</label>
-                <input type="number" min="2013" max="2016" value="2016" class="filter form-control" id="start-fiscalYear" data-key="fiscal-gte">
-                <label for="end-fiscalYear">-</label>
-                <input type="number" min="2013" max="2016" value="2016" class="filter form-control" id="end-fiscalYear" data-key="fiscal-lte">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="type1"><input id="type1" type="checkbox" class="filter grant-status" value="Ahahui" onchange="updateTable();" data-key="type"> Ahahui</label>
-            <label for="type2"><input id="type2" type="checkbox" class="filter grant-status" value="BOC Initiative" onchange="updateTable();" data-key="type"> BOC Initiative</label>
-            <label for="type3"><input id="type3" type="checkbox" class="filter grant-status" value="Community Grant" onchange="updateTable();" data-key="type"> Community Grant</label>
-            <label for="type4"><input id="type4" type="checkbox" class="filter grant-status" value="Sponsorship" onchange="updateTable();" data-key="type"> Sponsorship</label>
-        </div>
-        <div class="form-group">
-            <label for="organization">Organization:</label>
-            <select id="organization" class="filter form-control" onchange="updateTable();" data-key="organization">
-                <option value="">All</option>
-                <c:forEach var="organization" items="${organizations}">
-                    <option value="${organization}"><c:out value="${organization}" /></option>
-                </c:forEach>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="project">Project:</label>
-            <select id="project" class="filter form-control" onchange="updateTable();" data-key="project">
-                <option value="">All</option>
-                <c:forEach var="project" items="${projects}">
-                    <option value="${project}"><c:out value="${project}" /></option>
-                </c:forEach>
-            </select>
-        </div>
-        <div class="form-group">
-            <div class="form-inline">
-                <label for="min-amount">Amount:</label>
-                <input type="number" min="0" max="10000000" value="100000" class="filter form-control" id="min-amount" data-key="amount-gte">
-                <label for="max-amount">-</label>
-                <input type="number" min="0" max="10000000" value="1000000" class="filter form-control" id="max-amount" data-key="amount-lte">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="location">Location:</label>
-            <select id="location" class="filter form-control" onchange="updateTable();" data-key="location">
-                <option value="">All</option>
-                <c:forEach var="location" items="${locations}">
-                    <option value="${location}"><c:out value="${location}" /></option>
-                </c:forEach>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="priority">Strategic Priority:</label>
-            <select id="priority" class="filter form-control" onchange="updateTable();" data-key="priority">
-                <option value="">All</option>
-                <c:forEach var="priority" items="${priorities}">
-                    <option value="${priority}"><c:out value="${priority}" /></option>
-                </c:forEach>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="result">Strategic Result:</label>
-            <select id="result" class="filter form-control" onchange="updateTable();" data-key="result">
-                <option value="">All</option>
-                <c:forEach var="result" items="${results}">
-                    <option value="${result}"><c:out value="${result}" /></option>
-                </c:forEach>
-            </select>
-        </div>
-        <div class="form-group">
-            <div class="form-inline">
-                <label for="min-total">Total number of people served:</label>
-                <input type="number" min="0" max="10000000" value="0" class="filter form-control" id="min-total" data-key="total-gte">
-                <label for="max-total">-</label>
-                <input type="number" min="0" max="10000000" value="1000" class="filter form-control" id="max-total" data-key="total-lte">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="form-inline">
-                <label for="min-hawaiians">Number of Native Hawaiians served:</label>
-                <input type="number" min="0" max="10000000" value="0" class="filter form-control" id="min-hawaiians" data-key="hawaiians-gte">
-                <label for="max-hawaiians">-</label>
-                <input type="number" min="0" max="10000000" value="1000" class="filter form-control" id="max-hawaiians" data-key="hawaiians-lte">
-            </div>
-        </div>
-        <div class="form-group">
-            <button id="clear" class="btn btn-danger">Clear Filters</button>
-        </div>
-    </div>
-</div>
-
 <div id="modals">
-<c:forEach var="grant" items="${all}">
-	<div class="modal fade" id="grantModal${grant.id}" tabindex="-1" role="dialog">
-	    <div class="modal-dialog" role="document">
-	        <div class="modal-content">
-	            <div class="modal-header">
-	                <h2 class="modal-title" id="grantModalLabel">${grant.organization} (${grant.fiscalYear})</h2>
-	            </div>
-	            <div class="modal-body">
-	                <dl class="dl-horizontal">
-	                    <dt>Project</dt>
-	                    <dd>${grant.project}</dd>
-	                    <dt>Amount</dt>
-	                    <dd class="amount">${grant.amount}</dd>
-	                    <dt>Status</dt>
-	                    <dd>${grant.grantStatus}</dd>
-	                    <dt>Grant Type</dt>
-	                    <dd>${grant.grantType}</dd>
-	                    <dt>Location</dt>
-	                    <dd>${grant.location}</dd>
-	                    <dt>Strategic Priority</dt>
-	                    <dd>${grant.strategicPriority}</dd>
-	                    <dt>Strategic Results</dt>
-	                    <dd>${grant.strategicResults}</dd>
-	                    <dt>Total Number Served</dt>
-	                    <dd>${grant.totalNumberServed}</dd>
-	                    <dt>Number of Native<br />Hawaiians Served</dt>
-	                    <dd>${grant.numberNativeHawaiiansServed}</dd>
-	                </dl>
-	            </div>
-	            <div class="modal-footer">
-	                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-	            </div>
-	        </div>
-	    </div>
-	</div>
-</c:forEach>
+    <c:forEach var="grant" items="${all}">
+        <div class="modal fade" id="grantModal${grant.id}" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="grantModalLabel">${grant.organization} (${grant.fiscalYear})</h2>
+                    </div>
+                    <div class="modal-body">
+                        <dl class="dl-horizontal">
+                            <dt>Project</dt>
+                            <dd>${grant.project}</dd>
+                            <dt>Amount</dt>
+                            <dd class="amount">${grant.amount}</dd>
+                            <dt>Status</dt>
+                            <dd>${grant.grantStatus}</dd>
+                            <dt>Grant Type</dt>
+                            <dd>${grant.grantType}</dd>
+                            <dt>Location</dt>
+                            <dd>${grant.location}</dd>
+                            <dt>Strategic Priority</dt>
+                            <dd>${grant.strategicPriority}</dd>
+                            <dt>Strategic Results</dt>
+                            <dd>${grant.strategicResults}</dd>
+                            <dt>Total Number Served</dt>
+                            <dd>${grant.totalNumberServed}</dd>
+                            <dt>Number of Native<br />Hawaiians Served</dt>
+                            <dd>${grant.numberNativeHawaiiansServed}</dd>
+                        </dl>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </c:forEach>
 </div>
 
 <script type="text/javascript">
@@ -196,63 +89,10 @@
         { "targets": [ 10 ], "visible": false, "searchable": false }
     ];
 
-    function checkYear(id) {
-        if ($(id).val() > 2016) {
-            $(id).val(2016);
-        }
-        if ($(id).val() < 2013) {
-            $(id).val(2013);
-        }
-    }
-
-    function checkValue(id, min, max) {
-        var billion = 1000000000;
-        if ($(id).val() > billion) {
-            $(id).val(billion);
-        }
-        var value = parseInt($(id).val());
-        if (min) {
-            var otherValue = parseInt($("#min-" + $(id).attr("id").substring(4)).val());
-            if (value < otherValue) {
-                $(id).val(otherValue);
-            }
-        }
-        if (max) {
-            var otherValue = parseInt($("#max-" + $(id).attr("id").substring(4)).val());
-            if (value > otherValue) {
-                $(id).val(otherValue);
-            }
-        }
-    }
-
-    function updateLabels() {
-        $("#min-amount-value").html(accounting.formatMoney($("#min-amount").val()));
-        $("#max-amount-value").html(accounting.formatMoney($("#max-amount").val()));
-        $("#min-total-value").html(accounting.formatNumber($("#min-total").val()));
-        $("#max-total-value").html(accounting.formatNumber($("#max-total").val()));
-        $("#min-hawaiians-value").html(accounting.formatNumber($("#min-hawaiians").val()));
-        $("#max-hawaiians-value").html(accounting.formatNumber($("#max-hawaiians").val()));
-    }
-
     function removeSortingArrows() {
         $(".more-info-column").removeClass("sorting");
         $(".more-info-column").css("cursor", "auto");
         $(".more-info-column").off();
-    }
-
-    function updateFiltersLabel() {
-        var label = "<ul>";
-        label = label + "<li>Fiscal year: " + $("#start-fiscalYear").val() + " - " + $("#end-fiscalYear").val() + " (inclusive)</li>";
-        label = label + "<li>Amount: " + accounting.formatMoney($("#min-amount").val()) + " - " + accounting.formatMoney($("#max-amount").val()) + " (inclusive)</li>";
-        label = label + "<li>Total number of people served: " + accounting.formatNumber($("#min-total").val()) + " - " + accounting.formatNumber($("#max-total").val()) + " (inclusive)</li>";
-        label = label + "<li>Number of Native Hawaiians served: " + accounting.formatNumber($("#min-hawaiians").val()) + " - " + accounting.formatNumber($("#max-hawaiians").val()) + " (inclusive)</li>";
-        $("select").each(function() {
-            if ($(this).val() != '') {
-                label = label + "<li>" + $("label[for=" + $(this).attr("id") + "]").html() + " " + $(this).val() + "</li>";
-            }
-        })
-        label = label + "</ul>";
-        $("#filters-legend").html(label);
     }
 
     function updateTable() {
@@ -336,60 +176,6 @@
     }
 
     $(document).ready(function() {
-        updateLabels();
-        $("#start-fiscalYear").on('change keyup paste', function(event) {
-            checkYear(this);
-            var end = parseInt($("#end-fiscalYear").val());
-            if (parseInt($(this).val()) > end) {
-                $(this).val(end);
-            }
-            updateTable();
-        });
-        $("#end-fiscalYear").on('change keyup paste', function(event) {
-            checkYear(this);
-            var start = parseInt($("#start-fiscalYear").val());
-            if (parseInt($(this).val()) < start) {
-                $(this).val(start);
-            }
-            updateTable();
-        });
-        $("#min-amount, #min-total, #min-hawaiians").on('change keyup paste', function(event) {
-            checkValue(this, false, true);
-            updateLabels();
-            updateTable();
-        });
-        $("#max-amount, #max-total, #max-hawaiians").on('change keyup paste', function(event) {
-            checkValue(this, true, false);
-            updateLabels();
-            updateTable();
-        });
-        $('#grants-table').DataTable({
-            aaSorting: [[3, 'desc']],
-            dom: 'Bfrtip',
-            buttons: buttons,
-            "columnDefs": columnDefs,
-        });
-        $('.amount').each(function() {
-            $(this).html(accounting.formatMoney($(this).html()));
-        });
-        removeSortingArrows();
-        $("#clear").on('click', function(event) {
-            event.preventDefault();
-            $("#start-fiscalYear").val(2013);
-            $("#end-fiscalYear").val(2016);
-            $("select").val("");
-
-            var billion = 1000000000;
-            $("#min-amount").val(0);
-            $("#max-amount").val(billion);
-            $("#min-total").val(0);
-            var million = 1000000;
-            $("#max-total").val(million);
-            $("#min-hawaiians").val(0);
-            $("#max-hawaiians").val(million);
-            updateTable();
-        });
-        $("#filters-panel").show();
         updateTable();
     });
 </script>

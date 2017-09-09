@@ -1,43 +1,39 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<div class="row">
-    <div class="col-md-12">
-        <table id="grants-table" class="display">
-            <thead>
-                <tr>
-                    <th>Fiscal Year</th>
-                    <th>Organization</th>
-                    <th>Project</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                    <th>Location</th>
-                    <th>Grant Type</th>
-                    <th>Strategic Priority</th>
-                    <th>Strategic Results</th>
-                    <th>Total Number Served</th>
-                    <th>Number of Native Hawaiians Served</th>
-                    <th class="more-info-column"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="grant" items="${all}">
-                    <tr>
-                        <td>${grant.fiscalYear}</td>
-                        <td>${grant.organization}</td>
-                        <td>${grant.project}</td>
-                        <td><fmt:formatNumber value="${grant.amount}" type="currency" /></td>
-                        <td>${grant.grantStatus}</td>
-                        <td>${grant.location}</td>
-                        <td>${grant.grantType}</td>
-                        <td>${grant.strategicPriority}</td>
-                        <td>${grant.strategicResults}</td>
-                        <td>${grant.totalNumberServed}</td>
-                        <td>${grant.numberNativeHawaiiansServed}</td>
-                        <td><button class="btn btn-md btn-primary more-info-btn" onclick="$('#grantModal${grant.id}').modal('show');">More Info</button></td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-    </div>
-</div>
+<table id="grants-table" class="display table">
+    <thead>
+        <tr>
+            <th>Fiscal Year</th>
+            <th>Organization</th>
+            <th>Project</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Location</th>
+            <th>Grant Type</th>
+            <th>Strategic Priority</th>
+            <th>Strategic Results</th>
+            <th>Total Number Served</th>
+            <th>Number of Native Hawaiians Served</th>
+            <th class="more-info-column"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <c:forEach var="grant" items="${all}">
+            <tr>
+                <td>${grant.fiscalYear}</td>
+                <td>${grant.organization}</td>
+                <td>${grant.project}</td>
+                <td><fmt:formatNumber value="${grant.amount}" type="currency" /></td>
+                <td>${grant.grantStatus}</td>
+                <td>${grant.location}</td>
+                <td>${grant.grantType}</td>
+                <td>${grant.strategicPriority}</td>
+                <td>${grant.strategicResults}</td>
+                <td>${grant.totalNumberServed}</td>
+                <td>${grant.numberNativeHawaiiansServed}</td>
+                <td><button class="btn btn-md btn-primary more-info-btn" onclick="$('#grantModal${grant.id}').modal('show');">More Info</button></td>
+            </tr>
+        </c:forEach>
+    </tbody>
+</table>
