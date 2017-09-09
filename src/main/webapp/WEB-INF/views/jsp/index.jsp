@@ -48,22 +48,22 @@
                             <fieldset>
 
                                 <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">Culture</label>
+                                <input class="form-check-input filter" type="checkbox" value="Culture" onchange="updateTable();" data-key="priority">Culture</label>
                                 
                                 <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">Economic Self-Sufficiency</label>
+                                <input class="form-check-input filter" type="checkbox" value="Economic Self-Sufficiency" onchange="updateTable();" data-key="priority">Economic Self-Sufficiency</label>
                                 
                                 <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">Education</label>
+                                <input class="form-check-input filter" type="checkbox" value="Education" onchange="updateTable();" data-key="priority">Education</label>
                                 
                                 <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">Governance</label>
+                                <input class="form-check-input filter" type="checkbox" value="Governance" onchange="updateTable();" data-key="priority">Governance</label>
                                 
                                 <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">Health</label>
+                                <input class="form-check-input filter" type="checkbox" value="Health" onchange="updateTable();" data-key="priority">Health</label>
                                 
                                 <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">Land &amp; Water</label>
+                                <input class="form-check-input filter" type="checkbox" value="Land & Water" onchange="updateTable();" data-key="priority">Land &amp; Water</label>
                                 <a href="#" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
                             </fieldset>
                         </div>
@@ -74,31 +74,31 @@
                             <fieldset>
                                 
                                 <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">Achieve Pae Aina Sustainability</label>
+                                <input class="form-check-input filter" type="checkbox" value="Achieve Pae Aina Sustainability" onchange="updateTable();" data-key="result">Achieve Pae Aina Sustainability</label>
                                 
                                 <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">Build Stability in Housing</label>
+                                <input class="form-check-input filter" type="checkbox" value="Build Stability in Housing" onchange="updateTable();" data-key="priority">Build Stability in Housing</label>
                                 
                                 <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">Decrease Chronic Disease Rates</label>
+                                <input class="form-check-input filter" type="checkbox" value="Decrease Chronic Disease Rates" onchange="updateTable();" data-key="priority">Decrease Chronic Disease Rates</label>
                                 
                                 <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">Exceed Education Standards</label>
+                                <input class="form-check-input filter" type="checkbox" value="Exceed Education Standards" onchange="updateTable();" data-key="priority">Exceed Education Standards</label>
                                 
                                 <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">Improve Family Lifestyle</label>
+                                <input class="form-check-input filter" type="checkbox" value="Improve Family Lifestyle" onchange="updateTable();" data-key="priority">Improve Family Lifestyle</label>
                                 
                                 <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">Increase Family Income</label>
+                                <input class="form-check-input filter" type="checkbox" value="Increase Family Income" onchange="updateTable();" data-key="priority">Increase Family Income</label>
                                 
                                 <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">Participate in Culture</label>
+                                <input class="form-check-input filter" type="checkbox" value="Participate in Culture" onchange="updateTable();" data-key="priority">Participate in Culture</label>
                                 
                                 <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">Priority Level</label>
+                                <input class="form-check-input filter" type="checkbox" value="Priority Level" onchange="updateTable();" data-key="priority">Priority Level</label>
                                 
                                 <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">Value History and Culture</label>
+                                <input class="form-check-input filter" type="checkbox" value="Value History and Culture" onchange="updateTable();" data-key="priority">Value History and Culture</label>
                                 <a href="#" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
                             </fieldset>
                         </div>
@@ -108,19 +108,19 @@
                         <div id="grant-type" class="collapse">
                             <fieldset>
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
+                                    <input class="form-check-input filter" type="checkbox" value="Ahahui" onchange="updateTable();" data-key="type">
                                     Ahahui
                                 </label>                    
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
+                                    <input class="form-check-input filter" type="checkbox" value="BOT Initiative" onchange="updateTable();" data-key="type">
                                     BOT Initiative
                                 </label>                   
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
+                                    <input class="form-check-input filter" type="checkbox" value="Community Grant" onchange="updateTable();" data-key="type">
                                     Community Grant
                                 </label>                   
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
+                                    <input class="form-check-input filter" type="checkbox" value="Sponsorship" onchange="updateTable();" data-key="type">
                                     Sponsorship
                                 </label>
                                 <a href="#" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
@@ -132,51 +132,51 @@
                         <div  id="location" class="collapse">
                             <fieldset>            
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
+                                    <input class="form-check-input filter" type="checkbox" value="Continent" onchange="updateTable();" data-key="location">
                                     Continent
                                 </label>             
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
+                                    <input class="form-check-input filter" type="checkbox" value="Hawaii" onchange="updateTable();" data-key="location">
                                     Hawaii
                                 </label>          
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
+                                    <input class="form-check-input filter" type="checkbox" value="International" onchange="updateTable();" data-key="location">
                                     International
                                 </label>                   
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
+                                    <input class="form-check-input filter" type="checkbox" value="Kauai" onchange="updateTable();" data-key="location">
                                     Kauai
                                 </label>
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
+                                    <input class="form-check-input filter" type="checkbox" value="Lanai" onchange="updateTable();" data-key="location">
                                     Lanai
                                 </label>
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
+                                    <input class="form-check-input filter" type="checkbox" value="Maui" onchange="updateTable();" data-key="location">
                                     Maui
                                 </label>
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
+                                    <input class="form-check-input filter" type="checkbox" value="Molokai" onchange="updateTable();" data-key="location">
                                     Molokai
                                 </label>
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
+                                    <input class="form-check-input filter" type="checkbox" value="Multiple" onchange="updateTable();" data-key="location">
                                     Multiple
                                 </label>
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
+                                    <input class="form-check-input filter" type="checkbox" value="Oahu" onchange="updateTable();" data-key="location">
                                     Oahu
                                 </label>
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
+                                    <input class="form-check-input filter" type="checkbox" value="Papahanaumokuakea" onchange="updateTable();" data-key="location">
                                     Papahanaumokuakea
                                 </label>
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
+                                    <input class="form-check-input filter" type="checkbox" value="Polynesia" onchange="updateTable();" data-key="location">
                                     Polynesia
                                 </label>
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
+                                    <input class="form-check-input filter" type="checkbox" value="Statewide" onchange="updateTable();" data-key="location">
                                     Statewide
                                 </label>
                                 <a href="#" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
