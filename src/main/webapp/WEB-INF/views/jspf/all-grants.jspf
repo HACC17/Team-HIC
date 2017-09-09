@@ -125,7 +125,6 @@
                 'X-CSRF-TOKEN': "<c:out value='${_csrf.token}' />"
             },
             success: function(response) {
-                updateFiltersLabel();
                 $('#grants-table').dataTable().fnDestroy();
                 var json = $.parseJSON(response);
                 var arrays = [];
