@@ -21,7 +21,7 @@ public class TotalsSpecification implements SqlSpecification {
   private ColumnSpecification colSpec;
 
   /**
-   * Constructs a new TotalsSpecification.
+   * Constructs a new {@link TotalsSpecification}.
    * 
    * @param totalsQuery A query that contains a <code>SUM</code> function.
    * @param sumColumn The column whose values are summed together.

@@ -16,7 +16,7 @@ public class ColumnSpecification implements SqlSpecification {
   private final boolean distinct;
 
   /**
-   * Creates a new ColumnSpecification.
+   * Creates a new {@link ColumnSpecification}.
    * 
    * @param table The table that contains the given column.
    * @param column The column from which to retrieve all values.

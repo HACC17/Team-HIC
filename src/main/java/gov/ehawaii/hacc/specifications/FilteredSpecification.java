@@ -16,7 +16,7 @@ public class FilteredSpecification implements SqlSpecification {
   private final Object[] arguments;
 
   /**
-   * Creates a new FilteredSpecification.
+   * Creates a new {@link FilteredSpecification}.
    * 
    * @param table The name of the table to which to apply the filter.
    * @param filter The filter that will be used in a query.

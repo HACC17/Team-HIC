@@ -19,7 +19,7 @@ public class IdSpecification implements SqlSpecification {
   public final Object value;
 
   /**
-   * Creates a new IdSpecification.
+   * Creates a new {@link IdSpecification}.
    * 
    * @param table The table from which to retrieve the ID.
    * @param column The column in the given table.

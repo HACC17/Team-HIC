@@ -3,14 +3,28 @@ package gov.ehawaii.hacc.specifications;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * This specification is used to retrieve the top N data for a given fiscal year.
+ * 
+ * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
+ * @version 1.0
+ */
 public class TopNFiscalYearSpecification extends TopNSpecification {
 
   private static final Logger LOGGER = LogManager.getLogger(TopNFiscalYearSpecification.class);
 
   private final int fiscalYear;
 
-  public TopNFiscalYearSpecification(int n, String column1, String column2, int fiscalYear) {
-    super(n, column1, column2);
+  /**
+   * Creates a new {@link TopNFiscalYearSpecification}.
+   * 
+   * @param n N, a number greater than 0.
+   * @param groupByColumn The column that will be specified in the <code>GROUP BY</code> clause.
+   * @param sumColumn The column whose values are summed together.
+   * @param fiscalYear The fiscal year.
+   */
+  public TopNFiscalYearSpecification(int n, String groupByColumn, String sumColumn, int fiscalYear) {
+    super(n, groupByColumn, sumColumn);
     this.fiscalYear = fiscalYear;
   }
 

@@ -21,7 +21,7 @@ public class TopNSpecification implements SqlSpecification {
   private final String sumColumn;
 
   /**
-   * Creates a new TopNSpecification.
+   * Creates a new {@link TopNSpecification}.
    * 
    * @param n N, a number greater than 0.
    * @param groupByColumn The column that will be specified in the <code>GROUP BY</code> clause.
