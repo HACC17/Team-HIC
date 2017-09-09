@@ -12,7 +12,7 @@ $(document).ready(function() {
         var fiscalYear = $("#fiscalYearSelect2").val();
         var field = $("#drilldownField").val();
 
-        $.get(baseUrl + "charts/locations?aggregateField=" + field + "&filter=fiscal&filterValue="+ fiscalYear, function(data, status) {
+        $.get(baseUrl + "charts/locations?year=" + fiscalYear + "&field=" + field, function(data, status) {
             var json = JSON.parse(data);
 
             var series = [];
@@ -105,64 +105,5 @@ $(document).ready(function() {
     });
 
     $("#fiscalYearSelect2").trigger("change");
-
-    $("#fiscalYearSelect3, #stackedBarChartFilter1, #stackedBarChartFilter2").change(function() {
-        var year = $("#fiscalYearSelect3").val();
-        var location = $("#stackedBarChartFilter1").val();
-        var field = $("#stackedBarChartFilter2").val();
-
-        $.get(baseUrl + "charts/fiscalYearTop?top=5&year=" + year + "&location=" + location + "&field="+ field, function(data, status) {
-            var json = JSON.parse(data);
-            console.log(json);
-
-            var categories = [], values = [];
-            $.each(json["totals"], function(i, val) {
-                categories.push(i);
-                values.push(val);
-            });
-
-            var filter;
-            if ($("#stackedBarChartFilter2").val() == "AMOUNT") {
-                filter = "Amount of Money";
-            } else if ($("#stackedBarChartFilter2").val() == "TOTAL_NUMBER_SERVED") {
-                filter = "Number of People Served";
-            } else {
-                filter = "Number of Native Hawaiians Served";
-            }
-
-            Highcharts.chart('top-5-orgs-chart', {
-                chart: {
-                    type: 'bar'
-                },
-                title: {
-                    text: 'Top 5 Organizations in ' + year + ' by ' + filter + ' (' + location + ')'
-                },
-                xAxis: {
-                    categories: categories
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        text: filter
-                    }
-                },
-                legend: {
-                    reversed: true
-                },
-                plotOptions: {
-                    series: {
-                        stacking: 'normal'
-                    }
-                },
-                series: [{
-                    name: filter,
-                    data: values
-                }]
-            });
-
-        });
-    });
-
-    $("#fiscalYearSelect3").trigger("change");
 
 });

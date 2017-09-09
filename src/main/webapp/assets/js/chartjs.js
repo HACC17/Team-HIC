@@ -70,13 +70,13 @@ function createFiscalYearPieChart(data, year) {
         }
         $.each(json, function(index, value) {
             if (index < 5) {
-                dataset.push(json[index].value);
+                dataset.push(json[index].amount);
             }
         });
         fiscal_year_data_map[year] = dataset;
         $.each(json, function(index, value) {
             if (index < 5) {
-                labels.push(json[index].key);
+                labels.push(json[index].organization);
             }
         });
         fiscal_year_labels_map[year] = labels;
@@ -305,7 +305,7 @@ $(document).ready(function() {
         if (fiscal_year_data_map[year].length > 0) {
             createFiscalYearPieChart(null, year);
         } else {
-            $.get(baseUrl + "charts/fiscalYear?year=" + year, function(data, status) {
+            $.get(baseUrl + "charts/fiscalYear?year=" + $('#fiscalYearSelect :selected').val(), function(data, status) {
                 createFiscalYearPieChart(data, year);
             });
         }

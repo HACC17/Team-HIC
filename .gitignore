@@ -1,5 +1,7 @@
 ~$*.*
 .~*
+*.scss
+*.sublime-*
 
 # Created by https://www.gitignore.io/api/java,macos,windows,eclipse
 
