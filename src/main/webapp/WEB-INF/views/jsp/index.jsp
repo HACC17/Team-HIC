@@ -333,11 +333,17 @@
         var keys = ['priority', 'result', 'type', 'location', 'status'];
         localStorage.setItem("keys", JSON.stringify(keys));
 
+        var timer;
         function update() {
-            updateTable();
-            $.each(keys, function(index, value) {
-                $("input[data-key='" + value + "']").first().trigger("change");
-            });
+            if (timer) {
+                clearTimeout(timer);
+            }
+            var timer = setTimeout(function() {
+                updateTable();
+                $.each(keys, function(index, value) {
+                    $("input[data-key='" + value + "']").first().trigger("change");
+                });
+            }, 2000);
         }
 
         $(document).ready(function() {

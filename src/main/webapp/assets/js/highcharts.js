@@ -105,17 +105,23 @@ $(document).ready(function() {
 
     var keys = JSON.parse(localStorage.getItem("keys"));
 
+    var timer;
     $.each(keys, function(index, value) {
         $("input[data-key='" + value + "']").change(function() {
-            var map = {};
-            map["aggregateField"] = $("#datatype").val();
-            map["filters"] = getFilters();
+            if (timer) {
+                clearTimeout(timer);
+            }
+            timer = setTimeout(function() {
+                var map = {};
+                map["aggregateField"] = $("#datatype").val();
+                map["filters"] = getFilters();
 
-            $.each(keys, function(i, v) {
-                var element = $("input[data-key='" + v + "']").first();
-                map["groupBy"] = element.data("key");
-                drawChart(element.data("key"), element.data("chart-title"), map);
-            });
+                $.each(keys, function(i, v) {
+                    var element = $("input[data-key='" + v + "']").first();
+                    map["groupBy"] = element.data("key");
+                    drawChart(element.data("key"), element.data("chart-title"), map);
+                });
+            }, 2000);
         });
 
         $("input[data-key='" + value + "']").first().trigger("change");
