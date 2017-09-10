@@ -268,6 +268,13 @@
                                             <option value="NUMBER_NATIVE_HAWAIIANS_SERVED">Number of Native Hawaiians Served</option>
                                         </select>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="drilldown">Drilldown to</label>
+                                        <select id="drilldown" onchange="update();" class="form-control">
+                                            <option value="">&lt;None&gt;</option>
+                                            <option value="location" selected>Location</option>
+                                        </select>
+                                    </div>
                                 </fieldset>
                             </div>
                         </div>

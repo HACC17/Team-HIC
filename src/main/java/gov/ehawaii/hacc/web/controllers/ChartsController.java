@@ -93,10 +93,11 @@ public class ChartsController {
         });
     String aggregateField = parameters.get("aggregateField").toString();
     String groupBy = parameters.get("groupBy").toString();
+    String drilldown = parameters.get("drilldown").toString();
     @SuppressWarnings("unchecked")
     Map<String, Object> filters = (Map<String, Object>) parameters.get("filters");
     Map<String, Map<String, Long>> results =
-        grantsService.getAggregateData(groupBy, aggregateField, filters);
+        grantsService.getAggregateData(groupBy, aggregateField, drilldown, filters);
     response.getWriter().write(new ObjectMapper().writeValueAsString(results));
   }
 

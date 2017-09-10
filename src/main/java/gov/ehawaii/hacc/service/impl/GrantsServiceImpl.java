@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.repositories.GrantsRepository;
 import gov.ehawaii.hacc.repositories.impl.Columns;
@@ -175,7 +176,7 @@ public class GrantsServiceImpl implements GrantsService {
   @SuppressWarnings("unchecked")
   @Override
   public final Map<String, Map<String, Long>> getAggregateData(final String name,
-      final String aggregateField, final Map<String, Object> filtersMap) {
+      final String aggregateField, final String drilldown, final Map<String, Object> filtersMap) {
     List<String> filtersList = (ArrayList<String>) filtersMap.get("filters");
     String[] filtersArray;
     if (filtersList == null) {
@@ -202,17 +203,43 @@ public class GrantsServiceImpl implements GrantsService {
     }
 
     String[] parameters = getTableAndColumnForQuery(name);
-    String stmt = SqlStatements.GET_TOTALS_GENERIC.replace("xxx", parameters[1])
-        .replace("yyy", aggregateField).replace("zzz", parameters[0]);
-
+    String tTable = parameters[0];
+    String tColumn = parameters[1];
+    String fkColumn = parameters[2];
     List<Object> arguments = new ArrayList<>();
-    stmt = stmt.replace("aaa", getFilter(tempFiltersMap, arguments));
-    stmt = stmt.replace("bbb", (filterValuesList.isEmpty() ? "WHERE " : "AND ") + "G." + parameters[2] + " = T.ID");
+    String filter = getFilter(tempFiltersMap, arguments);
+    String stmt = String.format(SqlStatements.GET_TOTALS_GENERIC, tColumn, aggregateField, tTable,
+        filter, (filterValuesList.isEmpty() ? "WHERE " : "AND ") + "G." + fkColumn + " = T.ID",
+        tColumn);
+
     LOGGER.info("SQL Statement: " + stmt);
 
-    FilteredSpecification totalsSpecification =
+    FilteredSpecification filteredSpec =
         new FilteredSpecification(null, stmt, arguments.toArray(new Object[arguments.size()]));
-    return repository.findAggregateData(totalsSpecification);
+    Map<String, Map<String, Long>> data = repository.findAggregateData(filteredSpec);
+
+    if (StringUtils.isEmpty(drilldown)) {
+      return data;
+    }
+
+    parameters = getTableAndColumnForQuery(drilldown);
+    String drilldownTable = parameters[0];
+    String drilldownColumn = parameters[1];
+    fkColumn = parameters[2];
+    arguments = new ArrayList<>();
+    filter = getFilter(tempFiltersMap, arguments).replace(" WHERE ", "");
+    String drilldownStmt = String.format(SqlStatements.GET_TOTALS_GENERIC, drilldownColumn,
+        aggregateField, drilldownTable,
+        "WHERE G." + fkColumn + " = T.ID AND T." + drilldownColumn + " = ? AND ", filter,
+        drilldownColumn);
+
+    LOGGER.info("SQL Statement: " + drilldownStmt);
+
+    filteredSpec = new FilteredSpecification(null, drilldownStmt,
+        arguments.toArray(new Object[arguments.size()]));
+    filteredSpec.setColSpec(new ColumnSpecification(drilldownTable, drilldownColumn));
+    data.putAll(repository.findAggregateData(filteredSpec));
+    return data;
   }
 
   /**

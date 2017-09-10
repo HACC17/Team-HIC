@@ -61,11 +61,12 @@ public interface GrantsService {
    * 
    * @param name Organization, project, location, etc.
    * @param aggregateField The type of data on which to aggregate.
+   * @param drilldown
    * @param filters A map of filters whose conditions each grant must satisfy.
    * @return A map of aggregate data.
    */
   Map<String, Map<String, Long>> getAggregateData(String name, String aggregateField,
-      Map<String, Object> filters);
+      String drilldown, Map<String, Object> filters);
 
   /**
    * Returns the top N grants by the given criterion for each location stored in the repository.

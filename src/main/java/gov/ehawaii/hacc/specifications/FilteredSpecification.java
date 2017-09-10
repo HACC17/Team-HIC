@@ -1,6 +1,7 @@
 package gov.ehawaii.hacc.specifications;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * This specification contains a filter and values for that filter, which can be used in a query.
@@ -14,6 +15,8 @@ public class FilteredSpecification implements SqlSpecification {
   private final String table;
   private final String filter;
   private final Object[] filterValues;
+  @Setter
+  private ColumnSpecification colSpec;
 
   /**
    * Creates a new {@link FilteredSpecification}.

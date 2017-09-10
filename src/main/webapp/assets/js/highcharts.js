@@ -115,6 +115,7 @@ $(document).ready(function() {
                 var map = {};
                 map["aggregateField"] = $("#datatype").val();
                 map["filters"] = getFilters();
+                map["drilldown"] = $("#drilldown").val();
 
                 $.each(keys, function(i, v) {
                     var element = $("input[data-key='" + v + "']").first();
