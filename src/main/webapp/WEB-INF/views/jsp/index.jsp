@@ -111,9 +111,9 @@
                             <label class="fieldset-label" data-toggle="collapse" data-target="#year"><i class="fa fa-calendar"></i>Fiscal Year<i class="toggle-icon fa fa-angle-left"></i></label>
                             <div id="year" class="collapse">
                                 <fieldset>
-                                    <span id="ex18-label-2a" class="hidden">Example low value</span>
-                                    <span id="ex18-label-2b" class="hidden">Example high value</span>
-                                    <input id="ex18b" type="text"/>
+                                    <span id="fiscal-year-start" class="hidden">2013</span>
+                                    <span id="fiscal-year-end" class="hidden">2016</span>
+                                    <input id="fiscal-year" type="text"/>
                                 </fieldset>
                             </div>
                         </div>
@@ -230,8 +230,17 @@
     <script type="text/javascript">
         localStorage.setItem("appUrl", "<c:out value='${url}' /><c:url value='/' />");
         localStorage.setItem("csrf.token", "<c:out value='${_csrf.token}' />");
+
         var keys = ['priority', 'result', 'type', 'location', 'status'];
         localStorage.setItem("keys", JSON.stringify(keys));
+
+        function update() {
+            updateTable();
+            $.each(keys, function(index, value) {
+                $("input[data-key='" + value + "']").first().trigger("change");
+            });
+        }
+
         $(document).ready(function() {
             $("#clear").click(function() {
                 $(".filter").each(function() {
@@ -241,18 +250,16 @@
                         $(this).val("");
                     }
                 });
-                updateTable();
-                $.each(keys, function(index, value) {
-                    $("input[data-key='" + value + "']").first().trigger("change");
-                });
+                update();
             });
             $(".clear-filter").click(function() {
                 $("input[data-key='" + $(this).data("key") + "']").each(function() {
                     $(this).prop('checked', false);
                 });
-                $.each(keys, function(index, value) {
-                    $("input[data-key='" + value + "']").first().trigger("change");
-                });
+                update();
+            });
+            $("#fiscal-year").change(function() {
+                update();
             });
         });
     </script>
