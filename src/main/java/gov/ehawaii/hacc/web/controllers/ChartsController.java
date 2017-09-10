@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,8 +25,6 @@ import gov.ehawaii.hacc.service.GrantsService;
 @Controller
 @RequestMapping("/charts")
 public class ChartsController {
-
-  private static final Logger LOGGER = LogManager.getLogger(MainController.class);
 
   @Autowired
   private GrantsService grantsService;
@@ -92,7 +88,6 @@ public class ChartsController {
   @RequestMapping(value = "/totals", method = RequestMethod.POST)
   public final void getTotals(@RequestBody final String json, final HttpServletResponse response)
       throws IOException {
-    LOGGER.info("JSON: " + json);
     Map<String, Object> parameters =
         new ObjectMapper().readValue(json, new TypeReference<Map<String, Object>>() {
         });
@@ -102,7 +97,6 @@ public class ChartsController {
     Map<String, Object> filters = (Map<String, Object>) parameters.get("filters");
     Map<String, Map<String, Long>> results =
         grantsService.getAggregateData(groupBy, aggregateField, filters);
-    LOGGER.info("Results: " + results);
     response.getWriter().write(new ObjectMapper().writeValueAsString(results));
   }
 

@@ -32,7 +32,7 @@
                                             <c:out value="${priority}" />
                                         </label>
                                     </c:forEach>
-                                    <a href="#" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
+                                    <a href="javascript:void(0)" class="clear-filter" data-key="priority"><i class="fa fa-check"></i>clear filter</a>
                                 </fieldset>
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                                             <c:out value="${result}" />
                                         </label>
                                     </c:forEach>
-                                    <a href="#" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
+                                    <a href="javascript:void(0)" class="clear-filter" data-key="result"><i class="fa fa-check"></i>clear filter</a>
                                 </fieldset>
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                                             <c:out value="${type}" />
                                         </label>
                                     </c:forEach>
-                                    <a href="#" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
+                                    <a href="javascript:void(0)" class="clear-filter" data-key="type"><i class="fa fa-check"></i>clear filter</a>
                                 </fieldset>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                                             <c:out value="${location}" />
                                         </label>
                                     </c:forEach>
-                                    <a href="#" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
+                                    <a href="javascript:void(0)" class="clear-filter" data-key="location"><i class="fa fa-check"></i>clear filter</a>
                                 </fieldset>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                                             <c:out value="${status}" />
                                         </label>
                                     </c:forEach>
-                                    <a href="#" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
+                                    <a href="javascript:void(0)" class="clear-filter" data-key="status"><i class="fa fa-check"></i>clear filter</a>
                                 </fieldset>
                             </div>
                         </div>
@@ -135,7 +135,7 @@
                                             <input type="number" min="0" max="10000000" value="10000000" class="filter form-control" id="max-amount" data-key="amount-lte">
                                         </div>
                                     </div>
-                                    <a href="#" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
+                                    <a href="javascript:void(0)" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
                                 </fieldset>
                             </div>
                         </div>
@@ -165,7 +165,7 @@
                                             <input type="number" min="0" max="10000000" value="100000" class="filter form-control" id="max-hawaiians" data-key="hawaiians-lte">
                                         </div>
                                     </fieldset>
-                                    <a href="#" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
+                                    <a href="javascript:void(0)" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
                                 </fieldset>
                             </div>
                         </div>
@@ -230,6 +230,31 @@
     <script type="text/javascript">
         localStorage.setItem("appUrl", "<c:out value='${url}' /><c:url value='/' />");
         localStorage.setItem("csrf.token", "<c:out value='${_csrf.token}' />");
+        var keys = ['priority', 'result', 'type', 'location', 'status'];
+        localStorage.setItem("keys", JSON.stringify(keys));
+        $(document).ready(function() {
+            $("#clear").click(function() {
+                $(".filter").each(function() {
+                    if ($(this).is(':checkbox')) {
+                        $(this).prop('checked', false);
+                    } else {
+                        $(this).val("");
+                    }
+                });
+                updateTable();
+                $.each(keys, function(index, value) {
+                    $("input[data-key='" + value + "']").first().trigger("change");
+                });
+            });
+            $(".clear-filter").click(function() {
+                $("input[data-key='" + $(this).data("key") + "']").each(function() {
+                    $(this).prop('checked', false);
+                });
+                $.each(keys, function(index, value) {
+                    $("input[data-key='" + value + "']").first().trigger("change");
+                });
+            });
+        });
     </script>
     <%@ include file="/WEB-INF/views/jspf/grants-modals.jspf" %>
     <%@ include file="/WEB-INF/views/jspf/footer.jspf" %>

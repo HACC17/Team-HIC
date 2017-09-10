@@ -176,15 +176,19 @@ public class GrantsServiceImpl implements GrantsService {
   @Override
   public final Map<String, Map<String, Long>> getAggregateData(final String name,
       final String aggregateField, final Map<String, Object> filtersMap) {
-    String[] parameters = getTableAndColumnForQuery(name);
-    String stmt = SqlStatements.GET_TOTALS_GENERIC.replace("xxx", parameters[1])
-        .replace("yyy", aggregateField).replace("zzz", parameters[0]);
-    LOGGER.info("SQL Statement: " + stmt);
-
     List<String> filtersList = (ArrayList<String>) filtersMap.get("filters");
-    String[] filtersArray = filtersList.toArray(new String[filtersList.size()]);
+    String[] filtersArray;
+    if (filtersList == null) {
+      filtersArray = new String[0];
+    }
+    else {
+      filtersArray = filtersList.toArray(new String[filtersList.size()]);
+    }
 
     List<Object> filterValuesList = (ArrayList<Object>) filtersMap.get("filterValues");
+    if (filterValuesList == null) {
+      filterValuesList = new ArrayList<>();
+    }
 
     Map<String, Object> tempFiltersMap = new HashMap<>();
     int index = 0;
@@ -197,10 +201,13 @@ public class GrantsServiceImpl implements GrantsService {
       list.add(filterValuesList.get(index++).toString());
     }
 
+    String[] parameters = getTableAndColumnForQuery(name);
+    String stmt = SqlStatements.GET_TOTALS_GENERIC.replace("xxx", parameters[1])
+        .replace("yyy", aggregateField).replace("zzz", parameters[0]);
+
     List<Object> arguments = new ArrayList<>();
-    String filter = getFilter(tempFiltersMap, arguments);
-    stmt = stmt.replace("aaa", filter);
-    stmt = stmt.replace("bbb", "AND G." + parameters[2] + " = T.ID");
+    stmt = stmt.replace("aaa", getFilter(tempFiltersMap, arguments));
+    stmt = stmt.replace("bbb", (filterValuesList.isEmpty() ? "WHERE " : "AND ") + "G." + parameters[2] + " = T.ID");
     LOGGER.info("SQL Statement: " + stmt);
 
     FilteredSpecification totalsSpecification =

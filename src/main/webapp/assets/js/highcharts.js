@@ -108,7 +108,7 @@ $(document).ready(function() {
 
     var baseUrl = localStorage.getItem('request');
 
-    var keys = ['priority', 'result', 'type', 'location', 'status'];
+    var keys = JSON.parse(localStorage.getItem("keys"));
 
     $.each(keys, function(index, value) {
         $("input[data-key='" + value + "']").change(function() {

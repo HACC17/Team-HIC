@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,8 +22,6 @@ import gov.ehawaii.hacc.service.GrantsService;
  */
 @Controller
 public class MainController {
-
-  private static final Logger LOGGER = LogManager.getLogger(MainController.class);
 
   @Autowired
   private GrantsService grantsService;
@@ -89,7 +85,6 @@ public class MainController {
   @RequestMapping(value = "/filter", method = RequestMethod.POST)
   public final void getGrants(@RequestBody final String json, final HttpServletResponse response)
       throws IOException {
-    LOGGER.info("JSON: " + json);
     Map<String, Object> parameters =
         new ObjectMapper().readValue(json, new TypeReference<Map<String, Object>>() {
         });
