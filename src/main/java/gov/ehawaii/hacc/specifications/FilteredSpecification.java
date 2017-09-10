@@ -22,29 +22,29 @@ public class FilteredSpecification implements SqlSpecification {
    * @param filter The filter that will be used in a query.
    * @param arguments The values for the filter.
    */
-  public FilteredSpecification(String table, String filter, Object[] arguments) {
+  public FilteredSpecification(final String table, final String filter, final Object[] arguments) {
     this.table = table;
     this.filter = filter;
     this.arguments = arguments == null ? new String[0] : arguments.clone();
   }
 
   @Override
-  public String getTable() {
+  public final String getTable() {
     return table;
   }
 
   @Override
-  public String getColumn() {
+  public final String getColumn() {
     throw new UnsupportedOperationException("This method is not supported.");
   }
 
   @Override
-  public Object getValue() {
+  public final Object getValue() {
     throw new UnsupportedOperationException("This method is not supported.");
   }
 
   @Override
-  public String toSqlClause() {
+  public final String toSqlClause() {
     return filter;
   }
 
@@ -53,7 +53,7 @@ public class FilteredSpecification implements SqlSpecification {
    * 
    * @return An array of values for the filter.
    */
-  public Object[] getArguments() {
+  public final Object[] getArguments() {
     return arguments.clone();
   }
 

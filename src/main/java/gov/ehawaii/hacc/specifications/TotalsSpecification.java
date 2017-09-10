@@ -30,8 +30,8 @@ public class TotalsSpecification implements SqlSpecification {
    * @param filters An array of filters to apply to the query.
    * @param filterValues An array of values for the filters.
    */
-  public TotalsSpecification(String totalsQuery, String sumColumn,
-      String[] filters, Object[] filterValues) {
+  public TotalsSpecification(final String totalsQuery, final String sumColumn,
+      final String[] filters, final Object[] filterValues) {
     this.totalsQuery = totalsQuery;
     this.sumColumn = sumColumn;
     this.filters = filters == null ? new String[0] : filters.clone();
@@ -39,22 +39,22 @@ public class TotalsSpecification implements SqlSpecification {
   }
 
   @Override
-  public String getTable() {
+  public final String getTable() {
     throw new UnsupportedOperationException("This method is not supported.");
   }
 
   @Override
-  public String getColumn() {
+  public final String getColumn() {
     throw new UnsupportedOperationException("This method is not supported.");
   }
 
   @Override
-  public Object getValue() {
+  public final Object getValue() {
     throw new UnsupportedOperationException("This method is not supported.");
   }
 
   @Override
-  public String toSqlClause() {
+  public final String toSqlClause() {
     return String.format(totalsQuery, sumColumn, buildFilter());
   }
 
@@ -63,7 +63,7 @@ public class TotalsSpecification implements SqlSpecification {
    * 
    * @return A copy of the array of values for the filters.
    */
-  public Object[] getFilterValues() {
+  public final Object[] getFilterValues() {
     return filterValues.clone();
   }
 

@@ -59,6 +59,8 @@
     <!-- See http://checkstyle.sf.net/config_whitespace.html -->
     <module name="FileTabCharacter"/>
 
+    <module name="SuppressWarningsFilter"/>
+
     <!-- Miscellaneous other checks.                   -->
     <!-- See http://checkstyle.sf.net/config_misc.html -->
     <!-- <module name="RegexpSingleline">
@@ -69,6 +71,8 @@
     </module> -->
 
     <module name="TreeWalker">
+
+        <module name="SuppressWarningsHolder" />
 
         <!-- Checks for Javadoc comments.                     -->
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->

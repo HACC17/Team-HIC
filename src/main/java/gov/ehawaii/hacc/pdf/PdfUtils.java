@@ -50,6 +50,7 @@ public final class PdfUtils {
    * @param columnTwoData An array of data for the second column in the table.
    * @param isFiscal <code>true</code> if the data in the second column is fiscal, <code>false</code> otherwise.
    */
+  @SuppressWarnings("checkstyle:parameternumber")
   public static void createPdfFile(final Document document, final byte[] decodedBytes, final OutputStream os,
       final float imageScalePercent, final String tableHeading, final String[] columnHeadings, final String[] columnOneData,
       final String[] columnTwoData, final boolean isFiscal) {

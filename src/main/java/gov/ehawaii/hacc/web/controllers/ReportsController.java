@@ -43,7 +43,7 @@ public class ReportsController {
    * @return A byte array representing a PDF file is sent back to the client.
    */
   @RequestMapping(value = "/fiscalYear", method = RequestMethod.POST)
-  public ResponseEntity<byte[]> generateFiscalYearReport(@RequestBody String json) {
+  public final ResponseEntity<byte[]> generateFiscalYearReport(@RequestBody final String json) {
     Map<String, String> map = getParameters(json);
 
     String tableHeading = "Total Amount of Money for Fiscal Year " + map.get("year");
@@ -68,7 +68,7 @@ public class ReportsController {
    * @return A byte array representing a PDF file is sent back to the client.
    */
   @RequestMapping(value = "/top", method = RequestMethod.POST)
-  public ResponseEntity<byte[]> generateTopNReport(@RequestBody String json) {
+  public final ResponseEntity<byte[]> generateTopNReport(@RequestBody final String json) {
     Map<String, String> map = getParameters(json);
 
     String tableHeading =
@@ -94,7 +94,7 @@ public class ReportsController {
    * @return A byte array representing a PDF file is sent back to the client.
    */
   @RequestMapping(value = "/org", method = RequestMethod.POST)
-  public ResponseEntity<byte[]> generateOrganizationDataOverTimeReport(@RequestBody String json) {
+  public final ResponseEntity<byte[]> generateOrganizationDataOverTimeReport(@RequestBody final String json) {
     Map<String, String> map = getParameters(json);
 
     String tableHeading = map.get("organization");
@@ -119,7 +119,7 @@ public class ReportsController {
    * @return A byte array representing a PDF file is sent back to the client.
    */
   @RequestMapping(value = "/locations", method = RequestMethod.POST)
-  public ResponseEntity<byte[]> generateLocationsReport(@RequestBody String json) {
+  public final ResponseEntity<byte[]> generateLocationsReport(@RequestBody final String json) {
     Map<String, String> map = getParameters(json);
 
     String tableHeading = map.get("title");
@@ -176,7 +176,7 @@ public class ReportsController {
    * @param json A JSON string containing data.
    * @return A map containing the same data.
    */
-  private static Map<String, String> getParameters(String json) {
+  private static Map<String, String> getParameters(final String json) {
     Map<String, String> map = new LinkedHashMap<>();
     for (String s : json.split("&")) {
       String[] pair = s.split("=");

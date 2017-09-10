@@ -67,6 +67,7 @@ public class TopNSpecification implements SqlSpecification {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:designforextension")
   public String toSqlClause() {
     String stmt = String.format("%s %s", getSelect(), getFilter());
     LOGGER.info("SQL Statement: " + stmt);

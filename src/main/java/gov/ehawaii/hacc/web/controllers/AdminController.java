@@ -43,7 +43,7 @@ public class AdminController {
    * @return The name of the JSP file that contains the form.
    */
   @RequestMapping(method = RequestMethod.GET)
-  public String showAdminPage(Model model) {
+  public final String showAdminPage(final Model model) {
     model.addAttribute("grant", new Grant());
     model.addAttribute("organizations", grantsService.getAllOrganizations());
     model.addAttribute("statuses", grantsService.getAllGrantStatuses());
@@ -67,7 +67,7 @@ public class AdminController {
    * @return The admin user will be redirected to the <code>/admin</code> endpoint.
    */
   @RequestMapping(value = "/import", method = RequestMethod.GET)
-  public String importSampleData(@RequestParam("ext") String ext) {
+  public final String importSampleData(@RequestParam("ext") final String ext) {
     if (ext == null || ext.isEmpty()) {
       LOGGER.error("ext parameter is null or empty.");
       return "redirect:/admin";
@@ -99,7 +99,7 @@ public class AdminController {
    * @return The admin user will be redirected to the <code>/admin</code> endpoint.
    */
   @RequestMapping(method = RequestMethod.POST)
-  public String addGrant(@ModelAttribute("grant") Grant grant) {
+  public final String addGrant(@ModelAttribute("grant") final Grant grant) {
     if (grantsService.saveGrant(grant)) {
       LOGGER.info("Grant [" + grant + "] saved successfully.");
     }

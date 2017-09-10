@@ -23,13 +23,13 @@ public class TopNFiscalYearSpecification extends TopNSpecification {
    * @param sumColumn The column whose values are summed together.
    * @param fiscalYear The fiscal year.
    */
-  public TopNFiscalYearSpecification(int n, String groupByColumn, String sumColumn, int fiscalYear) {
+  public TopNFiscalYearSpecification(final int n, final String groupByColumn, final String sumColumn, final int fiscalYear) {
     super(n, groupByColumn, sumColumn);
     this.fiscalYear = fiscalYear;
   }
 
   @Override
-  public String toSqlClause() {
+  public final String toSqlClause() {
     String stmt = String.format("%s WHERE FISCAL_YEAR = %d %s", getSelect(), fiscalYear, getFilter());
     LOGGER.info("SQL Statement: " + stmt);
     return stmt;
