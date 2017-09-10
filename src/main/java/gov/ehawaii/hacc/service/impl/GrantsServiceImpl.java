@@ -193,6 +193,7 @@ public class GrantsServiceImpl implements GrantsService {
     List<Object> arguments = new ArrayList<>();
     String filter = getFilter(tempFiltersMap, arguments);
     stmt = stmt.replace("aaa", filter);
+    stmt = stmt.replace("bbb", "AND G." + parameters[2] + " = T.ID");
     LOGGER.info("SQL Statement: " + stmt);
 
     FilteredSpecification totalsSpecification =
@@ -204,19 +205,19 @@ public class GrantsServiceImpl implements GrantsService {
     String filter = Filters.FILTERS_MAP.get(key);
     switch (filter) {
     case Filters.GRANT_STATUS_ID_FILTER:
-      return new String[] { Tables.GRANT_STATUSES, Columns.GRANT_STATUS };
+      return new String[] { Tables.GRANT_STATUSES, Columns.GRANT_STATUS, Columns.GRANT_STATUS_ID };
     case Filters.GRANT_TYPE_ID_FILTER:
-      return new String[] { Tables.GRANT_TYPES, Columns.GRANT_TYPE };
+      return new String[] { Tables.GRANT_TYPES, Columns.GRANT_TYPE, Columns.GRANT_STATUS_ID };
     case Filters.ORGANIZATION_ID_FILTER:
-      return new String[] { Tables.ORGANIZATIONS, Columns.ORGANIZATION };
+      return new String[] { Tables.ORGANIZATIONS, Columns.ORGANIZATION, Columns.ORGANIZATION_ID };
     case Filters.PROJECT_ID_FILTER:
-      return new String[] { Tables.PROJECTS, Columns.PROJECT };
+      return new String[] { Tables.PROJECTS, Columns.PROJECT, Columns.PROJECT_ID };
     case Filters.LOCATION_ID_FILTER:
-      return new String[] { Tables.LOCATIONS, Columns.LOCATION };
+      return new String[] { Tables.LOCATIONS, Columns.LOCATION, Columns.LOCATION_ID };
     case Filters.STRATEGIC_PRIORITY_ID_FILTER:
-      return new String[] { Tables.STRATEGIC_PRIORITIES, Columns.STRATEGIC_PRIORITY };
+      return new String[] { Tables.STRATEGIC_PRIORITIES, Columns.STRATEGIC_PRIORITY, Columns.STRATEGIC_PRIORITY_ID };
     case Filters.STRATEGIC_RESULTS_ID_FILTER:
-      return new String[] { Tables.STRATEGIC_RESULTS, Columns.STRATEGIC_RESULT };
+      return new String[] { Tables.STRATEGIC_RESULTS, Columns.STRATEGIC_RESULT, Columns.STRATEGIC_RESULT_ID };
     default:
       throw new IllegalArgumentException(filter + " filter not supported, yet.");
     }

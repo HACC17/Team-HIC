@@ -28,7 +28,7 @@ public final class SqlStatements {
   public static final String GET_TOP_N_DATA = "SELECT %s, SUM(%s) FROM GRANTS";
 
   public static final String GET_TOTALS_GENERIC =
-      "SELECT T.xxx, SUM(G.yyy) FROM GRANTS G, zzz T aaa GROUP BY xxx";
+      "SELECT T.xxx, SUM(G.yyy) FROM GRANTS G, zzz T aaa bbb GROUP BY xxx";
 
   public static final String GET_TOP_N_ORGANIZATIONS_FOR_EACH_LOCATION =
       "SELECT O.ORGANIZATION, SUM(G.%s) FROM GRANTS G, LOCATIONS L, ORGANIZATIONS O "

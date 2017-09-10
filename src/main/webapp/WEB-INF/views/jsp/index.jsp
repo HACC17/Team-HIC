@@ -28,7 +28,7 @@
                                 <fieldset>
                                     <c:forEach var="priority" items="${priorities}">
                                         <label class="form-check-label">
-                                            <input class="form-check-input filter" type="checkbox" value="${priority}" onchange="updateTable();" data-key="priority">
+                                            <input class="form-check-input filter" type="checkbox" value="${priority}" onchange="updateTable();" data-key="priority" data-chart-title="Strategic Priorities">
                                             <c:out value="${priority}" />
                                         </label>
                                     </c:forEach>
@@ -185,7 +185,9 @@
                 </div>
                 <div class="tab-pane charts" id="charts">
                     <div class="demo-chart">
-                        <img src="assets/images/chart.png"/>
+                        <div id="priority-pie-chart" class="width: 100%; height: 100%"></div>
+                        <canvas id="priority-pie-chart-canvas" style="display: none"></canvas>
+                        <input type="hidden" id="priority-pie-chart-base64" value="" />
                     </div>
                 </div>
             </div>

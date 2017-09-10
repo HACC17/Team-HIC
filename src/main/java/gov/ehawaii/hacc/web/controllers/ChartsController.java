@@ -100,8 +100,10 @@ public class ChartsController {
     String groupBy = parameters.get("groupBy").toString();
     @SuppressWarnings("unchecked")
     Map<String, Object> filters = (Map<String, Object>) parameters.get("filters");
-    response.getWriter().write(new ObjectMapper()
-        .writeValueAsString(grantsService.getAggregateData(groupBy, aggregateField, filters)));
+    Map<String, Map<String, Long>> results =
+        grantsService.getAggregateData(groupBy, aggregateField, filters);
+    LOGGER.info("Results: " + results);
+    response.getWriter().write(new ObjectMapper().writeValueAsString(results));
   }
 
   /**
