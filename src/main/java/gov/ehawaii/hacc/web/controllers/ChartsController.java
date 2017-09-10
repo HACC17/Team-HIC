@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -91,14 +92,16 @@ public class ChartsController {
     Map<String, Object> parameters =
         new ObjectMapper().readValue(json, new TypeReference<Map<String, Object>>() {
         });
-    String aggregateField = parameters.get("aggregateField").toString();
+
     String groupBy = parameters.get("groupBy").toString();
-    String drilldown = parameters.get("drilldown").toString();
+    String aggregateField = parameters.get("aggregateField").toString();
+    String drilldown = MapUtils.getString(parameters, "drilldown", "");
+
     @SuppressWarnings("unchecked")
     Map<String, Object> filters = (Map<String, Object>) parameters.get("filters");
-    Map<String, Map<String, Long>> results =
-        grantsService.getAggregateData(groupBy, aggregateField, drilldown, filters);
-    response.getWriter().write(new ObjectMapper().writeValueAsString(results));
+
+    response.getWriter().write(new ObjectMapper().writeValueAsString(
+        grantsService.getAggregateData(groupBy, aggregateField, drilldown, filters)));
   }
 
   /**

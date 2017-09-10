@@ -269,11 +269,23 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="drilldown">Drilldown to</label>
-                                        <select id="drilldown" onchange="update();" class="form-control">
-                                            <option value="">&lt;None&gt;</option>
-                                            <option value="location" selected>Location</option>
-                                        </select>
+                                        <label for="drilldown-priority">Configure drilldown for each chart</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-area-chart"></i></div>
+                                            <select id="drilldown-priority" onchange="update();" class="form-control">
+                                                <option value="">&lt;None&gt;</option>
+                                                <option value="location" selected>Location</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-line-chart"></i></div>
+                                            <select id="drilldown-result" onchange="update();" class="form-control">
+                                                <option value="">&lt;None&gt;</option>
+                                                <option value="location" selected>Location</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </fieldset>
                             </div>

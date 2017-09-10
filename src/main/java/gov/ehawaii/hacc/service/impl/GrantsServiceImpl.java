@@ -178,39 +178,37 @@ public class GrantsServiceImpl implements GrantsService {
   public final Map<String, Map<String, Long>> getAggregateData(final String name,
       final String aggregateField, final String drilldown, final Map<String, Object> filtersMap) {
     List<String> filtersList = (ArrayList<String>) filtersMap.get("filters");
-    String[] filtersArray;
-    if (filtersList == null) {
-      filtersArray = new String[0];
-    }
-    else {
-      filtersArray = filtersList.toArray(new String[filtersList.size()]);
-    }
+    String[] filtersArray =
+        filtersList == null ? new String[0] : filtersList.toArray(new String[filtersList.size()]);
 
     List<Object> filterValuesList = (ArrayList<Object>) filtersMap.get("filterValues");
     if (filterValuesList == null) {
       filterValuesList = new ArrayList<>();
     }
 
-    Map<String, Object> tempFiltersMap = new HashMap<>();
+    Map<String, Object> filtersListsMap = new HashMap<>();
     int index = 0;
     for (String filter : filtersArray) {
-      List<String> list = (List<String>) tempFiltersMap.get(filter);
-      if (list == null) {
-        list = new ArrayList<>();
-        tempFiltersMap.put(filter, list);
+      filtersList = (List<String>) filtersListsMap.get(filter);
+      if (filtersList == null) {
+        filtersList = new ArrayList<>();
+        filtersListsMap.put(filter, filtersList);
       }
-      list.add(filterValuesList.get(index++).toString());
+      filtersList.add(filterValuesList.get(index++).toString());
     }
 
     String[] parameters = getTableAndColumnForQuery(name);
     String tTable = parameters[0];
     String tColumn = parameters[1];
     String fkColumn = parameters[2];
+
     List<Object> arguments = new ArrayList<>();
-    String filter = getFilter(tempFiltersMap, arguments);
-    String stmt = String.format(SqlStatements.GET_TOTALS_GENERIC, tColumn, aggregateField, tTable,
-        filter, (filterValuesList.isEmpty() ? "WHERE " : "AND ") + "G." + fkColumn + " = T.ID",
-        tColumn);
+    String filter = getFilter(filtersListsMap, arguments);
+
+    String stmt = "SELECT T." + tColumn + ", SUM(G." + aggregateField + ") ";
+    stmt += "FROM GRANTS G, " + tTable + " T " + filter;
+    stmt += (filterValuesList.isEmpty() ? "WHERE " : " AND ") + "G." + fkColumn + " = T.ID ";
+    stmt += "GROUP BY " + tColumn;
 
     LOGGER.info("SQL Statement: " + stmt);
 
@@ -225,13 +223,14 @@ public class GrantsServiceImpl implements GrantsService {
     parameters = getTableAndColumnForQuery(drilldown);
     String drilldownTable = parameters[0];
     String drilldownColumn = parameters[1];
-    fkColumn = parameters[2];
-    arguments = new ArrayList<>();
-    filter = getFilter(tempFiltersMap, arguments).replace(" WHERE ", "");
-    String drilldownStmt = String.format(SqlStatements.GET_TOTALS_GENERIC, drilldownColumn,
-        aggregateField, drilldownTable,
-        "WHERE G." + fkColumn + " = T.ID AND T." + drilldownColumn + " = ? AND ", filter,
-        drilldownColumn);
+    String drilldownFkColumn = parameters[2];
+
+    String drilldownStmt = "SELECT T." + tColumn + ", SUM(G." + aggregateField + ") ";
+    drilldownStmt += "FROM GRANTS G, " + tTable + " T, " + drilldownTable + " D ";
+    drilldownStmt += "WHERE G." + fkColumn + " = T.ID AND G." + drilldownFkColumn + " = D.ID ";
+    drilldownStmt += "AND D." + drilldownColumn + " = ? AND";
+    drilldownStmt += filter.replace(" WHERE ", " ");
+    drilldownStmt += "GROUP BY " + tColumn + ", " + drilldownColumn;
 
     LOGGER.info("SQL Statement: " + drilldownStmt);
 
