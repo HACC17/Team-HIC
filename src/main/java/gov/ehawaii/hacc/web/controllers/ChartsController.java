@@ -85,7 +85,7 @@ public class ChartsController {
   /**
    * This method returns aggregate data for all locations.
    * 
-   * @param json
+   * @param json A JSON object that contains filters whose conditions that a grant must satisfy.
    * @param response The server response.
    * @throws IOException If there are problems sending the data back to the client.
    */

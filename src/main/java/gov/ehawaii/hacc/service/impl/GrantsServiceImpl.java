@@ -20,7 +20,6 @@ import gov.ehawaii.hacc.service.GrantsService;
 import gov.ehawaii.hacc.specifications.ColumnSpecification;
 import gov.ehawaii.hacc.specifications.FilteredSpecification;
 import gov.ehawaii.hacc.specifications.IdSpecification;
-import gov.ehawaii.hacc.specifications.Specification;
 import gov.ehawaii.hacc.specifications.TimeSeriesSpecification;
 import gov.ehawaii.hacc.specifications.TopNFiscalYearSpecification;
 import gov.ehawaii.hacc.specifications.TopNSpecification;
@@ -56,6 +55,14 @@ public class GrantsServiceImpl implements GrantsService {
     return repository.findGrants(new FilteredSpecification(Tables.GRANTS, filter, filterValues));
   }
 
+  /**
+   * Creates a filter string given the map of filters and also adds values for the filters to the
+   * given list.
+   * 
+   * @param filters The map of filters.
+   * @param arguments The list to which to add values for the filters.
+   * @return A string containing all the filters in the map.
+   */
   private String getFilter(final Map<String, Object> filters, final List<Object> arguments) {
     StringBuffer buffer = new StringBuffer();
 
@@ -201,6 +208,17 @@ public class GrantsServiceImpl implements GrantsService {
     return repository.findAggregateData(totalsSpecification);
   }
 
+  /**
+   * Given a key that exists in the filters map that is found in the {@link Filters} class, this
+   * method will return an array of size 3 that contains: the name of the table to which the foreign
+   * key column in the filter refers, a column in that table that describes the foreign key, and the
+   * foreign key column itself.<br />
+   * <br />
+   * An {@link IllegalArgumentException} will be thrown if the key cannot be found in the map.
+   * 
+   * @param key A key in the filters map.
+   * @return An array of size 3.
+   */
   private static String[] getTableAndColumnForQuery(final String key) {
     String filter = Filters.FILTERS_MAP.get(key);
     switch (filter) {
@@ -215,9 +233,11 @@ public class GrantsServiceImpl implements GrantsService {
     case Filters.LOCATION_ID_FILTER:
       return new String[] { Tables.LOCATIONS, Columns.LOCATION, Columns.LOCATION_ID };
     case Filters.STRATEGIC_PRIORITY_ID_FILTER:
-      return new String[] { Tables.STRATEGIC_PRIORITIES, Columns.STRATEGIC_PRIORITY, Columns.STRATEGIC_PRIORITY_ID };
+      return new String[] { Tables.STRATEGIC_PRIORITIES, Columns.STRATEGIC_PRIORITY,
+          Columns.STRATEGIC_PRIORITY_ID };
     case Filters.STRATEGIC_RESULTS_ID_FILTER:
-      return new String[] { Tables.STRATEGIC_RESULTS, Columns.STRATEGIC_RESULT, Columns.STRATEGIC_RESULT_ID };
+      return new String[] { Tables.STRATEGIC_RESULTS, Columns.STRATEGIC_RESULT,
+          Columns.STRATEGIC_RESULT_ID };
     default:
       throw new IllegalArgumentException(filter + " filter not supported, yet.");
     }
