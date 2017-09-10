@@ -261,28 +261,73 @@
                             <div id="toggle-chart-settings" class="collapse">
                                 <fieldset>
                                     <div class="form-group">
-                                        <label for="datatype">Data to display</label>
-                                        <select id="datatype" onchange="update();" class="form-control">
-                                            <option value="AMOUNT" selected>Amount</option>
-                                            <option value="TOTAL_NUMBER_SERVED">Total Number of People Served</option>
-                                            <option value="NUMBER_NATIVE_HAWAIIANS_SERVED">Number of Native Hawaiians Served</option>
-                                        </select>
+                                        <label for="datatype">Data to display in <strong>all charts</strong></label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i id="datatype-i" class="fa fa-dollar"></i></div>
+                                            <select id="datatype" onchange="updateLabel(); update();" class="form-control">
+                                                <option value="AMOUNT" selected>Amount</option>
+                                                <option value="TOTAL_NUMBER_SERVED">Total Number of People Served</option>
+                                                <option value="NUMBER_NATIVE_HAWAIIANS_SERVED">Number of Native Hawaiians Served</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="drilldown-priority">Configure drilldown for each chart</label>
+                                        <label for="drilldown-priority">Configure drilldown for <strong>each chart</strong></label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-area-chart"></i></div>
-                                            <select id="drilldown-priority" onchange="update();" class="form-control">
+                                            <select id="drilldown-priority" class="form-control" data-key="priority" data-chart-title="Strategic Priority">
                                                 <option value="">&lt;None&gt;</option>
+                                                <option value="result">Strategic Result</option>
+                                                <option value="type">Grant Type</option>
                                                 <option value="location" selected>Location</option>
+                                                <option value="status">Grant Status</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-line-chart"></i></div>
-                                            <select id="drilldown-result" onchange="update();" class="form-control">
+                                            <select id="drilldown-result" class="form-control" data-key="result" data-chart-title="Strategic Result">
                                                 <option value="">&lt;None&gt;</option>
+                                                <option value="priority">Strategic Priority</option>
+                                                <option value="type">Grant Type</option>
+                                                <option value="location">Location</option>
+                                                <option value="status" selected>Grant Status</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-info-circle"></i></div>
+                                            <select id="drilldown-type" class="form-control" data-key="type" data-chart-title="Grant Type">
+                                                <option value="">&lt;None&gt;</option>
+                                                <option value="priority">Strategic Priority</option>
+                                                <option value="result">Strategic Results</option>
+                                                <option value="location">Location</option>
+                                                <option value="status" selected>Grant Status</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                                            <select id="drilldown-location" class="form-control" data-key="location" data-chart-title="Location">
+                                                <option value="" selected>&lt;None&gt;</option>
+                                                <option value="priority">Strategic Priority</option>
+                                                <option value="result">Strategic Results</option>
+                                                <option value="type">Grant Type</option>
+                                                <option value="status" >Grant Status</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-check-circle"></i></div>
+                                            <select id="drilldown-status" class="form-control" data-key="status" data-chart-title="Grant Status">
+                                                <option value="">&lt;None&gt;</option>
+                                                <option value="priority">Strategic Priority</option>
+                                                <option value="result">Strategic Results</option>
+                                                <option value="type">Grant Type</option>
                                                 <option value="location" selected>Location</option>
                                             </select>
                                         </div>
@@ -365,6 +410,16 @@
             }, 2000);
         }
 
+        function updateLabel() {
+            if ($("#datatype").val() == "AMOUNT") {
+                $("#datatype-i").removeClass("fa-users");
+                $("#datatype-i").addClass("fa-dollar");
+            } else {
+                $("#datatype-i").addClass("fa-users");
+                $("#datatype-i").removeClass("fa-dollar");
+            }
+        }
+
         $(document).ready(function() {
             $("#clear").click(function() {
                 $(".filter").each(function() {
@@ -391,6 +446,16 @@
             });
             $("#fiscal-year, #organization").change(function() {
                 update();
+            });
+            $.each(keys, function(index, value) {
+                $("#drilldown-" + value).change(function() {
+                    var map = {};
+                    map["aggregateField"] = $("#datatype").val();
+                    map["filters"] = getFilters();
+                    map["drilldown"] = $("#drilldown-" + value).val();
+                    map["groupBy"] = $(this).data("key");
+                    drawChart($(this).data("key"), $(this).data("chart-title"), map);
+                });
             });
         });
     </script>
