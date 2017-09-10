@@ -184,10 +184,12 @@
                     </div>
                 </div>
                 <div class="tab-pane charts" id="charts">
-                    <div class="demo-chart">
-                        <div id="priority-pie-chart" class="width: 100%; height: 100%"></div>
-                        <canvas id="priority-pie-chart-canvas" style="display: none"></canvas>
-                        <input type="hidden" id="priority-pie-chart-base64" value="" />
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div id="priority-pie-chart" class="width: 100%; height: 100%"></div>
+                            <canvas id="priority-pie-chart-canvas" style="display: none"></canvas>
+                            <input type="hidden" id="priority-pie-chart-base64" value="" />
+                        </div>
                     </div>
                 </div>
             </div>
