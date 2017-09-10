@@ -31,10 +31,7 @@ function getFilters() {
     return filters;
 }
 
-function drawChart(element, map) {
-    var key = $(element).data("key");
-    var title = $(element).data("chart-title");
-
+function drawChart(key, title, map) {
     $.ajax({
         type: 'POST',
         url: localStorage.getItem("appUrl") + "charts/totals",
@@ -106,14 +103,21 @@ $(document).ready(function() {
 
     var baseUrl = localStorage.getItem('request');
 
-    $("input[data-key='priority']").change(function() {
-        var map = {};
-        map["aggregateField"] = "AMOUNT";
-        map["filters"] = getFilters();
-        map["groupBy"] = $(this).data("key");
+    var keys = ['priority', 'result', 'type'];
 
-        drawChart(this, map);
+    $.each(keys, function(index, value) {
+        $("input[data-key='" + value + "']").change(function() {
+            var map = {};
+            map["aggregateField"] = "AMOUNT";
+            map["filters"] = getFilters();
+
+            $.each(keys, function(i, v) {
+                var element = $("input[data-key='" + v + "']").first();
+                map["groupBy"] = element.data("key");
+                drawChart(element.data("key"), element.data("chart-title"), map);
+            });
+        });
+
+        $("input[data-key='" + value + "']").first().trigger("change");
     });
-
-    $("input[value='Culture']").trigger("change");
 });

@@ -42,7 +42,7 @@
                                 <fieldset>
                                     <c:forEach var="result" items="${results}">
                                         <label class="form-check-label">
-                                            <input class="form-check-input filter" type="checkbox" value="${result}" onchange="updateTable();" data-key="result">
+                                            <input class="form-check-input filter" type="checkbox" value="${result}" onchange="updateTable();" data-key="result" data-chart-title="Strategic Results">
                                             <c:out value="${result}" />
                                         </label>
                                     </c:forEach>
@@ -56,7 +56,7 @@
                                 <fieldset>
                                     <c:forEach var="type" items="${types}">
                                         <label class="form-check-label">
-                                            <input class="form-check-input filter" type="checkbox" value="${type}" onchange="updateTable();" data-key="type">
+                                            <input class="form-check-input filter" type="checkbox" value="${type}" onchange="updateTable();" data-key="type" data-chart-title="Grant Types">
                                             <c:out value="${type}" />
                                         </label>
                                     </c:forEach>
@@ -189,6 +189,16 @@
                             <div id="priority-pie-chart" class="width: 100%; height: 100%"></div>
                             <canvas id="priority-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="priority-pie-chart-base64" value="" />
+                        </div>
+                        <div class="col-md-4">
+                            <div id="result-pie-chart" class="width: 100%; height: 100%"></div>
+                            <canvas id="result-pie-chart-canvas" style="display: none"></canvas>
+                            <input type="hidden" id="result-pie-chart-base64" value="" />
+                        </div>
+                        <div class="col-md-4">
+                            <div id="type-pie-chart" class="width: 100%; height: 100%"></div>
+                            <canvas id="type-pie-chart-canvas" style="display: none"></canvas>
+                            <input type="hidden" id="type-pie-chart-base64" value="" />
                         </div>
                     </div>
                 </div>
