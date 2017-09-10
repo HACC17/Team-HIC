@@ -20,12 +20,12 @@
             });
         });
         
-        $("#fiscal-year").slider({
+        /* $("#fiscal-year").slider({
             min: 2013,
             max: 2016,
             value: [2013, 2016],
             labelledby: ['fiscal-year-start', 'fiscal-year-end']
-        });
+        }); */
         
         $('.collapse').on('shown.bs.collapse', function () {
             $(this).prev().find(".toggle-icon").removeClass("fa-angle-left").addClass("fa-angle-down");

@@ -82,7 +82,7 @@
                             <label class="fieldset-label" data-toggle="collapse" data-target="#toggle-organization"><i class="fa fa-home"></i>Organization<i class="toggle-icon fa fa-angle-left"></i></label>
                             <div id="toggle-organization" class="collapse">
                                 <fieldset>
-                                    <select id="organization" class="filter form-control" onchange="updateTable();" data-key="organization" data-chart-title="Organization">
+                                    <select id="organization" class="filter form-control" data-key="organization" data-chart-title="Organization">
                                         <option value="">All</option>
                                         <c:forEach var="organization" items="${organizations}">
                                             <option value="${organization}">
@@ -111,10 +111,39 @@
                             <label class="fieldset-label" data-toggle="collapse" data-target="#year"><i class="fa fa-calendar"></i>Fiscal Year<i class="toggle-icon fa fa-angle-left"></i></label>
                             <div id="year" class="collapse">
                                 <fieldset>
-                                    <span id="fiscal-year-start" class="hidden">2013</span>
-                                    <span id="fiscal-year-end" class="hidden">2016</span>
-                                    <input id="fiscal-year" type="text"/>
+                                    <div class="form-group">
+                                        <label for="fiscal-year-start">start</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"></div>
+                                            <input type="number" min="2013" max="2016" value="2013" class="filter form-control" id="fiscal-year-start" data-key="fiscal-gte">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fiscal-year-end">end</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"></div>
+                                            <input type="number" min="2013" max="2016" value="2016" class="filter form-control" id="fiscal-year-end" data-key="fiscal-lte">
+                                        </div>
+                                    </div>
                                 </fieldset>
+                                <script type="text/javascript">
+                                    $(document).ready(function() {
+                                        $("#fiscal-year-start").change(function(event) {
+                                            if (parseInt($(this).val()) > parseInt($("#fiscal-year-end").val())) {
+                                                $(this).val($("#fiscal-year-end").val());
+                                            } else {
+                                                update();
+                                            }
+                                        });
+                                        $("#fiscal-year-end").change(function(event) {
+                                            if (parseInt($(this).val()) < parseInt($("#fiscal-year-start").val())) {
+                                                $(this).val($("#fiscal-year-start").val());
+                                            } else {
+                                                update();
+                                            }
+                                        });
+                                    });
+                                </script>
                             </div>
                         </div>
                         <div class="filter-group">
@@ -250,6 +279,9 @@
                         $(this).val("");
                     }
                 });
+                $("#fiscal-year-start").val("2013");
+                $("#fiscal-year-end").val("2016");
+                $("#organization").val("");
                 update();
             });
             $(".clear-filter").click(function() {
@@ -258,7 +290,7 @@
                 });
                 update();
             });
-            $("#fiscal-year").change(function() {
+            $("#fiscal-year, #organization").change(function() {
                 update();
             });
         });

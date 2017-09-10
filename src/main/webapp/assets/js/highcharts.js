@@ -1,33 +1,32 @@
 function getFilters() {
     var filters = {};
+    filters["filters"] = [];
+    filters["filterValues"] = [];
     $(".filter").each(function() {
         if ($(this).is(':checkbox')) {
             if ($(this).is(':checked')) {
                 var array = filters["filters"];
-                if (array == null) {
-                    filters["filters"] = [];
-                }
                 filters["filters"].push($(this).data("key"));
                 var array = filters["filterValues"];
-                if (array == null) {
-                    filters["filterValues"] = [];
-                }
                 filters["filterValues"].push($(this).val());
             }
         }
         else if ($(this).val() != null && $(this).val() != '') {
             var array = filters["filters"];
-            if (array == null) {
-                filters["filters"] = [];
-            }
             filters["filters"].push($(this).data("key"));
             var array = filters["filterValues"];
-            if (array == null) {
-                filters["filterValues"] = [];
-            }
             filters["filterValues"].push($(this).val());
         }
     });
+    filters["filters"].push("fiscal-gte");
+    filters["filterValues"].push($("#fiscal-year-start").val());
+    filters["filters"].push("fiscal-lte");
+    filters["filterValues"].push($("#fiscal-year-end").val());
+    var org = $("#organization").val();
+    if (org.length) {
+        filters["filters"].push("organization");
+        filters["filterValues"].push(org);
+    }
     return filters;
 }
 

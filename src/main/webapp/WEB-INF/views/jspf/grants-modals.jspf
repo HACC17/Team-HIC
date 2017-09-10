@@ -96,29 +96,38 @@
     }
 
     function updateTable() {
-        var filter = {};
+        var filters = {};
         $(".filter").each(function(index, value) {
             if ($(this).is(':checkbox')) {
                 if ($(this).is(':checked')) {
-                    var array = filter[$(this).data("key")];
+                    var array = filters[$(this).data("key")];
                     if (array == null) {
-                        filter[$(this).data("key")] = [];
+                        filters[$(this).data("key")] = [];
                     }
-                    filter[$(this).data("key")].push($(this).val());
+                    filters[$(this).data("key")].push($(this).val());
             	}
             }
             else if ($(this).val() != null && $(this).val() != '') {
-                var array = filter[$(this).data("key")];
+                var array = filters[$(this).data("key")];
                 if (array == null) {
-                    filter[$(this).data("key")] = [];
+                    filters[$(this).data("key")] = [];
                 }
-                filter[$(this).data("key")].push($(this).val());
+                filters[$(this).data("key")].push($(this).val());
             }
         });
+        filters["fiscal-gte"] = [];
+        filters["fiscal-gte"].push($("#fiscal-year-start").val());
+        filters["fiscal-lte"] = [];
+        filters["fiscal-lte"].push($("#fiscal-year-end").val());
+        var org = $("#organization").val();
+        if (org.length) {
+            filters["organization"] = [];
+            filters["organization"].push(org);
+        }
         $.ajax({
             type: 'POST',
             url: "<c:out value='${url}' /><c:url value='/' />filter",
-            data: JSON.stringify(filter),
+            data: JSON.stringify(filters),
             contentType: 'application/json',
             accept: 'application/pdf',
             headers: {
@@ -150,6 +159,7 @@
                     data: arrays,
                     buttons: buttons,
                     "columnDefs": columnDefs,
+                    "deferRender": true,
                 });
                 $("#modals").empty();
                 $.each(json, function(index, object) {
@@ -175,6 +185,6 @@
     }
 
     $(document).ready(function() {
-        updateTable();
+        // updateTable();
     });
 </script>
