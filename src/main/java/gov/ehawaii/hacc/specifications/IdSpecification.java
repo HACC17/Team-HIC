@@ -4,7 +4,8 @@ import gov.ehawaii.hacc.repositories.impl.SqlStatements;
 import lombok.Getter;
 
 /**
- * This specification uses the following query to retrieve the ID for a given value.<br /><br />
+ * This specification uses the following query to retrieve the ID for a given value.<br />
+ * <br />
  * 
  * <code>&nbsp;&nbsp;SELECT ID FROM [table] WHERE [column] = [value]</code>
  * 

@@ -5,7 +5,8 @@ import java.util.Map;
 import gov.ehawaii.hacc.model.Grant;
 
 /**
- * Implementations of this interface will interact with a <code>GrantsRepository</code> to store and retrieve grants.
+ * Implementations of this interface will interact with a <code>GrantsRepository</code> to store and
+ * retrieve grants.
  * 
  * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
  * @version 1.0
@@ -63,7 +64,8 @@ public interface GrantsService {
    * @param filterValue The value of the given condition.
    * @return A map of aggregate data for each location.
    */
-  Map<String, Map<String, Long>> getAggregateDataForEachLocation(String aggregateField, String filter, String filterValue);
+  Map<String, Map<String, Long>> getAggregateDataForEachLocation(String aggregateField,
+      String filter, String filterValue);
 
   /**
    * Returns the top N grants by the given criterion for each location stored in the repository.
@@ -73,7 +75,8 @@ public interface GrantsService {
    * @param filters Conditions that must be satisfied.
    * @return A map containing the top N data for each location.
    */
-  Map<String, Map<String, Long>> getTopNDataForEachLocation(int top, String aggregateField, Map<String, String> filters);
+  Map<String, Map<String, Long>> getTopNDataForEachLocation(int top, String aggregateField,
+      Map<String, String> filters);
 
   /**
    * A list of all grant statuses stored in the repository.

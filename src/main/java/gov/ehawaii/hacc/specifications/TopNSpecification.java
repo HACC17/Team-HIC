@@ -49,9 +49,12 @@ public class TopNSpecification implements SqlSpecification {
   }
 
   /**
-   * Returns the following query:<br /><br />&nbsp;&nbsp;<code>SELECT [groupByColumn], SUM([sumColumn]) FROM GRANTS</code>.
+   * Returns the following query:<br />
+   * <br />
+   * &nbsp;&nbsp;<code>SELECT [groupByColumn], SUM([sumColumn]) FROM GRANTS</code>.
    * 
-   * @return A <code>SELECT</code> statement without any other clauses, e.g. <code>WHERE</code>, <code>GROUP BY</code>, etc.
+   * @return A <code>SELECT</code> statement without any other clauses, e.g. <code>WHERE</code>,
+   * <code>GROUP BY</code>, etc.
    */
   final String getSelect() {
     return String.format(SqlStatements.GET_TOP_N_DATA, groupByColumn, sumColumn);
@@ -60,10 +63,12 @@ public class TopNSpecification implements SqlSpecification {
   /**
    * Returns a filter that can be used with the query returned by {@link #getSelect()}.
    * 
-   * @return The following SQL clause: <code>GROUP BY [groupByColumn] ORDER BY SUM([sumColumn]) DESC LIMIT [n]</code>.
+   * @return The following SQL clause:
+   * <code>GROUP BY [groupByColumn] ORDER BY SUM([sumColumn]) DESC LIMIT [n]</code>.
    */
   final String getFilter() {
-    return String.format(" GROUP BY %s ORDER BY SUM(%s) DESC LIMIT %d", groupByColumn, sumColumn, n);
+    return String.format(" GROUP BY %s ORDER BY SUM(%s) DESC LIMIT %d", groupByColumn, sumColumn,
+        n);
   }
 
   @Override

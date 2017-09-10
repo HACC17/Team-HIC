@@ -22,8 +22,9 @@ import com.itextpdf.text.Document;
 import gov.ehawaii.hacc.pdf.PdfUtils;
 
 /**
- * This controller handles all requests going to the <code>/reports</code> endpoint. The methods in this
- * class generate a PDF file with a chart and table in it, and send the PDF file back to the client.
+ * This controller handles all requests going to the <code>/reports</code> endpoint. The methods in
+ * this class generate a PDF file with a chart and table in it, and send the PDF file back to the
+ * client.
  * 
  * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
  * @version 1.0
@@ -35,9 +36,9 @@ public class ReportsController {
   private static final Logger LOGGER = LogManager.getLogger(ReportsController.class);
 
   /**
-   * Generates a PDF file that includes a pie graph that displays the total amount of money for
-   * a given fiscal year for the top 5 organizations. The table in the file will display
-   * the total amount in dollars.
+   * Generates a PDF file that includes a pie graph that displays the total amount of money for a
+   * given fiscal year for the top 5 organizations. The table in the file will display the total
+   * amount in dollars.
    * 
    * @param json A JSON string that contains the data for the top 5 organizations.
    * @return A byte array representing a PDF file is sent back to the client.
@@ -60,9 +61,9 @@ public class ReportsController {
   }
 
   /**
-   * Generates a PDF file that contains a pie graph that displays the top 5 or 10 organizations or projects by
-   * a given type of data. The table in the file will display properly formatted information for each organization
-   * or project.
+   * Generates a PDF file that contains a pie graph that displays the top 5 or 10 organizations or
+   * projects by a given type of data. The table in the file will display properly formatted
+   * information for each organization or project.
    * 
    * @param json A JSON string that contains the data for the top 5 or 10 organizations or projects.
    * @return A byte array representing a PDF file is sent back to the client.
@@ -87,14 +88,15 @@ public class ReportsController {
   }
 
   /**
-   * Generates a PDF file that contains a time series (line) chart for an organization over a period of
-   * time. The table in the file will contain information about each data point on the graph.
+   * Generates a PDF file that contains a time series (line) chart for an organization over a period
+   * of time. The table in the file will contain information about each data point on the graph.
    * 
    * @param json A JSON string that contains time series data for an organization.
    * @return A byte array representing a PDF file is sent back to the client.
    */
   @RequestMapping(value = "/org", method = RequestMethod.POST)
-  public final ResponseEntity<byte[]> generateOrganizationDataOverTimeReport(@RequestBody final String json) {
+  public final ResponseEntity<byte[]> generateOrganizationDataOverTimeReport(
+      @RequestBody final String json) {
     Map<String, String> map = getParameters(json);
 
     String tableHeading = map.get("organization");
@@ -112,8 +114,9 @@ public class ReportsController {
   }
 
   /**
-   * Generates a PDF file that contains a pie graph that displays the top N organizations for a location.
-   * The table in the file will display properly formatted information for each organization.
+   * Generates a PDF file that contains a pie graph that displays the top N organizations for a
+   * location. The table in the file will display properly formatted information for each
+   * organization.
    * 
    * @param json A JSON string that contains the data for the top N organizations for a location.
    * @return A byte array representing a PDF file is sent back to the client.
@@ -170,8 +173,8 @@ public class ReportsController {
   }
 
   /**
-   * Gets the data needed to generate a graph and table from a JSON string and puts them into a {@link Map}.
-   * The data in the JSON string will be URL-decoded first before being put in the map.
+   * Gets the data needed to generate a graph and table from a JSON string and puts them into a
+   * {@link Map}. The data in the JSON string will be URL-decoded first before being put in the map.
    * 
    * @param json A JSON string containing data.
    * @return A map containing the same data.

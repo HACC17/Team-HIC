@@ -1,7 +1,8 @@
 package gov.ehawaii.hacc.specifications;
 
 /**
- * Implementations of this interface contain criteria used to filter results from an SQL query (MySQL, Oracle, SQL Server, etc.).
+ * Implementations of this interface contain criteria used to filter results from an SQL query
+ * (MySQL, Oracle, SQL Server, etc.).
  * 
  * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
  * @version 1.0

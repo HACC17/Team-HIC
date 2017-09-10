@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class LogoutController {
 
   /**
-   * A <code>GET</code> request sent to <code>/logout</code> endpoint will log out the user from the application.
+   * A <code>GET</code> request sent to <code>/logout</code> endpoint will log out the user from the
+   * application.
    * 
    * @param request The client request.
    * @param response The server response.

@@ -20,7 +20,8 @@ import gov.ehawaii.hacc.repositories.impl.Tables;
 import gov.ehawaii.hacc.specifications.IdSpecification;
 
 /**
- * This importer will read in a Microsoft Excel file and insert all the grants found in it into the repository.
+ * This importer will read in a Microsoft Excel file and insert all the grants found in it into the
+ * repository.
  * 
  * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
  * @version 1.0
@@ -81,7 +82,8 @@ public class ExcelImporter implements Importer {
    * Gets an <code>int</code> from a cell.
    * 
    * @param cell The cell from which to get an <code>int</code>.
-   * @return The <code>int</code> value, or 0 if the value is a string that cannot be converted, e.g. "NULL".
+   * @return The <code>int</code> value, or 0 if the value is a string that cannot be converted,
+   * e.g. "NULL".
    */
   private static int getIntCellValue(final Cell cell) {
     try {

@@ -28,7 +28,6 @@ public interface GrantsRepository {
    */
   boolean insertGrant(Grant grant);
 
-
   /**
    * Retrieves a list of grants from the data source that satisfy the given conditions.
    * 
@@ -37,15 +36,14 @@ public interface GrantsRepository {
    */
   List<Grant> findGrants(Specification specification);
 
-
   /**
    * Retrieves the top N data (e.g. top 10 organizations by total number of people served).
    * 
-   * @param specification Contains the filter that is applied to the query used to retrieve the top N data.
+   * @param specification Contains the filter that is applied to the query used to retrieve the top
+   * N data.
    * @return A map containing the top N data.
    */
   List<Map<String, Object>> findTopN(Specification specification);
-
 
   /**
    * Retrieves the value associated with the given ID from the given table.
@@ -55,7 +53,6 @@ public interface GrantsRepository {
    */
   String findValueForId(Specification specification);
 
-
   /**
    * Retrieves all the data over a period of time.
    * 
@@ -64,16 +61,15 @@ public interface GrantsRepository {
    */
   List<Map<String, Long>> findTimeSeriesData(Specification specification);
 
-
   /**
-   * Aggregates and returns all the data. Queries and filters are added to the given specification and then are used
-   * to retrieve aggregated data.
+   * Aggregates and returns all the data. Queries and filters are added to the given specification
+   * and then are used to retrieve aggregated data.
    * 
-   * @param specification Contains the queries and filters that are used to retrieve data for each location.
+   * @param specification Contains the queries and filters that are used to retrieve data for each
+   * location.
    * @return A map containing all the data for each location for the given fiscal year.
    */
   Map<String, Map<String, Long>> findAggregateData(Specification specification);
-
 
   /**
    * Retrieves the ID associated with the given value from the given table.
@@ -82,7 +78,6 @@ public interface GrantsRepository {
    * @return The ID associated with the given value, or -1 if the ID is not found.
    */
   long findIdForValue(Specification specification);
-
 
   /**
    * Retrieves a list of all values found in a column from a table.

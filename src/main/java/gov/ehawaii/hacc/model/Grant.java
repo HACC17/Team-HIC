@@ -4,7 +4,8 @@ import java.io.Serializable;
 import lombok.Data;
 
 /**
- * This class contains information about one grant, such as its status and the total number of people served by it.
+ * This class contains information about one grant, such as its status and the total number of
+ * people served by it.
  * 
  * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
  * @version 1.0
@@ -39,13 +40,13 @@ public class Grant implements Serializable {
   /** The status of this grant. */
   private String grantStatus;
 
-
   @Override
   public final String toString() {
-    return "{" + "fiscalYear=" + fiscalYear + ", grantType=" + grantType + ", organization=" + organization
-        + ", project=" + project + ", amount=" + amount + ", location=" + location + ", strategicPriority="
-        + strategicPriority + ", strategicResults=" + strategicResults + ", totalNumberServed=" + totalNumberServed
-        + ", numberNativeHawaiiansServed=" + numberNativeHawaiiansServed + ", grantStatus=" + grantStatus + "}";
+    return "{" + "fiscalYear=" + fiscalYear + ", grantType=" + grantType + ", organization="
+        + organization + ", project=" + project + ", amount=" + amount + ", location=" + location
+        + ", strategicPriority=" + strategicPriority + ", strategicResults=" + strategicResults
+        + ", totalNumberServed=" + totalNumberServed + ", numberNativeHawaiiansServed="
+        + numberNativeHawaiiansServed + ", grantStatus=" + grantStatus + "}";
   }
 
 }

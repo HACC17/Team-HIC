@@ -49,10 +49,12 @@ public final class Filters {
   public static final String STRATEGIC_RESULTS_ID_FILTER = "STRATEGIC_RESULT_ID = ? ";
 
   /** NUMBER_NATIVE_HAWAIIANS_SERVED values that are greater than or equal to <code>value</code>. */
-  public static final String NUMBER_NATIVE_HAWAIIANS_SERVED_GTE = "NUMBER_NATIVE_HAWAIIANS_SERVED >= ? ";
+  public static final String NUMBER_NATIVE_HAWAIIANS_SERVED_GTE =
+      "NUMBER_NATIVE_HAWAIIANS_SERVED >= ? ";
 
   /** NUMBER_NATIVE_HAWAIIANS_SERVED values that are less than or equal to <code>value</code>. */
-  public static final String NUMBER_NATIVE_HAWAIIANS_SERVED_LTE = "NUMBER_NATIVE_HAWAIIANS_SERVED <= ? ";
+  public static final String NUMBER_NATIVE_HAWAIIANS_SERVED_LTE =
+      "NUMBER_NATIVE_HAWAIIANS_SERVED <= ? ";
 
   /** TOTAL_NUMBER_SERVED values that are greater than or equal to <code>value</code>. */
   public static final String TOTAL_NUMBER_SERVED_GTE = "TOTAL_NUMBER_SERVED >= ? ";

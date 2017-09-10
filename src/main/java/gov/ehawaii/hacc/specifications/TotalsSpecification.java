@@ -6,7 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * This specification can be used to generate a query that sums together all the values in a given column that satisfy zero, one, or more conditions.
+ * This specification can be used to generate a query that sums together all the values in a given
+ * column that satisfy zero, one, or more conditions.
  * 
  * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
  * @version 1.0

@@ -35,9 +35,9 @@ public class AdminController {
   @Autowired
   private ExcelImporter excelImporter;
 
-
   /**
-   * Displays the main page for an admin user. The page contains a form that the admin submits in order to add a grant to the database.
+   * Displays the main page for an admin user. The page contains a form that the admin submits in
+   * order to add a grant to the database.
    * 
    * @param model The model to which to add data for the form.
    * @return The name of the JSP file that contains the form.
@@ -54,10 +54,10 @@ public class AdminController {
     return "admin/index";
   }
 
-
   /**
-   * When a <code>GET</code> request is sent to the <code>/import</code> endpoint, the application will import sample data from a file.
-   * The type of the file depends on the value of the parameter that is sent with the request. Two file types are supported:
+   * When a <code>GET</code> request is sent to the <code>/import</code> endpoint, the application
+   * will import sample data from a file. The type of the file depends on the value of the parameter
+   * that is sent with the request. Two file types are supported:
    * <ul>
    * <li><code>csv</code>: A CSV file</li>
    * <li><code>excel</code>: A Microsoft Excel file</li>
@@ -90,10 +90,9 @@ public class AdminController {
     return "redirect:/admin";
   }
 
-
   /**
-   * A <code>POST</code> request is sent to the <code>/admin</code> endpoint to add a grant to the database.
-   * Information about the grant is sent along with the request.
+   * A <code>POST</code> request is sent to the <code>/admin</code> endpoint to add a grant to the
+   * database. Information about the grant is sent along with the request.
    * 
    * @param grant The grant to add to the database.
    * @return The admin user will be redirected to the <code>/admin</code> endpoint.

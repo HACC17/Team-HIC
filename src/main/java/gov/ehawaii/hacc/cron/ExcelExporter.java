@@ -46,17 +46,15 @@ public class ExcelExporter implements Runnable {
   @Value("${filenameSuffix}")
   private String filenameSuffix;
 
-
   @Override
   public final void run() {
     LOGGER.info("GrantsExcelExporter task started.");
     export(grantsService.getGrants(new HashMap<>()));
   }
 
-
   /**
-   * Exports the given list of grants to a Microsoft Excel file. The file is sorted alphabetically in ascending order
-   * by organization.
+   * Exports the given list of grants to a Microsoft Excel file. The file is sorted alphabetically
+   * in ascending order by organization.
    * 
    * @param grants The list of grants to save to a Microsoft Excel file.
    */
@@ -65,8 +63,9 @@ public class ExcelExporter implements Runnable {
 
     XSSFWorkbook workbook = new XSSFWorkbook();
     XSSFSheet sheet = workbook.createSheet("Grants");
-    String[] headings = { "Fiscal Year", "Organization", "Project", "Amount", "Status", "Location", "Grant Type",
-        "Strategic Priority", "Strategic Results", "Total Number Served", "Number of Native Hawaiians Served" };
+    String[] headings = { "Fiscal Year", "Organization", "Project", "Amount", "Status", "Location",
+        "Grant Type", "Strategic Priority", "Strategic Results", "Total Number Served",
+        "Number of Native Hawaiians Served" };
 
     int currentRow = 0;
     Row row = sheet.createRow(currentRow);
@@ -76,7 +75,8 @@ public class ExcelExporter implements Runnable {
       row.createCell(currentColumn++).setCellValue(heading);
     }
 
-    Collections.sort(grants, (grant1, grant2) -> grant1.getOrganization().compareTo(grant2.getOrganization()));
+    Collections.sort(grants,
+        (grant1, grant2) -> grant1.getOrganization().compareTo(grant2.getOrganization()));
 
     for (Grant grant : grants) {
       row = sheet.createRow(++currentRow);
@@ -106,8 +106,8 @@ public class ExcelExporter implements Runnable {
     }
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd-HH_mm_ss");
-    String filename =
-        exportDirectory + filenamePrefix + "_" + formatter.format(LocalDateTime.now()) + "." + filenameSuffix;
+    String filename = exportDirectory + filenamePrefix + "_" + formatter.format(LocalDateTime.now())
+        + "." + filenameSuffix;
     LOGGER.info("Path: " + filename);
 
     File file;

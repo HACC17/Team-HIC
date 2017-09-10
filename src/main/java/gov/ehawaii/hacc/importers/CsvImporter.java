@@ -50,7 +50,8 @@ public class CsvImporter implements Importer {
       int count = 0;
       for (CSVRecord record : records) {
         if (record.size() != NUMBER_OF_COLUMNS) {
-          LOGGER.error("Expected " + NUMBER_OF_COLUMNS + " columns but found " + record.size() + ".");
+          LOGGER
+              .error("Expected " + NUMBER_OF_COLUMNS + " columns but found " + record.size() + ".");
           continue;
         }
         Grant grant = new Grant();
@@ -64,8 +65,8 @@ public class CsvImporter implements Importer {
         grant.setStrategicResults(trim(record.get(7)));
         grant.setTotalNumberServed(stringToInt(record.get(8)));
         grant.setNumberNativeHawaiiansServed(stringToInt(record.get(9)));
-        grant.setGrantStatus(repository.findValueForId(new IdSpecification(Tables.GRANT_STATUSES,
-            Columns.GRANT_STATUS, record.get(10))));
+        grant.setGrantStatus(repository.findValueForId(
+            new IdSpecification(Tables.GRANT_STATUSES, Columns.GRANT_STATUS, record.get(10))));
         if (repository.insertGrant(grant)) {
           LOGGER.info("Successfully saved grant [" + grant + "] to repository.");
           count++;

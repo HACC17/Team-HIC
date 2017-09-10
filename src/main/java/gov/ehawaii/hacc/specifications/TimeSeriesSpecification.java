@@ -3,11 +3,13 @@ package gov.ehawaii.hacc.specifications;
 import lombok.Getter;
 
 /**
- * This specification is used in queries that sum data over a period of time. For example, if you want to
- * sum the values of <code>AMOUNT</code>, you should pass in the following query for
- * <code>timeSeriesQuery</code>:<br /><br />
+ * This specification is used in queries that sum data over a period of time. For example, if you
+ * want to sum the values of <code>AMOUNT</code>, you should pass in the following query for
+ * <code>timeSeriesQuery</code>:<br />
+ * <br />
  * 
- * <code>&nbsp;&nbsp;SELECT FISCAL_YEAR, SUM(%s) FROM GRANTS</code><br /><br />
+ * <code>&nbsp;&nbsp;SELECT FISCAL_YEAR, SUM(%s) FROM GRANTS</code><br />
+ * <br />
  * 
  * and <code>AMOUNT</code> for <code>aggregateField</code>.
  * 
@@ -27,7 +29,8 @@ public class TimeSeriesSpecification implements SqlSpecification {
   /**
    * Creates a new {@link TimeSeriesSpecification}.
    * 
-   * @param table The name of the table that can be used in a filter for the query produced by this specification.
+   * @param table The name of the table that can be used in a filter for the query produced by this
+   * specification.
    * @param column The name of the column in the given table.
    * @param value The value for the optional filter.
    * @param timeSeriesQuery The time series query.
@@ -59,7 +62,8 @@ public class TimeSeriesSpecification implements SqlSpecification {
 
   @Override
   public final String toSqlClause() {
-    return String.format(timeSeriesQuery + " GROUP BY FISCAL_YEAR ORDER BY FISCAL_YEAR ASC", aggregateField);
+    return String.format(timeSeriesQuery + " GROUP BY FISCAL_YEAR ORDER BY FISCAL_YEAR ASC",
+        aggregateField);
   }
 
 }

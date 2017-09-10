@@ -13,8 +13,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.ehawaii.hacc.service.GrantsService;
 
 /**
- * This controller handles all requests going to the <code>/charts</code> endpoint. The methods in this
- * class return data in JSON format that clients can use to generate charts using ChartJS or Highcharts.
+ * This controller handles all requests going to the <code>/charts</code> endpoint. The methods in
+ * this class return data in JSON format that clients can use to generate charts using ChartJS or
+ * Highcharts.
  * 
  * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
  * @version 1.0
@@ -41,7 +42,8 @@ public class ChartsController {
   }
 
   /**
-   * This method returns the top N organizations, projects, locations, etc. by the given type of data.
+   * This method returns the top N organizations, projects, locations, etc. by the given type of
+   * data.
    * 
    * @param top N, a number greater than 0.
    * @param name Organization, project, location, etc.
@@ -50,7 +52,8 @@ public class ChartsController {
    * @throws IOException If there are problems sending the data back to the client.
    */
   @RequestMapping(value = "/top", method = RequestMethod.GET)
-  public final void getTopNData(@RequestParam("top") final String top, @RequestParam("field1") final String name,
+  public final void getTopNData(@RequestParam("top") final String top,
+      @RequestParam("field1") final String name,
       @RequestParam("field2") final String aggregateField, final HttpServletResponse response)
       throws IOException {
     response.getWriter().write(new ObjectMapper().writeValueAsString(
@@ -83,9 +86,11 @@ public class ChartsController {
    * @throws IOException If there are problems sending the data back to the client.
    */
   @RequestMapping(value = "/locations", method = RequestMethod.GET)
-  public final void getDataForEachLocation(@RequestParam("aggregateField") final String aggregateField,
-      @RequestParam("filter") final String filter, @RequestParam("filterValue") final String filterValue,
-      final HttpServletResponse response) throws IOException {
+  public final void getDataForEachLocation(
+      @RequestParam("aggregateField") final String aggregateField,
+      @RequestParam("filter") final String filter,
+      @RequestParam("filterValue") final String filterValue, final HttpServletResponse response)
+      throws IOException {
     response.getWriter().write(new ObjectMapper().writeValueAsString(
         grantsService.getAggregateDataForEachLocation(aggregateField, filter, filterValue)));
   }
@@ -103,7 +108,8 @@ public class ChartsController {
   @RequestMapping(value = "/fiscalYearTop", method = RequestMethod.GET)
   public final void getTopNDataForEachLocation(@RequestParam("top") final String top,
       @RequestParam("year") final String year, @RequestParam("location") final String location,
-      @RequestParam("field") final String field, final HttpServletResponse response) throws IOException {
+      @RequestParam("field") final String field, final HttpServletResponse response)
+      throws IOException {
     Map<String, String> filters = new HashMap<>();
     filters.put("location", location);
     filters.put("fiscal", year);

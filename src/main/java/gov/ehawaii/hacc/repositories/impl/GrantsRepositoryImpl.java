@@ -52,8 +52,10 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
     grant.setProject(getValue(Tables.PROJECTS, Columns.PROJECT, rs.getString(6)));
     grant.setAmount(rs.getInt(7));
     grant.setLocation(getValue(Tables.LOCATIONS, Columns.LOCATION, rs.getString(8)));
-    grant.setStrategicPriority(getValue(Tables.STRATEGIC_PRIORITIES, Columns.STRATEGIC_PRIORITY, rs.getString(9)));
-    grant.setStrategicResults(getValue(Tables.STRATEGIC_RESULTS, Columns.STRATEGIC_RESULT, rs.getString(10)));
+    grant.setStrategicPriority(
+        getValue(Tables.STRATEGIC_PRIORITIES, Columns.STRATEGIC_PRIORITY, rs.getString(9)));
+    grant.setStrategicResults(
+        getValue(Tables.STRATEGIC_RESULTS, Columns.STRATEGIC_RESULT, rs.getString(10)));
     grant.setTotalNumberServed(rs.getInt(11));
     grant.setNumberNativeHawaiiansServed(rs.getInt(12));
     return grant;
@@ -61,7 +63,6 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
 
   @Resource(name = "dataSource")
   private DataSource dataSource;
-
 
   /**
    * Initializes the data source after an instance of this class is created.
@@ -72,22 +73,24 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
     LOGGER.info("GrantDaoImpl initialized.");
   }
 
-
   @Override
   public final boolean insertGrant(final Grant grant) {
-    long grantStatusId = saveValue(Tables.GRANT_STATUSES, Columns.GRANT_STATUS, grant.getGrantStatus());
+    long grantStatusId =
+        saveValue(Tables.GRANT_STATUSES, Columns.GRANT_STATUS, grant.getGrantStatus());
     long grantTypeId = saveValue(Tables.GRANT_TYPES, Columns.GRANT_TYPE, grant.getGrantType());
     long locationId = saveValue(Tables.LOCATIONS, Columns.LOCATION, grant.getLocation());
-    long organizationId = saveValue(Tables.ORGANIZATIONS, Columns.ORGANIZATION, grant.getOrganization());
+    long organizationId =
+        saveValue(Tables.ORGANIZATIONS, Columns.ORGANIZATION, grant.getOrganization());
     long projectId = saveValue(Tables.PROJECTS, Columns.PROJECT, grant.getProject());
-    long strategicPriorityId =
-        saveValue(Tables.STRATEGIC_PRIORITIES, Columns.STRATEGIC_PRIORITY, grant.getStrategicPriority());
+    long strategicPriorityId = saveValue(Tables.STRATEGIC_PRIORITIES, Columns.STRATEGIC_PRIORITY,
+        grant.getStrategicPriority());
     long strategicResultId =
         saveValue(Tables.STRATEGIC_RESULTS, Columns.STRATEGIC_RESULT, grant.getStrategicResults());
 
-    long rows = getJdbcTemplate().update(SqlStatements.INSERT_GRANT, grantStatusId, grant.getFiscalYear(), grantTypeId,
-        organizationId, projectId, grant.getAmount(), locationId, strategicPriorityId, strategicResultId,
-        grant.getTotalNumberServed(), grant.getNumberNativeHawaiiansServed());
+    long rows = getJdbcTemplate().update(SqlStatements.INSERT_GRANT, grantStatusId,
+        grant.getFiscalYear(), grantTypeId, organizationId, projectId, grant.getAmount(),
+        locationId, strategicPriorityId, strategicResultId, grant.getTotalNumberServed(),
+        grant.getNumberNativeHawaiiansServed());
     if (rows > 0) {
       LOGGER.info("Successfully saved grant [" + grant + "] to database.");
       return true;
@@ -98,19 +101,19 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
     }
   }
 
-
   @Override
   public final List<Grant> findGrants(final Specification specification) {
     FilteredSpecification filteredSpecification = (FilteredSpecification) specification;
 
-    String selectStmt = String.format(SqlStatements.GET_ALL_GRANTS, filteredSpecification.getTable());
+    String selectStmt =
+        String.format(SqlStatements.GET_ALL_GRANTS, filteredSpecification.getTable());
     selectStmt = selectStmt + filteredSpecification.toSqlClause();
-    List<Grant> grants = getJdbcTemplate().query(selectStmt, rowMapper, filteredSpecification.getArguments());
+    List<Grant> grants =
+        getJdbcTemplate().query(selectStmt, rowMapper, filteredSpecification.getArguments());
 
     LOGGER.info("Found " + grants.size() + " grant(s).");
     return grants;
   }
-
 
   @Override
   public final List<Map<String, Object>> findTopN(final Specification specification) {
@@ -144,13 +147,12 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
     });
   }
 
-
   @Override
   public final String findValueForId(final Specification specification) {
     SqlSpecification sqlSpecification = (SqlSpecification) specification;
-    return getValue(sqlSpecification.getTable(), sqlSpecification.getColumn(), sqlSpecification.getValue());
+    return getValue(sqlSpecification.getTable(), sqlSpecification.getColumn(),
+        sqlSpecification.getValue());
   }
-
 
   @Override
   public final List<Map<String, Long>> findTimeSeriesData(final Specification specification) {
@@ -171,7 +173,6 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
     }, id);
   }
 
-
   @Override
   public final Map<String, Map<String, Long>> findAggregateData(final Specification specification) {
     TotalsSpecification totalsSpecification = (TotalsSpecification) specification;
@@ -189,20 +190,22 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
     Object[] filterValues = totalsSpecification.getFilterValues();
 
     if (totalsSpecification.getColSpec() == null) {
-      data.put("totals", getJdbcTemplate().query(totalsSpecification.toSqlClause(), rsExtractor, filterValues));
+      data.put("totals",
+          getJdbcTemplate().query(totalsSpecification.toSqlClause(), rsExtractor, filterValues));
       return data;
     }
 
     List<String> values = findAllValues(totalsSpecification.getColSpec());
 
     for (String value : values) {
-      filterValues = ArrayUtils.addAll(new Object[] { value }, totalsSpecification.getFilterValues());
-      data.put(value, getJdbcTemplate().query(totalsSpecification.toSqlClause(), rsExtractor, filterValues));
+      filterValues =
+          ArrayUtils.addAll(new Object[] { value }, totalsSpecification.getFilterValues());
+      data.put(value,
+          getJdbcTemplate().query(totalsSpecification.toSqlClause(), rsExtractor, filterValues));
     }
 
     return data;
   }
-
 
   @Override
   public final long findIdForValue(final Specification specification) {
@@ -222,13 +225,11 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
     }
   }
 
-
   @Override
   public final List<String> findAllValues(final Specification specification) {
     SqlSpecification sqlSpecification = (SqlSpecification) specification;
     return getJdbcTemplate().queryForList(sqlSpecification.toSqlClause(), String.class);
   }
-
 
   /**
    * Saves the given value in the database.
@@ -253,7 +254,6 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
     return holder.getKey().longValue();
   }
 
-
   /**
    * Retrieves a value from the database.
    * 
@@ -265,8 +265,8 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
   private String getValue(final String tableName, final String columnName, final Object id) {
     String stmt = String.format(SqlStatements.GET_VALUE, columnName, tableName);
     try {
-     String result = getJdbcTemplate().queryForObject(stmt, String.class, id);
-     return result == null ? "" : result;
+      String result = getJdbcTemplate().queryForObject(stmt, String.class, id);
+      return result == null ? "" : result;
     }
     catch (DataAccessException dae) {
       LOGGER.error("An error occurred while trying to execute the following query: " + stmt, dae);

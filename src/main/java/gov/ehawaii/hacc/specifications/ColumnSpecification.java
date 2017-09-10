@@ -30,7 +30,8 @@ public class ColumnSpecification implements SqlSpecification {
    * 
    * @param table The table that contains the given column.
    * @param column The column from which to retrieve values.
-   * @param distinct <code>true</code> to retrieve only distinct values, <code>false</code> to retrieve all values.
+   * @param distinct <code>true</code> to retrieve only distinct values, <code>false</code> to
+   * retrieve all values.
    */
   public ColumnSpecification(final String table, final String column, final boolean distinct) {
     this.table = table;

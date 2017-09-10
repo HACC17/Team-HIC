@@ -21,7 +21,8 @@ import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 /**
- * This utility class contains methods related to PDFs, such as creating a PDF and adding a table to a PDF.
+ * This utility class contains methods related to PDFs, such as creating a PDF and adding a table to
+ * a PDF.
  * 
  * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
  * @version 1.0
@@ -37,8 +38,8 @@ public final class PdfUtils {
   }
 
   /**
-   * This method creates a PDF file with an image and a two-column table below the image. The file is
-   * written to the given output stream.
+   * This method creates a PDF file with an image and a two-column table below the image. The file
+   * is written to the given output stream.
    * 
    * @param document The document used to create a PDF.
    * @param decodedBytes A base-64 string that represents an image and is <b>already</b> decoded.
@@ -48,12 +49,14 @@ public final class PdfUtils {
    * @param columnHeadings An array of column headings.
    * @param columnOneData An array of data for the first column in the table.
    * @param columnTwoData An array of data for the second column in the table.
-   * @param isFiscal <code>true</code> if the data in the second column is fiscal, <code>false</code> otherwise.
+   * @param isFiscal <code>true</code> if the data in the second column is fiscal,
+   * <code>false</code> otherwise.
    */
   @SuppressWarnings("checkstyle:parameternumber")
-  public static void createPdfFile(final Document document, final byte[] decodedBytes, final OutputStream os,
-      final float imageScalePercent, final String tableHeading, final String[] columnHeadings, final String[] columnOneData,
-      final String[] columnTwoData, final boolean isFiscal) {
+  public static void createPdfFile(final Document document, final byte[] decodedBytes,
+      final OutputStream os, final float imageScalePercent, final String tableHeading,
+      final String[] columnHeadings, final String[] columnOneData, final String[] columnTwoData,
+      final boolean isFiscal) {
     try {
       PdfWriter writer = PdfWriter.getInstance(document, os);
       writer.setPageEvent(new Rotate());
@@ -61,7 +64,8 @@ public final class PdfUtils {
       Image image = Image.getInstance(decodedBytes);
       image.scalePercent(imageScalePercent);
       document.add(image);
-      document.add(createTable(tableHeading, columnHeadings, columnOneData, columnTwoData, isFiscal));
+      document
+          .add(createTable(tableHeading, columnHeadings, columnOneData, columnTwoData, isFiscal));
       document.close();
     }
     catch (Exception e) {
@@ -76,12 +80,14 @@ public final class PdfUtils {
    * @param columnHeadings An array of column headings.
    * @param columnOneData An array of data for the first column in the table.
    * @param columnTwoData An array of data for the second column in the table.
-   * @param isFiscal <code>true</code> if the data in the second column is fiscal, <code>false</code> otherwise.
+   * @param isFiscal <code>true</code> if the data in the second column is fiscal,
+   * <code>false</code> otherwise.
    * @return A table that can be inserted into a PDF file.
    * @throws DocumentException If there are problems creating the table.
    */
   private static PdfPTable createTable(final String tableHeading, final String[] columnHeadings,
-      final String[] columnOneData, final String[] columnTwoData, final boolean isFiscal) throws DocumentException {
+      final String[] columnOneData, final String[] columnTwoData, final boolean isFiscal)
+      throws DocumentException {
     PdfPTable table = new PdfPTable(2);
     table.setTotalWidth(new float[] { 250, 250 });
     table.setLockedWidth(true);
