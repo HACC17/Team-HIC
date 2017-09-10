@@ -115,15 +115,6 @@
                 filters[$(this).data("key")].push($(this).val());
             }
         });
-        filters["fiscal-gte"] = [];
-        filters["fiscal-gte"].push($("#fiscal-year-start").val());
-        filters["fiscal-lte"] = [];
-        filters["fiscal-lte"].push($("#fiscal-year-end").val());
-        var org = $("#organization").val();
-        if (org.length) {
-            filters["organization"] = [];
-            filters["organization"].push(org);
-        }
         $.ajax({
             type: 'POST',
             url: "<c:out value='${url}' /><c:url value='/' />filter",

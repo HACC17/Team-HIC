@@ -18,15 +18,6 @@ function getFilters() {
             filters["filterValues"].push($(this).val());
         }
     });
-    filters["filters"].push("fiscal-gte");
-    filters["filterValues"].push($("#fiscal-year-start").val());
-    filters["filters"].push("fiscal-lte");
-    filters["filterValues"].push($("#fiscal-year-end").val());
-    var org = $("#organization").val();
-    if (org.length) {
-        filters["filters"].push("organization");
-        filters["filterValues"].push(org);
-    }
     return filters;
 }
 

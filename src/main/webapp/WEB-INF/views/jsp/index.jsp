@@ -125,17 +125,18 @@
                                             <input type="number" min="2013" max="2016" value="2016" class="filter form-control" id="fiscal-year-end" data-key="fiscal-lte">
                                         </div>
                                     </div>
+                                    <a href="javascript:void(0)" class="clear-filter" onclick="resetDates();"><i class="fa fa-check"></i>clear filter</a>
                                 </fieldset>
                                 <script type="text/javascript">
                                     $(document).ready(function() {
-                                        $("#fiscal-year-start").change(function(event) {
+                                        $("#fiscal-year-start").on("change keyup", function(event) {
                                             if (parseInt($(this).val()) > parseInt($("#fiscal-year-end").val())) {
                                                 $(this).val($("#fiscal-year-end").val());
                                             } else {
                                                 update();
                                             }
                                         });
-                                        $("#fiscal-year-end").change(function(event) {
+                                        $("#fiscal-year-end").on("change keyup", function(event) {
                                             if (parseInt($(this).val()) < parseInt($("#fiscal-year-start").val())) {
                                                 $(this).val($("#fiscal-year-start").val());
                                             } else {
@@ -166,6 +167,24 @@
                                     </div>
                                     <a href="javascript:void(0)" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
                                 </fieldset>
+                                <script type="text/javascript">
+                                    $(document).ready(function() {
+                                        $("#min-amount").on("change keyup", function(event) {
+                                            if (parseInt($(this).val()) > parseInt($("#max-amount").val())) {
+                                                $(this).val($("#max-amount").val());
+                                            } else {
+                                                update();
+                                            }
+                                        });
+                                        $("#max-amount").on("change keyup", function(event) {
+                                            if (parseInt($(this).val()) < parseInt($("#min-amount").val())) {
+                                                $(this).val($("#min-amount").val());
+                                            } else {
+                                                update();
+                                            }
+                                        });
+                                    });
+                                </script>
                             </div>
                         </div>
                         <div class="filter-group">
@@ -183,6 +202,24 @@
                                             <input type="number" min="0" max="10000000" value="100000" class="filter form-control" id="max-total" data-key="total-lte">
                                         </div>
                                     </fieldset>
+                                    <script type="text/javascript">
+                                        $(document).ready(function() {
+                                            $("#min-total").on("change keyup", function(event) {
+                                                if (parseInt($(this).val()) > parseInt($("#max-total").val())) {
+                                                    $(this).val($("#max-total").val());
+                                                } else {
+                                                    update();
+                                                }
+                                            });
+                                            $("#max-total").on("change keyup", function(event) {
+                                                if (parseInt($(this).val()) < parseInt($("#min-total").val())) {
+                                                    $(this).val($("#min-total").val());
+                                                } else {
+                                                    update();
+                                                }
+                                            });
+                                        });
+                                    </script>
                                     <label for="min-hawaiians">Native Hawaiians</label>
                                     <fieldset>
                                         <div class="form-group">
@@ -195,6 +232,24 @@
                                         </div>
                                     </fieldset>
                                     <a href="javascript:void(0)" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
+                                    <script type="text/javascript">
+                                        $(document).ready(function() {
+                                            $("#min-hawaiians").on("change keyup", function(event) {
+                                                if (parseInt($(this).val()) > parseInt($("#max-hawaiians").val())) {
+                                                    $(this).val($("#max-hawaiians").val());
+                                                } else {
+                                                    update();
+                                                }
+                                            });
+                                            $("#max-hawaiians").on("change keyup", function(event) {
+                                                if (parseInt($(this).val()) < parseInt($("#min-hawaiians").val())) {
+                                                    $(this).val($("#min-hawaiians").val());
+                                                } else {
+                                                    update();
+                                                }
+                                            });
+                                        });
+                                    </script>
                                 </fieldset>
                             </div>
                         </div>
