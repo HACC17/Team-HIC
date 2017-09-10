@@ -28,7 +28,7 @@
                                 <fieldset>
                                     <c:forEach var="priority" items="${priorities}">
                                         <label class="form-check-label">
-                                            <input class="form-check-input filter" type="checkbox" value="${priority}" onchange="updateTable();" data-key="priority" data-chart-title="Strategic Priorities">
+                                            <input class="form-check-input filter" type="checkbox" value="${priority}" onchange="updateTable();" data-key="priority" data-chart-title="Strategic Priority">
                                             <c:out value="${priority}" />
                                         </label>
                                     </c:forEach>
@@ -42,7 +42,7 @@
                                 <fieldset>
                                     <c:forEach var="result" items="${results}">
                                         <label class="form-check-label">
-                                            <input class="form-check-input filter" type="checkbox" value="${result}" onchange="updateTable();" data-key="result" data-chart-title="Strategic Results">
+                                            <input class="form-check-input filter" type="checkbox" value="${result}" onchange="updateTable();" data-key="result" data-chart-title="Strategic Result">
                                             <c:out value="${result}" />
                                         </label>
                                     </c:forEach>
@@ -56,7 +56,7 @@
                                 <fieldset>
                                     <c:forEach var="type" items="${types}">
                                         <label class="form-check-label">
-                                            <input class="form-check-input filter" type="checkbox" value="${type}" onchange="updateTable();" data-key="type" data-chart-title="Grant Types">
+                                            <input class="form-check-input filter" type="checkbox" value="${type}" onchange="updateTable();" data-key="type" data-chart-title="Grant Type">
                                             <c:out value="${type}" />
                                         </label>
                                     </c:forEach>
@@ -70,7 +70,7 @@
                                 <fieldset>
                                     <c:forEach var="location" items="${locations}">
                                         <label class="form-check-label">
-                                            <input class="form-check-input filter" type="checkbox" value="${location}" onchange="updateTable();" data-key="location">
+                                            <input class="form-check-input filter" type="checkbox" value="${location}" onchange="updateTable();" data-key="location" data-chart-title="Location">
                                             <c:out value="${location}" />
                                         </label>
                                     </c:forEach>
@@ -82,7 +82,7 @@
                             <label class="fieldset-label" data-toggle="collapse" data-target="#toggle-organization"><i class="fa fa-home"></i>Organization<i class="toggle-icon fa fa-angle-left"></i></label>
                             <div id="toggle-organization" class="collapse">
                                 <fieldset>
-                                    <select id="organization" class="filter form-control" onchange="updateTable();" data-key="organization">
+                                    <select id="organization" class="filter form-control" onchange="updateTable();" data-key="organization" data-chart-title="Organization">
                                         <option value="">All</option>
                                         <c:forEach var="organization" items="${organizations}">
                                             <option value="${organization}">
@@ -99,7 +99,7 @@
                                 <fieldset>
                                     <c:forEach var="status" items="${statuses}">
                                         <label class="form-check-label">
-                                            <input class="form-check-input filter" type="checkbox" value="${status}" onchange="updateTable();" data-key="status">
+                                            <input class="form-check-input filter" type="checkbox" value="${status}" onchange="updateTable();" data-key="status" data-chart-title="Grant Status">
                                             <c:out value="${status}" />
                                         </label>
                                     </c:forEach>
@@ -199,6 +199,18 @@
                             <div id="type-pie-chart" class="width: 100%; height: 100%"></div>
                             <canvas id="type-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="type-pie-chart-base64" value="" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div id="location-pie-chart" class="width: 100%; height: 100%"></div>
+                            <canvas id="location-pie-chart-canvas" style="display: none"></canvas>
+                            <input type="hidden" id="location-pie-chart-base64" value="" />
+                        </div>
+                        <div class="col-md-4">
+                            <div id="status-pie-chart" class="width: 100%; height: 100%"></div>
+                            <canvas id="status-pie-chart-canvas" style="display: none"></canvas>
+                            <input type="hidden" id="status-pie-chart-base64" value="" />
                         </div>
                     </div>
                 </div>

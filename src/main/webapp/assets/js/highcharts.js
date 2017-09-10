@@ -60,6 +60,11 @@ function drawChart(key, title, map) {
                     borderWidth: 1,
                     backgroundColor: null
                 },
+                colors: [
+                    '#7CB5EC', '#434348', '#90ED7D', '#F7A35C', '#8085E9',
+                    '#F15C80', '#E4D354', '#2B908F', '#F45B5B', '#91E8E1',
+                    '#FF0000', '#FF8000', '#00FF00', '#0000FF', '#BF00FF'
+                ],
                 title: {
                     text: title
                 },
@@ -103,7 +108,7 @@ $(document).ready(function() {
 
     var baseUrl = localStorage.getItem('request');
 
-    var keys = ['priority', 'result', 'type'];
+    var keys = ['priority', 'result', 'type', 'location', 'status'];
 
     $.each(keys, function(index, value) {
         $("input[data-key='" + value + "']").change(function() {
