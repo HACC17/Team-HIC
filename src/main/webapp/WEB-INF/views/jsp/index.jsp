@@ -201,6 +201,21 @@
                         <div class="filter-group">
                             <button id="clear" class="btn btn-primary">Clear Filters</button>
                         </div>
+                        <div class="filter-group">
+                            <label class="fieldset-label" data-toggle="collapse" data-target="#toggle-chart-settings"><i class="fa fa-pie-chart"></i>Chart Settings<i class="toggle-icon fa fa-angle-left"></i></label>
+                            <div id="toggle-chart-settings" class="collapse">
+                                <fieldset>
+                                    <div class="form-group">
+                                        <label for="datatype">Data to display</label>
+                                        <select id="datatype" onchange="update();" class="form-control">
+                                            <option value="AMOUNT" selected>Amount</option>
+                                            <option value="TOTAL_NUMBER_SERVED">Total Number of People Served</option>
+                                            <option value="NUMBER_NATIVE_HAWAIIANS_SERVED">Number of Native Hawaiians Served</option>
+                                        </select>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -279,9 +294,13 @@
                         $(this).val("");
                     }
                 });
+                $("#organization").val("");
                 $("#fiscal-year-start").val("2013");
                 $("#fiscal-year-end").val("2016");
-                $("#organization").val("");
+                $("#min-total").val("0");
+                $("#max-total").val("100000");
+                $("#min-hawaiians").val("0");
+                $("#max-hawaiians").val("100000");
                 update();
             });
             $(".clear-filter").click(function() {

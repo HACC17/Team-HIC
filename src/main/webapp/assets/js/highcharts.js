@@ -50,6 +50,11 @@ function drawChart(key, title, map) {
             });
             var format = '{point.name}: ${point.y}';
             var pointY = '${point.y}'
+            if ($("#datatype").val() == "TOTAL_NUMBER_SERVED") {
+                pointY = '{point.y} people'
+            } else if ($("#datatype").val() == "NUMBER_NATIVE_HAWAIIANS_SERVED") {
+                pointY = '{point.y} Native Hawaiians';
+            }
             var isFiscal = true;
             // Create the chart
             var chart = Highcharts.chart(key + '-pie-chart', {
@@ -112,7 +117,7 @@ $(document).ready(function() {
     $.each(keys, function(index, value) {
         $("input[data-key='" + value + "']").change(function() {
             var map = {};
-            map["aggregateField"] = "AMOUNT";
+            map["aggregateField"] = $("#datatype").val();
             map["filters"] = getFilters();
 
             $.each(keys, function(i, v) {
