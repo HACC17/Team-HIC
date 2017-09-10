@@ -289,10 +289,10 @@
                                             <div class="input-group-addon"><i class="fa fa-line-chart"></i></div>
                                             <select id="drilldown-result" class="form-control" data-key="result" data-chart-title="Strategic Result">
                                                 <option value="">&lt;None&gt;</option>
-                                                <option value="priority">Strategic Priority</option>
+                                                <option value="priority" selected>Strategic Priority</option>
                                                 <option value="type">Grant Type</option>
                                                 <option value="location">Location</option>
-                                                <option value="status" selected>Grant Status</option>
+                                                <option value="status">Grant Status</option>
                                             </select>
                                         </div>
                                     </div>
@@ -326,9 +326,9 @@
                                             <select id="drilldown-status" class="form-control" data-key="status" data-chart-title="Grant Status">
                                                 <option value="">&lt;None&gt;</option>
                                                 <option value="priority">Strategic Priority</option>
-                                                <option value="result">Strategic Results</option>
+                                                <option value="result" selected>Strategic Results</option>
                                                 <option value="type">Grant Type</option>
-                                                <option value="location" selected>Location</option>
+                                                <option value="location">Location</option>
                                             </select>
                                         </div>
                                     </div>

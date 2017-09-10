@@ -32,14 +32,34 @@ function drawChart(key, title, map) {
         },
         success: function(response) {
             var json = JSON.parse(response);
-            console.log(json);
+
             var data = [];
             $.each(json["totals"], function(key, value) {
                 var map = {};
                 map["name"] = key;
                 map["y"] = value;
+                map["drilldown"] = key;
                 data.push(map);
             });
+
+            var drilldown = [];
+            $.each(json, function(key, value) {
+                if (key != "totals") {
+                    var map = {};
+                    map["name"] = key;
+                    map["id"] = key;
+                    var data = [];
+                    $.each(value, function(key2, value2) {
+                        var point = [];
+                        point.push(key2);
+                        point.push(value2);
+                        data.push(point);
+                    });
+                    map["data"] = data;
+                    drilldown.push(map);
+                }
+            });
+
             var format = '{point.name}: ${point.y}';
             var pointY = '${point.y}'
             if ($("#datatype").val() == "TOTAL_NUMBER_SERVED") {
@@ -47,7 +67,7 @@ function drawChart(key, title, map) {
             } else if ($("#datatype").val() == "NUMBER_NATIVE_HAWAIIANS_SERVED") {
                 pointY = '{point.y} Native Hawaiians';
             }
-            var isFiscal = true;
+
             // Create the chart
             var chart = Highcharts.chart(key + '-pie-chart', {
                 chart: {
@@ -82,7 +102,10 @@ function drawChart(key, title, map) {
                     name: title,
                     colorByPoint: true,
                     data: data
-                }]
+                }],
+                drilldown: {
+                    series: drilldown
+                },
             });
 
             canvg(document.getElementById(key + "-pie-chart-canvas"), chart.getSVG());
@@ -116,10 +139,10 @@ $(document).ready(function() {
                 var map = {};
                 map["aggregateField"] = $("#datatype").val();
                 map["filters"] = getFilters();
-                map["drilldown"] = $("#drilldown-" + value).val();
 
                 $.each(keys, function(i, v) {
                     var element = $("input[data-key='" + v + "']").first();
+                    map["drilldown"] = $("#drilldown-" + element.data("key")).val();
                     map["groupBy"] = element.data("key");
                     drawChart(element.data("key"), element.data("chart-title"), map);
                 });

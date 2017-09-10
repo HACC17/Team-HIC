@@ -223,20 +223,19 @@ public class GrantsServiceImpl implements GrantsService {
     parameters = getTableAndColumnForQuery(drilldown);
     String drilldownTable = parameters[0];
     String drilldownColumn = parameters[1];
-    String drilldownFkColumn = parameters[2];
 
-    String drilldownStmt = "SELECT T." + tColumn + ", SUM(G." + aggregateField + ") ";
+    String drilldownStmt = "SELECT D." + drilldownColumn + ", SUM(G." + aggregateField + ") ";
     drilldownStmt += "FROM GRANTS G, " + tTable + " T, " + drilldownTable + " D ";
-    drilldownStmt += "WHERE G." + fkColumn + " = T.ID AND G." + drilldownFkColumn + " = D.ID ";
-    drilldownStmt += "AND D." + drilldownColumn + " = ? AND";
+    drilldownStmt += "WHERE G." + parameters[2] + " = D.ID ";
+    drilldownStmt += "AND T." + tColumn + " = ? AND";
     drilldownStmt += filter.replace(" WHERE ", " ");
-    drilldownStmt += "GROUP BY " + tColumn + ", " + drilldownColumn;
+    drilldownStmt += " GROUP BY " + drilldownColumn;
 
     LOGGER.info("SQL Statement: " + drilldownStmt);
 
     filteredSpec = new FilteredSpecification(null, drilldownStmt,
         arguments.toArray(new Object[arguments.size()]));
-    filteredSpec.setColSpec(new ColumnSpecification(drilldownTable, drilldownColumn));
+    filteredSpec.setColSpec(new ColumnSpecification(tTable, tColumn));
     data.putAll(repository.findAggregateData(filteredSpec));
     return data;
   }
