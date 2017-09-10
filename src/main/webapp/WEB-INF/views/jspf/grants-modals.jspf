@@ -153,6 +153,17 @@
                     "deferRender": true,
                 });
                 $("#modals").empty();
+
+                var priorities = new Set();
+                var results = new Set();
+                var types = new Set();
+                var locations = new Set();
+                var orgs = new Set();
+                var projects = new Set();
+                var count = 0;
+                var hawaiians = 0;
+                var totalServed = 0;
+                var totalAmount = 0;
                 $.each(json, function(index, object) {
                     var html = '<div class="modal fade" id="grantModal' + json[index].id + '" tabindex="-1" role="dialog">';
                     html = html + '<div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header">';
@@ -169,7 +180,30 @@
                     html = html + '<dt>Number of Native<br />Hawaiians Served</dt><dd>' + json[index].numberNativeHawaiiansServed + '</dd>';
                     html = html + '</dl></div><div class="modal-footer"><button type="button" class="btn btn-primary" data-dismiss="modal">Close</button></div></div></div></div>'
                     $("#modals").append(html);
+
+                    priorities.add(json[index].strategicPriority);
+                    results.add(json[index].strategicResults);
+                    types.add(json[index].grantType);
+                    locations.add(json[index].location);
+                    orgs.add(json[index].organization);
+                    projects.add(json[index].project);
+                    count++;
+                    hawaiians += parseInt(json[index].numberNativeHawaiiansServed);
+                    totalServed += parseInt(json[index].totalNumberServed);
+                    totalAmount += parseInt(json[index].amount);
                 });
+                $("#priority-count").html(accounting.formatNumber(priorities.size));
+                $("#results-count").html(accounting.formatNumber(results.size));
+                $("#type-count").html(accounting.formatNumber(types.size));
+                $("#location-count").html(accounting.formatNumber(locations.size));
+                $("#organization-count").html(accounting.formatNumber(orgs.size));
+                $("#project-count").html(accounting.formatNumber(projects.size));
+                $("#fiscal-year-card").html($("#fiscal-year-start").val() + " - " + $("#fiscal-year-end").val());
+                $("#grant-count").html(accounting.formatNumber(count));
+                $("#hawaiians-count").html(accounting.formatNumber(hawaiians));
+                $("#total-number-count").html(accounting.formatNumber(totalServed));
+                $("#total-amount").html(accounting.formatMoney(totalAmount));
+
                 removeSortingArrows();
             }
         });
