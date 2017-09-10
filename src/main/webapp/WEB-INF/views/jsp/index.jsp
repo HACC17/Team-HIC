@@ -199,6 +199,12 @@
         </div>
     </div>
     <!-- .wrapper -->
+    <c:set var="req" value="${pageContext.request}" />
+    <c:set var="url" value="${req.scheme}://${req.serverName}:${req.serverPort}" />
+    <script type="text/javascript">
+        localStorage.setItem("appUrl", "<c:out value='${url}' /><c:url value='/' />");
+        localStorage.setItem("csrf.token", "<c:out value='${_csrf.token}' />");
+    </script>
     <%@ include file="/WEB-INF/views/jspf/grants-modals.jspf" %>
     <%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
 </body>

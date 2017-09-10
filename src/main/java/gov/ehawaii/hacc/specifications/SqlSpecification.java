@@ -37,4 +37,24 @@ public interface SqlSpecification extends Specification {
    */
   String toSqlClause();
 
+  /**
+   * Implementations of this interface should override this method to return an array of values for
+   * a filter.
+   * 
+   * @return An empty array of filter values.
+   */
+  default Object[] getFilterValues() {
+    return new Object[0];
+  }
+
+  /**
+   * Implementations of this interface should override this method to return a
+   * {@link ColumnSpecification} if required.
+   * 
+   * @return Default is <code>null</code>.
+   */
+  default ColumnSpecification getColSpec() {
+    return null;
+  }
+
 }

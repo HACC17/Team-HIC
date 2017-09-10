@@ -28,7 +28,6 @@ import gov.ehawaii.hacc.specifications.Specification;
 import gov.ehawaii.hacc.specifications.SqlSpecification;
 import gov.ehawaii.hacc.specifications.TimeSeriesSpecification;
 import gov.ehawaii.hacc.specifications.TopNSpecification;
-import gov.ehawaii.hacc.specifications.TotalsSpecification;
 
 /**
  * This repository interacts with an SQL database to store or retrieve information about grants.
@@ -109,7 +108,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
         String.format(SqlStatements.GET_ALL_GRANTS, filteredSpecification.getTable());
     selectStmt = selectStmt + filteredSpecification.toSqlClause();
     List<Grant> grants =
-        getJdbcTemplate().query(selectStmt, rowMapper, filteredSpecification.getArguments());
+        getJdbcTemplate().query(selectStmt, rowMapper, filteredSpecification.getFilterValues());
 
     LOGGER.info("Found " + grants.size() + " grant(s).");
     return grants;
@@ -175,7 +174,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
 
   @Override
   public final Map<String, Map<String, Long>> findAggregateData(final Specification specification) {
-    TotalsSpecification totalsSpecification = (TotalsSpecification) specification;
+    SqlSpecification totalsSpecification = (SqlSpecification) specification;
 
     Map<String, Map<String, Long>> data = new HashMap<>();
 

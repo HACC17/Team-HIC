@@ -27,14 +27,8 @@ public final class SqlStatements {
 
   public static final String GET_TOP_N_DATA = "SELECT %s, SUM(%s) FROM GRANTS";
 
-  public static final String GET_TOTAL_FOR_EACH_LOCATION =
-      "SELECT L.LOCATION, SUM(G.%s) FROM GRANTS G, LOCATIONS L "
-          + "WHERE G.LOCATION_ID = L.ID AND %s GROUP BY LOCATION_ID";
-
-  public static final String GET_ALL_DATA_FOR_LOCATION =
-      "SELECT GRANT_TYPE, SUM(G.%s) FROM GRANTS G, GRANT_TYPES T, LOCATIONS L "
-          + "WHERE G.GRANT_TYPE_ID = T.ID AND G.LOCATION_ID = L.ID AND LOCATION = ? AND %s "
-          + "GROUP BY GRANT_TYPE";
+  public static final String GET_TOTALS_GENERIC =
+      "SELECT T.xxx, SUM(G.yyy) FROM GRANTS G, zzz T aaa GROUP BY xxx";
 
   public static final String GET_TOP_N_ORGANIZATIONS_FOR_EACH_LOCATION =
       "SELECT O.ORGANIZATION, SUM(G.%s) FROM GRANTS G, LOCATIONS L, ORGANIZATIONS O "

@@ -1,6 +1,7 @@
 package gov.ehawaii.hacc.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -19,6 +20,7 @@ import gov.ehawaii.hacc.service.GrantsService;
 import gov.ehawaii.hacc.specifications.ColumnSpecification;
 import gov.ehawaii.hacc.specifications.FilteredSpecification;
 import gov.ehawaii.hacc.specifications.IdSpecification;
+import gov.ehawaii.hacc.specifications.Specification;
 import gov.ehawaii.hacc.specifications.TimeSeriesSpecification;
 import gov.ehawaii.hacc.specifications.TopNFiscalYearSpecification;
 import gov.ehawaii.hacc.specifications.TopNSpecification;
@@ -47,8 +49,15 @@ public class GrantsServiceImpl implements GrantsService {
 
   @Override
   public final List<Grant> getGrants(final Map<String, Object> filters) {
-    StringBuffer buffer = new StringBuffer();
     List<Object> arguments = new ArrayList<>();
+    String filter = getFilter(filters, arguments);
+    Object[] filterValues = arguments.toArray(new Object[arguments.size()]);
+
+    return repository.findGrants(new FilteredSpecification(Tables.GRANTS, filter, filterValues));
+  }
+
+  private String getFilter(final Map<String, Object> filters, final List<Object> arguments) {
+    StringBuffer buffer = new StringBuffer();
 
     for (Entry<String, Object> entry : filters.entrySet()) {
       String key = entry.getKey();
@@ -80,9 +89,7 @@ public class GrantsServiceImpl implements GrantsService {
     filter = filter.substring(0, filter.lastIndexOf(")") + 1);
     filter = (filter.contains("?") ? " WHERE " : "") + filter;
     LOGGER.info("Filter: " + filter);
-    Object[] filterValues = arguments.toArray(new Object[arguments.size()]);
-
-    return repository.findGrants(new FilteredSpecification(Tables.GRANTS, filter, filterValues));
+    return filter;
   }
 
   /**
@@ -158,19 +165,61 @@ public class GrantsServiceImpl implements GrantsService {
             organization, SqlStatements.GET_AGGREGATE_DATA_FOR_ORGANIZATION, field));
   }
 
+  @SuppressWarnings("unchecked")
   @Override
-  public final Map<String, Map<String, Long>> getAggregateDataForEachLocation(
-      final String aggregateField, final String filter, final String filterValue) {
-    TotalsSpecification totalsSpecification =
-        new TotalsSpecification(SqlStatements.GET_TOTAL_FOR_EACH_LOCATION, aggregateField,
-            new String[] { filter }, new Object[] { filterValue });
-    Map<String, Map<String, Long>> data = repository.findAggregateData(totalsSpecification);
+  public final Map<String, Map<String, Long>> getAggregateData(final String name,
+      final String aggregateField, final Map<String, Object> filtersMap) {
+    String[] parameters = getTableAndColumnForQuery(name);
+    String stmt = SqlStatements.GET_TOTALS_GENERIC.replace("xxx", parameters[1])
+        .replace("yyy", aggregateField).replace("zzz", parameters[0]);
+    LOGGER.info("SQL Statement: " + stmt);
 
-    totalsSpecification = new TotalsSpecification(SqlStatements.GET_ALL_DATA_FOR_LOCATION,
-        aggregateField, new String[] { filter }, new Object[] { filterValue });
-    totalsSpecification.setColSpec(new ColumnSpecification(Tables.LOCATIONS, Columns.LOCATION));
-    data.putAll(repository.findAggregateData(totalsSpecification));
-    return data;
+    List<String> filtersList = (ArrayList<String>) filtersMap.get("filters");
+    String[] filtersArray = filtersList.toArray(new String[filtersList.size()]);
+
+    List<Object> filterValuesList = (ArrayList<Object>) filtersMap.get("filterValues");
+
+    Map<String, Object> tempFiltersMap = new HashMap<>();
+    int index = 0;
+    for (String filter : filtersArray) {
+      List<String> list = (List<String>) tempFiltersMap.get(filter);
+      if (list == null) {
+        list = new ArrayList<>();
+        tempFiltersMap.put(filter, list);
+      }
+      list.add(filterValuesList.get(index++).toString());
+    }
+
+    List<Object> arguments = new ArrayList<>();
+    String filter = getFilter(tempFiltersMap, arguments);
+    stmt = stmt.replace("aaa", filter);
+    LOGGER.info("SQL Statement: " + stmt);
+
+    FilteredSpecification totalsSpecification =
+        new FilteredSpecification(null, stmt, arguments.toArray(new Object[arguments.size()]));
+    return repository.findAggregateData(totalsSpecification);
+  }
+
+  private static String[] getTableAndColumnForQuery(final String key) {
+    String filter = Filters.FILTERS_MAP.get(key);
+    switch (filter) {
+    case Filters.GRANT_STATUS_ID_FILTER:
+      return new String[] { Tables.GRANT_STATUSES, Columns.GRANT_STATUS };
+    case Filters.GRANT_TYPE_ID_FILTER:
+      return new String[] { Tables.GRANT_TYPES, Columns.GRANT_TYPE };
+    case Filters.ORGANIZATION_ID_FILTER:
+      return new String[] { Tables.ORGANIZATIONS, Columns.ORGANIZATION };
+    case Filters.PROJECT_ID_FILTER:
+      return new String[] { Tables.PROJECTS, Columns.PROJECT };
+    case Filters.LOCATION_ID_FILTER:
+      return new String[] { Tables.LOCATIONS, Columns.LOCATION };
+    case Filters.STRATEGIC_PRIORITY_ID_FILTER:
+      return new String[] { Tables.STRATEGIC_PRIORITIES, Columns.STRATEGIC_PRIORITY };
+    case Filters.STRATEGIC_RESULTS_ID_FILTER:
+      return new String[] { Tables.STRATEGIC_RESULTS, Columns.STRATEGIC_RESULT };
+    default:
+      throw new IllegalArgumentException(filter + " filter not supported, yet.");
+    }
   }
 
   @Override

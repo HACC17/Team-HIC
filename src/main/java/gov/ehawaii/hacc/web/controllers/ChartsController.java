@@ -4,11 +4,15 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.ehawaii.hacc.service.GrantsService;
 
@@ -23,6 +27,8 @@ import gov.ehawaii.hacc.service.GrantsService;
 @Controller
 @RequestMapping("/charts")
 public class ChartsController {
+
+  private static final Logger LOGGER = LogManager.getLogger(MainController.class);
 
   @Autowired
   private GrantsService grantsService;
@@ -79,20 +85,23 @@ public class ChartsController {
   /**
    * This method returns aggregate data for all locations.
    * 
-   * @param aggregateField The type of data on which to aggregate.
-   * @param filter Condition that must be fulfilled.
-   * @param filterValue The value for the filter.
+   * @param json
    * @param response The server response.
    * @throws IOException If there are problems sending the data back to the client.
    */
-  @RequestMapping(value = "/locations", method = RequestMethod.GET)
-  public final void getDataForEachLocation(
-      @RequestParam("aggregateField") final String aggregateField,
-      @RequestParam("filter") final String filter,
-      @RequestParam("filterValue") final String filterValue, final HttpServletResponse response)
+  @RequestMapping(value = "/totals", method = RequestMethod.POST)
+  public final void getTotals(@RequestBody final String json, final HttpServletResponse response)
       throws IOException {
-    response.getWriter().write(new ObjectMapper().writeValueAsString(
-        grantsService.getAggregateDataForEachLocation(aggregateField, filter, filterValue)));
+    LOGGER.info("JSON: " + json);
+    Map<String, Object> parameters =
+        new ObjectMapper().readValue(json, new TypeReference<Map<String, Object>>() {
+        });
+    String aggregateField = parameters.get("aggregateField").toString();
+    String groupBy = parameters.get("groupBy").toString();
+    @SuppressWarnings("unchecked")
+    Map<String, Object> filters = (Map<String, Object>) parameters.get("filters");
+    response.getWriter().write(new ObjectMapper()
+        .writeValueAsString(grantsService.getAggregateData(groupBy, aggregateField, filters)));
   }
 
   /**

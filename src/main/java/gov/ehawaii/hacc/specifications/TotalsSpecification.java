@@ -1,5 +1,7 @@
 package gov.ehawaii.hacc.specifications;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import gov.ehawaii.hacc.repositories.impl.Filters;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -14,6 +16,8 @@ import lombok.Setter;
  */
 @Getter
 public class TotalsSpecification implements SqlSpecification {
+
+  private static final Logger LOGGER = LogManager.getLogger(TotalsSpecification.class);
 
   private final String totalsQuery;
   private final String sumColumn;
@@ -77,11 +81,13 @@ public class TotalsSpecification implements SqlSpecification {
     StringBuffer buffer = new StringBuffer();
     for (String filter : filters) {
       buffer.append(Filters.FILTERS_MAP.get(filter));
-      buffer.append(" AND ");
+      buffer.append("AND ");
     }
     String filter = buffer.toString().trim();
     int idx = filter.lastIndexOf(" AND");
-    return filter.substring(0, idx < 0 ? filter.length() : idx);
+    filter = filter.substring(0, idx < 0 ? filter.length() : idx);
+    LOGGER.info("Filter: " + filter);
+    return filter;
   }
 
 }

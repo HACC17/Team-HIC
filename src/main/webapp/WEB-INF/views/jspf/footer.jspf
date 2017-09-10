@@ -31,7 +31,7 @@
             $(this).prev().find(".toggle-icon").removeClass("fa-angle-left").addClass("fa-angle-down");
         });
         
-        //The reverse of the above on hidden event:
+        // The reverse of the above onhidden event:
         
         $('.collapse').on('hidden.bs.collapse', function () {
             $(this).prev().find(".toggle-icon").removeClass("fa-angle-down").addClass("fa-angle-left");
@@ -50,4 +50,5 @@
           }
         });
     </script>
+    <script src="assets/js/highcharts.js" type="text/javascript"></script>
 </footer>

@@ -1,3 +1,36 @@
+function getFilters() {
+    var filters = {};
+    $(".filter").each(function() {
+        if ($(this).is(':checkbox')) {
+            if ($(this).is(':checked')) {
+                var array = filters["filters"];
+                if (array == null) {
+                    filters["filters"] = [];
+                }
+                filters["filters"].push($(this).data("key"));
+                var array = filters["filterValues"];
+                if (array == null) {
+                    filters["filterValues"] = [];
+                }
+                filters["filterValues"].push($(this).val());
+            }
+        }
+        else if ($(this).val() != null && $(this).val() != '') {
+            var array = filters["filters"];
+            if (array == null) {
+                filters["filters"] = [];
+            }
+            filters["filters"].push($(this).data("key"));
+            var array = filters["filterValues"];
+            if (array == null) {
+                filters["filterValues"] = [];
+            }
+            filters["filterValues"].push($(this).val());
+        }
+    });
+    return filters;
+}
+
 $(document).ready(function() {
 
     Highcharts.setOptions({
@@ -8,11 +41,26 @@ $(document).ready(function() {
 
     var baseUrl = localStorage.getItem('request');
 
-    $("#fiscalYearSelect2, #drilldownField").change(function() {
-        var fiscalYear = $("#fiscalYearSelect2").val();
-        var field = $("#drilldownField").val();
+    $("input[data-key='priority']").change(function() {
+        var map = {};
+        map["aggregateField"] = "AMOUNT";
+        map["filters"] = getFilters();
+        map["groupBy"] = $(this).data("key");
 
-        $.get(baseUrl + "charts/locations?year=" + fiscalYear + "&field=" + field, function(data, status) {
+        $.ajax({
+            type: 'POST',
+            url: localStorage.getItem("appUrl") + "charts/totals",
+            data: JSON.stringify(map),
+            contentType: 'application/json',
+            headers: {
+                'X-CSRF-TOKEN': localStorage.getItem("csrf.token")
+            },
+            success: function(response) {
+              console.log(response);
+            }
+        });
+
+/*        $.get(baseUrl + "charts/totals?aggregateField=AMOUNT&filter=" + field, function(data, status) {
             var json = JSON.parse(data);
 
             var series = [];
@@ -101,9 +149,7 @@ $(document).ready(function() {
             var img = canvas.toDataURL("image/png");
             $("#locations-pie-chart-base64").val(img.substring(img.indexOf(',') + 1));
 
-        });
+        });*/
     });
-
-    $("#fiscalYearSelect2").trigger("change");
 
 });

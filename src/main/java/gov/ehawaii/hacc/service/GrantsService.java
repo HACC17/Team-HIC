@@ -57,15 +57,15 @@ public interface GrantsService {
   List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field);
 
   /**
-   * Returns aggregate data for each location stored in the repository.
+   * Returns aggregate data.
    * 
+   * @param name Organization, project, location, etc.
    * @param aggregateField The type of data on which to aggregate.
-   * @param filter The condition used to filter out data.
-   * @param filterValue The value of the given condition.
-   * @return A map of aggregate data for each location.
+   * @param filters A map of filters whose conditions each grant must satisfy.
+   * @return A map of aggregate data.
    */
-  Map<String, Map<String, Long>> getAggregateDataForEachLocation(String aggregateField,
-      String filter, String filterValue);
+  Map<String, Map<String, Long>> getAggregateData(String name, String aggregateField,
+      Map<String, Object> filters);
 
   /**
    * Returns the top N grants by the given criterion for each location stored in the repository.

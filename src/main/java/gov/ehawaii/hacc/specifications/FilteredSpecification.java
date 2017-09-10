@@ -13,19 +13,20 @@ public class FilteredSpecification implements SqlSpecification {
 
   private final String table;
   private final String filter;
-  private final Object[] arguments;
+  private final Object[] filterValues;
 
   /**
    * Creates a new {@link FilteredSpecification}.
    * 
    * @param table The name of the table to which to apply the filter.
    * @param filter The filter that will be used in a query.
-   * @param arguments The values for the filter.
+   * @param filterValues The values for the filter.
    */
-  public FilteredSpecification(final String table, final String filter, final Object[] arguments) {
+  public FilteredSpecification(final String table, final String filter,
+      final Object[] filterValues) {
     this.table = table;
     this.filter = filter;
-    this.arguments = arguments == null ? new String[0] : arguments.clone();
+    this.filterValues = filterValues == null ? new String[0] : filterValues.clone();
   }
 
   @Override
@@ -48,13 +49,9 @@ public class FilteredSpecification implements SqlSpecification {
     return filter;
   }
 
-  /**
-   * Returns an array of values for the filter.
-   * 
-   * @return An array of values for the filter.
-   */
-  public final Object[] getArguments() {
-    return arguments.clone();
+  @Override
+  public final Object[] getFilterValues() {
+    return filterValues.clone();
   }
 
 }
