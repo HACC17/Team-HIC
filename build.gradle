@@ -3,15 +3,15 @@ apply plugin: 'eclipse'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'war'
 apply plugin: 'findbugs'
-apply plugin: 'checkstyle'
+// apply plugin: 'checkstyle'
 
 repositories {
     mavenCentral()
 }
 
-checkstyle {
-    toolVersion = "5.9"
-}
+// checkstyle {
+    // toolVersion = "5.9"
+// }
 
 eclipse {
   wtp {
