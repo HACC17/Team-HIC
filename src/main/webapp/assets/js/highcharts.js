@@ -21,10 +21,12 @@ function getFilters() {
     return filters;
 }
 
+var baseUrl = localStorage.getItem("appUrl");
+
 function drawChart(key, title, map) {
     $.ajax({
         type: 'POST',
-        url: localStorage.getItem("appUrl") + "charts/totals",
+        url: baseUrl + "charts/totals",
         data: JSON.stringify(map),
         contentType: 'application/json',
         headers: {
@@ -114,6 +116,83 @@ function drawChart(key, title, map) {
             var img = canvas.toDataURL("image/png");
             $("#" + key + "-pie-chart-base64").val(img.substring(img.indexOf(',') + 1));
         }
+    });
+}
+
+function drawTop5OrganizationsBarChart(startYear, endYear) {
+    var field = $("#datatype").val();
+
+    $.get(baseUrl + "charts/fiscalYearTop?top=5&startYear=" + startYear + "&endYear=" + endYear + "&field="+ field, function(data, status) {
+        var json = JSON.parse(data);
+
+        var series = [];
+        $.each(json["totals"], function(i, val) {
+            var map = {};
+            map["name"] = i;
+            map["data"] = [ val ];
+            series.push(map);
+        });
+
+        var pointY = '${point.y}'
+        if ($("#datatype").val() == "TOTAL_NUMBER_SERVED") {
+            pointY = '{point.y} people'
+        } else if ($("#datatype").val() == "NUMBER_NATIVE_HAWAIIANS_SERVED") {
+            pointY = '{point.y} Native Hawaiians';
+        }
+
+        var label;
+        if (field == "AMOUNT") {
+            label = "Amount of Money";
+        } else if (field == "TOTAL_NUMBER_SERVED") {
+            label = "Total Number of People Served";
+        } else {
+            label = "Number of Native Hawaiians Served";
+        }
+
+        Highcharts.chart('top-5-orgs-chart', {
+            chart: {
+                type: 'column',
+                borderWidth: 1,
+                backgroundColor: null
+            },
+            title: {
+                text: 'Top 5 Organizations by ' + label + ' from ' + startYear + ' to ' + endYear
+            },
+            xAxis: {
+                categories: [ 'Organizations' ]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: label
+                },
+                stackLabels: {
+                    enabled: true,
+                    formatter: function() {
+                        if (field == "AMOUNT") {
+                            return "Total: " + accounting.formatMoney(this.total);
+                        } else if (field == "TOTAL_NUMBER_SERVED") {
+                            return "Total: " + accounting.formatNumber(this.total) + " people";
+                        } else {
+                            return "Total: " + accounting.formatNumber(this.total) + " Native Hawaiians";
+                        }
+                    }
+                }
+            },
+            legend: {
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{point.x}</span><br>',
+                pointFormat: '<span style="color:{point.color}">{series.name}</span>: <b>' + pointY + '</b><br/>'
+            },
+            series: series
+        });
     });
 }
 

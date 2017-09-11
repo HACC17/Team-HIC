@@ -472,6 +472,11 @@
                             <input type="hidden" id="status-pie-chart-base64" value="" />
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div id="top-5-orgs-chart" class="width: 100%; height: 100%"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <footer>
@@ -503,6 +508,7 @@
                 $.each(keys, function(index, value) {
                     $("input[data-key='" + value + "']").first().trigger("change");
                 });
+                drawTop5OrganizationsBarChart($("#fiscal-year-start").val(), $("#fiscal-year-end").val());
             }, 2000);
         }
 
@@ -540,7 +546,7 @@
                 });
                 update();
             });
-            $("#fiscal-year, #organization").change(function() {
+            $("#organization").change(function() {
                 update();
             });
             $.each(keys, function(index, value) {
@@ -553,6 +559,7 @@
                     drawChart($(this).data("key"), $(this).data("chart-title"), map);
                 });
             });
+            drawTop5OrganizationsBarChart($("#fiscal-year-start").val(), $("#fiscal-year-end").val());
         });
     </script>
     <%@ include file="/WEB-INF/views/jspf/grants-modals.jspf" %>

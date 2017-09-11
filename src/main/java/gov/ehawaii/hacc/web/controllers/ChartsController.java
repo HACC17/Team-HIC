@@ -108,20 +108,20 @@ public class ChartsController {
    * This method returns the top N data for the given location for the given fiscal year.
    * 
    * @param top N, a number greater than 0.
-   * @param year The fiscal year.
-   * @param location The location.
+   * @param startYear
+   * @param endYear
    * @param field The type of data to fetch.
    * @param response The server response.
    * @throws IOException If there are problems sending the data back to the client.
    */
   @RequestMapping(value = "/fiscalYearTop", method = RequestMethod.GET)
   public final void getTopNDataForEachLocation(@RequestParam("top") final String top,
-      @RequestParam("year") final String year, @RequestParam("location") final String location,
+      @RequestParam("startYear") final String startYear, @RequestParam("endYear") final String endYear,
       @RequestParam("field") final String field, final HttpServletResponse response)
       throws IOException {
     Map<String, String> filters = new HashMap<>();
-    filters.put("location", location);
-    filters.put("fiscal", year);
+    filters.put("fiscal-gte", startYear);
+    filters.put("fiscal-lte", endYear);
 
     response.getWriter().write(new ObjectMapper().writeValueAsString(
         grantsService.getTopNDataForEachLocation(Integer.parseInt(top), field, filters)));

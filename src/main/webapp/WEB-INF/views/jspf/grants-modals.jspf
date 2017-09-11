@@ -208,8 +208,4 @@
             }
         });
     }
-
-    $(document).ready(function() {
-        // updateTable();
-    });
 </script>
