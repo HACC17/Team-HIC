@@ -3,6 +3,7 @@ apply plugin: 'eclipse'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'war'
 apply plugin: 'findbugs'
+apply plugin: 'pmd'
 // apply plugin: 'checkstyle'
 
 repositories {
