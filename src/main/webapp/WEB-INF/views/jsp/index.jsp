@@ -14,7 +14,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">OHA Grants</a>
+                <a class="navbar-brand" href="<c:url value='/' />">OHA Grants</a>
             </div>
         </nav>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
