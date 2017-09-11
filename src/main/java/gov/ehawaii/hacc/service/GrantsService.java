@@ -41,7 +41,7 @@ public interface GrantsService {
    * Returns the top N organizations, projects, locations, etc. by the given field.
    * 
    * @param top N, a number greater than 0.
-   * @param name Organization, project, location, etc.
+   * @param name The label that will be associated with the aggregated field.
    * @param aggregateField The type of data on which to aggregate.
    * @return A list of grants of size N.
    */
@@ -59,9 +59,9 @@ public interface GrantsService {
   /**
    * Returns aggregate data.
    * 
-   * @param name Organization, project, location, etc.
+   * @param name The label that will be associated with the aggregated field.
    * @param aggregateField The type of data on which to aggregate.
-   * @param drilldown
+   * @param drilldown The data to retrieve that describes the aggregated field in detail.
    * @param filters A map of filters whose conditions each grant must satisfy.
    * @return A map of aggregate data.
    */
