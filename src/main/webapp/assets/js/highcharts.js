@@ -142,21 +142,21 @@ function drawTop5OrganizationsBarChart(startYear, endYear) {
 
         var label;
         if (field == "AMOUNT") {
-            label = "Amount of Money";
+            label = "Total Amount of Money";
         } else if (field == "TOTAL_NUMBER_SERVED") {
             label = "Total Number of People Served";
         } else {
-            label = "Number of Native Hawaiians Served";
+            label = "Total Number of Native Hawaiians Served";
         }
 
-        Highcharts.chart('top-5-orgs-chart', {
+        Highcharts.chart('top-5-orgs-column-chart', {
             chart: {
                 type: 'column',
                 borderWidth: 1,
                 backgroundColor: null
             },
             title: {
-                text: 'Top 5 Organizations by ' + label + ' from ' + startYear + ' to ' + endYear
+                text: 'Top 5 Organizations by ' + label
             },
             xAxis: {
                 categories: [ 'Organizations' ]
@@ -196,6 +196,101 @@ function drawTop5OrganizationsBarChart(startYear, endYear) {
     });
 }
 
+function drawTopOrganizationsSplineChart() {
+    var field = $("#datatype").val();
+    var topN = $("select#top-n-selector").val();
+
+    $.get(baseUrl + "charts/time?top=" + topN + "&field="+ field, function(data, status) {
+        var json = JSON.parse(data);
+
+        var series = [];
+        $.each(json, function(index, value) {
+            var map = {};
+            map["name"] = index;
+            map["marker"] = { symbol: 'square' };
+            var data = [];
+            var year = 2013;
+            $.each(value, function(i, v) {
+                $.each(v, function(i2, v2) {
+                    if (year == i2) {
+                        data.push(v2);
+                        year++;
+                    } else {
+                        do {
+                            data.push(0);
+                            year++;
+                        } while (year != i2);
+                        data.push(v2);
+                    }
+                });
+            });
+            map["data"] = data;
+            series.push(map);
+        });
+
+        var pointY = '${point.y}'
+        if ($("#datatype").val() == "TOTAL_NUMBER_SERVED") {
+            pointY = '{point.y} people'
+        } else if ($("#datatype").val() == "NUMBER_NATIVE_HAWAIIANS_SERVED") {
+            pointY = '{point.y} Native Hawaiians';
+        }
+
+        var label;
+        if (field == "AMOUNT") {
+            label = "Amount of Money";
+        } else if (field == "TOTAL_NUMBER_SERVED") {
+            label = "Total Number of People Served";
+        } else {
+            label = "Number of Native Hawaiians Served";
+        }
+
+        Highcharts.chart('top-5-orgs-spline-chart', {
+            chart: {
+                type: 'spline',
+                borderWidth: 1,
+                backgroundColor: null
+            },
+            title: {
+                text: 'Top ' + topN + ' Organizations by ' + label + ' from 2013 to 2016'
+            },
+            xAxis: {
+                categories: ['2013', '2014', '2015', '2016']
+            },
+            yAxis: {
+                title: {
+                    text: label
+                },
+                tickamount: 8,
+                labels: {
+                    formatter: function() {
+                        if (field == "AMOUNT") {
+                            return accounting.formatMoney(this.value);
+                        }
+                        return accounting.formatNumber(this.value);
+                    }
+                }
+            },
+            tooltip: {
+                crosshairs: true,
+                shared: true,
+                pointFormat: '<span style="color:{point.color}">{series.name}</span>: <b>' + pointY + '</b><br/>'
+            },
+            plotOptions: {
+                spline: {
+                    marker: {
+                        radius: 4,
+                        lineColor: '#666666',
+                        lineWidth: 1
+                    }
+                }
+            },
+            series: series
+        });
+
+    });
+
+}
+
 $(document).ready(function() {
 
     Highcharts.setOptions({
@@ -230,4 +325,6 @@ $(document).ready(function() {
 
         $("input[data-key='" + value + "']").first().trigger("change");
     });
+
+    drawTopOrganizationsSplineChart();
 });

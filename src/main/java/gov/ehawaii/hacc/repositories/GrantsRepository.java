@@ -59,7 +59,7 @@ public interface GrantsRepository {
    * @param specification Contains the query and aggregate field used to retrieve time series data.
    * @return A list containing time series data.
    */
-  List<Map<String, Long>> findTimeSeriesData(Specification specification);
+  Map<String, List<Map<String, Long>>> findTimeSeriesData(Specification specification);
 
   /**
    * Aggregates and returns all the data. Queries and filters are added to the given specification

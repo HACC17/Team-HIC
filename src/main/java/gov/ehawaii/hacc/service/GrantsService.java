@@ -50,11 +50,11 @@ public interface GrantsService {
   /**
    * Returns time series data for an organization over a period of time.
    * 
-   * @param organization The organization for which to retrieve data.
+   * @param organizations The list of organizations for which to retrieve data.
    * @param field The type of data to retrieve.
    * @return A list of time series data.
    */
-  List<Map<String, Long>> getOrganizationDataOverTime(String organization, String field);
+  Map<String, List<Map<String, Long>>> getTimeSeriesData(int top, String field);
 
   /**
    * Returns aggregate data.

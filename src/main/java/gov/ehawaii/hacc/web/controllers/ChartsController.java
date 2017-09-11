@@ -72,11 +72,12 @@ public class ChartsController {
    * @throws IOException If there are problems sending the data back to the client.
    */
   @RequestMapping(value = "/time", method = RequestMethod.GET)
-  public final void getOrganizationDataOverTime(@RequestParam("org") final String organization,
+  public final void getOrganizationDataOverTime(@RequestParam("top") final String top,
       @RequestParam("field") final String field, final HttpServletResponse response)
       throws IOException {
-    response.getWriter().write(new ObjectMapper()
-        .writeValueAsString(grantsService.getOrganizationDataOverTime(organization, field)));
+
+    response.getWriter().write(new ObjectMapper().writeValueAsString(
+        grantsService.getTimeSeriesData(Integer.parseInt(top), field)));
   }
 
   /**
@@ -116,9 +117,9 @@ public class ChartsController {
    */
   @RequestMapping(value = "/fiscalYearTop", method = RequestMethod.GET)
   public final void getTopNDataForEachLocation(@RequestParam("top") final String top,
-      @RequestParam("startYear") final String startYear, @RequestParam("endYear") final String endYear,
-      @RequestParam("field") final String field, final HttpServletResponse response)
-      throws IOException {
+      @RequestParam("startYear") final String startYear,
+      @RequestParam("endYear") final String endYear, @RequestParam("field") final String field,
+      final HttpServletResponse response) throws IOException {
     Map<String, String> filters = new HashMap<>();
     filters.put("fiscal-gte", startYear);
     filters.put("fiscal-lte", endYear);

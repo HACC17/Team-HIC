@@ -21,8 +21,9 @@ public class TimeSeriesSpecification implements SqlSpecification {
 
   private final String table;
   private final String column;
-  private final String value;
+  private final int top;
 
+  private final String aggregateQuery;
   private final String timeSeriesQuery;
   private final String aggregateField;
 
@@ -36,11 +37,12 @@ public class TimeSeriesSpecification implements SqlSpecification {
    * @param timeSeriesQuery The time series query.
    * @param aggregateField The field used to aggregate data for the time series query.
    */
-  public TimeSeriesSpecification(final String table, final String column, final String value,
-      final String timeSeriesQuery, final String aggregateField) {
+  public TimeSeriesSpecification(final String table, final String column, final int top,
+      final String aggregateQuery, final String timeSeriesQuery, final String aggregateField) {
     this.table = table;
     this.column = column;
-    this.value = value;
+    this.top = top;
+    this.aggregateQuery = aggregateQuery;
     this.timeSeriesQuery = timeSeriesQuery;
     this.aggregateField = aggregateField;
   }
@@ -57,7 +59,15 @@ public class TimeSeriesSpecification implements SqlSpecification {
 
   @Override
   public final Object getValue() {
-    return value;
+    throw new UnsupportedOperationException("This method is not supported.");
+  }
+
+  public final String getAggregateQuery() {
+    return String.format(aggregateQuery, aggregateField, aggregateField);
+  }
+
+  public final String getTimeSeriesQuery() {
+    return String.format(timeSeriesQuery, aggregateField);
   }
 
   @Override

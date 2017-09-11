@@ -163,14 +163,13 @@ public class GrantsServiceImpl implements GrantsService {
   }
 
   @Override
-  public final List<Map<String, Long>> getOrganizationDataOverTime(final String organization,
+  public final Map<String, List<Map<String, Long>>> getTimeSeriesData(final int top,
       final String field) {
-    Assert.hasLength(organization, "organization must not be null or empty.");
     Assert.hasLength(field, "field must not be null or empty.");
 
-    return repository
-        .findTimeSeriesData(new TimeSeriesSpecification(Tables.ORGANIZATIONS, Columns.ORGANIZATION,
-            organization, SqlStatements.GET_AGGREGATE_DATA_FOR_ORGANIZATION, field));
+    return repository.findTimeSeriesData(new TimeSeriesSpecification(Tables.ORGANIZATIONS,
+        Columns.ORGANIZATION, top, SqlStatements.GET_AGGREGATE_DATA_FOR_ORGANIZATIONS,
+        SqlStatements.GET_TIME_SERIES_DATA_FOR_ORGANIZATIONS, field));
   }
 
   @SuppressWarnings("unchecked")

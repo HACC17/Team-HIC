@@ -155,22 +155,35 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
   }
 
   @Override
-  public final List<Map<String, Long>> findTimeSeriesData(final Specification specification) {
+  public final Map<String, List<Map<String, Long>>> findTimeSeriesData(
+      final Specification specification) {
     TimeSeriesSpecification tsSpecification = (TimeSeriesSpecification) specification;
 
-    long id = findIdForValue(new IdSpecification(tsSpecification.getTable(),
-        tsSpecification.getColumn(), tsSpecification.getValue()));
-
-    return getJdbcTemplate().query(tsSpecification.toSqlClause(), rs -> {
-      List<Map<String, Long>> rows = new ArrayList<>();
+    List<String> ids = getJdbcTemplate().query(tsSpecification.getAggregateQuery(), rs -> {
+      List<String> list = new ArrayList<>();
       while (rs.next()) {
-        Map<String, Long> row = new LinkedHashMap<>();
-        row.put("key", rs.getLong(1));
-        row.put("value", rs.getLong(2));
-        rows.add(row);
+        list.add(rs.getString(1));
       }
-      return rows;
-    }, id);
+      return list;
+    }, tsSpecification.getTop());
+
+    Map<String, List<Map<String, Long>>> data = new LinkedHashMap<>();
+
+    for (String id : ids) {
+      String value = getValue(tsSpecification.getTable(), tsSpecification.getColumn(), id);
+
+      data.put(value, getJdbcTemplate().query(tsSpecification.getTimeSeriesQuery(), rs -> {
+        List<Map<String, Long>> rows = new ArrayList<>();
+        while (rs.next()) {
+          Map<String, Long> row = new LinkedHashMap<>();
+          row.put(rs.getString(1), rs.getLong(2));
+          rows.add(row);
+        }
+        return rows;
+      }, id));
+    }
+
+    return data;
   }
 
   @Override

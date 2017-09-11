@@ -272,7 +272,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="drilldown-priority">Configure drilldown for <strong>each chart</strong></label>
+                                        <label for="drilldown-priority">Configure drilldown for <strong>each pie chart</strong></label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-area-chart"></i></div>
                                             <select id="drilldown-priority" class="form-control" data-key="priority" data-chart-title="Strategic Priority">
@@ -329,6 +329,16 @@
                                                 <option value="result" selected>Strategic Results</option>
                                                 <option value="type">Grant Type</option>
                                                 <option value="location">Location</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="datatype">Configure <strong>top N time series chart</strong></label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i id="top-n-selector" class="fa fa-line-chart"></i></div>
+                                            <select id="top-n-selector" onchange="drawTopOrganizationsSplineChart();" class="form-control">
+                                                <option value="5" selected>Show top 5 organizations</option>
+                                                <option value="10">Show top 10 organizations</option>
                                             </select>
                                         </div>
                                     </div>
@@ -473,8 +483,11 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-8">
-                            <div id="top-5-orgs-chart" class="width: 100%; height: 100%"></div>
+                        <div class="col-md-6">
+                            <div id="top-5-orgs-column-chart" class="width: 100%; height: 100%"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="top-5-orgs-spline-chart" class="width: 100%; height: 100%"></div>
                         </div>
                     </div>
                 </div>
