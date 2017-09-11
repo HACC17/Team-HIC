@@ -10,8 +10,6 @@
 <script src="assets/js/jszip.min.js" type="text/javascript"></script>
 <script src="assets/js/pdfmake.min.js" type="text/javascript"></script>
 <script src="assets/js/vfs_fonts.js" type="text/javascript"></script>
-<script src="assets/js/chartjs/Chart.min.js" type="text/javascript"></script>
-<script src="assets/js/chartjs/Chart.bundle.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     $(function(){
         $('.sidebar-scroll').slimScroll({
