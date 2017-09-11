@@ -439,7 +439,6 @@
         localStorage.setItem("csrf.token", "<c:out value='${_csrf.token}' />");
 
         var keys = ['priority', 'result', 'type', 'location', 'status'];
-        localStorage.setItem("keys", JSON.stringify(keys));
 
         var timer;
         function update() {
@@ -465,8 +464,45 @@
             }
         }
 
+        function getMap(key) {
+            var map = {};
+            map["aggregateField"] = $("#datatype").val();
+            map["filters"] = getFilters();
+            map["drilldown"] = $("#drilldown-" + key).val();
+            map["groupBy"] = key;
+            return map;
+        }
+
         $(document).ready(function() {
             $("#grants-table-container").LoadingOverlay("show");
+
+            Highcharts.setOptions({
+                lang: {
+                    thousandsSep: ','
+                }
+            });
+
+            var baseUrl = localStorage.getItem('request');
+
+            var timer;
+            $.each(keys, function(index, value) {
+                $("input[data-key='" + value + "']").change(function() {
+                    if (timer) {
+                        clearTimeout(timer);
+                    }
+                    timer = setTimeout(function() {
+                    	$("#" + value + "-pie-chart").LoadingOverlay("show");
+
+                        $.each(keys, function(i, v) {
+                            var element = $("input[data-key='" + v + "']").first();
+                            var map = getMap(element.data("key"));
+                            drawChart(element.data("key"), element.data("chart-title"), map);
+                        });
+                    }, 1000);
+                });
+
+                $("input[data-key='" + value + "']").first().trigger("change");
+            });
 
             $("#fiscal-year-start").on("change keyup", function(event) {
                 if (parseInt($(this).val()) > parseInt($("#fiscal-year-end").val())) {
@@ -556,17 +592,16 @@
             });
             $.each(keys, function(index, value) {
             	$("#" + value + "-pie-chart").LoadingOverlay("show");
+
                 $("#drilldown-" + value).change(function() {
                     $("#" + value + "-pie-chart").LoadingOverlay("show");
-                    var map = {};
-                    map["aggregateField"] = $("#datatype").val();
-                    map["filters"] = getFilters();
-                    map["drilldown"] = $("#drilldown-" + value).val();
-                    map["groupBy"] = $(this).data("key");
+                    var map = getMap($(this).data("key"));
                     drawChart($(this).data("key"), $(this).data("chart-title"), map);
                 });
             });
+
             drawTop5OrganizationsBarChart($("#fiscal-year-start").val(), $("#fiscal-year-end").val());
+            drawTopOrganizationsSplineChart();
         });
     </script>
     <%@ include file="/WEB-INF/views/jspf/grants-modals.jspf" %>
