@@ -22,6 +22,7 @@ import com.mysql.jdbc.Statement;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.repositories.GrantsRepository;
+import gov.ehawaii.hacc.specifications.ColumnSpecification;
 import gov.ehawaii.hacc.specifications.FilteredSpecification;
 import gov.ehawaii.hacc.specifications.IdSpecification;
 import gov.ehawaii.hacc.specifications.Specification;
@@ -186,21 +187,22 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
       return map;
     };
 
+    String sqlClause = totalsSpecification.toSqlClause();
     Object[] filterValues = totalsSpecification.getFilterValues();
 
-    if (totalsSpecification.getColSpec() == null) {
-      data.put("totals",
-          getJdbcTemplate().query(totalsSpecification.toSqlClause(), rsExtractor, filterValues));
+    ColumnSpecification colSpec = totalsSpecification.getColSpec();
+    if (colSpec == null) {
+      data.put("totals", getJdbcTemplate().query(sqlClause, rsExtractor, filterValues));
       return data;
     }
 
-    List<String> values = findAllValues(totalsSpecification.getColSpec());
+    List<String> values = findAllValues(colSpec);
 
     for (String value : values) {
-      filterValues =
-          ArrayUtils.addAll(new Object[] { value }, totalsSpecification.getFilterValues());
-      data.put(value,
-          getJdbcTemplate().query(totalsSpecification.toSqlClause(), rsExtractor, filterValues));
+      IdSpecification idSpec = new IdSpecification(colSpec.getTable(), colSpec.getColumn(), value);
+      Object[] id = new Object[] { findIdForValue(idSpec) };
+      filterValues = ArrayUtils.addAll(id, totalsSpecification.getFilterValues());
+      data.put(value, getJdbcTemplate().query(sqlClause, rsExtractor, filterValues));
     }
 
     return data;

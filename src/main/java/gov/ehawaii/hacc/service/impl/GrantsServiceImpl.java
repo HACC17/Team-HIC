@@ -221,15 +221,16 @@ public class GrantsServiceImpl implements GrantsService {
     }
 
     parameters = getTableAndColumnForQuery(drilldown);
-    String drilldownTable = parameters[0];
-    String drilldownColumn = parameters[1];
+    String ddTable = parameters[0];
+    String ddColumn = parameters[1];
 
-    String drilldownStmt = "SELECT D." + drilldownColumn + ", SUM(G." + aggregateField + ") ";
-    drilldownStmt += "FROM GRANTS G, " + tTable + " T, " + drilldownTable + " D ";
-    drilldownStmt += "WHERE G." + parameters[2] + " = D.ID ";
-    drilldownStmt += "AND T." + tColumn + " = ? AND";
+    String drilldownStmt =
+        "SELECT " + ddTable + "." + ddColumn + ", SUM(GRANTS." + aggregateField + ") ";
+    drilldownStmt +=
+        "FROM GRANTS LEFT JOIN " + ddTable + " ON " + ddTable + ".ID = GRANTS." + parameters[2];
+    drilldownStmt += " WHERE GRANTS." + fkColumn + " = ? AND";
     drilldownStmt += filter.replace(" WHERE ", " ");
-    drilldownStmt += " GROUP BY " + drilldownColumn;
+    drilldownStmt += " GROUP BY " + ddColumn;
 
     LOGGER.info("SQL Statement: " + drilldownStmt);
 
