@@ -1,22 +1,30 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
+<style>
+    .extra-top-margin {
+        margin-top: 10px;
+    }
+</style>
+
 <div class="col-md-8 col-md-push-2 form">
     <form:form method="POST" modelAttribute="grant">
         <div class="row extra-top-margin">
-            <div class="col-md-6">
-                <div class="col-md-4">
+            <div class="col-md-12">
+                <div class="col-md-2">
                     <form:label for="fiscalYear" path="fiscalYear">Fiscal Year</form:label>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <form:input id="fiscalYear" path="fiscalYear" cssClass="form-control" />
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="col-md-4">
+        </div>
+        <div class="row extra-top-margin">
+            <div class="col-md-12">
+                <div class="col-md-2">
                     <form:label for="grantType" path="grantType">Grant Type</form:label>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <form:select id="grantType" path="grantType" class="form-control">
                         <c:forEach var="type" items="${types}">
                             <form:option value="${type}"><c:out value="${type}" /></form:option>
@@ -26,11 +34,11 @@
             </div>
         </div>
         <div class="row extra-top-margin">
-            <div class="col-md-6">
-                <div class="col-md-4">
+            <div class="col-md-12">
+                <div class="col-md-2">
                     <form:label for="organization" path="organization">Organization</form:label>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <form:select id="organization" path="organization" cssClass="form-control">
                         <c:forEach var="org" items="${organizations}">
                             <form:option value="${org}"><c:out value="${org}" /></form:option>
@@ -38,29 +46,33 @@
                     </form:select>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="col-md-4">
+        </div>
+        <div class="row extra-top-margin">
+            <div class="col-md-12">
+                <div class="col-md-2">
                     <form:label for="project" path="project">Project</form:label>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <form:textarea id="project" path="project" cssClass="form-control" />
                 </div>
             </div>
         </div>
         <div class="row extra-top-margin">
-            <div class="col-md-6">
-                <div class="col-md-4">
+            <div class="col-md-12">
+                <div class="col-md-2">
                     <form:label for="amount" path="amount">Amount</form:label>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <form:input id="amount" path="amount" cssClass="form-control" />
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="col-md-4">
+        </div>
+        <div class="row extra-top-margin">
+            <div class="col-md-12">
+                <div class="col-md-2">
                     <form:label for="location" path="location">Location</form:label>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <form:select id="location" path="location" class="form-control">
                         <c:forEach var="location" items="${locations}">
                             <form:option value="${location}"><c:out value="${location}" /></form:option>
@@ -70,11 +82,11 @@
             </div>
         </div>
         <div class="row extra-top-margin">
-            <div class="col-md-8 col-md-push-2">
-                <div class="col-md-4">
+            <div class="col-md-12">
+                <div class="col-md-2">
                     <form:label for="strategicPriority" path="strategicPriority">Strategic Priority</form:label>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <form:select id="strategicPriority" path="strategicPriority" class="form-control">
                         <c:forEach var="priority" items="${priorities}">
                             <form:option value="${priority}"><c:out value="${priority}" /></form:option>
@@ -84,11 +96,11 @@
             </div>
         </div>
         <div class="row extra-top-margin">
-            <div class="col-md-8 col-md-push-2">
-                <div class="col-md-4">
+            <div class="col-md-12">
+                <div class="col-md-2">
                     <form:label for="strategicResults" path="strategicResults">Strategic Results</form:label>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <form:select id="strategicResults" path="strategicResults" class="form-control">
                         <c:forEach var="result" items="${results}">
                             <form:option value="${result}"><c:out value="${result}" /></form:option>
@@ -98,31 +110,31 @@
             </div>
         </div>
         <div class="row extra-top-margin">
-            <div class="col-md-8 col-md-push-2">
-                <div class="col-md-8">
+            <div class="col-md-12">
+                <div class="col-md-2">
                     <form:label for="totalNumberServed" path="totalNumberServed">Total Number Served</form:label>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-10">
                     <form:input id="totalNumberServed" path="totalNumberServed" cssClass="form-control" />
                 </div>
             </div>
         </div>
         <div class="row extra-top-margin">
-            <div class="col-md-8 col-md-push-2">
-                <div class="col-md-8">
+            <div class="col-md-12">
+                <div class="col-md-2">
                     <form:label for="numberNativeHawaiiansServed" path="numberNativeHawaiiansServed">Number of Native Hawaiians Served</form:label>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-10">
                     <form:input id="numberNativeHawaiiansServed" path="numberNativeHawaiiansServed" cssClass="form-control" />
                 </div>
             </div>
         </div>
         <div class="row extra-top-margin">
-            <div class="col-md-8 col-md-push-2">
-                <div class="col-md-8">
+            <div class="col-md-12">
+                <div class="col-md-2">
                     <form:label for="grantStatus" path="grantStatus">Status</form:label>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-10">
                     <form:select id="grantStatus" path="grantStatus" class="form-control">
                         <c:forEach var="status" items="${statuses}">
                             <form:option value="${status}"><c:out value="${status}" /></form:option>
@@ -132,7 +144,7 @@
             </div>
         </div>
         <div class="row extra-top-margin">
-            <div class="col-md-4 col-md-push-4">
+            <div class="col-md-2 col-md-push-5">
                 <button type="submit" id="submit" class="btn btn-lg btn-block btn-primary">Save Grant</button>
             </div>
         </div>

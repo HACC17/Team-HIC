@@ -20,7 +20,7 @@
 					</div>
 				</div>
 				<input name="_csrf" type="hidden" value="${_csrf.token}" />
-				<button type="submit" class="btn btn-primary btn-lg btn-block"><i class="fa fa-lock"></i> Login</button>
+				<button type="submit" class="btn btn-primary btn-lg btn-login"><i class="fa fa-lock"></i> Login</button>
 			</div>
 		</form>
 	</div>

@@ -1,47 +1,41 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
-	<%@ include file="/WEB-INF/views/jspf/head.jspf" %>
+<%@ include file="/WEB-INF/views/jspf/head.jspf" %>
 
-	<body>
-		<%@ include file="/WEB-INF/views/jspf/navigation/site-nav.jspf" %>
-		<div class="container" id="body-container">
-			<%@ include file="/WEB-INF/views/jspf/navigation/app-nav.jspf" %>
-			<div class="row nav-row">
-				<div class="col-md-4">
-					<a href="javascript:void(0)" class="btn btn-lg btn-primary btn-block extra-top-margin" data-tab="add">Add Grant</a>
-				</div>
-				<div class="col-md-4">
-					<a href="<c:url value='/' />" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="all">View Grants</a>
-				</div>
-				<div class="col-md-4">
-					<a href="<c:url value='/charts' />" class="btn btn-lg btn-link btn-block extra-top-margin" data-tab="charts">Charts</a>
-				</div>
-			</div>
-			<div class="row extra-top-margin">
-				<div class="tab-pane" id="add">
-					<%@ include file="/WEB-INF/views/jspf/admin/add-grant-form.jspf" %>
-				</div>
-			</div>
-			<div class="row extra-extra-top-margin" id="message" style="display: none">
-				<div class="alert alert-danger" style="display: none">
-					A problem was encountered during the import process: <span id="problem"></span>
-				</div>
-				<div class="alert alert-warning" style="display: none">
-					Importing grants data... This may take a few minutes.
-				</div>
-				<div class="alert alert-success" style="display: none">
-					Successfully imported grants data from CSV file!
-				</div>
-			</div>
-			<div class="row extra-extra-top-margin top-border">
-				<div class="col-md-4 col-md-push-4 extra-extra-top-margin">
-					<button id="import-csv" type="button" class="btn btn-lg btn-block btn-primary">Import Grants Data from CSV File</button>
-					<button id="import-excel" type="button" class="btn btn-lg btn-block btn-primary">Import Grants Data from Excel File</button>
-				</div>
-			</div>
-		</div>
-		<%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
-	</body>
+<body class="sidebar-fixed">
+    <div class="wrapper" id="wrapper">
+        <nav class="navbar navbar-oha navbar-fixed-top">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">OHA Grants</a>
+            </div>
+        </nav>
+        <div class="collapse navbar-collapse" id="navbar-collapse-1">
+
+        </div>
+        <div id="main-wrapper" class="main-wrapper">
+            <div class="panes content-wrapper">
+                <div class="tab-pane col-md-12">
+                    <%@ include file="/WEB-INF/views/jspf/admin/add-grant-form.jspf" %>
+                </div>
+            </div>
+            <footer>
+                <div class="content-wrapper">
+                    <span class="copyright">
+                        &copy; <script>document.write(new Date().getFullYear());</script> <a href="https://www.oha.org/">Office of Hawaiian Affairs</a>
+                    </span>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!-- .wrapper -->
 
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -81,5 +75,7 @@
 			});
 		});
 	</script>
+
+</body>
 
 </html>
