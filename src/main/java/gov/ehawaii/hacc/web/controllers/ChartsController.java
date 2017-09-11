@@ -64,9 +64,9 @@ public class ChartsController {
   }
 
   /**
-   * This method returns time series data for a single organization over a period of time.
+   * This method returns time series data for several organizations over a period of time.
    * 
-   * @param organization The name of the organization.
+   * @param top N, a number greater than 0, the number of data to retrieve from the repository.
    * @param field The type of data to fetch.
    * @param response The server response.
    * @throws IOException If there are problems sending the data back to the client.
@@ -76,8 +76,8 @@ public class ChartsController {
       @RequestParam("field") final String field, final HttpServletResponse response)
       throws IOException {
 
-    response.getWriter().write(new ObjectMapper().writeValueAsString(
-        grantsService.getTimeSeriesData(Integer.parseInt(top), field)));
+    response.getWriter().write(new ObjectMapper()
+        .writeValueAsString(grantsService.getTimeSeriesData(Integer.parseInt(top), field)));
   }
 
   /**
@@ -106,11 +106,11 @@ public class ChartsController {
   }
 
   /**
-   * This method returns the top N data for the given location for the given fiscal year.
+   * This method returns the top N fiscal data over the given time range.
    * 
-   * @param top N, a number greater than 0.
-   * @param startYear
-   * @param endYear
+   * @param top N, a number greater than 0, the number of data to retrieve from the repository.
+   * @param startYear The beginning of the time range.
+   * @param endYear The end of the time range.
    * @param field The type of data to fetch.
    * @param response The server response.
    * @throws IOException If there are problems sending the data back to the client.

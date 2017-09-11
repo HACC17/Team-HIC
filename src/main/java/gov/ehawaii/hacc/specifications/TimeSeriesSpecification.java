@@ -33,8 +33,9 @@ public class TimeSeriesSpecification implements SqlSpecification {
    * @param table The name of the table that can be used in a filter for the query produced by this
    * specification.
    * @param column The name of the column in the given table.
-   * @param value The value for the optional filter.
-   * @param timeSeriesQuery The time series query.
+   * @param top N, a number greater than 0, the number of data to retrieve.
+   * @param aggregateQuery The query used to aggregate the data to determine the top N.
+   * @param timeSeriesQuery The query used to get information about the data over a period of time.
    * @param aggregateField The field used to aggregate data for the time series query.
    */
   public TimeSeriesSpecification(final String table, final String column, final int top,
@@ -62,10 +63,20 @@ public class TimeSeriesSpecification implements SqlSpecification {
     throw new UnsupportedOperationException("This method is not supported.");
   }
 
+  /**
+   * Returns the aggregate query.
+   * 
+   * @return The aggregate query.
+   */
   public final String getAggregateQuery() {
     return String.format(aggregateQuery, aggregateField, aggregateField);
   }
 
+  /**
+   * Returns the time series query.
+   * 
+   * @return The time series query.
+   */
   public final String getTimeSeriesQuery() {
     return String.format(timeSeriesQuery, aggregateField);
   }

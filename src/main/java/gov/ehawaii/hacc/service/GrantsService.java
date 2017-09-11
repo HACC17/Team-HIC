@@ -50,7 +50,7 @@ public interface GrantsService {
   /**
    * Returns time series data for an organization over a period of time.
    * 
-   * @param organizations The list of organizations for which to retrieve data.
+   * @param top N, a number greater than 0, the number of data to retrieve from the repository.
    * @param field The type of data to retrieve.
    * @return A list of time series data.
    */
