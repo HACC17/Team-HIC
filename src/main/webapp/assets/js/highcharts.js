@@ -75,8 +75,14 @@ function drawChart(key, title, map) {
                 chart: {
                     type: 'pie',
                     renderTo: key + '-pie-chart',
+                    borderColor: "#CCCCCC",
                     borderWidth: 1,
-                    backgroundColor: null
+                    backgroundColor: null,
+                    events: {
+                        load: function() {
+                            $("#" + key + "-pie-chart").LoadingOverlay("hide");
+                        }
+                    }
                 },
                 colors: [
                     '#7CB5EC', '#434348', '#90ED7D', '#F7A35C', '#8085E9',
@@ -152,6 +158,7 @@ function drawTop5OrganizationsBarChart(startYear, endYear) {
         Highcharts.chart('top-5-orgs-column-chart', {
             chart: {
                 type: 'column',
+                borderColor: "#CCCCCC",
                 borderWidth: 1,
                 backgroundColor: null
             },
@@ -247,6 +254,7 @@ function drawTopOrganizationsSplineChart() {
         Highcharts.chart('top-5-orgs-spline-chart', {
             chart: {
                 type: 'spline',
+                borderColor: "#CCCCCC",
                 borderWidth: 1,
                 backgroundColor: null
             },

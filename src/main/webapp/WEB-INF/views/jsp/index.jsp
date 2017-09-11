@@ -351,133 +351,135 @@
         </div>
         <div id="main-wrapper" class="main-wrapper">
             <div class="panes content-wrapper">
-                <div class="tab-pane" id="summary-cards">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="card text-center">
-                                <div class="card-header"></div>
-                                <div class="card-block">
-                                    <h4 class="card-title">Grants</h4>
-                                    <h1 class="card-text" id="grant-count">0</h1>
+                <div id="grants-table-container">
+                    <div class="tab-pane" id="summary-cards">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="card text-center">
+                                    <div class="card-header"></div>
+                                    <div class="card-block">
+                                        <h4 class="card-title">Grants</h4>
+                                        <h1 class="card-text" id="grant-count">0</h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="card text-center">
+                                    <div class="card-header"></div>
+                                    <div class="card-block">
+                                        <h4 class="card-title">Strategic Priorities</h4>
+                                        <h1 class="card-text" id="priority-count">0</h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="card text-center">
+                                    <div class="card-header"></div>
+                                    <div class="card-block">
+                                        <h4 class="card-title">Strategic Results</h4>
+                                        <h1 class="card-text" id="results-count">0</h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="card text-center">
+                                    <div class="card-header"></div>
+                                    <div class="card-block">
+                                        <h4 class="card-title">Grant Types</h4>
+                                        <h1 class="card-text" id="type-count">0</h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="card text-center">
+                                    <div class="card-header"></div>
+                                    <div class="card-block">
+                                        <h4 class="card-title">Organizations</h4>
+                                        <h1 class="card-text" id="organization-count">0</h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="card text-center">
+                                    <div class="card-header"></div>
+                                    <div class="card-block">
+                                        <h4 class="card-title">Locations</h4>
+                                        <h1 class="card-text" id="location-count">0</h1>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="card text-center">
-                                <div class="card-header"></div>
-                                <div class="card-block">
-                                    <h4 class="card-title">Strategic Priorities</h4>
-                                    <h1 class="card-text" id="priority-count">0</h1>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="card text-center">
+                                    <div class="card-header"></div>
+                                    <div class="card-block">
+                                        <h4 class="card-title"><br />Fiscal Year</h4>
+                                        <h1 class="card-text" id="fiscal-year-card">0</h1>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="card text-center">
-                                <div class="card-header"></div>
-                                <div class="card-block">
-                                    <h4 class="card-title">Strategic Results</h4>
-                                    <h1 class="card-text" id="results-count">0</h1>
+                            <div class="col-md-3">
+                                <div class="card text-center">
+                                    <div class="card-header"></div>
+                                    <div class="card-block">
+                                        <h4 class="card-title">Number of<br />Native Hawaiians Served</h4>
+                                        <h1 class="card-text" id="hawaiians-count">0</h1>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="card text-center">
-                                <div class="card-header"></div>
-                                <div class="card-block">
-                                    <h4 class="card-title">Grant Types</h4>
-                                    <h1 class="card-text" id="type-count">0</h1>
+                            <div class="col-md-3">
+                                <div class="card text-center">
+                                    <div class="card-header"></div>
+                                    <div class="card-block">
+                                        <h4 class="card-title">Total Number<br />of People Served</h4>
+                                        <h1 class="card-text" id="total-number-count">0</h1>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="card text-center">
-                                <div class="card-header"></div>
-                                <div class="card-block">
-                                    <h4 class="card-title">Organizations</h4>
-                                    <h1 class="card-text" id="organization-count">0</h1>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="card text-center">
-                                <div class="card-header"></div>
-                                <div class="card-block">
-                                    <h4 class="card-title">Locations</h4>
-                                    <h1 class="card-text" id="location-count">0</h1>
+                            <div class="col-md-3">
+                                <div class="card text-center">
+                                    <div class="card-header"></div>
+                                    <div class="card-block">
+                                        <h4 class="card-title"><br />Total Amount</h4>
+                                        <h1 class="card-text" id="total-amount">$0.00</h1>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="card text-center">
-                                <div class="card-header"></div>
-                                <div class="card-block">
-                                    <h4 class="card-title"><br />Fiscal Year</h4>
-                                    <h1 class="card-text" id="fiscal-year-card">0</h1>
-                                </div>
-                            </div>
+                    <div class="tab-pane tables" id="all">
+                        <div class="table-responsive">
+                            <%@ include file="/WEB-INF/views/jspf/grants-table.jspf" %>
                         </div>
-                        <div class="col-md-3">
-                            <div class="card text-center">
-                                <div class="card-header"></div>
-                                <div class="card-block">
-                                    <h4 class="card-title">Number of<br />Native Hawaiians Served</h4>
-                                    <h1 class="card-text" id="hawaiians-count">0</h1>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card text-center">
-                                <div class="card-header"></div>
-                                <div class="card-block">
-                                    <h4 class="card-title">Total Number<br />of People Served</h4>
-                                    <h1 class="card-text" id="total-number-count">0</h1>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card text-center">
-                                <div class="card-header"></div>
-                                <div class="card-block">
-                                    <h4 class="card-title"><br />Total Amount</h4>
-                                    <h1 class="card-text" id="total-amount">$0.00</h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane tables" id="all">
-                    <div class="table-responsive">
-                        <%@ include file="/WEB-INF/views/jspf/grants-table.jspf" %>
                     </div>
                 </div>
                 <div class="tab-pane charts" id="charts">
                     <div class="row">
                         <div class="col-md-4">
-                            <div id="priority-pie-chart" class="width: 100%; height: 100%"></div>
+                            <div id="priority-pie-chart"></div>
                             <canvas id="priority-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="priority-pie-chart-base64" value="" />
                         </div>
                         <div class="col-md-4">
-                            <div id="result-pie-chart" class="width: 100%; height: 100%"></div>
+                            <div id="result-pie-chart"></div>
                             <canvas id="result-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="result-pie-chart-base64" value="" />
                         </div>
                         <div class="col-md-4">
-                            <div id="type-pie-chart" class="width: 100%; height: 100%"></div>
+                            <div id="type-pie-chart"></div>
                             <canvas id="type-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="type-pie-chart-base64" value="" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-8">
-                            <div id="location-pie-chart" class="width: 100%; height: 100%"></div>
+                            <div id="location-pie-chart"></div>
                             <canvas id="location-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="location-pie-chart-base64" value="" />
                         </div>
                         <div class="col-md-4">
-                            <div id="status-pie-chart" class="width: 100%; height: 100%"></div>
+                            <div id="status-pie-chart"></div>
                             <canvas id="status-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="status-pie-chart-base64" value="" />
                         </div>
@@ -536,6 +538,8 @@
         }
 
         $(document).ready(function() {
+            $("#grants-table-container").LoadingOverlay("show");
+
             $("#clear").click(function() {
                 $(".filter").each(function() {
                     if ($(this).is(':checkbox')) {
@@ -563,7 +567,9 @@
                 update();
             });
             $.each(keys, function(index, value) {
+            	$("#" + value + "-pie-chart").LoadingOverlay("show");
                 $("#drilldown-" + value).change(function() {
+                    $("#" + value + "-pie-chart").LoadingOverlay("show");
                     var map = {};
                     map["aggregateField"] = $("#datatype").val();
                     map["filters"] = getFilters();

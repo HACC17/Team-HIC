@@ -96,6 +96,8 @@
     }
 
     function updateTable() {
+    	$("#grants-table-container").LoadingOverlay("show");
+
         var filters = {};
         $(".filter").each(function(index, value) {
             if ($(this).is(':checkbox')) {
@@ -149,8 +151,11 @@
                     dom: 'Bfrtip',
                     data: arrays,
                     buttons: buttons,
-                    "columnDefs": columnDefs,
-                    "deferRender": true,
+                    columnDefs: columnDefs,
+                    deferRender: true,
+                    initComplete: function() {
+                        $("#grants-table-container").LoadingOverlay("hide", true);
+                    }
                 });
                 $("#modals").empty();
 
