@@ -20,8 +20,6 @@ public final class SqlStatements {
 
   public static final String GET_ALL_GRANTS = "SELECT * FROM %s";
 
-  public static final String COUNT = "SELECT COUNT(*) FROM %s ";
-
   public static final String GET_AGGREGATE_DATA_FOR_ORGANIZATIONS =
       "SELECT ORGANIZATION_ID, SUM(%s) FROM GRANTS GROUP BY ORGANIZATION_ID ORDER BY SUM(%s) DESC LIMIT ?";
 
@@ -29,9 +27,6 @@ public final class SqlStatements {
       "SELECT FISCAL_YEAR, SUM(%s) FROM GRANTS WHERE ORGANIZATION_ID = ? GROUP BY FISCAL_YEAR ORDER BY FISCAL_YEAR ASC";
 
   public static final String GET_TOP_N_DATA = "SELECT %s, SUM(%s) FROM GRANTS";
-
-  public static final String GET_TOTALS_GENERIC =
-      "SELECT T.%s, SUM(G.%s) FROM GRANTS G, %s T %s %s GROUP BY %s";
 
   public static final String GET_TOP_N_ORGANIZATIONS_FOR_EACH_LOCATION =
       "SELECT O.ORGANIZATION, SUM(G.%s) FROM GRANTS G, LOCATIONS L, ORGANIZATIONS O "
