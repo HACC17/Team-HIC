@@ -576,7 +576,7 @@
         });
     </script>
     <%@ include file="/WEB-INF/views/jspf/grants-modals.jspf" %>
-    <%@ include file="/WEB-INF/views/jspf/footer.jspf" %>
+    <%@ include file="/WEB-INF/views/jspf/scripts.jspf" %>
 </body>
 
 </html>

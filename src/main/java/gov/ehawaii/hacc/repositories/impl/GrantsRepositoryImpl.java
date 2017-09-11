@@ -70,7 +70,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
   @PostConstruct
   final void init() {
     setDataSource(dataSource);
-    LOGGER.info("GrantDaoImpl initialized.");
+    LOGGER.info(GrantsRepositoryImpl.class + " initialized.");
   }
 
   @Override
