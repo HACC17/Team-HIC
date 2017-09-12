@@ -1,10 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="modal fade" id="login-modal" tabindex="-1" role="dialog">
+<div class="modal fade" id="login-form-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="login-modalLabel">Admin Login</h3>
+                <h3 class="modal-title" id="login-form-modalLabel">Admin Login</h3>
             </div>
             <div class="modal-body">
                 <!-- Where all the magic happens -->

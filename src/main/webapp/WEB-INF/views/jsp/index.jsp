@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
@@ -183,7 +184,12 @@
                         </div>
                         <div class="filter-group">
                             <button id="clear" class="btn btn-primary">Clear Filters</button>
-                            <button class="btn btn-primary" onclick="$('#login-modal').modal('show');">Admin Log In</button>
+                            <sec:authorize access="isAnonymous()">
+                                <button class="btn btn-primary" onclick="$('#login-form-modal').modal('show');">Admin Log In</button>
+                            </sec:authorize>
+                            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                <button class="btn btn-success" onclick="$('#add-grant-form-modal').modal('show');">Add Grant</button>
+                            </sec:authorize>
                         </div>
                         <div class="filter-group">
                             <label class="fieldset-label" data-toggle="collapse" data-target="#toggle-chart-settings"><i class="fa fa-pie-chart"></i>Chart Settings<i class="toggle-icon fa fa-angle-left"></i></label>
@@ -630,7 +636,12 @@
     </script>
     <%@ include file="/WEB-INF/views/jspf/grants-modals.jspf" %>
     <%@ include file="/WEB-INF/views/jspf/scripts.jspf" %>
-    <%@ include file="/WEB-INF/views/jspf/login-panel.jspf" %>
+    <sec:authorize access="isAnonymous()">
+        <%@ include file="/WEB-INF/views/jspf/login-form-modal.jspf" %>
+    </sec:authorize>
+    <sec:authorize access="hasRole('ROLE_ADMIN')">
+        <%@ include file="/WEB-INF/views/jspf/admin/add-grant-form-modal.jspf" %>
+    </sec:authorize>
 </body>
 
 </html>
