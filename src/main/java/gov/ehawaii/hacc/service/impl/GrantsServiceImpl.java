@@ -205,8 +205,8 @@ public class GrantsServiceImpl implements GrantsService {
     String filter = getFilter(filtersListsMap, arguments);
 
     String stmt = "SELECT T." + tColumn + ", SUM(G." + aggregateField + ") ";
-    stmt += "FROM GRANTS G, " + tTable + " T " + filter;
-    stmt += (filterValuesList.isEmpty() ? "WHERE " : " AND ") + "G." + fkColumn + " = T.ID ";
+    stmt += "FROM GRANTS G LEFT JOIN " + tTable + " T ON T.ID = G." + fkColumn;
+    stmt += (filterValuesList.isEmpty() ? " " : filter + " ");
     stmt += "GROUP BY " + tColumn;
 
     LOGGER.info("SQL Statement: " + stmt);
@@ -257,7 +257,7 @@ public class GrantsServiceImpl implements GrantsService {
     case Filters.GRANT_STATUS_ID_FILTER:
       return new String[] { Tables.GRANT_STATUSES, Columns.GRANT_STATUS, Columns.GRANT_STATUS_ID };
     case Filters.GRANT_TYPE_ID_FILTER:
-      return new String[] { Tables.GRANT_TYPES, Columns.GRANT_TYPE, Columns.GRANT_STATUS_ID };
+      return new String[] { Tables.GRANT_TYPES, Columns.GRANT_TYPE, Columns.GRANT_TYPE_ID };
     case Filters.ORGANIZATION_ID_FILTER:
       return new String[] { Tables.ORGANIZATIONS, Columns.ORGANIZATION, Columns.ORGANIZATION_ID };
     case Filters.PROJECT_ID_FILTER:
