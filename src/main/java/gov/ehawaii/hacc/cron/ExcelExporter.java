@@ -5,8 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +46,7 @@ public class ExcelExporter implements Runnable {
 
   @Override
   public final void run() {
-    LOGGER.info("GrantsExcelExporter task started.");
+    LOGGER.info("ExcelExportTask started.");
     export(grantsService.getGrants(new HashMap<>()));
   }
 
@@ -105,9 +103,7 @@ public class ExcelExporter implements Runnable {
       cell.setCellValue(grant.getNumberNativeHawaiiansServed());
     }
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd-HH_mm_ss");
-    String filename = exportDirectory + filenamePrefix + "_" + formatter.format(LocalDateTime.now())
-        + "." + filenameSuffix;
+    String filename = exportDirectory + filenamePrefix + "." + filenameSuffix;
     LOGGER.info("Path: " + filename);
 
     File file;

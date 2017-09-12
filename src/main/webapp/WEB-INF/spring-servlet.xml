@@ -34,6 +34,18 @@
         <property name="password" value="${db.password}" />
     </bean>
 
+    <bean id="cron.csvExportJobDetail"
+        class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="CSVExportTask" />
+        <property name="targetMethod" value="run" />
+        <property name="concurrent" value="false" />
+    </bean>
+
+    <bean id="cron.csvExportTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="cron.csvExportJobDetail" />
+        <property name="cronExpression" value="${csv.export.cron}" />
+    </bean>
+
     <bean id="cron.excelExportJobDetail"
         class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="ExcelExportTask" />
@@ -56,7 +68,8 @@
         </property>
         <property name="triggers">
             <list>
-                <ref bean="cron.excelExportTrigger" />
+                <!-- <ref bean="cron.excelExportTrigger" /> -->
+                <ref bean="cron.csvExportTrigger" />
             </list>
         </property>
     </bean>
