@@ -1,7 +1,9 @@
 package gov.ehawaii.hacc.cron;
 
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -69,7 +71,9 @@ public class CsvExporter implements Runnable {
     Collections.sort(grants,
         (grant1, grant2) -> grant1.getOrganization().compareTo(grant2.getOrganization()));
 
-    try (FileWriter fileWriter = new FileWriter(filename);
+    try (
+        OutputStreamWriter fileWriter =
+            new OutputStreamWriter(new FileOutputStream(filename), Charset.defaultCharset());
         CSVPrinter csvFilePrinter = new CSVPrinter(fileWriter, csvFileFormat)) {
       for (Grant grant : grants) {
         List<Object> record = new ArrayList<>();
