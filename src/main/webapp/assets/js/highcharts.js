@@ -32,6 +32,8 @@ function getPointY() {
     return '${point.y}';
 }
 
+var colors = [ '#4173CE', '#3D424A', '#4BA4B0', '#BA8F7E', '#E3604A' ];
+
 function drawPieChart(key, title, map) {
     var json = JSON.parse(localStorage.getItem(key));
     var data = [];
@@ -57,11 +59,7 @@ function drawPieChart(key, title, map) {
             borderWidth: 0,
             backgroundColor: null
         },
-        colors: [
-            '#7CB5EC', '#434348', '#90ED7D', '#F7A35C', '#8085E9',
-            '#F15C80', '#E4D354', '#2B908F', '#F45B5B', '#91E8E1',
-            '#FF0000', '#FF8000', '#00FF00', '#0000FF', '#BF00FF'
-        ],
+        colors: colors,
         title: {
             text: title
         },
@@ -122,11 +120,7 @@ function drawBarChart(key, title, map) {
             borderWidth: 0,
             backgroundColor: null
         },
-        colors: [
-            '#7CB5EC', '#434348', '#90ED7D', '#F7A35C', '#8085E9',
-            '#F15C80', '#E4D354', '#2B908F', '#F45B5B', '#91E8E1',
-            '#FF0000', '#FF8000', '#00FF00', '#0000FF', '#BF00FF'
-        ],
+        colors: colors,
         title: {
             text: title
         },

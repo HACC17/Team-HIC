@@ -68,8 +68,12 @@ public class CsvExporter implements Runnable {
     CSVFormat csvFileFormat =
         CSVFormat.DEFAULT.withHeader(header.toArray(new String[header.size()]));
 
-    Collections.sort(grants,
-        (grant1, grant2) -> grant1.getOrganization().compareTo(grant2.getOrganization()));
+    Collections.sort(grants, (grant1, grant2) -> {
+      if (grant1.getFiscalYear() != grant2.getFiscalYear()) {
+        return Integer.compare(grant1.getFiscalYear(), grant2.getFiscalYear());
+      }
+      return grant1.getOrganization().compareTo(grant2.getOrganization());
+    });
 
     try (
         OutputStreamWriter fileWriter =
