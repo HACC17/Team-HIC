@@ -189,6 +189,12 @@
                             <div id="toggle-chart-settings" class="collapse">
                                 <fieldset>
                                     <div class="form-group">
+                                        <label for="datatype">Select chart type</label>
+                                        <div class="input-group">
+                                            <input type="radio" name="chart-type" value="bar"> Bar&nbsp;&nbsp;&nbsp;<input type="radio" name="chart-type" value="pie"> Pie
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="datatype">Data to display in <strong>all charts</strong></label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i id="datatype-i" class="fa fa-dollar"></i></div>
@@ -479,6 +485,23 @@
             $("#main-wrapper").LoadingOverlay("show", { color : "rgba(255, 255, 255, 1.0)" });
             localStorage.setItem("init", true);
 
+            $("input[value='pie']").prop("checked", true);
+
+            $("input[name='chart-type']").change(function() {
+                $.each(keys, function(index, value) {
+                    var element = $("input[data-key='" + value + "']").first();
+                    var key = element.data("key");
+                    var title = element.data("chart-title");
+                    var map = getMap(key);
+                    var chartType = $("input[name='chart-type']:checked").val();
+                    if (chartType == 'pie') {
+                        drawPieChart(key, title, map);
+                    } else {
+                        drawBarChart(key, title, map);
+                    }
+                });
+            });
+
             Highcharts.setOptions({
                 lang: {
                     thousandsSep: ','
@@ -496,8 +519,10 @@
                     timer = setTimeout(function() {
                         $.each(keys, function(i, v) {
                             var element = $("input[data-key='" + v + "']").first();
+                            var key = element.data("key");
+                            var title = element.data("chart-title");
                             var map = getMap(element.data("key"));
-                            drawChart('bar', element.data("key"), element.data("chart-title"), map);
+                            drawChart($("input[name='chart-type']:checked").val(), key, title, map);
                         });
                     }, 1000);
                 });
@@ -594,7 +619,7 @@
             $.each(keys, function(index, value) {
                 $("#drilldown-" + value).change(function() {
                     var map = getMap($(this).data("key"));
-                    drawChart('bar', $(this).data("key"), $(this).data("chart-title"), map);
+                    drawChart($("input[name='chart-type']:checked").val(), $(this).data("key"), $(this).data("chart-title"), map);
                 });
             });
 

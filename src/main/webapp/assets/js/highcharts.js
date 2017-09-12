@@ -23,6 +23,141 @@ function getFilters() {
 
 var baseUrl = localStorage.getItem("appUrl");
 
+function drawPieChart(key, title, map) {
+    var json = JSON.parse(localStorage.getItem(key));
+    var data = [];
+    $.each(json["totals"], function(key, value) {
+        data.push({ name: key, y: value, drilldown: key });
+    });
+
+    var drilldown = [];
+    $.each(json, function(key, value) {
+        if (key != "totals") {
+            var map = { name: key, id: key, data: [] };
+            $.each(value, function(k, v) {
+                map["data"].push([ k, v ]);
+            });
+            drilldown.push(map);
+        }
+    });
+
+    var format = '{point.name}: ${point.y}';
+    var pointY = '${point.y}'
+    if ($("#datatype").val() == "TOTAL_NUMBER_SERVED") {
+        pointY = '{point.y} people'
+    } else if ($("#datatype").val() == "NUMBER_NATIVE_HAWAIIANS_SERVED") {
+        pointY = '{point.y} Native Hawaiians';
+    }
+
+    // Create the chart
+    var chart = Highcharts.chart(key + '-pie-chart', {
+        chart: {
+            type: 'pie',
+            borderWidth: 0,
+            backgroundColor: null
+        },
+        colors: [
+            '#7CB5EC', '#434348', '#90ED7D', '#F7A35C', '#8085E9',
+            '#F15C80', '#E4D354', '#2B908F', '#F45B5B', '#91E8E1',
+            '#FF0000', '#FF8000', '#00FF00', '#0000FF', '#BF00FF'
+        ],
+        title: {
+            text: title
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false,
+                },
+                showInLegend: true
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>' + pointY + '</b><br/>'
+        },
+        series: [{
+            name: title,
+            colorByPoint: true,
+            data: data
+        }],
+        drilldown: {
+            series: drilldown
+        },
+    });
+
+    canvg(document.getElementById(key + "-pie-chart-canvas"), chart.getSVG());
+
+    var canvas = document.getElementById(key + "-pie-chart-canvas");
+    var img = canvas.toDataURL("image/png");
+    $("#" + key + "-pie-chart-base64").val(img.substring(img.indexOf(',') + 1));
+}
+
+function drawBarChart(key, title, map) {
+    var json = JSON.parse(localStorage.getItem(key));
+    var series = [];
+    var series1 = { name: key, colorByPoint: true, data: [] };
+    $.each(json["totals"], function(key, value) {
+        series1["data"].push({ name: key, y: value, drilldown: key });
+    });
+    series.push(series1);
+
+    var drilldown = [];
+    $.each(json, function(key, value) {
+        if (key != "totals") {
+            var series = { name: key, id: key, data: [] };
+            $.each(value, function(k, v) {
+                series["data"].push([ k, v ]);
+            });
+            drilldown.push(series);
+        }
+    });
+    console.log(drilldown);
+
+    Highcharts.chart(key + '-pie-chart', {
+        chart: {
+            type: 'bar',
+            borderWidth: 0,
+            backgroundColor: null
+        },
+        colors: [
+            '#7CB5EC', '#434348', '#90ED7D', '#F7A35C', '#8085E9',
+            '#F15C80', '#E4D354', '#2B908F', '#F45B5B', '#91E8E1',
+            '#FF0000', '#FF8000', '#00FF00', '#0000FF', '#BF00FF'
+        ],
+        title: {
+            text: title
+        },
+        xAxis: {
+            categories: [ $("input[data-key='" + key + "']").first().data("chart-title") ],
+            labels: {
+                enabled: false
+            }
+        },
+        yAxis: {
+            min: 0,
+        },
+        plotOptions: {
+            bar: {
+                dataLabels: {
+                    allowOverlap: true,
+                    enabled: true
+                }
+            }
+        },
+        credits: {
+            enabled: false
+        },
+        legend: {
+            enabled: false
+        },
+        series: series,
+        drilldown: { series: drilldown }
+    });
+}
+
 function drawChart(chartType, key, title, map) {
     $.ajax({
         type: 'POST',
@@ -33,138 +168,13 @@ function drawChart(chartType, key, title, map) {
             'X-CSRF-TOKEN': localStorage.getItem("csrf.token")
         },
         success: function(response) {
-            var json = JSON.parse(response);
+            localStorage.setItem(key, response);
 
             if (chartType == 'pie') {
-                var data = [];
-                $.each(json["totals"], function(key, value) {
-                    data.push({ name: key, y: value, drilldown: key });
-                });
-    
-                var drilldown = [];
-                $.each(json, function(key, value) {
-                    if (key != "totals") {
-                        var map = { name: key, id: key, data: [] };
-                        $.each(value, function(k, v) {
-                            map["data"].push([ k, v ]);
-                        });
-                        drilldown.push(map);
-                    }
-                });
-    
-                var format = '{point.name}: ${point.y}';
-                var pointY = '${point.y}'
-                if ($("#datatype").val() == "TOTAL_NUMBER_SERVED") {
-                    pointY = '{point.y} people'
-                } else if ($("#datatype").val() == "NUMBER_NATIVE_HAWAIIANS_SERVED") {
-                    pointY = '{point.y} Native Hawaiians';
-                }
-    
-                // Create the chart
-                var chart = Highcharts.chart(key + '-pie-chart', {
-                    chart: {
-                        type: 'pie',
-                        borderWidth: 0,
-                        backgroundColor: null
-                    },
-                    colors: [
-                        '#7CB5EC', '#434348', '#90ED7D', '#F7A35C', '#8085E9',
-                        '#F15C80', '#E4D354', '#2B908F', '#F45B5B', '#91E8E1',
-                        '#FF0000', '#FF8000', '#00FF00', '#0000FF', '#BF00FF'
-                    ],
-                    title: {
-                        text: title
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: false,
-                            },
-                            showInLegend: true
-                        }
-                    },
-                    tooltip: {
-                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>' + pointY + '</b><br/>'
-                    },
-                    series: [{
-                        name: title,
-                        colorByPoint: true,
-                        data: data
-                    }],
-                    drilldown: {
-                        series: drilldown
-                    },
-                });
-    
-                canvg(document.getElementById(key + "-pie-chart-canvas"), chart.getSVG());
-    
-                var canvas = document.getElementById(key + "-pie-chart-canvas");
-                var img = canvas.toDataURL("image/png");
-                $("#" + key + "-pie-chart-base64").val(img.substring(img.indexOf(',') + 1));
+                drawPieChart(key, title, map);
             }
             else if (chartType == 'bar') {
-                var series = [];
-                var series1 = { name: key, colorByPoint: true, data: [] };
-                $.each(json["totals"], function(key, value) {
-                    series1["data"].push({ name: key, y: value, drilldown: key });
-                });
-                series.push(series1);
-
-                var drilldown = [];
-                $.each(json, function(key, value) {
-                    if (key != "totals") {
-                        var series = { name: key, id: key, data: [] };
-                        $.each(value, function(k, v) {
-                            series["data"].push([ k, v ]);
-                        });
-                        drilldown.push(series);
-                    }
-                });
-                console.log(drilldown);
-
-                Highcharts.chart(key + '-pie-chart', {
-                    chart: {
-                        type: 'bar',
-                        borderWidth: 0,
-                        backgroundColor: null
-                    },
-                    colors: [
-                        '#7CB5EC', '#434348', '#90ED7D', '#F7A35C', '#8085E9',
-                        '#F15C80', '#E4D354', '#2B908F', '#F45B5B', '#91E8E1',
-                        '#FF0000', '#FF8000', '#00FF00', '#0000FF', '#BF00FF'
-                    ],
-                    title: {
-                        text: title
-                    },
-                    xAxis: {
-                        categories: [ $("input[data-key='" + key + "']").first().data("chart-title") ],
-                        labels: {
-                            enabled: false
-                        }
-                    },
-                    yAxis: {
-                        min: 0,
-                    },
-                    plotOptions: {
-                        bar: {
-                            dataLabels: {
-                                allowOverlap: true,
-                                enabled: true
-                            }
-                        }
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    legend: {
-                        enabled: false
-                    },
-                    series: series,
-                    drilldown: { series: drilldown }
-                });
+                drawBarChart(key, title, map);
             }
         }
     });
