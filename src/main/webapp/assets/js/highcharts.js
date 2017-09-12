@@ -23,6 +23,15 @@ function getFilters() {
 
 var baseUrl = localStorage.getItem("appUrl");
 
+function getPointY() {
+    if ($("#datatype").val() == "TOTAL_NUMBER_SERVED") {
+        return '{point.y} people'
+    } else if ($("#datatype").val() == "NUMBER_NATIVE_HAWAIIANS_SERVED") {
+        return '{point.y} Native Hawaiians';
+    }
+    return '${point.y}';
+}
+
 function drawPieChart(key, title, map) {
     var json = JSON.parse(localStorage.getItem(key));
     var data = [];
@@ -40,14 +49,6 @@ function drawPieChart(key, title, map) {
             drilldown.push(map);
         }
     });
-
-    var format = '{point.name}: ${point.y}';
-    var pointY = '${point.y}'
-    if ($("#datatype").val() == "TOTAL_NUMBER_SERVED") {
-        pointY = '{point.y} people'
-    } else if ($("#datatype").val() == "NUMBER_NATIVE_HAWAIIANS_SERVED") {
-        pointY = '{point.y} Native Hawaiians';
-    }
 
     // Create the chart
     var chart = Highcharts.chart(key + '-pie-chart', {
@@ -75,8 +76,8 @@ function drawPieChart(key, title, map) {
             }
         },
         tooltip: {
-            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>' + pointY + '</b><br/>'
+            headerFormat: '',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>' + getPointY() + '</b><br/>'
         },
         series: [{
             name: title,
@@ -98,23 +99,22 @@ function drawPieChart(key, title, map) {
 function drawBarChart(key, title, map) {
     var json = JSON.parse(localStorage.getItem(key));
     var series = [];
-    var series1 = { name: key, colorByPoint: true, data: [] };
-    $.each(json["totals"], function(key, value) {
-        series1["data"].push({ name: key, y: value, drilldown: key });
+    var series1 = { name: title, colorByPoint: true, data: [] };
+    $.each(json["totals"], function(k, value) {
+        series1["data"].push({ name: k, y: value, drilldown: k });
     });
     series.push(series1);
 
     var drilldown = [];
-    $.each(json, function(key, value) {
-        if (key != "totals") {
-            var series = { name: key, id: key, data: [] };
-            $.each(value, function(k, v) {
-                series["data"].push([ k, v ]);
+    $.each(json, function(k1, value) {
+        if (k1 != "totals") {
+            var series = { name: k1, id: k1, data: [] };
+            $.each(value, function(k2, v) {
+                series["data"].push([ k2, v ]);
             });
             drilldown.push(series);
         }
     });
-    console.log(drilldown);
 
     Highcharts.chart(key + '-pie-chart', {
         chart: {
@@ -131,19 +131,25 @@ function drawBarChart(key, title, map) {
             text: title
         },
         xAxis: {
-            categories: [ $("input[data-key='" + key + "']").first().data("chart-title") ],
+            categories: [ title ],
             labels: {
-                enabled: false
+                enabled: false,
             }
         },
         yAxis: {
-            min: 0,
+            min: 0
         },
         plotOptions: {
             bar: {
                 dataLabels: {
                     allowOverlap: true,
-                    enabled: true
+                    enabled: true,
+                    formatter: function() {
+                        if ($("#datatype").val() == "AMOUNT") {
+                            return accounting.formatMoney(this.point.y);
+                        }
+                        return accounting.formatNumber(this.point.y);
+                    }
                 }
             }
         },
@@ -152,6 +158,10 @@ function drawBarChart(key, title, map) {
         },
         legend: {
             enabled: false
+        },
+        tooltip: {
+            headerFormat: '',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>' + getPointY() + '</b><br/>'
         },
         series: series,
         drilldown: { series: drilldown }
@@ -190,13 +200,6 @@ function drawTop5OrganizationsBarChart(startYear, endYear) {
         $.each(json["totals"], function(i, val) {
             series.push({ name: i, data: [ val ] });
         });
-
-        var pointY = '${point.y}'
-        if ($("#datatype").val() == "TOTAL_NUMBER_SERVED") {
-            pointY = '{point.y} people'
-        } else if ($("#datatype").val() == "NUMBER_NATIVE_HAWAIIANS_SERVED") {
-            pointY = '{point.y} Native Hawaiians';
-        }
 
         var label;
         if (field == "AMOUNT") {
@@ -247,7 +250,7 @@ function drawTop5OrganizationsBarChart(startYear, endYear) {
             },
             tooltip: {
                 headerFormat: '<span style="font-size:11px">{point.x}</span><br>',
-                pointFormat: '<span style="color:{point.color}">{series.name}</span>: <b>' + pointY + '</b><br/>'
+                pointFormat: '<span style="color:{point.color}">{series.name}</span>: <b>' + getPointY() + '</b><br/>'
             },
             series: series
         });
@@ -281,13 +284,6 @@ function drawTopOrganizationsSplineChart() {
             });
             series.push(map);
         });
-
-        var pointY = '${point.y}'
-        if ($("#datatype").val() == "TOTAL_NUMBER_SERVED") {
-            pointY = '{point.y} people'
-        } else if ($("#datatype").val() == "NUMBER_NATIVE_HAWAIIANS_SERVED") {
-            pointY = '{point.y} Native Hawaiians';
-        }
 
         var label;
         if (field == "AMOUNT") {
@@ -327,7 +323,7 @@ function drawTopOrganizationsSplineChart() {
             tooltip: {
                 crosshairs: true,
                 shared: true,
-                pointFormat: '<span style="color:{point.color}">{series.name}</span>: <b>' + pointY + '</b><br/>'
+                pointFormat: '<span style="color:{point.color}">{series.name}</span>: <b>' + getPointY() + '</b><br/>'
             },
             plotOptions: {
                 spline: {

@@ -485,7 +485,7 @@
             $("#main-wrapper").LoadingOverlay("show", { color : "rgba(255, 255, 255, 1.0)", zIndex : 1 });
             localStorage.setItem("init", true);
 
-            $("input[value='pie']").prop("checked", true);
+            $("input[value='bar']").prop("checked", true);
 
             $("input[name='chart-type']").change(function() {
                 $.each(keys, function(index, value) {
