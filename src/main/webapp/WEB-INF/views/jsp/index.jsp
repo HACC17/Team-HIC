@@ -482,7 +482,7 @@
         $(document).ready(function() {
             $("#main-wrapper > div").hide();
             $("#main-wrapper").append("<div id='temp-div' style='background-color: white; height: 100%; width: 100%'></div>");
-            $("#main-wrapper").LoadingOverlay("show", { color : "rgba(255, 255, 255, 1.0)" });
+            $("#main-wrapper").LoadingOverlay("show", { color : "rgba(255, 255, 255, 1.0)", zIndex : 1 });
             localStorage.setItem("init", true);
 
             $("input[value='pie']").prop("checked", true);
