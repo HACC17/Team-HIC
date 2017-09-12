@@ -90,7 +90,7 @@ public class CsvExporter implements Runnable {
         record.add(grant.getGrantStatus());
         csvFilePrinter.printRecord(record);
       }
-      LOGGER.error("Successfully wrote " + grants.size() + " grants to " + filename);
+      LOGGER.info("Successfully wrote " + grants.size() + " grants to " + filename);
     }
     catch (IOException e) {
       LOGGER.error("Something went wrong while trying to write CSV file: " + e.getMessage(), e);
