@@ -474,7 +474,7 @@
         }
 
         $(document).ready(function() {
-            $("#grants-table-container").LoadingOverlay("show");
+            $("#main-wrapper").LoadingOverlay("show", { color : "rgba(255, 255, 255, 1.0)" });
 
             Highcharts.setOptions({
                 lang: {
@@ -491,12 +491,10 @@
                         clearTimeout(timer);
                     }
                     timer = setTimeout(function() {
-                    	$("#" + value + "-pie-chart").LoadingOverlay("show");
-
                         $.each(keys, function(i, v) {
                             var element = $("input[data-key='" + v + "']").first();
                             var map = getMap(element.data("key"));
-                            drawChart(element.data("key"), element.data("chart-title"), map);
+                            drawChart('pie', element.data("key"), element.data("chart-title"), map);
                         });
                     }, 1000);
                 });
@@ -591,12 +589,9 @@
                 update();
             });
             $.each(keys, function(index, value) {
-            	$("#" + value + "-pie-chart").LoadingOverlay("show");
-
                 $("#drilldown-" + value).change(function() {
-                    $("#" + value + "-pie-chart").LoadingOverlay("show");
                     var map = getMap($(this).data("key"));
-                    drawChart($(this).data("key"), $(this).data("chart-title"), map);
+                    drawChart('pie', $(this).data("key"), $(this).data("chart-title"), map);
                 });
             });
 

@@ -96,7 +96,7 @@
     }
 
     function updateTable() {
-    	$("#grants-table-container").LoadingOverlay("show");
+        $("#main-wrapper").LoadingOverlay("show", { color : "rgba(255, 255, 255, 1.0)" });
 
         var filters = {};
         $(".filter").each(function(index, value) {
@@ -154,7 +154,7 @@
                     columnDefs: columnDefs,
                     deferRender: true,
                     initComplete: function() {
-                        $("#grants-table-container").LoadingOverlay("hide", true);
+                        $("#main-wrapper").LoadingOverlay("hide", true);
                     }
                 });
                 $("#modals").empty();
