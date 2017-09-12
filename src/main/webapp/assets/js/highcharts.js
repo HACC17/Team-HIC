@@ -38,27 +38,16 @@ function drawChart(chartType, key, title, map) {
             if (chartType == 'pie') {
                 var data = [];
                 $.each(json["totals"], function(key, value) {
-                    var map = {};
-                    map["name"] = key;
-                    map["y"] = value;
-                    map["drilldown"] = key;
-                    data.push(map);
+                    data.push({ name: key, y: value, drilldown: key });
                 });
     
                 var drilldown = [];
                 $.each(json, function(key, value) {
                     if (key != "totals") {
-                        var map = {};
-                        map["name"] = key;
-                        map["id"] = key;
-                        var data = [];
-                        $.each(value, function(key2, value2) {
-                            var point = [];
-                            point.push(key2);
-                            point.push(value2);
-                            data.push(point);
+                        var map = { name: key, id: key, data: [] };
+                        $.each(value, function(k, v) {
+                            map["data"].push([ k, v ]);
                         });
-                        map["data"] = data;
                         drilldown.push(map);
                     }
                 });
@@ -116,33 +105,23 @@ function drawChart(chartType, key, title, map) {
                 var canvas = document.getElementById(key + "-pie-chart-canvas");
                 var img = canvas.toDataURL("image/png");
                 $("#" + key + "-pie-chart-base64").val(img.substring(img.indexOf(',') + 1));
-            } else if (chartType == 'bar') {
-                console.log(json);
-
-                var categories = [];
+            }
+            else if (chartType == 'bar') {
                 var series = [];
+                var series1 = { name: key, colorByPoint: true, data: [] };
                 $.each(json["totals"], function(key, value) {
-                    categories.push(key);
-                    var map = {};
-                    map["name"] = key;
-                    map["data"] = [ value ];
-                    map["drilldown"] = key;
-                    series.push(map);
+                    series1["data"].push({ name: key, y: value, drilldown: key });
                 });
-                console.log(series);
+                series.push(series1);
 
                 var drilldown = [];
                 $.each(json, function(key, value) {
                     if (key != "totals") {
-                        var map = {};
-                        map["name"] = key;
-                        map["id"] = key;
-                        var data = [];
-                        $.each(value, function(key2, value2) {
-                            data.push([ value2 ]);
+                        var series = { name: key, id: key, data: [] };
+                        $.each(value, function(k, v) {
+                            series["data"].push([ k, v]);
                         });
-                        map["data"] = data;
-                        drilldown.push(map);
+                        drilldown.push(series);
                     }
                 });
                 console.log(drilldown);
@@ -163,24 +142,18 @@ function drawChart(chartType, key, title, map) {
                         text: title
                     },
                     xAxis: {
-                        categories: ['Africa', 'America', 'Asia', 'Europe', 'Oceania'],
-                        title: {
-                            text: null
+                        categories: [ $("input[data-key='" + key + "']").first().data("chart-title") ],
+                        labels: {
+                            enabled: false
                         }
                     },
                     yAxis: {
                         min: 0,
-                        title: {
-                            text: 'Population (millions)',
-                            align: 'high'
-                        },
-                        labels: {
-                            overflow: 'justify'
-                        }
                     },
                     plotOptions: {
                         bar: {
                             dataLabels: {
+                                allowOverlap: true,
                                 enabled: true
                             }
                         }
@@ -188,7 +161,11 @@ function drawChart(chartType, key, title, map) {
                     credits: {
                         enabled: false
                     },
-                    series: series
+                    legend: {
+                        enabled: false
+                    },
+                    series: series,
+                    drilldown: { series: drilldown }
                 });
             }
         }

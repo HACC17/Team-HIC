@@ -494,7 +494,7 @@
                         $.each(keys, function(i, v) {
                             var element = $("input[data-key='" + v + "']").first();
                             var map = getMap(element.data("key"));
-                            drawChart('pie', element.data("key"), element.data("chart-title"), map);
+                            drawChart('bar', element.data("key"), element.data("chart-title"), map);
                         });
                     }, 1000);
                 });
@@ -591,7 +591,7 @@
             $.each(keys, function(index, value) {
                 $("#drilldown-" + value).change(function() {
                     var map = getMap($(this).data("key"));
-                    drawChart('pie', $(this).data("key"), $(this).data("chart-title"), map);
+                    drawChart('bar', $(this).data("key"), $(this).data("chart-title"), map);
                 });
             });
 
