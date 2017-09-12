@@ -280,7 +280,7 @@
         <div id="main-wrapper" class="main-wrapper">
             <div class="panes content-wrapper">
                 <div id="grants-table-container">
-                    <div class="tab-pane" id="summary-cards">
+                    <div class="tab-pane" id="summary-cards" style="max-width: 100%">
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="card text-center">
@@ -376,13 +376,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane tables" id="all">
+                    <div class="tab-pane tables" id="all" style="max-width:100%">
                         <div class="table-responsive">
                             <%@ include file="/WEB-INF/views/jspf/grants-table.jspf" %>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane charts" id="charts">
+                <div class="tab-pane charts" id="charts" style="max-width: 100%">
                     <div class="row">
                         <div class="col-md-4">
                             <div id="priority-pie-chart"></div>
