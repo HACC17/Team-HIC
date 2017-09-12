@@ -277,8 +277,8 @@
                 </div>
             </div>
         </div>
-        <div id="main-wrapper" class="main-wrapper">
-            <div class="panes content-wrapper">
+        <div id="main-wrapper" class="main-wrapper" style="background-color: #FFFFFF">
+            <div class="panes content-wrapper" style="display: none">
                 <div id="grants-table-container">
                     <div class="tab-pane" id="summary-cards" style="max-width: 100%">
                         <div class="row">
@@ -422,7 +422,7 @@
                     </div>
                 </div>
             </div>
-            <footer>
+            <footer style="display: none">
                 <div class="content-wrapper">
                     <span class="copyright">
                         &copy; <script>document.write(new Date().getFullYear());</script> <a href="https://www.oha.org/">Office of Hawaiian Affairs</a>
@@ -474,7 +474,10 @@
         }
 
         $(document).ready(function() {
+            $("#main-wrapper > div").hide();
+            $("#main-wrapper").append("<div id='temp-div' style='background-color: white; height: 100%; width: 100%'></div>");
             $("#main-wrapper").LoadingOverlay("show", { color : "rgba(255, 255, 255, 1.0)" });
+            localStorage.setItem("init", true);
 
             Highcharts.setOptions({
                 lang: {

@@ -96,8 +96,6 @@
     }
 
     function updateTable() {
-        $("#main-wrapper").LoadingOverlay("show", { color : "rgba(255, 255, 255, 1.0)" });
-
         var filters = {};
         $(".filter").each(function(index, value) {
             if ($(this).is(':checkbox')) {
@@ -154,7 +152,14 @@
                     columnDefs: columnDefs,
                     deferRender: true,
                     initComplete: function() {
-                        $("#main-wrapper").LoadingOverlay("hide", true);
+                        if (localStorage.getItem("init")) {
+                            localStorage.setItem("init", false);
+                            $("#temp-div").remove();
+                            $("#main-wrapper").css("background-color", "");
+                            $("footer").show();
+                            $("#main-wrapper > div").show();
+                            $("#main-wrapper").LoadingOverlay("hide", true);
+                        }
                     }
                 });
                 $("#modals").empty();

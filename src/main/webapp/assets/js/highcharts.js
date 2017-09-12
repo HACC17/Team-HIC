@@ -64,8 +64,7 @@ function drawChart(chartType, key, title, map) {
                 var chart = Highcharts.chart(key + '-pie-chart', {
                     chart: {
                         type: 'pie',
-                        borderColor: "#CCCCCC",
-                        borderWidth: 1,
+                        borderWidth: 0,
                         backgroundColor: null
                     },
                     colors: [
@@ -119,7 +118,7 @@ function drawChart(chartType, key, title, map) {
                     if (key != "totals") {
                         var series = { name: key, id: key, data: [] };
                         $.each(value, function(k, v) {
-                            series["data"].push([ k, v]);
+                            series["data"].push([ k, v ]);
                         });
                         drilldown.push(series);
                     }
@@ -129,8 +128,7 @@ function drawChart(chartType, key, title, map) {
                 Highcharts.chart(key + '-pie-chart', {
                     chart: {
                         type: 'bar',
-                        borderColor: "#CCCCCC",
-                        borderWidth: 1,
+                        borderWidth: 0,
                         backgroundColor: null
                     },
                     colors: [
@@ -180,10 +178,7 @@ function drawTop5OrganizationsBarChart(startYear, endYear) {
 
         var series = [];
         $.each(json["totals"], function(i, val) {
-            var map = {};
-            map["name"] = i;
-            map["data"] = [ val ];
-            series.push(map);
+            series.push({ name: i, data: [ val ] });
         });
 
         var pointY = '${point.y}'
@@ -205,8 +200,7 @@ function drawTop5OrganizationsBarChart(startYear, endYear) {
         Highcharts.chart('top-5-orgs-column-chart', {
             chart: {
                 type: 'column',
-                borderColor: "#CCCCCC",
-                borderWidth: 1,
+                borderWidth: 0,
                 backgroundColor: null
             },
             title: {
@@ -259,26 +253,22 @@ function drawTopOrganizationsSplineChart() {
 
         var series = [];
         $.each(json, function(index, value) {
-            var map = {};
-            map["name"] = index;
-            map["marker"] = { symbol: 'square' };
-            var data = [];
+            var map = { name: index, marker: { symbol: 'square' }, data: [] };
             var year = 2013;
             $.each(value, function(i, v) {
                 $.each(v, function(i2, v2) {
                     if (year == i2) {
-                        data.push(v2);
+                        map["data"].push(v2);
                         year++;
                     } else {
                         do {
-                            data.push(0);
+                            map["data"].push(0);
                             year++;
                         } while (year != i2);
-                        data.push(v2);
+                        map["data"].push(v2);
                     }
                 });
             });
-            map["data"] = data;
             series.push(map);
         });
 
@@ -301,8 +291,7 @@ function drawTopOrganizationsSplineChart() {
         Highcharts.chart('top-5-orgs-spline-chart', {
             chart: {
                 type: 'spline',
-                borderColor: "#CCCCCC",
-                borderWidth: 1,
+                borderWidth: 0,
                 backgroundColor: null
             },
             title: {
