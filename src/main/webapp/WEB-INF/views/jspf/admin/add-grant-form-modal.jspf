@@ -15,12 +15,12 @@
             </div>
             <div class="modal-body">
                 <div id="success-msg" class="row" style="display: none">
-                    <div class="alert alert-success">
+                    <div class="col-md-12 alert alert-success">
                         Successfully saved grant to the database!
                     </div>
                 </div>
                 <div id="error-msg" class="row" style="display: none">
-                    <div class="alert alert-danger">
+                    <div class="col-md-12 alert alert-danger">
                         A problem was encountered while trying to save the grant to the database: <span id="problem"></span>
                     </div>
                 </div>
@@ -76,10 +76,10 @@
                     </div>
                     <div class="row extra-top-margin">
                         <div class="col-md-4" style="padding-top: 8px">
-                            <form:label for="amount" path="amount">Amount</form:label>
+                            <form:label for="amount-input" path="amount">Amount</form:label>
                         </div>
                         <div class="col-md-3">
-                            <form:input id="amount" path="amount" cssClass="form-control" />
+                            <form:input id="amount-input" path="amount" cssClass="form-control" />
                         </div>
                     </div>
                     <div class="row extra-top-margin">
@@ -173,7 +173,7 @@
     $(document).ready(function() {
         $("#fiscalYear").attr("type", "number");
         $("#fiscalYear").val(new Date().getFullYear());
-        $("#amount").attr("type", "number");
+        $("#amount-input").attr("type", "number");
         $("#totalNumberServed").attr("type", "number");
         $("#numberNativeHawaiiansServed").attr("type", "number");
     });
