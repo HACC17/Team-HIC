@@ -4,12 +4,12 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="push-to-open-data-modalLabel"><i class="fa fa-arrow-up"></i> Push All Data</h3>
+                <h3 class="modal-title" id="push-to-open-data-modalLabel"><i class="fa fa-arrow-up"></i> Export to data.hawaii.gov</h3>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        Click on the Push All Data button below to push all the information for each grant in the database to <a href="https://data.hawaii.gov" target="_blank">Hawaii's Open Data Portal</a>.
+                        Click on the Export Data button below to push all the information for each grant in the database to <a href="https://data.hawaii.gov" target="_blank">Hawaii's Open Data Portal</a>.
                     </div>
                 </div>
                 <div class="row extra-top-margin">
@@ -21,13 +21,13 @@
                 <br />
                 <div class="row extra-top-margin">
                     <div class="col-md-12">
-                        Push data automatically to data.hawaii.gov every day at midnight?&nbsp;&nbsp;&nbsp;<input type="radio" name="cron" value="yes" /> Yes&nbsp;&nbsp;&nbsp;<input type="radio" name="cron" value="no" /> No
+                        Push data automatically to <a href="https://data.hawaii.gov" target="_blank">data.hawaii.gov</a> every day at midnight?&nbsp;&nbsp;&nbsp;<input type="radio" name="cron" value="yes" /> Yes&nbsp;&nbsp;&nbsp;<input type="radio" name="cron" value="no" /> No
                     </div>
                 </div>
                 <br />
                 <div class="row extra-top-margin">
                     <div class="col-md-4 col-md-push-2">
-                        <button id="push-btn" class="btn btn-lg btn-primary btn-block"><i class="fa fa-arrow-up"></i> Push All Data</button>
+                        <button id="push-btn" class="btn btn-lg btn-primary btn-block"><i class="fa fa-arrow-up"></i> Export Data</button>
                     </div>
                     <div class="col-md-4 col-md-push-2">
                         <button class="btn btn-lg btn-default btn-block" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>

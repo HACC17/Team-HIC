@@ -17,6 +17,21 @@
                 </button>
                 <a class="navbar-brand" href="<c:url value='/' />">OHA Grants</a>
             </div>
+            <div class="dropdown admin-nav">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i>Admin Tools<span class="caret"></span></a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <sec:authorize access="isAnonymous()">
+                        <li><a href="javascript:void(0);" onclick="$('#login-form-modal').modal('show');">Login</a></li>
+                    </sec:authorize>
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                        <li><a href="javascript:void(0);" onclick="$('#add-grant-form-modal').modal('show');">Add Grant</a></li>
+                        <li><a href="javascript:void(0);" onclick="$('#import-sample-data-modal').modal('show');">Import Grants</a></li>
+                        <li><a href="javascript:void(0);" onclick="$('#push-to-open-data-modal').modal('show');">Export to data.hawaii.gov</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="<c:url value='/logout'/>">Logout</a></li>
+                    </sec:authorize>
+                </ul>
+            </div>
         </nav>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <div class="left-sidebar" id="left-sidebar">
@@ -183,17 +198,6 @@
                             </div>
                         </div>
                         <div class="filter-group">
-                            <button id="clear" class="btn btn-primary">Clear Filters</button>
-                            <sec:authorize access="isAnonymous()">
-                                <button class="btn btn-primary" onclick="$('#login-form-modal').modal('show');">Admin Log In</button>
-                            </sec:authorize>
-                            <sec:authorize access="hasRole('ROLE_ADMIN')">
-                                <button class="btn btn-primary" onclick="$('#add-grant-form-modal').modal('show');">Add Grant</button>
-                                <button class="btn btn-primary" onclick="$('#import-sample-data-modal').modal('show');">Import Sample Data</button>
-                                <button class="btn btn-primary" onclick="$('#push-to-open-data-modal').modal('show');">Push All Data</button>
-                            </sec:authorize>
-                        </div>
-                        <div class="filter-group">
                             <label class="fieldset-label" data-toggle="collapse" data-target="#toggle-chart-settings"><i class="fa fa-pie-chart"></i>Chart Settings<i class="toggle-icon fa fa-angle-left"></i></label>
                             <div id="toggle-chart-settings" class="collapse">
                                 <fieldset>
@@ -287,6 +291,9 @@
                                     </div>
                                 </fieldset>
                             </div>
+                        </div>
+                        <div class="filter-group">
+                            <button id="clear" class="btn btn-primary">Clear Filters</button>
                         </div>
                     </div>
                 </div>
