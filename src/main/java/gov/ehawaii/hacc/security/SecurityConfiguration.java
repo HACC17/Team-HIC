@@ -1,6 +1,7 @@
 package gov.ehawaii.hacc.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +18,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+  @Value("${admin.password}")
+  private String password;
+
   /**
    * Configures the admin account.
    * 
@@ -26,7 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Autowired
   public final void configureGlobalSecurity(final AuthenticationManagerBuilder auth)
       throws Exception {
-    auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
+    auth.inMemoryAuthentication().withUser("admin").password(password).roles("ADMIN");
   }
 
   /** {@inheritDoc} */
