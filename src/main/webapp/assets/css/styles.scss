@@ -1,0 +1,329 @@
+@import "bootstrap";
+
+// auto bg and borders on buttons
+@mixin button ($btn-color) {
+	background: $btn-color;
+	$btn-color-grad: lighten($btn-color, 12%);
+	background: -webkit-linear-gradient($btn-color-grad, $btn-color);
+    background: -o-linear-gradient($btn-color-grad, $btn-color);
+    background: -moz-linear-gradient($btn-color-grad, $btn-color);
+    background: linear-gradient($btn-color-grad, $btn-color);
+	//$btn-border: darken($btn-color, 12%);
+	//border: $btn-border 1px solid;
+}
+$standard-border: 1px solid #ddd;
+$bg-transparent: #fff;//rgba(255, 255, 255, 0.9);
+
+html, body {
+	height: 100%;
+	width: 100%;
+}
+body {
+	//background:#fff !important;
+	background: url(../images/bg-image-3.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+	
+}
+i {
+	margin-right:8px;
+}
+body.sidebar-fixed .left-sidebar {
+    position: fixed;
+    height: 100%;
+}
+.wrapper {
+	min-height: 100%;
+	width:100%;
+	margin: 0px auto;
+	padding-top:$navbar-height;//50px
+}
+// layout
+$sidebar: 300px;// sidebar width
+$margin: 30px;
+.content-wrapper {
+	margin-left:$margin;
+	margin-right:$margin;
+}
+body.sidebar-fixed .main-wrapper {
+    //padding: 20px 30px;
+    margin-left: $sidebar;
+    position: relative;
+    border-left: $standard-border;
+    display: flex;
+	flex-direction: column;
+	min-height: 100%;
+}
+.panes {
+	flex: 1;
+}
+.tab-pane {
+	margin-top: $margin;
+	margin-bottom: $margin;
+	background: $bg-transparent;
+	border: $standard-border;
+	padding:15px;
+	border-radius: 3px;
+	max-width: 1440px;
+	//margin-bottom: 30px;
+	@extend .container-fluid;
+}
+body.sidebar-fixed .left-sidebar {
+	//background: #f8f8f8;
+	background: $bg-transparent;
+    width: $sidebar;
+    height: 100% ;
+    padding-right: 0;
+    padding-left: 0;
+    left: 0;
+    float: none;
+    z-index: 999;
+    padding-bottom: $navbar-height;//50px
+    // filters
+	.form-check-label {
+		cursor: pointer;
+		display: block;
+		width: 100%;
+	}
+    .filter-group {
+    	background:#f8f8f8;
+    	margin: 0;
+    	border-bottom: $standard-border;
+    	&:last-child {
+    		border-bottom: none;
+    		background: transparent;
+    	}
+    }
+    .clear-filter i {
+    	margin-right:2px;
+    }
+    .filters-panel {
+    	display: block;
+    }
+    label {
+		font-weight:500;
+		&.fieldset-label {
+			cursor: pointer;
+			text-indent: 30px;
+			margin-bottom: 0;
+			display: block;
+			padding:10px 15px 15px 15px;
+			border-top:#fff 5px solid;
+			transition:border-color 0.2s;
+			@include button(#eee);
+			&:hover {
+				border-top:#4173CE 5px solid;
+			}
+			i.flavor {
+				position: absolute;
+				left:-12px;
+				margin-top:4px;
+				color:#999;
+				&.fa-dollar {
+					left:-10px;
+				}
+				&.fa-area-chart, &.fa-line-chart {
+					left:-14px;
+				}
+			}
+			i.toggle-icon {
+				float:right;
+				font-size: 16px;
+				line-height: $line-height-base;
+			}
+		}
+
+	}
+	fieldset {
+		padding:10px;
+		fieldset {
+			padding: 0;
+		}
+	}
+	.form-check-input {
+		margin-right:3px;
+	}
+}
+
+.table {
+	float: left;
+}
+.table-responsive {
+	border:none;
+}
+th, td {
+	font-size: $font-size-base;
+}
+.modal-content {
+	border-radius: 2px;
+	.modal-title {
+		margin:0;
+		font-size: 20px;
+		font-weight: 700;
+	}
+}
+.btn {
+	padding:4px 8px;
+	font-size: 12px;
+}
+#clear {
+	margin:15px;
+}
+@media (max-width: $screen-sm-min) {
+
+	body.sidebar-fixed .main-wrapper {
+		margin: 0;
+		height: auto;
+		position: relative;
+	}
+	.content-wrapper {
+		margin-left:15px;
+		margin-right:15px;
+	}
+	.tab-pane {
+		margin-top:15px;
+		margin-bottom:15px;
+	}
+	body.sidebar-fixed .left-sidebar {
+		position: relative;
+		height: auto !important;
+		width:100%;
+		.slimScrollDiv, .sidebar-scroll {
+			height: auto !important;
+		}
+	}
+	.navbar-collapse {
+		padding:0;
+	}
+}
+.navbar-oha {
+	$nav-color: #eee;
+    background: $nav-color;
+	$nav-color-grad: lighten($nav-color, 12%);
+	background: -webkit-linear-gradient(left, $nav-color-grad, $nav-color);
+    background: -o-linear-gradient(left, $nav-color-grad, $nav-color);
+    background: -moz-linear-gradient(left, $nav-color-grad, $nav-color);
+    background: linear-gradient(left, $nav-color-grad, $nav-color);
+    border-color: #ccc;
+}
+.icon-bar {
+	background-color: #333;
+}
+.navbar-brand {
+	display: block;
+	height:39px;
+	width:201px;
+	background:url('../images/logo-oha-grants.png') no-repeat;
+	background-size:cover;
+	padding: 0;
+	margin:5px 0;
+	text-indent: -99999px;
+}
+.navbar > .container-fluid .navbar-brand {
+	margin-left:0;
+}
+.admin-nav {
+	margin:20px 30px 0 0;;
+	float:right;
+	.dropdown-menu {
+		background:#eee;
+	}
+}
+.demo-chart {
+	width: 805px;
+	position: relative;
+	margin: 0px auto;
+	img {
+		max-width:100%;
+		height: auto;
+	}
+}
+.modal-content {
+	.modal-header {
+		border-top:$brand-secondary 5px solid;
+	}
+	dd {
+		margin-bottom:10px;
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+	.dl-horizontal {
+		margin: 0;
+	}
+}
+footer {
+	background: $brand-primary;
+	border-top: darken($brand-primary, 12%) 1px solid;
+	padding:15px 0;
+	color:#fff;
+	.copyright {
+		float:right;
+	}
+	a {
+		color:#fff;
+		&:hover {
+			color:#fff;
+		}
+	}
+}
+// dt overrides
+.pagination {
+	margin-bottom:0;
+}
+.dt-buttons a.dt-button {
+	@extend .btn;
+	@extend .btn-primary;
+	background-image:none !important;
+	&:active:hover:not(.disabled):not(.disabled) {
+		color: #fff;
+		background-color: #4173CE;
+		border-color: #3266c3;
+	}
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+	padding: 0;
+	margin: 0;
+	border:none;
+	&:hover {
+		border:none;
+		background: none;
+	}
+	&.disabled {
+		padding: 0;
+		margin: 0;
+		border:none;
+		> a {
+			color: #999;
+			background: #f8f8f8;
+		}
+		&:hover {
+			border:none;
+			background: none;
+		}
+	}
+}
+.chart {
+	margin-bottom: 15px;
+}
+.highcharts-container {
+	margin-bottom:5px;
+}
+.card-title {
+	font-size: $font-size-base;
+	margin-top:0;
+}
+.card-text {
+	font-size: $font-size-large;
+	font-weight: 700;
+	margin:0;
+}
+#summary-cards .col-md-2 {
+	border-right: $standard-border;
+	margin-bottom: 15px;
+	&:last-child {
+		border:none;
+	}
+}
