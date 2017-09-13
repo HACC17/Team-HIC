@@ -28,16 +28,26 @@ public class PushServiceImpl implements PushService {
   @Autowired
   private PropertiesFileManager propertiesFileManager;
 
-  @Value("${script.path}")
+  @Value("${scripts.path}")
   private String scriptPath;
 
-  @Value("${script.name}")
-  private String scriptName;
+  @Value("${scripts.names}")
+  private String scriptNames;
 
   @Override
   public final String pushData() {
-    String command = "sh " + scriptPath + scriptName;
-    return executeCommand(command);
+    if (scriptNames.contains(",")) {
+      StringBuffer buffer = new StringBuffer();
+      for (String scriptName : scriptNames.split(",")) {
+        String command = "sh " + scriptPath + scriptName;
+        buffer.append(executeCommand(command));
+      }
+      return buffer.toString();
+    }
+    else {
+      String command = "sh " + scriptPath + scriptNames;
+      return executeCommand(command);
+    }
   }
 
   @Override
