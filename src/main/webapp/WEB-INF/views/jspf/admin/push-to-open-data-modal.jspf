@@ -37,9 +37,9 @@
         $("#push-btn").click(function(event) {
             event.preventDefault();
             var appUrl = localStorage.getItem('appUrl');
-            console.log(appUrl);
             $.get(appUrl + "admin/opendata", function(data, status) {
-                console.log(status);
+                $("#output").val(data);
+                console.log(data);
             });
         });
     });
