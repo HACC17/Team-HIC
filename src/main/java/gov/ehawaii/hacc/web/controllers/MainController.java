@@ -61,16 +61,6 @@ public class MainController {
   }
 
   /**
-   * Displays the login page.
-   * 
-   * @return The login page.
-   */
-  @RequestMapping(value = "/login", method = RequestMethod.GET)
-  public final String showLoginPage() {
-    return "login";
-  }
-
-  /**
    * A <code>POST</code> request sent to the <code>/filter</code> endpoint <strong>must</strong>
    * contain a JSON object that contains a list of lists of filters in the request body.<br />
    * <br />

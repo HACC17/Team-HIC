@@ -188,8 +188,9 @@
                                 <button class="btn btn-primary" onclick="$('#login-form-modal').modal('show');">Admin Log In</button>
                             </sec:authorize>
                             <sec:authorize access="hasRole('ROLE_ADMIN')">
-                                <br /><button class="btn btn-primary" onclick="$('#add-grant-form-modal').modal('show');">Add Grant</button>
-                                <br /><button class="btn btn-primary" onclick="$('#push-to-open-data-modal').modal('show');">Push All Data</button>
+                                <button class="btn btn-primary" onclick="$('#add-grant-form-modal').modal('show');">Add Grant</button>
+                                <button class="btn btn-primary" onclick="$('#import-sample-data-modal').modal('show');">Import Sample Data</button>
+                                <button class="btn btn-primary" onclick="$('#push-to-open-data-modal').modal('show');">Push All Data</button>
                             </sec:authorize>
                         </div>
                         <div class="filter-group">
@@ -640,6 +641,7 @@
     </sec:authorize>
     <sec:authorize access="hasRole('ROLE_ADMIN')">
         <%@ include file="/WEB-INF/views/jspf/admin/add-grant-form-modal.jspf" %>
+        <%@ include file="/WEB-INF/views/jspf/admin/import-sample-data-modal.jspf" %>
         <%@ include file="/WEB-INF/views/jspf/admin/push-to-open-data-modal.jspf" %>
     </sec:authorize>
 </body>

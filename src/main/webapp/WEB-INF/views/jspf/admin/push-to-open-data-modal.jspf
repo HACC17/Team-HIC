@@ -8,8 +8,23 @@
             </div>
             <div class="modal-body">
                 <div class="row extra-top-margin">
-                    <div class="col-md-4 col-md-push-4">
+                    <div class="col-md-12">
+                        Click on the Push to Open Data button below to push all the information for each grant in the database to <a href="https://data.hawaii.gov" target="_blank">Hawaii's Open Data Portal</a>.
+                    </div>
+                </div>
+                <div class="row extra-top-margin">
+                    <div class="col-md-12">
+                        <label for="output">Output</label>
+                        <textarea id="output" rows="6" cols="1" readonly class="form-control"></textarea>
+                    </div>
+                </div>
+                <br />
+                <div class="row extra-top-margin">
+                    <div class="col-md-4 col-md-push-2">
                         <button id="push-btn" class="btn btn-lg btn-primary btn-block">Push to Open Data</button>
+                    </div>
+                    <div class="col-md-4 col-md-push-2">
+                        <button class="btn btn-lg btn-default btn-block" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
             </div>
