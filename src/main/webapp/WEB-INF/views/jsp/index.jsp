@@ -8,6 +8,7 @@
 <style>
     .blue-border {
         border: 1px solid #396FCD;
+        margin-bottom: 10px;
         padding: 10px;
     }
 </style>
@@ -357,7 +358,7 @@
                             <canvas id="priority-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="priority-pie-chart-base64" value="" />
                             <div class="input-group">
-                                <div class="input-group-addon"><i class="fa fa-area-chart"></i></div>
+                                <div class="input-group-addon"><i class="fa fa-question-circle fa-fw"></i></div>
                                 <select id="drilldown-priority" class="form-control" data-key="priority" data-chart-title="Strategic Priority">
                                     <option value="">&lt;None&gt;</option>
                                     <option value="result">Strategic Result</option>
@@ -372,7 +373,7 @@
                             <canvas id="result-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="result-pie-chart-base64" value="" />
                             <div class="input-group">
-                                <div class="input-group-addon"><i class="fa fa-line-chart"></i></div>
+                                <div class="input-group-addon"><i class="fa fa-question-circle fa-fw"></i></div>
                                 <select id="drilldown-result" class="form-control" data-key="result" data-chart-title="Strategic Result">
                                     <option value="">&lt;None&gt;</option>
                                     <option value="priority" selected>Strategic Priority</option>
@@ -387,7 +388,7 @@
                             <canvas id="type-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="type-pie-chart-base64" value="" />
                             <div class="input-group">
-                                <div class="input-group-addon"><i class="fa fa-info-circle"></i></div>
+                                <div class="input-group-addon"><i class="fa fa-question-circle fa-fw"></i></div>
                                 <select id="drilldown-type" class="form-control" data-key="type" data-chart-title="Grant Type">
                                     <option value="">&lt;None&gt;</option>
                                     <option value="priority">Strategic Priority</option>
@@ -404,7 +405,7 @@
                             <canvas id="location-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="location-pie-chart-base64" value="" />
                             <div class="input-group">
-                                <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                                <div class="input-group-addon"><i class="fa fa-question-circle fa-fw"></i></div>
                                 <select id="drilldown-location" class="form-control" data-key="location" data-chart-title="Location">
                                     <option value="" selected>&lt;None&gt;</option>
                                     <option value="priority">Strategic Priority</option>
@@ -419,7 +420,7 @@
                             <canvas id="status-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="status-pie-chart-base64" value="" />
                             <div class="input-group">
-                                <div class="input-group-addon"><i class="fa fa-check-circle"></i></div>
+                                <div class="input-group-addon"><i class="fa fa-question-circle fa-fw"></i></div>
                                 <select id="drilldown-status" class="form-control" data-key="status" data-chart-title="Grant Status">
                                     <option value="">&lt;None&gt;</option>
                                     <option value="priority">Strategic Priority</option>
