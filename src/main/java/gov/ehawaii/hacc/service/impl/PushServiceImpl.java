@@ -2,6 +2,7 @@ package gov.ehawaii.hacc.service.impl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import org.apache.logging.log4j.LogManager;
@@ -46,29 +47,33 @@ public class PushServiceImpl implements PushService {
     try {
       Process p = Runtime.getRuntime().exec(command);
       p.waitFor();
-      try (BufferedReader reader =
-          new BufferedReader(new InputStreamReader(p.getInputStream(), Charset.defaultCharset()))) {
-
-        String line = "";
-        while ((line = reader.readLine()) != null) {
-          output.append(line + "\n");
-        }
-      }
-      try (BufferedReader reader =
-          new BufferedReader(new InputStreamReader(p.getErrorStream(), Charset.defaultCharset()))) {
-
-        String line = "";
-        while ((line = reader.readLine()) != null) {
-          output.append(line + "\n");
-        }
-      }
+      output.append(getOutput(p.getInputStream(), "Output"));
+      output.append(getOutput(p.getErrorStream(), "Errors"));
     }
     catch (IOException | InterruptedException e) {
-      LOGGER.error("There was a problem executing the command: " + e.getMessage(), e);
+      LOGGER.error("A problem was encountered while executing the command: " + e.getMessage(), e);
     }
 
     return output.toString();
 
+  }
+
+  private static String getOutput(InputStream is, String title) {
+    try (BufferedReader reader =
+        new BufferedReader(new InputStreamReader(is, Charset.defaultCharset()))) {
+      StringBuffer output = new StringBuffer();
+      String line = "";
+      while ((line = reader.readLine()) != null) {
+        output.append(line + "\n");
+      }
+      String out = output.toString();
+      return out.isEmpty() ? "" : "===== " + title + " =====\n" + out;
+    }
+    catch (IOException ioe) {
+      LOGGER.error("A problem was encountered while reading in the output of the command: "
+          + ioe.getMessage(), ioe);
+      return "";
+    }
   }
 
 }

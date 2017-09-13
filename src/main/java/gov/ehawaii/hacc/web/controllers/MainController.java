@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.ehawaii.hacc.model.Grant;
+import gov.ehawaii.hacc.properties.PropertiesFileManager;
 import gov.ehawaii.hacc.service.GrantsService;
 
 /**
@@ -26,6 +27,9 @@ public class MainController {
 
   @Autowired
   private GrantsService grantsService;
+
+  @Autowired
+  private PropertiesFileManager propertiesFileManager;
 
   /**
    * Displays the main page of this application. A model is populated with lists that are used in a
@@ -57,6 +61,7 @@ public class MainController {
     model.addAttribute("priorities", grantsService.getAllStrategicPriorities());
     model.addAttribute("results", grantsService.getAllStrategicResults());
     model.addAttribute("grant", new Grant());
+    model.addAttribute("cron", propertiesFileManager.getProperty("cron", "no"));
     return "index";
   }
 

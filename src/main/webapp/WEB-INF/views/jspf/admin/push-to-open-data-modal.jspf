@@ -20,6 +20,12 @@
                 </div>
                 <br />
                 <div class="row extra-top-margin">
+                    <div class="col-md-12">
+                        Push data automatically to data.hawaii.gov every day at midnight?&nbsp;&nbsp;&nbsp;<input type="radio" name="cron" value="yes" /> Yes&nbsp;&nbsp;&nbsp;<input type="radio" name="cron" value="no" /> No
+                    </div>
+                </div>
+                <br />
+                <div class="row extra-top-margin">
                     <div class="col-md-4 col-md-push-2">
                         <button id="push-btn" class="btn btn-lg btn-primary btn-block">Push to Open Data</button>
                     </div>
@@ -34,10 +40,13 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+        var cron = "<c:out value='${cron}'/>";
+        $("input[value='" + cron + "']").prop("checked", true);
+
         $("#push-btn").click(function(event) {
             event.preventDefault();
             var appUrl = localStorage.getItem('appUrl');
-            $.get(appUrl + "admin/opendata", function(data, status) {
+            $.get(appUrl + "admin/opendata?cron=" $("input[name='cron']").prop("checked"), function(data, status) {
                 $("#output").val(data);
                 console.log(data);
             });
