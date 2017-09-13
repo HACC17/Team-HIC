@@ -14,7 +14,8 @@ import gov.ehawaii.hacc.properties.PropertiesFileManager;
 import gov.ehawaii.hacc.service.PushService;
 
 /**
- * 
+ * This service will push all the information about each grant that is stored in a CSV file to
+ * Hawaii's Open Data Portal (http://data.hawaii.gov).
  * 
  * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
  * @version 1.0
@@ -34,13 +35,13 @@ public class PushServiceImpl implements PushService {
   private String scriptName;
 
   @Override
-  public String pushData() {
+  public final String pushData() {
     String command = "sh " + scriptPath + scriptName;
     return executeCommand(command);
   }
 
   @Override
-  public void setCronEnabled(boolean cronEnabled) {
+  public final void setCronEnabled(final boolean cronEnabled) {
     propertiesFileManager.saveProperty(PushService.PUSH_CRON, cronEnabled ? "yes" : "no");
   }
 
@@ -50,7 +51,7 @@ public class PushServiceImpl implements PushService {
    * @param command The command to execute.
    * @return The output of the command.
    */
-  private static String executeCommand(String command) {
+  private static String executeCommand(final String command) {
 
     StringBuffer output = new StringBuffer();
 
@@ -68,7 +69,14 @@ public class PushServiceImpl implements PushService {
 
   }
 
-  private static String getOutput(InputStream is, String title) {
+  /**
+   * Gets the output from the given input stream.
+   * 
+   * @param is The input stream from which to get the output.
+   * @param title The title for the output.
+   * @return The output from the given input stream.
+   */
+  private static String getOutput(final InputStream is, final String title) {
     try (BufferedReader reader =
         new BufferedReader(new InputStreamReader(is, Charset.defaultCharset()))) {
       StringBuffer output = new StringBuffer();

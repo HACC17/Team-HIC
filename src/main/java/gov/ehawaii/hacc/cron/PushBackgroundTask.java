@@ -7,6 +7,16 @@ import org.springframework.stereotype.Component;
 import gov.ehawaii.hacc.properties.PropertiesFileManager;
 import gov.ehawaii.hacc.service.PushService;
 
+/**
+ * This background task will push data automatically to Hawaii's Open Data Portal
+ * (http://data.hawaii.gov).<br />
+ * <br />
+ * 
+ * An admin user can disable this task via the Push All Data modal dialog.
+ * 
+ * @author BJ Peter DeLaCruz
+ * @version 1.0
+ */
 @Component("PushTask")
 public class PushBackgroundTask implements Runnable {
 
@@ -19,7 +29,7 @@ public class PushBackgroundTask implements Runnable {
   private PropertiesFileManager propertiesFileManager;
 
   @Override
-  public void run() {
+  public final void run() {
     if ("no".equals(propertiesFileManager.getProperty(PushService.PUSH_CRON, "no"))) {
       LOGGER.info(getClass() + " is disabled.");
       return;

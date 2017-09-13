@@ -53,11 +53,10 @@ public class AdminController {
    * 
    * @param type The type of the file from which to get data to import.
    * @param response The server response.
-   * @return The admin user will be redirected to the <code>/admin</code> endpoint.
    * @throws IOException If there are problems trying to send the response back to the client.
    */
   @RequestMapping(value = "/import", method = RequestMethod.GET)
-  public final void importSampleData(@RequestParam("type") final String type, HttpServletResponse response)
+  public final void importSampleData(@RequestParam("type") final String type, final HttpServletResponse response)
       throws IOException {
     Assert.notNull(type, "type must not be null");
 
@@ -119,13 +118,13 @@ public class AdminController {
    * A <code>GET</code> request is sent to the <code>/admin/opendata</code> endpoint to push all the
    * data stored in the repository to Hawaii's Open Data Portal.
    * 
-   * @param cronEnabled
+   * @param cronEnabled "yes" to enable the Cron job, "no" to disable it.
    * @param response The server response.
    * @throws IOException If there are problems trying to send the response back to the client.
    */
   @RequestMapping(value = "/opendata", method = RequestMethod.GET)
-  public final void pushToOpenData(@RequestParam("cron") String cronEnabled,
-      HttpServletResponse response) throws IOException {
+  public final void pushToOpenData(@RequestParam("cron") final String cronEnabled,
+      final HttpServletResponse response) throws IOException {
     pushService.setCronEnabled("yes".equals(cronEnabled));
     response.setContentType("text/html;charset=UTF-8");
     response.getWriter().write(pushService.pushData());

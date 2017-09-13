@@ -13,6 +13,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DefaultPropertiesPersister;
 
+/**
+ * This class contains a method that saves a key-value pair to a properties file. It also contains a
+ * method that will retrieve a value given a key.
+ * 
+ * @author BJ Peter DeLaCruz <bjpeter@ehawaii.gov>
+ * @version 1.0
+ */
 @Component
 public final class PropertiesFileManager {
 
@@ -23,6 +30,12 @@ public final class PropertiesFileManager {
   @Value("${exportDirectory}")
   private String directory;
 
+  /**
+   * Saves the following key and value to a properties file.
+   * 
+   * @param key The key.
+   * @param value The value.
+   */
   public synchronized void saveProperty(final String key, final String value) {
     String path = directory + PROPERTIES_FILE_NAME;
     try (OutputStream out = new FileOutputStream(new File(path))) {
@@ -37,6 +50,14 @@ public final class PropertiesFileManager {
     }
   }
 
+  /**
+   * Gets the value for the given key from a properties file.
+   * 
+   * @param key The key for which to get the value.
+   * @param defaultValue The default value that is returned if the key does not exist or a problem
+   * was encountered while trying to get the value.
+   * @return The value for the given key, or the default value if the key does not exist.
+   */
   public synchronized String getProperty(final String key, final String defaultValue) {
     String path = directory + PROPERTIES_FILE_NAME;
     File file = new File(path);
