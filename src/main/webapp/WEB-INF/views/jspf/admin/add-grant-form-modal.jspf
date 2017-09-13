@@ -14,7 +14,7 @@
                 <h3 class="modal-title" id="add-grant-form-modalLabel">Add Grant</h3>
             </div>
             <div class="modal-body">
-                <form:form method="POST" modelAttribute="grant">
+                <form:form method="POST" modelAttribute="grant" action="/ohagrants/admin">
                     <div class="row extra-top-margin">
                         <div class="col-md-4" style="padding-top: 8px">
                             <form:label for="fiscalYear" path="fiscalYear">Fiscal Year</form:label>
@@ -153,7 +153,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $("#fiscalYear").attr("type", "number");
-        $("#fiscalYear").val("2017");
+        $("#fiscalYear").val(new Date().getFullYear());
         $("#amount").attr("type", "number");
         $("#totalNumberServed").attr("type", "number");
         $("#numberNativeHawaiiansServed").attr("type", "number");

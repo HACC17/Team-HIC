@@ -105,7 +105,12 @@ public class AdminController {
     else {
       LOGGER.error("Grant [" + grant + "] was not saved successfully.");
     }
-    return "redirect:/admin";
+    return "redirect:/";
+  }
+
+  @RequestMapping(value = "/admin/opendata", method = RequestMethod.GET)
+  public final String pushToOpenData() {
+    return "redirect:/";
   }
 
 }
