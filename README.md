@@ -6,10 +6,6 @@
 
 ## Features
 
-## Application Website
-
-You can view our web application [here](http://test-ohagrants.ehawaii.gov/ohagrants).
-
 ## For Developers
 
 If you are interested in helping us develop the application, please make sure you have
