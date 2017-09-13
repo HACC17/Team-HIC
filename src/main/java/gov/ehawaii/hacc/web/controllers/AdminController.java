@@ -100,17 +100,18 @@ public class AdminController {
    * about the grant is sent along with the request.
    * 
    * @param grant The grant to add to the database.
-   * @return The admin user will be redirected to the <code>/admin</code> endpoint.
+   * @param response The server response.
    */
   @RequestMapping(method = RequestMethod.POST)
-  public final String addGrant(@ModelAttribute("grant") final Grant grant) {
+  public final void addGrant(@ModelAttribute("grant") final Grant grant, HttpServletResponse response) {
     if (grantsService.saveGrant(grant)) {
       LOGGER.info("Grant [" + grant + "] saved successfully.");
+      response.setStatus(HttpServletResponse.SC_OK);
     }
     else {
       LOGGER.error("Grant [" + grant + "] was not saved successfully.");
+      response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
-    return "redirect:/";
   }
 
 
