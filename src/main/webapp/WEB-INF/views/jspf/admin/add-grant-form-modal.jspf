@@ -11,17 +11,21 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="add-grant-form-modalLabel">Add Grant</h3>
+                <h3 class="modal-title" id="add-grant-form-modalLabel"><i class="fa fa-plus"></i> Add Grant</h3>
             </div>
             <div class="modal-body">
                 <div id="success-msg" class="row" style="display: none">
-                    <div class="col-md-12 alert alert-success">
-                        Successfully saved grant to the database!
+                    <div class="col-md-12">
+                        <div class="alert alert-success">
+                            Successfully saved grant to the database!
+                        </div>
                     </div>
                 </div>
                 <div id="error-msg" class="row" style="display: none">
-                    <div class="col-md-12 alert alert-danger">
-                        A problem was encountered while trying to save the grant to the database: <span id="problem"></span>
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">
+                            A problem was encountered while trying to save the grant to the database: <span id="problem"></span>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -157,10 +161,10 @@
                     <br />
                     <div class="row extra-top-margin">
                         <div class="col-md-4 col-md-push-2">
-                            <button type="submit" id="submit" class="btn btn-lg btn-block btn-primary">Add Grant</button>
+                            <button type="submit" id="submit" class="btn btn-lg btn-block btn-primary"><i class="fa fa-plus"></i> Add Grant</button>
                         </div>
                         <div class="col-md-4 col-md-push-2">
-                            <button class="btn btn-lg btn-block btn-default" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-lg btn-block btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
                         </div>
                     </div>
                 </form:form>

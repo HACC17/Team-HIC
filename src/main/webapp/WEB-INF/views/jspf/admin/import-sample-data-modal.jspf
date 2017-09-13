@@ -4,7 +4,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="import-sample-data-modalLabel">Import Sample Data</h3>
+                <h3 class="modal-title" id="import-sample-data-modalLabel"><i class="fa fa-file-text"></i> Import Sample Data</h3>
             </div>
             <div class="modal-body">
                 <div class="row success" style="display: none">
@@ -23,10 +23,10 @@
                 </div>
                 <div class="row extra-top-margin">
                     <div class="col-md-4 col-md-push-2">
-                        <button id="import-btn" class="btn btn-lg btn-primary btn-block">Import Sample Data</button>
+                        <button id="import-btn" class="btn btn-lg btn-primary btn-block"><i class="fa fa-file-text"></i> Import Sample Data</button>
                     </div>
                     <div class="col-md-4 col-md-push-2">
-                        <button class="btn btn-lg btn-default btn-block" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-lg btn-default btn-block" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
                     </div>
                 </div>
             </div>
