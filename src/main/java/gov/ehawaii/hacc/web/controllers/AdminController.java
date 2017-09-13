@@ -15,6 +15,7 @@ import gov.ehawaii.hacc.importers.CsvImporter;
 import gov.ehawaii.hacc.importers.ExcelImporter;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.service.GrantsService;
+import gov.ehawaii.hacc.service.PushService;
 
 /**
  * This controller handles all requests going to the <code>/admin</code> endpoint.
@@ -30,6 +31,9 @@ public class AdminController {
 
   @Autowired
   private GrantsService grantsService;
+
+  @Autowired
+  private PushService pushService;
 
   @Autowired
   private CsvImporter csvImporter;
@@ -120,7 +124,7 @@ public class AdminController {
    */
   @RequestMapping(value = "/opendata", method = RequestMethod.GET)
   public final void pushToOpenData(HttpServletResponse response) throws IOException {
-    response.getWriter().write("Test");
+    response.getWriter().write(pushService.pushData());
   }
 
 }

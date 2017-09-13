@@ -15,7 +15,7 @@
                 <div class="row extra-top-margin">
                     <div class="col-md-12">
                         <label for="output">Output</label>
-                        <textarea id="output" rows="6" cols="1" readonly class="form-control"></textarea>
+                        <textarea id="output" rows="7" cols="1" readonly class="form-control"></textarea>
                     </div>
                 </div>
                 <br />
