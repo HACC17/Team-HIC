@@ -25,6 +25,8 @@ public class PushServiceImpl implements PushService {
 
   private static final Logger LOGGER = LogManager.getLogger(PushServiceImpl.class);
 
+  private static final String[] FILTERED_WORDS = { "domain", "username", "password", "appToken", "smtpUsername", "smtpPassword" };
+
   @Autowired
   private PropertiesFileManager propertiesFileManager;
 
@@ -68,8 +70,8 @@ public class PushServiceImpl implements PushService {
     try {
       Process p = Runtime.getRuntime().exec(command);
       p.waitFor();
-      output.append(getOutput(p.getInputStream(), "Output"));
-      output.append(getOutput(p.getErrorStream(), "Errors"));
+      output.append(getOutput(p.getInputStream(), "Output from " + command));
+      output.append(getOutput(p.getErrorStream(), "Error output from " + command));
     }
     catch (IOException | InterruptedException e) {
       LOGGER.error("A problem was encountered while executing the command: " + e.getMessage(), e);
@@ -92,7 +94,16 @@ public class PushServiceImpl implements PushService {
       StringBuffer output = new StringBuffer();
       String line = "";
       while ((line = reader.readLine()) != null) {
-        output.append(line + "\n");
+        boolean appendLine = true;
+        for (String word : FILTERED_WORDS) {
+          if (line.contains(word)) {
+            appendLine = false;
+            break;
+          }
+        }
+        if (appendLine) {
+          output.append(line + "\n");
+        }
       }
       String out = output.toString();
       return out.isEmpty() ? "" : "===== " + title + " =====\n" + out;
