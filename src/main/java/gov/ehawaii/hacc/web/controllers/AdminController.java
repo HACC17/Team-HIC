@@ -1,5 +1,7 @@
 package gov.ehawaii.hacc.web.controllers;
 
+import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,9 +110,9 @@ public class AdminController {
     return "redirect:/";
   }
 
-  @RequestMapping(value = "/admin/opendata", method = RequestMethod.GET)
-  public final String pushToOpenData() {
-    return "redirect:/";
+  @RequestMapping(value = "/opendata", method = RequestMethod.GET)
+  public final void pushToOpenData(HttpServletResponse response) throws IOException {
+    response.getWriter().write("Test");
   }
 
 }
