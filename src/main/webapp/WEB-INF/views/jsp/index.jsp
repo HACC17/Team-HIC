@@ -5,6 +5,13 @@
 
 <%@ include file="/WEB-INF/views/jspf/head.jspf" %>
 
+<style>
+    .blue-border {
+        border: 1px solid #396FCD;
+        padding: 10px;
+    }
+</style>
+
 <body class="sidebar-fixed">
     <div class="wrapper" id="wrapper">
         <nav class="navbar navbar-oha navbar-fixed-top">
@@ -219,67 +226,6 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="drilldown-priority">Configure drilldown for <strong>each pie chart</strong></label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon"><i class="fa fa-area-chart"></i></div>
-                                            <select id="drilldown-priority" class="form-control" data-key="priority" data-chart-title="Strategic Priority">
-                                                <option value="">&lt;None&gt;</option>
-                                                <option value="result">Strategic Result</option>
-                                                <option value="type">Grant Type</option>
-                                                <option value="location" selected>Location</option>
-                                                <option value="status">Grant Status</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="input-group-addon"><i class="fa fa-line-chart"></i></div>
-                                            <select id="drilldown-result" class="form-control" data-key="result" data-chart-title="Strategic Result">
-                                                <option value="">&lt;None&gt;</option>
-                                                <option value="priority" selected>Strategic Priority</option>
-                                                <option value="type">Grant Type</option>
-                                                <option value="location">Location</option>
-                                                <option value="status">Grant Status</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="input-group-addon"><i class="fa fa-info-circle"></i></div>
-                                            <select id="drilldown-type" class="form-control" data-key="type" data-chart-title="Grant Type">
-                                                <option value="">&lt;None&gt;</option>
-                                                <option value="priority">Strategic Priority</option>
-                                                <option value="result">Strategic Results</option>
-                                                <option value="location">Location</option>
-                                                <option value="status" selected>Grant Status</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
-                                            <select id="drilldown-location" class="form-control" data-key="location" data-chart-title="Location">
-                                                <option value="" selected>&lt;None&gt;</option>
-                                                <option value="priority">Strategic Priority</option>
-                                                <option value="result">Strategic Results</option>
-                                                <option value="type">Grant Type</option>
-                                                <option value="status" >Grant Status</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="input-group-addon"><i class="fa fa-check-circle"></i></div>
-                                            <select id="drilldown-status" class="form-control" data-key="status" data-chart-title="Grant Status">
-                                                <option value="">&lt;None&gt;</option>
-                                                <option value="priority">Strategic Priority</option>
-                                                <option value="result" selected>Strategic Results</option>
-                                                <option value="type">Grant Type</option>
-                                                <option value="location">Location</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
                                         <label for="datatype">Configure <strong>top N time series chart</strong></label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i id="top-n-selector" class="fa fa-line-chart"></i></div>
@@ -406,39 +352,89 @@
                 </div>
                 <div class="tab-pane charts" id="charts" style="max-width: 100%">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-4 blue-border">
                             <div id="priority-pie-chart"></div>
                             <canvas id="priority-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="priority-pie-chart-base64" value="" />
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-area-chart"></i></div>
+                                <select id="drilldown-priority" class="form-control" data-key="priority" data-chart-title="Strategic Priority">
+                                    <option value="">&lt;None&gt;</option>
+                                    <option value="result">Strategic Result</option>
+                                    <option value="type">Grant Type</option>
+                                    <option value="location" selected>Location</option>
+                                    <option value="status">Grant Status</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 blue-border">
                             <div id="result-pie-chart"></div>
                             <canvas id="result-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="result-pie-chart-base64" value="" />
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-line-chart"></i></div>
+                                <select id="drilldown-result" class="form-control" data-key="result" data-chart-title="Strategic Result">
+                                    <option value="">&lt;None&gt;</option>
+                                    <option value="priority" selected>Strategic Priority</option>
+                                    <option value="type">Grant Type</option>
+                                    <option value="location">Location</option>
+                                    <option value="status">Grant Status</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 blue-border">
                             <div id="type-pie-chart"></div>
                             <canvas id="type-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="type-pie-chart-base64" value="" />
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-info-circle"></i></div>
+                                <select id="drilldown-type" class="form-control" data-key="type" data-chart-title="Grant Type">
+                                    <option value="">&lt;None&gt;</option>
+                                    <option value="priority">Strategic Priority</option>
+                                    <option value="result">Strategic Results</option>
+                                    <option value="location">Location</option>
+                                    <option value="status" selected>Grant Status</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-8 blue-border">
                             <div id="location-pie-chart"></div>
                             <canvas id="location-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="location-pie-chart-base64" value="" />
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                                <select id="drilldown-location" class="form-control" data-key="location" data-chart-title="Location">
+                                    <option value="" selected>&lt;None&gt;</option>
+                                    <option value="priority">Strategic Priority</option>
+                                    <option value="result">Strategic Results</option>
+                                    <option value="type">Grant Type</option>
+                                    <option value="status" >Grant Status</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 blue-border">
                             <div id="status-pie-chart"></div>
                             <canvas id="status-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="status-pie-chart-base64" value="" />
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-check-circle"></i></div>
+                                <select id="drilldown-status" class="form-control" data-key="status" data-chart-title="Grant Status">
+                                    <option value="">&lt;None&gt;</option>
+                                    <option value="priority">Strategic Priority</option>
+                                    <option value="result" selected>Strategic Results</option>
+                                    <option value="type">Grant Type</option>
+                                    <option value="location">Location</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 blue-border">
                             <div id="top-5-orgs-column-chart" class="width: 100%; height: 100%"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 blue-border">
                             <div id="top-5-orgs-spline-chart" class="width: 100%; height: 100%"></div>
                         </div>
                     </div>
