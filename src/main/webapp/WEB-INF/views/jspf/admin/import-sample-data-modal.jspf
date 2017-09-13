@@ -1,0 +1,31 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<div class="modal fade" id="import-sample-data-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="import-sample-data-modalLabel">Import Data</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row extra-top-margin">
+                    <div class="col-md-4 col-md-push-4">
+                        <button id="import-csv-btn" class="btn btn-lg btn-primary btn-block">Import from CSV File</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#import-csv-btn").click(function(event) {
+            event.preventDefault();
+            var appUrl = localStorage.getItem('appUrl');
+            console.log(appUrl);
+            $.get(appUrl + "admin/import?type=", function(data, status) {
+                console.log(status);
+            });
+        });
+    });
+</script>
