@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.properties.PropertiesFileManager;
 import gov.ehawaii.hacc.service.GrantsService;
+import gov.ehawaii.hacc.service.PushService;
 
 /**
  * This controller handles all requests going to the main page of the application.
@@ -61,7 +62,7 @@ public class MainController {
     model.addAttribute("priorities", grantsService.getAllStrategicPriorities());
     model.addAttribute("results", grantsService.getAllStrategicResults());
     model.addAttribute("grant", new Grant());
-    model.addAttribute("cron", propertiesFileManager.getProperty("push.cron", "no"));
+    model.addAttribute("cron", propertiesFileManager.getProperty(PushService.PUSH_CRON, "no"));
     return "index";
   }
 

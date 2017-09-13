@@ -58,18 +58,31 @@
         <property name="cronExpression" value="${excel.export.cron}" />
     </bean>
 
+    <bean id="cron.pushDataJobDetail"
+        class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="PushTask" />
+        <property name="targetMethod" value="run" />
+        <property name="concurrent" value="false" />
+    </bean>
+
+    <bean id="cron.pushDataTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="cron.pushDataJobDetail" />
+        <property name="cronExpression" value="${push.task.cron}" />
+    </bean>
+
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
         <property name="autoStartup" value="true"/>
         <property name="schedulerName" value="cronScheduler"/>
         <property name="quartzProperties">
             <props>
-                <prop key="org.quartz.threadPool.threadCount">1</prop>
+                <prop key="org.quartz.threadPool.threadCount">2</prop>
             </props>
         </property>
         <property name="triggers">
             <list>
                 <!-- <ref bean="cron.excelExportTrigger" /> -->
                 <ref bean="cron.csvExportTrigger" />
+                <ref bean="cron.pushDataTrigger" />
             </list>
         </property>
     </bean>

@@ -41,7 +41,7 @@ public class PushServiceImpl implements PushService {
 
   @Override
   public void setCronEnabled(boolean cronEnabled) {
-    propertiesFileManager.saveProperty("push.cron", cronEnabled ? "yes" : "no");
+    propertiesFileManager.saveProperty(PushService.PUSH_CRON, cronEnabled ? "yes" : "no");
   }
 
   /**

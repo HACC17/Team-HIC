@@ -8,6 +8,8 @@ package gov.ehawaii.hacc.service;
  */
 public interface PushService {
 
+  String PUSH_CRON = "push.cron";
+
   /**
    * 
    * 
