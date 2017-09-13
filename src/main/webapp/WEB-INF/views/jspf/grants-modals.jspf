@@ -80,8 +80,6 @@
     ];
 
     var columnDefs = [
-        { "targets": [ 2 ], "visible": false, "searchable": false },
-        { "targets": [ 5 ], "visible": false, "searchable": false },
         { "targets": [ 6 ], "visible": false, "searchable": false },
         { "targets": [ 7 ], "visible": false, "searchable": false },
         { "targets": [ 8 ], "visible": false, "searchable": false },
@@ -132,12 +130,12 @@
                     arrays.push([
                         json[index].fiscalYear,
                         json[index].organization,
-                        json[index].project,
+                        json[index].strategicPriority,
+                        json[index].location,
                         accounting.formatMoney(json[index].amount),
                         json[index].grantStatus,
-                        json[index].location,
+                        json[index].project,
                         json[index].grantType,
-                        json[index].strategicPriority,
                         json[index].strategicResults,
                         json[index].totalNumberServed,
                         json[index].numberNativeHawaiiansServed,

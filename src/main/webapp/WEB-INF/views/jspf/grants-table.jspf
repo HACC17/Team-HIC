@@ -6,12 +6,12 @@
         <tr>
             <th>Fiscal Year</th>
             <th>Organization</th>
-            <th>Project</th>
+            <th>Strategic Priority</th>
+            <th>Location</th>
             <th>Amount</th>
             <th>Status</th>
-            <th>Location</th>
+            <th>Project</th>
             <th>Grant Type</th>
-            <th>Strategic Priority</th>
             <th>Strategic Results</th>
             <th>Total Number Served</th>
             <th>Number of Native Hawaiians Served</th>
