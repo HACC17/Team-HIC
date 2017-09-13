@@ -54,6 +54,14 @@ public class PushServiceImpl implements PushService {
           output.append(line + "\n");
         }
       }
+      try (BufferedReader reader =
+          new BufferedReader(new InputStreamReader(p.getErrorStream(), Charset.defaultCharset()))) {
+
+        String line = "";
+        while ((line = reader.readLine()) != null) {
+          output.append(line + "\n");
+        }
+      }
     }
     catch (IOException | InterruptedException e) {
       LOGGER.error("There was a problem executing the command: " + e.getMessage(), e);

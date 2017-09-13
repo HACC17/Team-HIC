@@ -124,6 +124,7 @@ public class AdminController {
    */
   @RequestMapping(value = "/opendata", method = RequestMethod.GET)
   public final void pushToOpenData(HttpServletResponse response) throws IOException {
+    response.setContentType("text/html;charset=UTF-8");
     response.getWriter().write(pushService.pushData());
   }
 
