@@ -14,7 +14,7 @@
                 <h3 class="modal-title" id="add-grant-form-modalLabel">Add Grant</h3>
             </div>
             <div class="modal-body">
-                <div class="row extra-top-margin">
+                <div class="row">
                     <div class="col-md-12">
                         Please fill out all the fields below for the grant you wish to add to the database.
                     </div>
