@@ -116,14 +116,17 @@ public class AdminController {
 
 
   /**
-   * A <code>GET</code> request is sent to the <code>/admin/opendata</code> endpoint to push all the data stored in the
-   * repository to Hawaii's Open Data Portal.
+   * A <code>GET</code> request is sent to the <code>/admin/opendata</code> endpoint to push all the
+   * data stored in the repository to Hawaii's Open Data Portal.
    * 
+   * @param cronEnabled
    * @param response The server response.
    * @throws IOException If there are problems trying to send the response back to the client.
    */
   @RequestMapping(value = "/opendata", method = RequestMethod.GET)
-  public final void pushToOpenData(HttpServletResponse response) throws IOException {
+  public final void pushToOpenData(@RequestParam("cron") String cronEnabled,
+      HttpServletResponse response) throws IOException {
+    pushService.setCronEnabled("yes".equals(cronEnabled));
     response.setContentType("text/html;charset=UTF-8");
     response.getWriter().write(pushService.pushData());
   }

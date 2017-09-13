@@ -7,8 +7,10 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import gov.ehawaii.hacc.properties.PropertiesFileManager;
 import gov.ehawaii.hacc.service.PushService;
 
 /**
@@ -22,6 +24,9 @@ public class PushServiceImpl implements PushService {
 
   private static final Logger LOGGER = LogManager.getLogger(PushServiceImpl.class);
 
+  @Autowired
+  private PropertiesFileManager propertiesFileManager;
+
   @Value("${script.path}")
   private String scriptPath;
 
@@ -32,6 +37,11 @@ public class PushServiceImpl implements PushService {
   public String pushData() {
     String command = "sh " + scriptPath + scriptName;
     return executeCommand(command);
+  }
+
+  @Override
+  public void setCronEnabled(boolean cronEnabled) {
+    propertiesFileManager.saveProperty("push.cron", cronEnabled ? "yes" : "no");
   }
 
   /**

@@ -15,4 +15,11 @@ public interface PushService {
    */
   String pushData();
 
+  /**
+   * 
+   * 
+   * @param cronEnabled
+   */
+  void setCronEnabled(boolean cronEnabled);
+
 }

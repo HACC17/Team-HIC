@@ -61,7 +61,7 @@ public class MainController {
     model.addAttribute("priorities", grantsService.getAllStrategicPriorities());
     model.addAttribute("results", grantsService.getAllStrategicResults());
     model.addAttribute("grant", new Grant());
-    model.addAttribute("cron", propertiesFileManager.getProperty("cron", "no"));
+    model.addAttribute("cron", propertiesFileManager.getProperty("push.cron", "no"));
     return "index";
   }
 

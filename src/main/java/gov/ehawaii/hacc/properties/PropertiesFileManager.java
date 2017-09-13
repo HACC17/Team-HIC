@@ -23,7 +23,7 @@ public final class PropertiesFileManager {
   @Value("${exportDirectory}")
   private String directory;
 
-  public void saveProperty(final String key, final String value) {
+  public synchronized void saveProperty(final String key, final String value) {
     String path = directory + PROPERTIES_FILE_NAME;
     try (OutputStream out = new FileOutputStream(new File(path))) {
       Properties props = new Properties();
@@ -37,7 +37,7 @@ public final class PropertiesFileManager {
     }
   }
 
-  public String getProperty(final String key, final String defaultValue) {
+  public synchronized String getProperty(final String key, final String defaultValue) {
     String path = directory + PROPERTIES_FILE_NAME;
     Properties prop = new Properties();
     try (InputStream stream = new FileInputStream(new File(path))) {
