@@ -1,7 +1,11 @@
 package gov.ehawaii.hacc.service.impl;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import gov.ehawaii.hacc.service.PushService;
@@ -14,6 +18,8 @@ import gov.ehawaii.hacc.service.PushService;
  */
 @Service
 public class PushServiceImpl implements PushService {
+
+  private static final Logger LOGGER = LogManager.getLogger(PushServiceImpl.class);
 
   @Value("${script.path}")
   private String scriptPath;
@@ -40,15 +46,17 @@ public class PushServiceImpl implements PushService {
     try {
       Process p = Runtime.getRuntime().exec(command);
       p.waitFor();
-      BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+      try (BufferedReader reader =
+          new BufferedReader(new InputStreamReader(p.getInputStream(), Charset.defaultCharset()))) {
 
-      String line = "";
-      while ((line = reader.readLine()) != null) {
-        output.append(line + "\n");
+        String line = "";
+        while ((line = reader.readLine()) != null) {
+          output.append(line + "\n");
+        }
       }
     }
-    catch (Exception e) {
-      e.printStackTrace();
+    catch (IOException | InterruptedException e) {
+      LOGGER.error("There was a problem executing the command: " + e.getMessage(), e);
     }
 
     return output.toString();
