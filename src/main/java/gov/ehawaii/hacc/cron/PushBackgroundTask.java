@@ -21,6 +21,7 @@ public class PushBackgroundTask implements Runnable {
   @Override
   public void run() {
     if ("no".equals(propertiesFileManager.getProperty(PushService.PUSH_CRON, "no"))) {
+      LOGGER.info(getClass() + " is disabled.");
       return;
     }
 
