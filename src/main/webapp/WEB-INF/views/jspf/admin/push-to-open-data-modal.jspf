@@ -4,12 +4,12 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="push-to-open-data-modalLabel">Push to Open Data</h3>
+                <h3 class="modal-title" id="push-to-open-data-modalLabel">Push All Data</h3>
             </div>
             <div class="modal-body">
                 <div class="row extra-top-margin">
                     <div class="col-md-12">
-                        Click on the Push to Open Data button below to push all the information for each grant in the database to <a href="https://data.hawaii.gov" target="_blank">Hawaii's Open Data Portal</a>.
+                        Click on the Push All Data button below to push all the information for each grant in the database to <a href="https://data.hawaii.gov" target="_blank">Hawaii's Open Data Portal</a>.
                     </div>
                 </div>
                 <div class="row extra-top-margin">
