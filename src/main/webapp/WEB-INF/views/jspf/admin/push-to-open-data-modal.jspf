@@ -46,7 +46,7 @@
         $("#push-btn").click(function(event) {
             event.preventDefault();
             var appUrl = localStorage.getItem('appUrl');
-            $.get(appUrl + "admin/opendata?cron=" $("input[name='cron']").prop("checked"), function(data, status) {
+            $.get(appUrl + "admin/opendata?cron=" + $("input[name='cron']:checked").val(), function(data, status) {
                 $("#output").val(data);
                 console.log(data);
             });

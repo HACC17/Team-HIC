@@ -39,6 +39,18 @@ public final class PropertiesFileManager {
 
   public synchronized String getProperty(final String key, final String defaultValue) {
     String path = directory + PROPERTIES_FILE_NAME;
+    File file = new File(path);
+    if (!file.exists()) {
+      try {
+        if (file.createNewFile()) {
+          LOGGER.info(path + " was successfully created.");
+        }
+      }
+      catch (IOException ioe) {
+        LOGGER.error("There was a problem trying to create " + path + ": " + ioe.getMessage(), ioe);
+        return defaultValue;
+      }
+    }
     Properties prop = new Properties();
     try (InputStream stream = new FileInputStream(new File(path))) {
       prop.load(stream);
