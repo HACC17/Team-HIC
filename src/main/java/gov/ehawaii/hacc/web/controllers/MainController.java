@@ -57,7 +57,6 @@ public class MainController {
     model.addAttribute("statuses", grantsService.getAllGrantStatuses());
     model.addAttribute("types", grantsService.getAllGrantTypes());
     model.addAttribute("organizations", grantsService.getAllOrganizations());
-    model.addAttribute("projects", grantsService.getAllProjects());
     model.addAttribute("locations", grantsService.getAllLocations());
     model.addAttribute("priorities", grantsService.getAllStrategicPriorities());
     model.addAttribute("results", grantsService.getAllStrategicResults());

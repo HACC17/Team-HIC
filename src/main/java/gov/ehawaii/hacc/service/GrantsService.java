@@ -108,13 +108,6 @@ public interface GrantsService {
   List<String> getAllOrganizations();
 
   /**
-   * A list of all projects stored in the repository.
-   * 
-   * @return A list of projects.
-   */
-  List<String> getAllProjects();
-
-  /**
    * A list of all strategic priorities stored in the repository.
    * 
    * @return A list of strategic priorities.

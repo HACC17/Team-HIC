@@ -23,9 +23,6 @@ public final class Tables {
   /** ORGANIZATIONS table. */
   public static final String ORGANIZATIONS = "ORGANIZATIONS";
 
-  /** PROJECTS table. */
-  public static final String PROJECTS = "PROJECTS";
-
   /** STRATEGIC_PRIORITIES table. */
   public static final String STRATEGIC_PRIORITIES = "STRATEGIC_PRIORITIES";
 

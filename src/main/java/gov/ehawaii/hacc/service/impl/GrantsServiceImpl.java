@@ -117,8 +117,6 @@ public class GrantsServiceImpl implements GrantsService {
       return getId(Tables.GRANT_TYPES, Columns.GRANT_TYPE, value);
     case Filters.ORGANIZATION_ID_FILTER:
       return getId(Tables.ORGANIZATIONS, Columns.ORGANIZATION, value);
-    case Filters.PROJECT_ID_FILTER:
-      return getId(Tables.PROJECTS, Columns.PROJECT, value);
     case Filters.LOCATION_ID_FILTER:
       return getId(Tables.LOCATIONS, Columns.LOCATION, value);
     case Filters.STRATEGIC_PRIORITY_ID_FILTER:
@@ -260,8 +258,6 @@ public class GrantsServiceImpl implements GrantsService {
       return new String[] { Tables.GRANT_TYPES, Columns.GRANT_TYPE, Columns.GRANT_TYPE_ID };
     case Filters.ORGANIZATION_ID_FILTER:
       return new String[] { Tables.ORGANIZATIONS, Columns.ORGANIZATION, Columns.ORGANIZATION_ID };
-    case Filters.PROJECT_ID_FILTER:
-      return new String[] { Tables.PROJECTS, Columns.PROJECT, Columns.PROJECT_ID };
     case Filters.LOCATION_ID_FILTER:
       return new String[] { Tables.LOCATIONS, Columns.LOCATION, Columns.LOCATION_ID };
     case Filters.STRATEGIC_PRIORITY_ID_FILTER:
@@ -320,11 +316,6 @@ public class GrantsServiceImpl implements GrantsService {
   public final List<String> getAllOrganizations() {
     return repository
         .findAllValues(new ColumnSpecification(Tables.ORGANIZATIONS, Columns.ORGANIZATION));
-  }
-
-  @Override
-  public final List<String> getAllProjects() {
-    return repository.findAllValues(new ColumnSpecification(Tables.PROJECTS, Columns.PROJECT));
   }
 
   @Override

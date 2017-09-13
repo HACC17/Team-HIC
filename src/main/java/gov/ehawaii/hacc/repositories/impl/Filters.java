@@ -36,9 +36,6 @@ public final class Filters {
   /** ORGANIZATION_ID value equal to <code>value</code>. */
   public static final String ORGANIZATION_ID_FILTER = "ORGANIZATION_ID = ? ";
 
-  /** PROJECT_ID value equal to <code>value</code>. */
-  public static final String PROJECT_ID_FILTER = "PROJECT_ID = ? ";
-
   /** LOCATION_ID value equal to <code>value</code>. */
   public static final String LOCATION_ID_FILTER = "LOCATION_ID = ? ";
 
@@ -69,7 +66,6 @@ public final class Filters {
     filters.put("status", GRANT_STATUS_ID_FILTER);
     filters.put("type", GRANT_TYPE_ID_FILTER);
     filters.put("organization", ORGANIZATION_ID_FILTER);
-    filters.put("project", PROJECT_ID_FILTER);
     filters.put("location", LOCATION_ID_FILTER);
     filters.put("priority", STRATEGIC_PRIORITY_ID_FILTER);
     filters.put("result", STRATEGIC_RESULTS_ID_FILTER);

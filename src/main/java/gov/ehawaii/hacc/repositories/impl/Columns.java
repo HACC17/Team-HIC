@@ -32,11 +32,8 @@ public final class Columns {
   /** ORGANIZATION_ID column in GRANTS table. */
   public static final String ORGANIZATION_ID = "ORGANIZATION_ID";
 
-  /** PROJECT column in PROJECTS table. */
+  /** PROJECT column in GRANTS table. */
   public static final String PROJECT = "PROJECT";
-
-  /** PROJECT_ID column in GRANTS table. */
-  public static final String PROJECT_ID = "PROJECT_ID";
 
   /** LOCATION column in LOCATIONS table. */
   public static final String LOCATION = "LOCATION";

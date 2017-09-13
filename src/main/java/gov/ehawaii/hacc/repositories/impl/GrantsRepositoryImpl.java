@@ -49,7 +49,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
     grant.setFiscalYear(rs.getInt(3));
     grant.setGrantType(getValue(Tables.GRANT_TYPES, Columns.GRANT_TYPE, rs.getString(4)));
     grant.setOrganization(getValue(Tables.ORGANIZATIONS, Columns.ORGANIZATION, rs.getString(5)));
-    grant.setProject(getValue(Tables.PROJECTS, Columns.PROJECT, rs.getString(6)));
+    grant.setProject(rs.getString(6));
     grant.setAmount(rs.getInt(7));
     grant.setLocation(getValue(Tables.LOCATIONS, Columns.LOCATION, rs.getString(8)));
     grant.setStrategicPriority(
@@ -81,14 +81,13 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
     long locationId = saveValue(Tables.LOCATIONS, Columns.LOCATION, grant.getLocation());
     long organizationId =
         saveValue(Tables.ORGANIZATIONS, Columns.ORGANIZATION, grant.getOrganization());
-    long projectId = saveValue(Tables.PROJECTS, Columns.PROJECT, grant.getProject());
     long strategicPriorityId = saveValue(Tables.STRATEGIC_PRIORITIES, Columns.STRATEGIC_PRIORITY,
         grant.getStrategicPriority());
     long strategicResultId =
         saveValue(Tables.STRATEGIC_RESULTS, Columns.STRATEGIC_RESULT, grant.getStrategicResults());
 
     long rows = getJdbcTemplate().update(SqlStatements.INSERT_GRANT, grantStatusId,
-        grant.getFiscalYear(), grantTypeId, organizationId, projectId, grant.getAmount(),
+        grant.getFiscalYear(), grantTypeId, organizationId, grant.getProject(), grant.getAmount(),
         locationId, strategicPriorityId, strategicResultId, grant.getTotalNumberServed(),
         grant.getNumberNativeHawaiiansServed());
     if (rows > 0) {
@@ -127,10 +126,6 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
       case Columns.ORGANIZATION_ID:
         table = Tables.ORGANIZATIONS;
         column = Columns.ORGANIZATION;
-        break;
-      case Columns.PROJECT_ID:
-        table = Tables.PROJECTS;
-        column = Columns.PROJECT;
         break;
       default:
         throw new IllegalArgumentException("Unsupported column: " + groupBy);

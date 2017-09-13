@@ -19,7 +19,7 @@
                         Please fill out all the fields below for the grant you wish to add to the database.
                     </div>
                 </div>
-                <form:form method="POST" modelAttribute="grant" action="/ohagrants/admin">
+                <form:form id="add-form" method="POST" modelAttribute="grant" action="/ohagrants/admin">
                     <div class="row extra-top-margin">
                         <div class="col-md-4" style="padding-top: 8px">
                             <form:label for="fiscalYear" path="fiscalYear">Fiscal Year</form:label>
@@ -166,5 +166,20 @@
         $("#amount").attr("type", "number");
         $("#totalNumberServed").attr("type", "number");
         $("#numberNativeHawaiiansServed").attr("type", "number");
+    });
+    $("#add-form").on('submit', function() {
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            dataType: 'json',
+            data: $(this).serialize(),
+            success: function( data ) {
+                alert('Submitted');
+            },
+            error: function( xhr, err ) {
+                alert('Error');
+            }
+        });
+        return false;
     });
 </script>
