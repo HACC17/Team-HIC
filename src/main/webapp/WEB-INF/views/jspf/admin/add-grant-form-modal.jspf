@@ -160,11 +160,9 @@
                     </div>
                     <br />
                     <div class="row extra-top-margin">
-                        <div class="col-md-4 col-md-push-2">
-                            <button type="submit" id="submit" class="btn btn-lg btn-block btn-primary"><i class="fa fa-plus"></i> Add Grant</button>
-                        </div>
-                        <div class="col-md-4 col-md-push-2">
-                            <button class="btn btn-lg btn-block btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
+                        <div class="col-md-12 text-center">
+                            <button type="submit" id="add-grant-btn" class="btn btn-lg btn-primary"><i class="fa fa-plus"></i> Add Grant</button>
+                            <button class="btn btn-lg btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
                         </div>
                     </div>
                 </form:form>
@@ -174,29 +172,44 @@
 </div>
 
 <script type="text/javascript">
+    function toggleAddGrantButton() {
+        var fiscalYear = parseInt($("#fiscalYear").val());
+        var amount = parseInt($("#amount-input").val());
+        var project = $("#project").val();
+        if (fiscalYear <= 0 || amount <= 0 || project.length <= 0) {
+            $("#add-grant-btn").attr("disabled", "disabled");
+        } else {
+            $("#add-grant-btn").attr("disabled", false);
+        }
+    }
+
     $(document).ready(function() {
         $("#fiscalYear").attr("type", "number");
         $("#fiscalYear").val(new Date().getFullYear());
         $("#amount-input").attr("type", "number");
         $("#totalNumberServed").attr("type", "number");
         $("#numberNativeHawaiiansServed").attr("type", "number");
-    });
-    $("#add-form").on('submit', function() {
-        $.ajax({
-            url: $(this).attr('action'),
-            type: $(this).attr('method'),
-            data: $(this).serialize(),
-            success: function(data) {
-                $("#success-msg").show();
-                setTimeout(function() {
-                    $("#success-msg").hide();
-                }, 3000);
-            },
-            error: function(xhr, err) {
-                $("#problem").html(err);
-                $("#error-msg").show();
-            }
+        $("#fiscalYear, #amount-input, #project").on("change keyup", function() {
+            toggleAddGrantButton();
         });
-        return false;
+        $("#add-grant-btn").attr("disabled", "disabled");
+        $("#add-form").on('submit', function() {
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function(data) {
+                    $("#success-msg").show();
+                    setTimeout(function() {
+                        $("#success-msg").hide();
+                    }, 3000);
+                },
+                error: function(xhr, err) {
+                    $("#problem").html(err);
+                    $("#error-msg").show();
+                }
+            });
+            return false;
+        });
     });
 </script>
