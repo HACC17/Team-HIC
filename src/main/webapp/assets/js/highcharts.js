@@ -34,13 +34,7 @@ function getPointY() {
 
 var colors = [ '#2dcc70', '#3598db', '#9b58b5', '#f1c40f', '#e77e23', '#e84c3d', '#2de4e3', '#e223a8', '#ffadff'];
 
-function drawPieChart(key, title, map) {
-    var json = JSON.parse(localStorage.getItem(key));
-    var data = [];
-    $.each(json["totals"], function(key, value) {
-        data.push({ name: key, y: value, drilldown: key });
-    });
-
+function generateDrilldownSeries(json) {
     var drilldown = [];
     $.each(json, function(key, value) {
         if (key != "totals") {
@@ -50,6 +44,15 @@ function drawPieChart(key, title, map) {
             });
             drilldown.push(map);
         }
+    });
+    return drilldown;
+}
+
+function drawPieChart(key, title, map) {
+    var json = JSON.parse(localStorage.getItem(key));
+    var data = [];
+    $.each(json["totals"], function(key, value) {
+        data.push({ name: key, y: value, drilldown: key });
     });
 
     if ($("input[name='chart-type']:checked").val() == 'pie') {
@@ -89,7 +92,7 @@ function drawPieChart(key, title, map) {
             data: data
         }],
         drilldown: {
-            series: drilldown
+            series: generateDrilldownSeries(json)
         },
     });
 
@@ -108,17 +111,6 @@ function drawBarChart(key, title, map) {
         series1["data"].push({ name: k, y: value, drilldown: k });
     });
     series.push(series1);
-
-    var drilldown = [];
-    $.each(json, function(k1, value) {
-        if (k1 != "totals") {
-            var series = { name: k1, id: k1, data: [] };
-            $.each(value, function(k2, v) {
-                series["data"].push([ k2, v ]);
-            });
-            drilldown.push(series);
-        }
-    });
 
     if ($("input[name='chart-type']:checked").val() == 'bar') {
         $("#" + key + "-bar-chart").show();
@@ -170,7 +162,7 @@ function drawBarChart(key, title, map) {
             pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>' + getPointY() + '</b><br/>'
         },
         series: series,
-        drilldown: { series: drilldown }
+        drilldown: { series: generateDrilldownSeries(json) }
     });
 
     canvg(document.getElementById(key + "-bar-chart-canvas"), chart.getSVG());
