@@ -283,7 +283,7 @@ function drawTopOrganizationsSplineChart() {
         if (field == "AMOUNT") {
             label = "Amount of Money";
         } else if (field == "TOTAL_NUMBER_SERVED") {
-            label = "Total Number of People Served";
+            label = "Number of People Served";
         } else {
             label = "Number of Native Hawaiians Served";
         }

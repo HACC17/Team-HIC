@@ -474,6 +474,7 @@
                     $("input[data-key='" + value + "']").first().trigger("change");
                 });
                 drawTopOrganizationsBarChart($("#column-top-n").val(), $("#fiscal-year-start").val(), $("#fiscal-year-end").val());
+                drawTopOrganizationsSplineChart();
             }, 2000);
         }
 
