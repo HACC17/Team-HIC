@@ -184,10 +184,10 @@ function drawChart(chartType, key, title, map) {
     });
 }
 
-function drawTop5OrganizationsBarChart(startYear, endYear) {
+function drawTopOrganizationsBarChart(top, startYear, endYear) {
     var field = $("#datatype").val();
 
-    $.get(baseUrl + "charts/fiscalYearTop?top=5&startYear=" + startYear + "&endYear=" + endYear + "&field="+ field, function(data, status) {
+    $.get(baseUrl + "charts/fiscalYearTop?top=" + top + "&startYear=" + startYear + "&endYear=" + endYear + "&field="+ field, function(data, status) {
         var json = JSON.parse(data);
 
         var series = [];
@@ -253,7 +253,7 @@ function drawTop5OrganizationsBarChart(startYear, endYear) {
 
 function drawTopOrganizationsSplineChart() {
     var field = $("#datatype").val();
-    var topN = $("select#top-n-selector").val();
+    var topN = $("select#spline-top-n").val();
 
     $.get(baseUrl + "charts/time?top=" + topN + "&field="+ field, function(data, status) {
         var json = JSON.parse(data);

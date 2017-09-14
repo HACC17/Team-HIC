@@ -226,16 +226,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="datatype">Configure <strong>top N time series chart</strong></label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon"><i id="top-n-selector" class="fa fa-line-chart"></i></div>
-                                            <select id="top-n-selector" onchange="drawTopOrganizationsSplineChart();" class="form-control">
-                                                <option value="5" selected>Show top 5 organizations</option>
-                                                <option value="10">Show top 10 organizations</option>
-                                            </select>
-                                        </div>
-                                    </div>
                                 </fieldset>
                             </div>
                         </div>
@@ -434,9 +424,23 @@
                     <div class="row">
                         <div class="col-md-6 blue-border">
                             <div id="top-5-orgs-column-chart" class="width: 100%; height: 100%"></div>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-question-circle fa-fw"></i></div>
+                                <select id="column-top-n" class="form-control">
+                                    <option value="5" selected>Show top 5 organizations</option>
+                                    <option value="10">Show top 10 organizations</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="col-md-6 blue-border">
                             <div id="top-5-orgs-spline-chart" class="width: 100%; height: 100%"></div>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-question-circle fa-fw"></i></div>
+                                <select id="spline-top-n" onchange="drawTopOrganizationsSplineChart();" class="form-control">
+                                    <option value="5" selected>Show top 5 organizations</option>
+                                    <option value="10">Show top 10 organizations</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -469,7 +473,7 @@
                 $.each(keys, function(index, value) {
                     $("input[data-key='" + value + "']").first().trigger("change");
                 });
-                drawTop5OrganizationsBarChart($("#fiscal-year-start").val(), $("#fiscal-year-end").val());
+                drawTopOrganizationsBarChart($("#column-top-n").val(), $("#fiscal-year-start").val(), $("#fiscal-year-end").val());
             }, 2000);
         }
 
@@ -519,6 +523,10 @@
                 lang: {
                     thousandsSep: ','
                 }
+            });
+
+            $("#column-top-n").change(function() {
+                drawTopOrganizationsBarChart($(this).val(), $("#fiscal-year-start").val(), $("#fiscal-year-end").val());
             });
 
             var timer;
@@ -634,7 +642,7 @@
                 });
             });
 
-            drawTop5OrganizationsBarChart($("#fiscal-year-start").val(), $("#fiscal-year-end").val());
+            drawTopOrganizationsBarChart($("#column-top-n").val(), $("#fiscal-year-start").val(), $("#fiscal-year-end").val());
             drawTopOrganizationsSplineChart();
         });
     </script>
