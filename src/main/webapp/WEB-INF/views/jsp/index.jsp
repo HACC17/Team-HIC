@@ -480,17 +480,17 @@
 
         var timer;
         function update() {
-            if (timer) {
-                clearTimeout(timer);
-            }
-            var timer = setTimeout(function() {
+            // if (timer) {
+            //     clearTimeout(timer);
+            // }
+            // var timer = setTimeout(function() {
                 updateTable();
                 $.each(keys, function(index, value) {
                     $("input[data-key='" + value + "']").first().trigger("change");
                 });
                 drawTopOrganizationsBarChart($("#column-top-n").val(), $("#fiscal-year-start").val(), $("#fiscal-year-end").val());
                 drawTopOrganizationsSplineChart();
-            }, 2000);
+            // }, 2000);
         }
 
         function updateLabel() {
