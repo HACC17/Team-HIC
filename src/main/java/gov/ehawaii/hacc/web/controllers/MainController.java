@@ -1,7 +1,6 @@
 package gov.ehawaii.hacc.web.controllers;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,18 +41,7 @@ public class MainController {
    */
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public final String showIndexPage(final Model model) {
-    Map<String, Object> parameters = new HashMap<>();
-    /*
-     * parameters.put("fiscal-gte", new ArrayList<>(Arrays.asList("2016")));
-     * parameters.put("fiscal-lte", new ArrayList<>(Arrays.asList("2016")));
-     * parameters.put("amount-gte", new ArrayList<>(Arrays.asList("100000")));
-     * parameters.put("amount-lte", new ArrayList<>(Arrays.asList("1000000")));
-     * parameters.put("hawaiians-gte", new ArrayList<>(Arrays.asList("0")));
-     * parameters.put("hawaiians-lte", new ArrayList<>(Arrays.asList("1000")));
-     * parameters.put("total-gte", new ArrayList<>(Arrays.asList("0"))); parameters.put("total-lte",
-     * new ArrayList<>(Arrays.asList("1000")));
-     */
-    model.addAttribute("all", grantsService.getGrants(parameters));
+    // model.addAttribute("all", grantsService.getGrants(parameters));
     model.addAttribute("statuses", grantsService.getAllGrantStatuses());
     model.addAttribute("types", grantsService.getAllGrantTypes());
     model.addAttribute("organizations", grantsService.getAllOrganizations());
