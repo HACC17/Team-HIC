@@ -94,12 +94,15 @@ public class ChartsController {
         new ObjectMapper().readValue(json, new TypeReference<Map<String, Object>>() {
         });
 
-    String groupBy = parameters.get("groupBy").toString();
-    String aggregateField = parameters.get("aggregateField").toString();
+    String groupBy = MapUtils.getString(parameters, "groupBy", "");
+    String aggregateField = MapUtils.getString(parameters, "aggregateField", "");
     String drilldown = MapUtils.getString(parameters, "drilldown", "");
 
     @SuppressWarnings("unchecked")
     Map<String, Object> filters = (Map<String, Object>) parameters.get("filters");
+    if (filters == null) {
+      filters = new HashMap<>();
+    }
 
     response.getWriter().write(new ObjectMapper().writeValueAsString(
         grantsService.getAggregateData(groupBy, aggregateField, drilldown, filters)));
