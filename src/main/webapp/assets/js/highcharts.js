@@ -32,7 +32,7 @@ function getPointY() {
     return '${point.y}';
 }
 
-var colors = [ '#2dcc70', '#3598db', '#9b58b5', '#f1c40f', '#e77e23', '#e84c3d'];
+var colors = [ '#2dcc70', '#3598db', '#9b58b5', '#f1c40f', '#e77e23', '#e84c3d', '#2de4e3', '#e223a8', '#ffadff'];
 
 function drawPieChart(key, title, map) {
     var json = JSON.parse(localStorage.getItem(key));
