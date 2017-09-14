@@ -480,17 +480,9 @@
 
         var timer;
         function update() {
-            // if (timer) {
-            //     clearTimeout(timer);
-            // }
-            // var timer = setTimeout(function() {
-                updateTable();
-                $.each(keys, function(index, value) {
-                    $("input[data-key='" + value + "']").first().trigger("change");
-                });
-                drawTopOrganizationsBarChart($("#column-top-n").val(), $("#fiscal-year-start").val(), $("#fiscal-year-end").val());
-                drawTopOrganizationsSplineChart();
-            // }, 2000);
+            $("input[data-key='priority']").first().trigger("change");
+            drawTopOrganizationsBarChart($("#column-top-n").val(), $("#fiscal-year-start").val(), $("#fiscal-year-end").val());
+            drawTopOrganizationsSplineChart();
         }
 
         function updateLabel() {
@@ -550,21 +542,14 @@
             var timer;
             $.each(keys, function(index, value) {
                 $("input[data-key='" + value + "']").change(function() {
-                    // if (timer) {
-                    //     clearTimeout(timer);
-                    // }
-                    // timer = setTimeout(function() {
-                        $.each(keys, function(i, v) {
-                            var element = $("input[data-key='" + v + "']").first();
-                            var key = element.data("key");
-                            var title = element.data("chart-title");
-                            var map = getMap(element.data("key"));
-                            drawChart($("input[name='chart-type']:checked").val(), key, title, map);
-                        });
-                    // }, 1000);
+                    $.each(keys, function(i, v) {
+                        var element = $("input[data-key='" + v + "']").first();
+                        var key = element.data("key");
+                        var title = element.data("chart-title");
+                        var map = getMap(element.data("key"));
+                        drawChart($("input[name='chart-type']:checked").val(), key, title, map);
+                    });
                 });
-
-                $("input[data-key='" + value + "']").first().trigger("change");
             });
 
             $("#fiscal-year-start").on("change keyup", function(event) {
@@ -663,8 +648,7 @@
                 });
             });
 
-            drawTopOrganizationsBarChart($("#column-top-n").val(), $("#fiscal-year-start").val(), $("#fiscal-year-end").val());
-            drawTopOrganizationsSplineChart();
+            update();
         });
     </script>
     <%@ include file="/WEB-INF/views/jspf/grants-modals.jspf" %>
