@@ -230,7 +230,7 @@
                             </div>
                         </div>
                         <div class="filter-group">
-                            <button id="clear" class="btn btn-primary">Clear Filters</button><a href="javascript:void(0);" class="btn btn-md btn-primary" onclick="showHelpModalDialog();"><i class="fa fa-question-circle"></i>Help</a>
+                            <button id="clear" class="btn btn-md btn-primary"><i class="fa fa-times"></i>Clear Filters</button><a href="javascript:void(0);" class="btn btn-md btn-primary" onclick="showHelpModalDialog();"><i class="fa fa-question-circle"></i>Help</a>
                         </div>
                     </div>
                 </div>
@@ -615,6 +615,9 @@
             });
 
             $("#clear").click(function() {
+                if (!confirm("Are you sure you want to clear ALL filters?")) {
+                    return;
+                }
                 $(".filter").each(function() {
                     if ($(this).is(':checkbox')) {
                         $(this).prop('checked', false);

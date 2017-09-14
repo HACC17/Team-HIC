@@ -7,10 +7,7 @@
                 <h3 class="modal-title" id="login-form-modalLabel">Admin Login</h3>
             </div>
             <div class="modal-body">
-                <!-- Where all the magic happens -->
-                <!-- LOGIN FORM -->
                 <div id="login_form" class="text-center" style="padding:50px 0">
-                    <!-- Main Form -->
                     <div class="login-form-1">
                         <form id="login-form" class="text-left" name="f" action="/ohagrants/" method="post">
                             <div class="login-form-main-message"></div>
@@ -31,7 +28,6 @@
                             </div>
                         </form>
                     </div>
-                    <!-- end:Main Form -->
                 </div>
             </div>
         </div>
