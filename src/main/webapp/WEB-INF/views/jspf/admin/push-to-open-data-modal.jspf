@@ -7,6 +7,11 @@
                 <h3 class="modal-title" id="push-to-open-data-modalLabel"><i class="fa fa-arrow-up"></i> Export to data.hawaii.gov</h3>
             </div>
             <div class="modal-body">
+                <div class="row" id="push-success" style="display: none">
+                    <div class="col-md-12">
+                        <div class="alert alert-success">Data successfully pushed to data.hawaii.gov!</div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12">
                         Click on the Export Data button below to push all the information for each grant in the database to <a href="https://data.hawaii.gov" target="_blank">Hawaii's Open Data Portal</a>.
@@ -49,6 +54,9 @@
             $.get(appUrl + "admin/opendata?cron=" + $("input[name='cron']:checked").val(), function(data, status) {
                 $("#output").val(data);
                 console.log(data);
+                if (data.indexOf("SUCCESS") >= 0) {
+                    $("#push-success").show();
+                }
             });
         });
     });
