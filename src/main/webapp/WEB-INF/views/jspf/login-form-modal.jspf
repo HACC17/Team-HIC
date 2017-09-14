@@ -48,5 +48,8 @@
                 $("#login-btn").attr("disabled", "disabled");
             }
         });
+        $("#login-form-modal").on("shown.bs.modal", function() {
+            $("#username").focus();
+        });
     });
 </script>
