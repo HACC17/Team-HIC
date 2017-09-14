@@ -10,10 +10,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h3 class="modal-title"><i class="fa fa-filter"></i> How to Filter Data</h3>
-                        <p>To filter the data in the table and the charts, click on a heading in the sidebar and then select or enter a value for one or more criteria.</p>
+                        <p>To filter the data in the table and all the charts, click on a heading in the sidebar and then select or enter a value for one or more criteria.</p>
                         <p>For example, selecting <strong>Culture under Strategic Priority</strong> and <strong>Oahu under Location</strong>, and then entering
                         <strong>$0 for the minimum amount</strong> and <strong>$1,000 for the maximum amount</strong> will filter out grants that do
-                        <span style="text-decoration: underline">not</span> meet these four criteria.</p>
+                        <span style="text-decoration: underline">not</span> meet <strong>all four criteria</strong>.</p>
                         <h3 class="modal-title"><i class="fa fa-refresh"></i> How to Switch From a Bar Chart to a Pie Chart</h3>
                         <p>Under <strong>Chart Settings > Select chart type</strong>, you can switch from a bar chart to a pie chart or vice versa for the following charts <strong>only</strong>:</p>
                         <ul>
@@ -29,7 +29,7 @@
                         <h3 class="modal-title"><i class="fa fa-search-plus"></i> How to Drilldown in the Bar / Pie Charts</h3>
                         <p>Under each bar or pie chart, there is a dropdown list that contains the data for the drilldown series. After making a selection, the chart will
                         automatically refresh. Then clicking on a bar or pie slice will reveal the drilldown series in another bar or pie chart.</p>
-                        <p>Below the <strong>two top N charts</strong>, you can choose whether to view the top 5 or top 10 organizations in the respective chart.</p><br />
+                        <p>From the dropdown list below the <strong>two top N charts</strong>, you can select to view either the top 5 or top 10 organizations in the respective chart.</p><br />
                         <button type="button" class="btn btn-default btn-lg btn-login" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
                     </div>
                 </div>
