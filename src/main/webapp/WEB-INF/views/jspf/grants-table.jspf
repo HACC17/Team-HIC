@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<table id="grants-table" class="display table">
+<table id="grants-table" class="display table" style="width: 100%">
     <thead>
         <tr>
             <th>Fiscal Year</th>
