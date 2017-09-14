@@ -22,11 +22,9 @@
                     </div>
                 </div>
                 <div class="row extra-top-margin">
-                    <div class="col-md-4 col-md-push-2">
-                        <button id="import-btn" class="btn btn-lg btn-primary btn-block"><i class="fa fa-file-text"></i> Import Sample Data</button>
-                    </div>
-                    <div class="col-md-4 col-md-push-2">
-                        <button class="btn btn-lg btn-default btn-block" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
+                    <div class="col-md-12 text-center">
+                        <button id="import-btn" class="btn btn-lg btn-primary"><i class="fa fa-file-text"></i> Import Sample Data</button>
+                        <button class="btn btn-lg btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
                     </div>
                 </div>
             </div>
@@ -38,6 +36,7 @@
     $(document).ready(function() {
         $("#import-btn").click(function(event) {
             event.preventDefault();
+            $("#import-btn").attr("disabled", "disabled");
             $(".warning").show();
             var appUrl = localStorage.getItem('appUrl');
             $.get(appUrl + "admin/import?type=excel", function(data) {
@@ -45,11 +44,11 @@
 			}).done(function() {
 				$(".warning").hide();
 				$(".success").show();
-				$("#import-btn").attr("disabled", "disabled");
 			}).fail(function(data, textStatus, xhr) {
 				$(".warning").hide();
 				$("#problem").html(xhr);
 				$(".danger").show();
+				$("#import-btn").attr("disabled", false);
 			});
         });
     });

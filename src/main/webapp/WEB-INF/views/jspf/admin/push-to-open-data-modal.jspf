@@ -26,11 +26,9 @@
                 </div>
                 <br />
                 <div class="row extra-top-margin">
-                    <div class="col-md-4 col-md-push-2">
-                        <button id="push-btn" class="btn btn-lg btn-primary btn-block"><i class="fa fa-arrow-up"></i> Export Data</button>
-                    </div>
-                    <div class="col-md-4 col-md-push-2">
-                        <button class="btn btn-lg btn-default btn-block" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
+                    <div class="col-md-12 text-center">
+                        <button id="push-btn" class="btn btn-lg btn-primary"><i class="fa fa-arrow-up"></i> Export Data</button>
+                        <button class="btn btn-lg btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
                     </div>
                 </div>
             </div>
@@ -45,11 +43,12 @@
 
         $("#push-btn").click(function(event) {
             event.preventDefault();
+            $("#push-btn").attr("disabled", "disabled");
+            $("#output").val("Pushing data to data.hawaii.gov... This process may take a few minutes.....");
             var appUrl = localStorage.getItem('appUrl');
             $.get(appUrl + "admin/opendata?cron=" + $("input[name='cron']:checked").val(), function(data, status) {
                 $("#output").val(data);
                 console.log(data);
-                $("#push-btn").attr("disabled", "disabled");
             });
         });
     });
