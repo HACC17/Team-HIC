@@ -216,7 +216,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="datatype">Data to display in <strong>all charts</strong></label>
+                                        <label for="datatype">Data to display</label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i id="datatype-i" class="fa fa-dollar"></i></div>
                                             <select id="datatype" onchange="updateLabel(); update();" class="form-control">
@@ -533,10 +533,10 @@
             var timer;
             $.each(keys, function(index, value) {
                 $("input[data-key='" + value + "']").change(function() {
-                    if (timer) {
-                        clearTimeout(timer);
-                    }
-                    timer = setTimeout(function() {
+                    // if (timer) {
+                    //     clearTimeout(timer);
+                    // }
+                    // timer = setTimeout(function() {
                         $.each(keys, function(i, v) {
                             var element = $("input[data-key='" + v + "']").first();
                             var key = element.data("key");
@@ -544,7 +544,7 @@
                             var map = getMap(element.data("key"));
                             drawChart($("input[name='chart-type']:checked").val(), key, title, map);
                         });
-                    }, 1000);
+                    // }, 1000);
                 });
 
                 $("input[data-key='" + value + "']").first().trigger("change");

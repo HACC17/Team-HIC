@@ -32,7 +32,7 @@ function getPointY() {
     return '${point.y}';
 }
 
-var colors = [ '#4173CE', '#3D424A', '#4BA4B0', '#BA8F7E', '#E3604A' ];
+var colors = [ '#2dcc70', '#3598db', '#9b58b5', '#f1c40f', '#e77e23', '#e84c3d'];
 
 function drawPieChart(key, title, map) {
     var json = JSON.parse(localStorage.getItem(key));
@@ -210,6 +210,7 @@ function drawTopOrganizationsBarChart(top, startYear, endYear) {
                 borderWidth: 0,
                 backgroundColor: null
             },
+            colors: colors,
             title: {
                 text: 'Top 5 Organizations by ' + label
             },
@@ -294,6 +295,7 @@ function drawTopOrganizationsSplineChart() {
                 borderWidth: 0,
                 backgroundColor: null
             },
+            colors: colors,
             title: {
                 text: 'Top ' + topN + ' Organizations by ' + label + ' from 2013 to 2016'
             },
