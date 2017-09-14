@@ -230,7 +230,7 @@
                             </div>
                         </div>
                         <div class="filter-group">
-                            <button id="clear" class="btn btn-primary">Clear Filters</button>
+                            <button id="clear" class="btn btn-primary">Clear Filters</button><a href="javascript:void(0);" class="btn btn-md btn-primary" onclick="showHelpModalDialog();"><i class="fa fa-question-circle"></i>Help</a>
                         </div>
                     </div>
                 </div>
@@ -348,7 +348,7 @@
                             <canvas id="priority-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="priority-pie-chart-base64" value="" />
                             <div class="input-group">
-                                <div class="input-group-addon"><i class="fa fa-question-circle fa-fw"></i></div>
+                                <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
                                 <select id="drilldown-priority" class="form-control" data-key="priority" data-chart-title="Strategic Priority">
                                     <option value="">&lt;None&gt;</option>
                                     <option value="result">Strategic Result</option>
@@ -363,7 +363,7 @@
                             <canvas id="result-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="result-pie-chart-base64" value="" />
                             <div class="input-group">
-                                <div class="input-group-addon"><i class="fa fa-question-circle fa-fw"></i></div>
+                                <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
                                 <select id="drilldown-result" class="form-control" data-key="result" data-chart-title="Strategic Result">
                                     <option value="">&lt;None&gt;</option>
                                     <option value="priority" selected>Strategic Priority</option>
@@ -378,7 +378,7 @@
                             <canvas id="type-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="type-pie-chart-base64" value="" />
                             <div class="input-group">
-                                <div class="input-group-addon"><i class="fa fa-question-circle fa-fw"></i></div>
+                                <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
                                 <select id="drilldown-type" class="form-control" data-key="type" data-chart-title="Grant Type">
                                     <option value="">&lt;None&gt;</option>
                                     <option value="priority">Strategic Priority</option>
@@ -395,7 +395,7 @@
                             <canvas id="location-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="location-pie-chart-base64" value="" />
                             <div class="input-group">
-                                <div class="input-group-addon"><i class="fa fa-question-circle fa-fw"></i></div>
+                                <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
                                 <select id="drilldown-location" class="form-control" data-key="location" data-chart-title="Location">
                                     <option value="" selected>&lt;None&gt;</option>
                                     <option value="priority">Strategic Priority</option>
@@ -410,7 +410,7 @@
                             <canvas id="status-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="status-pie-chart-base64" value="" />
                             <div class="input-group">
-                                <div class="input-group-addon"><i class="fa fa-question-circle fa-fw"></i></div>
+                                <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
                                 <select id="drilldown-status" class="form-control" data-key="status" data-chart-title="Grant Status">
                                     <option value="">&lt;None&gt;</option>
                                     <option value="priority">Strategic Priority</option>
@@ -425,7 +425,7 @@
                         <div class="col-md-6 blue-border">
                             <div id="top-5-orgs-column-chart" class="width: 100%; height: 100%"></div>
                             <div class="input-group">
-                                <div class="input-group-addon"><i class="fa fa-question-circle fa-fw"></i></div>
+                                <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
                                 <select id="column-top-n" class="form-control">
                                     <option value="5" selected>Show top 5 organizations</option>
                                     <option value="10">Show top 10 organizations</option>
@@ -435,7 +435,7 @@
                         <div class="col-md-6 blue-border">
                             <div id="top-5-orgs-spline-chart" class="width: 100%; height: 100%"></div>
                             <div class="input-group">
-                                <div class="input-group-addon"><i class="fa fa-question-circle fa-fw"></i></div>
+                                <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
                                 <select id="spline-top-n" onchange="drawTopOrganizationsSplineChart();" class="form-control">
                                     <option value="5" selected>Show top 5 organizations</option>
                                     <option value="10">Show top 10 organizations</option>
@@ -495,6 +495,10 @@
             map["drilldown"] = $("#drilldown-" + key).val();
             map["groupBy"] = key;
             return map;
+        }
+
+        function showHelpModalDialog() {
+            $("#help-modal").modal("show");
         }
 
         $(document).ready(function() {
@@ -649,6 +653,7 @@
     </script>
     <%@ include file="/WEB-INF/views/jspf/grants-modals.jspf" %>
     <%@ include file="/WEB-INF/views/jspf/scripts.jspf" %>
+    <%@ include file="/WEB-INF/views/jspf/help-modal.jspf" %>
     <sec:authorize access="isAnonymous()">
         <%@ include file="/WEB-INF/views/jspf/login-form-modal.jspf" %>
     </sec:authorize>
