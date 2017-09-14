@@ -52,6 +52,12 @@ function drawPieChart(key, title, map) {
         }
     });
 
+    if ($("input[name='chart-type']:checked").val() == 'pie') {
+        $("#" + key + "-pie-chart").show();
+    } else {
+        $("#" + key + "-pie-chart").hide();
+    }
+
     // Create the chart
     var chart = Highcharts.chart(key + '-pie-chart', {
         chart: {
@@ -114,7 +120,13 @@ function drawBarChart(key, title, map) {
         }
     });
 
-    Highcharts.chart(key + '-pie-chart', {
+    if ($("input[name='chart-type']:checked").val() == 'bar') {
+        $("#" + key + "-bar-chart").show();
+    } else {
+        $("#" + key + "-bar-chart").hide();
+    }
+
+    var chart = Highcharts.chart(key + '-bar-chart', {
         chart: {
             type: 'bar',
             borderWidth: 0,
@@ -160,6 +172,12 @@ function drawBarChart(key, title, map) {
         series: series,
         drilldown: { series: drilldown }
     });
+
+    canvg(document.getElementById(key + "-bar-chart-canvas"), chart.getSVG());
+
+    var canvas = document.getElementById(key + "-bar-chart-canvas");
+    var img = canvas.toDataURL("image/png");
+    $("#" + key + "-bar-chart-base64").val(img.substring(img.indexOf(',') + 1));
 }
 
 function drawChart(chartType, key, title, map) {
@@ -174,12 +192,8 @@ function drawChart(chartType, key, title, map) {
         success: function(response) {
             localStorage.setItem(key, response);
 
-            if (chartType == 'pie') {
-                drawPieChart(key, title, map);
-            }
-            else if (chartType == 'bar') {
-                drawBarChart(key, title, map);
-            }
+            drawPieChart(key, title, map);
+            drawBarChart(key, title, map);
         }
     });
 }

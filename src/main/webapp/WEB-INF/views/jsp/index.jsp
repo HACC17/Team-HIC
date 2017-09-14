@@ -344,8 +344,11 @@
                 <div class="tab-pane charts" id="charts" style="max-width: 100%">
                     <div class="row">
                         <div class="col-md-4 blue-border">
-                            <div id="priority-pie-chart"></div>
+                            <div id="priority-bar-chart"></div>
+                            <div id="priority-pie-chart" style="display: none"></div>
+                            <canvas id="priority-bar-chart-canvas" style="display: none"></canvas>
                             <canvas id="priority-pie-chart-canvas" style="display: none"></canvas>
+                            <input type="hidden" id="priority-bar-chart-base64" value="" />
                             <input type="hidden" id="priority-pie-chart-base64" value="" />
                             <div class="input-group">
                                 <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
@@ -359,8 +362,11 @@
                             </div>
                         </div>
                         <div class="col-md-4 blue-border">
-                            <div id="result-pie-chart"></div>
+                            <div id="result-bar-chart"></div>
+                            <div id="result-pie-chart" style="display: none"></div>
+                            <canvas id="result-bar-chart-canvas" style="display: none"></canvas>
                             <canvas id="result-pie-chart-canvas" style="display: none"></canvas>
+                            <input type="hidden" id="result-bar-chart-base64" value="" />
                             <input type="hidden" id="result-pie-chart-base64" value="" />
                             <div class="input-group">
                                 <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
@@ -374,8 +380,11 @@
                             </div>
                         </div>
                         <div class="col-md-4 blue-border">
-                            <div id="type-pie-chart"></div>
+                            <div id="type-bar-chart"></div>
+                            <div id="type-pie-chart" style="display: none"></div>
+                            <canvas id="type-bar-chart-canvas" style="display: none"></canvas>
                             <canvas id="type-pie-chart-canvas" style="display: none"></canvas>
+                            <input type="hidden" id="type-bar-chart-base64" value="" />
                             <input type="hidden" id="type-pie-chart-base64" value="" />
                             <div class="input-group">
                                 <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
@@ -391,8 +400,11 @@
                     </div>
                     <div class="row">
                         <div class="col-md-8 blue-border">
-                            <div id="location-pie-chart"></div>
+                            <div id="location-bar-chart"></div>
+                            <div id="location-pie-chart" style="display: none"></div>
+                            <canvas id="location-bar-chart-canvas" style="display: none"></canvas>
                             <canvas id="location-pie-chart-canvas" style="display: none"></canvas>
+                            <input type="hidden" id="location-bar-chart-base64" value="" />
                             <input type="hidden" id="location-pie-chart-base64" value="" />
                             <div class="input-group">
                                 <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
@@ -406,8 +418,11 @@
                             </div>
                         </div>
                         <div class="col-md-4 blue-border">
-                            <div id="status-pie-chart"></div>
+                            <div id="status-bar-chart"></div>
+                            <div id="status-pie-chart" style="display: none"></div>
+                            <canvas id="status-bar-chart-canvas" style="display: none"></canvas>
                             <canvas id="status-pie-chart-canvas" style="display: none"></canvas>
+                            <input type="hidden" id="status-bar-chart-base64" value="" />
                             <input type="hidden" id="status-pie-chart-base64" value="" />
                             <div class="input-group">
                                 <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
@@ -511,15 +526,13 @@
 
             $("input[name='chart-type']").change(function() {
                 $.each(keys, function(index, value) {
-                    var element = $("input[data-key='" + value + "']").first();
-                    var key = element.data("key");
-                    var title = element.data("chart-title");
-                    var map = getMap(key);
-                    var chartType = $("input[name='chart-type']:checked").val();
-                    if (chartType == 'pie') {
-                        drawPieChart(key, title, map);
+                    var type = $("input[name='chart-type']:checked").val();
+                    if (type == 'bar') {
+                        $("#" + value + "-pie-chart").hide();
+                        $("#" + value + "-bar-chart").show();
                     } else {
-                        drawBarChart(key, title, map);
+                        $("#" + value + "-bar-chart").hide();
+                        $("#" + value + "-pie-chart").show();
                     }
                 });
             });
