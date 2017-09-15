@@ -16,30 +16,32 @@
 <body class="sidebar-fixed">
     <div class="wrapper" id="wrapper">
         <nav class="navbar navbar-oha navbar-fixed-top">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="<c:url value='/' />">OHA Grants</a>
-            </div>
-            <div class="dropdown admin-nav">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i>Admin Tools<span class="caret"></span></a>
-                <ul class="dropdown-menu dropdown-menu-right">
-                    <sec:authorize access="isAnonymous()">
-                        <li><a href="javascript:void(0);" onclick="$('#login-form-modal').modal('show');"><i class="fa fa-sign-in"></i> Login</a></li>
-                    </sec:authorize>
-                    <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <li><a href="javascript:void(0);" onclick="$('#add-grant-form-modal').modal('show');"><i class="fa fa-plus"></i> Add Grant</a></li>
-                        <li><a href="javascript:void(0);" onclick="$('#import-sample-data-modal').modal('show');"><i class="fa fa-file-text"></i> Import Grants</a></li>
-                        <li><a href="javascript:void(0);" onclick="$('#push-to-open-data-modal').modal('show');"><i class="fa fa-arrow-up"></i> Export to data.hawaii.gov</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="<c:url value='/logout'/>"><i class="fa fa-sign-out"></i> Logout</a></li>
-                    </sec:authorize>
-                </ul>
-            </div>
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="<c:url value='/' />">OHA Grants</a>
+                </div>
+                <div class="dropdown admin-nav">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i>Admin Tools<span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <sec:authorize access="isAnonymous()">
+                            <li><a href="javascript:void(0);" onclick="$('#login-form-modal').modal('show');"><i class="fa fa-sign-in"></i> Login</a></li>
+                        </sec:authorize>
+                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                            <li><a href="javascript:void(0);" onclick="$('#add-grant-form-modal').modal('show');"><i class="fa fa-plus"></i> Add Grant</a></li>
+                            <li><a href="javascript:void(0);" onclick="$('#import-sample-data-modal').modal('show');"><i class="fa fa-file-text"></i> Import Grants</a></li>
+                            <li><a href="javascript:void(0);" onclick="$('#push-to-open-data-modal').modal('show');"><i class="fa fa-arrow-up"></i> Export to data.hawaii.gov</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="<c:url value='/logout'/>"><i class="fa fa-sign-out"></i> Logout</a></li>
+                        </sec:authorize>
+                    </ul>
+                </div>
+           </div>
         </nav>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <div class="left-sidebar" id="left-sidebar">
