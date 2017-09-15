@@ -624,12 +624,22 @@
                     }
                 });
                 $("#organization").val("");
+                $("#fiscal-year-start").text("<c:out value='${startYear}'/>");
                 $("#fiscal-year-start").val("<c:out value='${startYear}'/>");
+                $("#fiscal-year-end").text("<c:out value='${endYear}'/>");
                 $("#fiscal-year-end").val("<c:out value='${endYear}'/>");
-                $("#min-total").val("0");
-                $("#max-total").val("100000");
-                $("#min-hawaiians").val("0");
-                $("#max-hawaiians").val("100000");
+                $("#min-amount").text(0);
+                $("#min-amount").val(0);
+                $("#max-amount").text(10000000);
+                $("#max-amount").val(10000000);
+                $("#min-total").text(0);
+                $("#min-total").val(0);
+                $("#max-total").text(0);
+                $("#max-total").val(100000);
+                $("#min-hawaiians").text(0);
+                $("#min-hawaiians").val(0);
+                $("#max-hawaiians").text(100000);
+                $("#max-hawaiians").val(100000);
                 update();
             });
             $(".clear-filter").click(function() {
@@ -646,10 +656,10 @@
                 update();
             });
             $(".clear-filter-amount").click(function() {
-                $("#min-total").text(0);
-                $("#min-total").val(0);
-                $("#max-total").text(10000000);
-                $("#max-total").val(10000000);
+                $("#min-amount").text(0);
+                $("#min-amount").val(0);
+                $("#max-amount").text(10000000);
+                $("#max-amount").val(10000000);
                 update();
             });
             $(".clear-filter-people").click(function() {
