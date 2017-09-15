@@ -508,6 +508,29 @@
             $("#help-modal").modal("show");
         }
 
+        function addListeners(id1, id2) {
+            $("#" + id1).on("change keyup", function(event) {
+                var min = $(this).val().replace(/^0+/, '');
+                var max = $("#" + id2).val().replace(/^0+/, '');
+                if (parseInt(min) > parseInt(max)) {
+                    $(this).val(max);
+                } else {
+                    $(this).val(min);
+                    update();
+                }
+            });
+            $("#" + id2).on("change keyup", function(event) {
+                var max = $(this).val().replace(/^0+/, '');
+                var min = $("#" + id1).val().replace(/^0+/, '');
+                if (parseInt(max) < parseInt(min)) {
+                    $(this).val(min);
+                } else {
+                    $(this).val(max);
+                    update();
+                }
+            });
+        }
+
         $(document).ready(function() {
             $("#main-wrapper > div").hide();
             $("#main-wrapper").append("<div id='temp-div' style='background-color: white; height: 100%; width: 100%'></div>");
@@ -552,65 +575,10 @@
                 });
             });
 
-            $("#fiscal-year-start").on("change keyup", function(event) {
-                if (parseInt($(this).val()) > parseInt($("#fiscal-year-end").val())) {
-                    $(this).val($("#fiscal-year-end").val());
-                } else {
-                    update();
-                }
-            });
-            $("#fiscal-year-end").on("change keyup", function(event) {
-                if (parseInt($(this).val()) < parseInt($("#fiscal-year-start").val())) {
-                    $(this).val($("#fiscal-year-start").val());
-                } else {
-                    update();
-                }
-            });
-
-            $("#min-amount").on("change keyup", function(event) {
-                if (parseInt($(this).val()) > parseInt($("#max-amount").val())) {
-                    $(this).val($("#max-amount").val());
-                } else {
-                    update();
-                }
-            });
-            $("#max-amount").on("change keyup", function(event) {
-                if (parseInt($(this).val()) < parseInt($("#min-amount").val())) {
-                    $(this).val($("#min-amount").val());
-                } else {
-                    update();
-                }
-            });
-
-            $("#min-total").on("change keyup", function(event) {
-                if (parseInt($(this).val()) > parseInt($("#max-total").val())) {
-                    $(this).val($("#max-total").val());
-                } else {
-                    update();
-                }
-            });
-            $("#max-total").on("change keyup", function(event) {
-                if (parseInt($(this).val()) < parseInt($("#min-total").val())) {
-                    $(this).val($("#min-total").val());
-                } else {
-                    update();
-                }
-            });
-
-            $("#min-hawaiians").on("change keyup", function(event) {
-                if (parseInt($(this).val()) > parseInt($("#max-hawaiians").val())) {
-                    $(this).val($("#max-hawaiians").val());
-                } else {
-                    update();
-                }
-            });
-            $("#max-hawaiians").on("change keyup", function(event) {
-                if (parseInt($(this).val()) < parseInt($("#min-hawaiians").val())) {
-                    $(this).val($("#min-hawaiians").val());
-                } else {
-                    update();
-                }
-            });
+            addListeners("fiscal-year-start", "fiscal-year-end");
+            addListeners("min-amount", "max-amount");
+            addListeners("min-total", "max-total");
+            addListeners("min-hawaiians", "max-hawaiians");
 
             $("#clear").click(function() {
                 if (!confirm("Are you sure you want to clear ALL filters?")) {
