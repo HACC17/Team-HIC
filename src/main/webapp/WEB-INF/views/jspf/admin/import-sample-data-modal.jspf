@@ -4,7 +4,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="import-sample-data-modalLabel"><i class="fa fa-file-text"></i> Import Sample Data</h3>
+                <h3 class="modal-title" id="import-sample-data-modalLabel"><i class="fa fa-file-text"></i> Initial Import Grants</h3>
             </div>
             <div class="modal-body">
                 <div class="row success" style="display: none">
@@ -18,12 +18,12 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        Click on the Import Sample Data button below to import sample data from a Microsoft Excel spreadsheet that is hosted on the server on which this application is running.<br /><br />
+                        Click on the Import Grants button below to import all the grants from a Microsoft Excel spreadsheet that is hosted on the server on which this application is running.<br /><br />
                     </div>
                 </div>
                 <div class="row extra-top-margin">
                     <div class="col-md-12 text-center">
-                        <button id="import-btn" class="btn btn-lg btn-primary"><i class="fa fa-file-text"></i> Import Sample Data</button>
+                        <button id="import-btn" class="btn btn-lg btn-primary"><i class="fa fa-file-text"></i> Import Grants</button>
                         <button class="btn btn-lg btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
                     </div>
                 </div>

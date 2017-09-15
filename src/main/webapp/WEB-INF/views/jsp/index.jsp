@@ -34,7 +34,7 @@
                         </sec:authorize>
                         <sec:authorize access="hasRole('ROLE_ADMIN')">
                             <li><a href="javascript:void(0);" onclick="$('#add-grant-form-modal').modal('show');"><i class="fa fa-plus"></i> Add Grant</a></li>
-                            <li><a href="javascript:void(0);" onclick="$('#import-sample-data-modal').modal('show');"><i class="fa fa-file-text"></i> Import Grants</a></li>
+                            <li><a href="javascript:void(0);" onclick="$('#import-sample-data-modal').modal('show');"><i class="fa fa-file-text"></i> Initial Import Grants</a></li>
                             <li><a href="javascript:void(0);" onclick="$('#push-to-open-data-modal').modal('show');"><i class="fa fa-arrow-up"></i> Export to data.hawaii.gov</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="<c:url value='/logout'/>"><i class="fa fa-sign-out"></i> Logout</a></li>
