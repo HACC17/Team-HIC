@@ -49,7 +49,7 @@
                     <div id="filters-panel" class="filters-panel">
                         <h3 class="sr-only">Filters</h3>
                         <div class="filter-group">
-                            <label class="fieldset-label" data-toggle="collapse" data-target="#toggle-priority"><i class="fa fa-area-chart"></i>Strategic Priority<i class="toggle-icon fa fa-angle-left"></i></label>
+                            <label class="fieldset-label" data-toggle="collapse" data-target="#toggle-priority"><i class="fa fa-area-chart flavor"></i>Strategic Priority<i class="toggle-icon fa fa-angle-left"></i></label>
                             <div  id="toggle-priority" class="collapse">
                                 <fieldset>
                                     <c:forEach var="priority" items="${priorities}">
@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <div class="filter-group">
-                            <label class="fieldset-label" data-toggle="collapse" data-target="#toggle-result"><i class="fa fa-line-chart"></i>Strategic Result<i class="toggle-icon fa fa-angle-left"></i></label>
+                            <label class="fieldset-label" data-toggle="collapse" data-target="#toggle-result"><i class="fa fa-line-chart flavor"></i>Strategic Result<i class="toggle-icon fa fa-angle-left"></i></label>
                             <div  id="toggle-result" class="collapse">
                                 <fieldset>
                                     <c:forEach var="result" items="${results}">
@@ -77,7 +77,7 @@
                             </div>
                         </div>
                         <div class="form-check filter-group">
-                            <label class="fieldset-label" data-toggle="collapse" data-target="#grant-type"><i class="fa fa-info-circle"></i>Grant Type<i class="toggle-icon fa fa-angle-left"></i></label>
+                            <label class="fieldset-label" data-toggle="collapse" data-target="#grant-type"><i class="fa fa-info-circle flavor"></i>Grant Type<i class="toggle-icon fa fa-angle-left"></i></label>
                             <div id="grant-type" class="collapse">
                                 <fieldset>
                                     <c:forEach var="type" items="${types}">
@@ -91,7 +91,7 @@
                             </div>
                         </div>
                         <div class="filter-group">
-                            <label class="fieldset-label" data-toggle="collapse" data-target="#location"><i class="fa fa-map-marker"></i>Location<i class="toggle-icon fa fa-angle-left"></i></label>
+                            <label class="fieldset-label" data-toggle="collapse" data-target="#location"><i class="fa fa-map-marker flavor"></i>Location<i class="toggle-icon fa fa-angle-left"></i></label>
                             <div  id="location" class="collapse">
                                 <fieldset>
                                     <c:forEach var="location" items="${locations}">
@@ -105,7 +105,7 @@
                             </div>
                         </div>
                         <div class="filter-group">
-                            <label class="fieldset-label" data-toggle="collapse" data-target="#toggle-organization"><i class="fa fa-home"></i>Organization<i class="toggle-icon fa fa-angle-left"></i></label>
+                            <label class="fieldset-label" data-toggle="collapse" data-target="#toggle-organization"><i class="fa fa-home flavor"></i>Organization<i class="toggle-icon fa fa-angle-left"></i></label>
                             <div id="toggle-organization" class="collapse">
                                 <fieldset>
                                     <select id="organization" class="filter form-control" data-key="organization" data-chart-title="Organization">
@@ -120,7 +120,7 @@
                             </div>
                         </div>
                         <div class="filter-group">
-                            <label class="fieldset-label" data-toggle="collapse" data-target="#status"><i class="fa fa-check-circle"></i>Grant Status<i class="toggle-icon fa fa-angle-left"></i></label>
+                            <label class="fieldset-label" data-toggle="collapse" data-target="#status"><i class="fa fa-check-circle flavor"></i>Grant Status<i class="toggle-icon fa fa-angle-left"></i></label>
                             <div id="status" class="collapse">
                                 <fieldset>
                                     <c:forEach var="status" items="${statuses}">
@@ -134,7 +134,7 @@
                             </div>
                         </div>
                         <div class="filter-group">
-                            <label class="fieldset-label" data-toggle="collapse" data-target="#year"><i class="fa fa-calendar"></i>Fiscal Year<i class="toggle-icon fa fa-angle-left"></i></label>
+                            <label class="fieldset-label" data-toggle="collapse" data-target="#year"><i class="fa fa-calendar flavor"></i>Fiscal Year<i class="toggle-icon fa fa-angle-left"></i></label>
                             <div id="year" class="collapse">
                                 <fieldset>
                                     <div class="form-group">
@@ -156,7 +156,7 @@
                             </div>
                         </div>
                         <div class="filter-group">
-                            <label class="fieldset-label" data-toggle="collapse" data-target="#amount"><i class="fa fa-dollar"></i>Grant Amount<i class="toggle-icon fa fa-angle-left"></i></label>
+                            <label class="fieldset-label" data-toggle="collapse" data-target="#amount"><i class="fa fa-dollar flavor"></i>Grant Amount<i class="toggle-icon fa fa-angle-left"></i></label>
                             <div id="amount" class="collapse">
                                 <fieldset>
                                     <div class="form-group">
@@ -178,7 +178,7 @@
                             </div>
                         </div>
                         <div class="filter-group">
-                            <label class="fieldset-label" data-toggle="collapse" data-target="#people"><i class="fa fa-users"></i>People Served<i class="toggle-icon fa fa-angle-left"></i></label>
+                            <label class="fieldset-label" data-toggle="collapse" data-target="#people"><i class="fa fa-users flavor"></i>People Served<i class="toggle-icon fa fa-angle-left"></i></label>
                             <div id="people" class="collapse">
                                 <fieldset>
                                     <label for="min-total">Total</label>
@@ -208,7 +208,7 @@
                             </div>
                         </div>
                         <div class="filter-group">
-                            <label class="fieldset-label" data-toggle="collapse" data-target="#toggle-chart-settings"><i class="fa fa-pie-chart"></i>Chart Settings<i class="toggle-icon fa fa-angle-left"></i></label>
+                            <label class="fieldset-label" data-toggle="collapse" data-target="#toggle-chart-settings"><i class="fa fa-pie-chart flavor"></i>Chart Settings<i class="toggle-icon fa fa-angle-left"></i></label>
                             <div id="toggle-chart-settings" class="collapse">
                                 <fieldset>
                                     <div class="form-group">
