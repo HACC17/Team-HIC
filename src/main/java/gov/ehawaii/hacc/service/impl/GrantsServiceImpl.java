@@ -167,12 +167,27 @@ public class GrantsServiceImpl implements GrantsService {
   }
 
   @Override
-  public final List<TimeSeries> getTimeSeriesData(final int top, final String field) {
+  public final List<TimeSeries> getTimeSeriesData(final int top, final String field, final Map<String, String> filters) {
     Assert.hasLength(field, "field must not be null or empty.");
+
+    String[] filtersArray = new String[filters.size()];
+    Object[] filterValuesArray = new Object[filters.size()];
+
+    int index = 0;
+    for (Entry<String, String> entry : filters.entrySet()) {
+      String key = entry.getKey();
+      filtersArray[index] = key;
+
+      String filterKey = Filters.FILTERS_MAP.get(key);
+      if (filterKey == null) {
+        throw new IllegalArgumentException(key + " filter not supported, yet.");
+      }
+      filterValuesArray[index++] = getIdForFilterValue(filterKey, entry.getValue());
+    }
 
     return repository.findTimeSeriesData(new TimeSeriesSpecification(Tables.ORGANIZATIONS,
         Columns.ORGANIZATION, top, SqlStatements.GET_AGGREGATE_DATA_FOR_ORGANIZATIONS,
-        SqlStatements.GET_TIME_SERIES_DATA_FOR_ORGANIZATIONS, field));
+        SqlStatements.GET_TIME_SERIES_DATA_FOR_ORGANIZATIONS, field, filtersArray, filterValuesArray));
   }
 
   @SuppressWarnings("unchecked")

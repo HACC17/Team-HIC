@@ -86,7 +86,7 @@ public class TotalsSpecification implements SqlSpecification {
     String filter = buffer.toString().trim();
     int idx = filter.lastIndexOf(" AND");
     filter = filter.substring(0, idx < 0 ? filter.length() : idx);
-    LOGGER.info("Filter: " + filter);
+    LOGGER.debug("Filter: " + filter);
     return filter;
   }
 

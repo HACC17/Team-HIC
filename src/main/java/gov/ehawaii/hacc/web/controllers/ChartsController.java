@@ -68,16 +68,22 @@ public class ChartsController {
    * 
    * @param top N, a number greater than 0, the number of data to retrieve from the repository.
    * @param field The type of data to fetch.
+   * @param startYear The beginning of the time range.
+   * @param endYear The end of the time range.
    * @param response The server response.
    * @throws IOException If there are problems sending the data back to the client.
    */
   @RequestMapping(value = "/time", method = RequestMethod.GET)
   public final void getOrganizationDataOverTime(@RequestParam("top") final String top,
-      @RequestParam("field") final String field, final HttpServletResponse response)
+      @RequestParam("field") final String field, @RequestParam("startYear") final String startYear,
+      @RequestParam("endYear") final String endYear, final HttpServletResponse response)
       throws IOException {
+    Map<String, String> filters = new HashMap<>();
+    filters.put("fiscal-gte", startYear);
+    filters.put("fiscal-lte", endYear);
 
     response.getWriter().write(new ObjectMapper()
-        .writeValueAsString(grantsService.getTimeSeriesData(Integer.parseInt(top), field)));
+        .writeValueAsString(grantsService.getTimeSeriesData(Integer.parseInt(top), field, filters)));
   }
 
   /**

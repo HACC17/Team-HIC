@@ -61,9 +61,10 @@ public interface GrantsService {
    * 
    * @param top N, a number greater than 0, the number of data to retrieve from the repository.
    * @param field The type of data to retrieve.
+   * @param filters A map of filters whose conditions each grant must satisfy.
    * @return A list of time series data.
    */
-  List<TimeSeries> getTimeSeriesData(int top, String field);
+  List<TimeSeries> getTimeSeriesData(int top, String field, Map<String, String> filters);
 
   /**
    * Returns aggregate data.

@@ -261,9 +261,16 @@ function drawTopOrganizationsBarChart(top, startYear, endYear) {
 function drawTopOrganizationsSplineChart() {
     var field = $("#datatype").val();
     var topN = $("select#spline-top-n").val();
+    var startYear = parseInt($("#fiscal-year-start").val());
+    var endYear = parseInt($("#fiscal-year-end").val());
 
-    $.get(baseUrl + "charts/time?top=" + topN + "&field="+ field, function(data, status) {
+    $.get(baseUrl + "charts/time?top=" + topN + "&field="+ field + "&startYear=" + startYear + "&endYear=" + endYear, function(data, status) {
         var json = JSON.parse(data);
+
+        var categories = [];
+        for (var year = startYear; year <= endYear; year++) {
+            categories.push(year);
+        }
 
         var series = [];
         $.each(json, function(index, value) {
@@ -291,10 +298,10 @@ function drawTopOrganizationsSplineChart() {
             },
             colors: colors,
             title: {
-                text: 'Top ' + topN + ' Organizations by ' + label + ' from 2013 to 2016'
+                text: 'Top ' + topN + ' Organizations by ' + label + ' from ' + startYear + ' to ' + endYear
             },
             xAxis: {
-                categories: ['2013', '2014', '2015', '2016']
+                categories: categories
             },
             yAxis: {
                 title: {

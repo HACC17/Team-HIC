@@ -165,7 +165,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
         list.add(rs.getString(1));
       }
       return list;
-    }, tsSpecification.getTop());
+    }, ArrayUtils.addAll(tsSpecification.getFilterValues(), new Object[] { tsSpecification.getTop() }));
 
     List<TimeSeries> seriesList = new ArrayList<>();
 
@@ -180,7 +180,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
           points.add(new TimeSeriesDataPoint(rs.getInt(1), rs.getLong(2)));
         }
         return points;
-      }, id));
+      }, ArrayUtils.addAll(tsSpecification.getFilterValues(), new Object[] { id })));
       seriesList.add(series);
     }
 
