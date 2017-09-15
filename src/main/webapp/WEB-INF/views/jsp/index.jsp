@@ -149,7 +149,7 @@
                                             <input type="number" min="<c:out value='${startYear}'/>" max="<c:out value='${endYear}'/>" value="<c:out value='${endYear}'/>" class="filter form-control" id="fiscal-year-end" data-key="fiscal-lte">
                                         </div>
                                     </div>
-                                    <a href="javascript:void(0)" class="clear-filter" onclick="resetDates();"><i class="fa fa-check"></i>clear filter</a>
+                                    <a href="javascript:void(0)" class="clear-filter-fiscal-year" onclick="resetDates();"><i class="fa fa-check"></i>clear filter</a>
                                 </fieldset>
                             </div>
                         </div>
@@ -168,10 +168,10 @@
                                         <label for="min-amount">max</label>
                                         <div class="input-group">
                                             <div class="input-group-addon">$</div>
-                                            <input type="number" min="0" max="100000000" value="100000000" class="filter form-control" id="max-amount" data-key="amount-lte">
+                                            <input type="number" min="0" max="100000000" value="10000000" class="filter form-control" id="max-amount" data-key="amount-lte">
                                         </div>
                                     </div>
-                                    <a href="javascript:void(0)" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
+                                    <a href="javascript:void(0)" class="clear-filter-amount"><i class="fa fa-check"></i>clear filter</a>
                                 </fieldset>
                             </div>
                         </div>
@@ -201,7 +201,7 @@
                                             <input type="number" min="0" max="10000000" value="100000" class="filter form-control" id="max-hawaiians" data-key="hawaiians-lte">
                                         </div>
                                     </fieldset>
-                                    <a href="javascript:void(0)" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
+                                    <a href="javascript:void(0)" class="clear-filter-people"><i class="fa fa-check"></i>clear filter</a>
                                 </fieldset>
                             </div>
                         </div>
@@ -624,8 +624,8 @@
                     }
                 });
                 $("#organization").val("");
-                $("#fiscal-year-start").val("2013");
-                $("#fiscal-year-end").val("2016");
+                $("#fiscal-year-start").val("<c:out value='${startYear}'/>");
+                $("#fiscal-year-end").val("<c:out value='${endYear}'/>");
                 $("#min-total").val("0");
                 $("#max-total").val("100000");
                 $("#min-hawaiians").val("0");
@@ -636,6 +636,31 @@
                 $("input[data-key='" + $(this).data("key") + "']").each(function() {
                     $(this).prop('checked', false);
                 });
+                update();
+            });
+            $(".clear-filter-fiscal-year").click(function() {
+                $("#fiscal-year-start").text("<c:out value='${startYear}'/>");
+                $("#fiscal-year-start").val("<c:out value='${startYear}'/>");
+                $("#fiscal-year-end").text("<c:out value='${endYear}'/>");
+                $("#fiscal-year-end").val("<c:out value='${endYear}'/>");
+                update();
+            });
+            $(".clear-filter-amount").click(function() {
+                $("#min-total").text(0);
+                $("#min-total").val(0);
+                $("#max-total").text(10000000);
+                $("#max-total").val(10000000);
+                update();
+            });
+            $(".clear-filter-people").click(function() {
+                $("#min-total").text(0);
+                $("#min-total").val(0);
+                $("#max-total").text(0);
+                $("#max-total").val(100000);
+                $("#min-hawaiians").text(0);
+                $("#min-hawaiians").val(0);
+                $("#max-hawaiians").text(100000);
+                $("#max-hawaiians").val(100000);
                 update();
             });
             $("#organization").change(function() {
