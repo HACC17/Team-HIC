@@ -108,7 +108,7 @@ public class AdminController {
    * @param response The server response.
    */
   @RequestMapping(method = RequestMethod.POST)
-  public final void addGrant(@ModelAttribute("grant") final Grant grant, HttpServletResponse response) {
+  public final void addGrant(@ModelAttribute("grant") final Grant grant, final HttpServletResponse response) {
     if (grantsService.saveGrant(grant)) {
       LOGGER.info("Grant [" + grant + "] saved successfully.");
       response.setStatus(HttpServletResponse.SC_OK);
@@ -120,9 +120,17 @@ public class AdminController {
   }
 
 
+  /**
+   * A <code>POST</code> request is sent to the <code>/admin/org</code> endpoint to add an
+   * organization to the database.
+   * 
+   * @param json Contains the name of the organization to add.
+   * @param response The server response.
+   * @throws IOException If there are problems adding the organization to the database.
+   */
   @RequestMapping(value = "/org", method = RequestMethod.POST)
-  public final void addOrganization(@RequestBody final String json, HttpServletResponse response)
-      throws IOException {
+  public final void addOrganization(@RequestBody final String json,
+      final HttpServletResponse response) throws IOException {
     Map<String, String> parameters = new ObjectMapper().readValue(URLDecoder.decode(json, "UTF-8"),
         new TypeReference<Map<String, String>>() {
         });

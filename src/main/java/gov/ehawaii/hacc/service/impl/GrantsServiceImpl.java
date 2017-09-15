@@ -22,7 +22,6 @@ import gov.ehawaii.hacc.service.GrantsService;
 import gov.ehawaii.hacc.specifications.ColumnSpecification;
 import gov.ehawaii.hacc.specifications.FilteredSpecification;
 import gov.ehawaii.hacc.specifications.IdSpecification;
-import gov.ehawaii.hacc.specifications.Specification;
 import gov.ehawaii.hacc.specifications.TimeSeriesSpecification;
 import gov.ehawaii.hacc.specifications.TopNFiscalYearSpecification;
 import gov.ehawaii.hacc.specifications.TopNSpecification;

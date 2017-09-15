@@ -102,7 +102,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
   }
 
   @Override
-  public final boolean insertOrganization(String organization) {
+  public final boolean insertOrganization(final String organization) {
     return saveValue(Tables.ORGANIZATIONS, Columns.ORGANIZATION, organization) > 0;
   }
 

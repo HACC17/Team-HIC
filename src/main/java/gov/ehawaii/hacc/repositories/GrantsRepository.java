@@ -29,6 +29,12 @@ public interface GrantsRepository {
    */
   boolean insertGrant(Grant grant);
 
+  /**
+   * Saves the given organization name to the underlying data source.
+   * 
+   * @param organization The name of the organization to save.
+   * @return <code>true</code> if the organization was successfully saved, <code>false</code> otherwise.
+   */
   boolean insertOrganization(String organization);
 
   /**

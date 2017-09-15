@@ -22,6 +22,12 @@ public interface GrantsService {
    */
   boolean saveGrant(Grant grant);
 
+  /**
+   * Adds the given organization to the repository.
+   * 
+   * @param organization The organization to add.
+   * @return <code>true</code> if the organization was added successfully, <code>false</code> otherwise.
+   */
   boolean addNewOrganization(String organization);
 
   /**
