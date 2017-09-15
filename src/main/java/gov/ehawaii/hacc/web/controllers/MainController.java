@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -78,7 +80,7 @@ public class MainController {
   public final void getGrants(@RequestBody final String json, final HttpServletResponse response)
       throws IOException {
     Map<String, Object> parameters =
-        new ObjectMapper().readValue(json, new TypeReference<Map<String, Object>>() {
+        new ObjectMapper().readValue(Jsoup.clean(json, Whitelist.none()), new TypeReference<Map<String, Object>>() {
         });
     response.getWriter()
         .write(new ObjectMapper().writeValueAsString(grantsService.getGrants(parameters)));

@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -64,9 +66,10 @@ public class AdminController {
   public final void importSampleData(@RequestParam("type") final String type, final HttpServletResponse response)
       throws IOException {
     Assert.notNull(type, "type must not be null");
+    String safeType = Jsoup.clean(type, Whitelist.none());
 
     String msg;
-    switch (type) {
+    switch (safeType) {
     case "csv":
       if (csvImporter.importData()) {
         msg = "Successfully imported sample data from a CSV file.";
@@ -92,8 +95,8 @@ public class AdminController {
       }
       break;
     default:
-      msg = type + " is not yet supported.";
-      LOGGER.error(type + " is not yet supported.");
+      msg = safeType + " is not yet supported.";
+      LOGGER.error(safeType + " is not yet supported.");
       response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
     response.getWriter().write(msg);
@@ -131,8 +134,8 @@ public class AdminController {
   @RequestMapping(value = "/org", method = RequestMethod.POST)
   public final void addOrganization(@RequestBody final String json,
       final HttpServletResponse response) throws IOException {
-    Map<String, String> parameters = new ObjectMapper().readValue(URLDecoder.decode(json, "UTF-8"),
-        new TypeReference<Map<String, String>>() {
+    Map<String, String> parameters = new ObjectMapper().readValue(URLDecoder.decode(
+        Jsoup.clean(json, Whitelist.none()), "UTF-8"), new TypeReference<Map<String, String>>() {
         });
     String organization = parameters.get("organization");
     if (grantsService.addNewOrganization(organization)) {

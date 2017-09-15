@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections4.MapUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,8 +42,9 @@ public class ChartsController {
   @RequestMapping(value = "/fiscalYear", method = RequestMethod.GET)
   public final void getTopFiveOrganizationsForFiscalYear(@RequestParam("year") final String year,
       final HttpServletResponse response) throws IOException {
+    int yr = Integer.parseInt(year);
     response.getWriter().write(new ObjectMapper()
-        .writeValueAsString(grantsService.getTopFiveOrganizationsForFiscalYear(year)));
+        .writeValueAsString(grantsService.getTopFiveOrganizationsForFiscalYear(yr)));
   }
 
   /**
@@ -59,8 +62,10 @@ public class ChartsController {
       @RequestParam("field1") final String name,
       @RequestParam("field2") final String aggregateField, final HttpServletResponse response)
       throws IOException {
+    String safeName = Jsoup.clean(name, Whitelist.none());
+    String safeAggregateField = Jsoup.clean(aggregateField, Whitelist.none());
     response.getWriter().write(new ObjectMapper().writeValueAsString(
-        grantsService.getTopNData(Integer.parseInt(top), name, aggregateField)));
+        grantsService.getTopNData(Integer.parseInt(top), safeName, safeAggregateField)));
   }
 
   /**
@@ -78,12 +83,14 @@ public class ChartsController {
       @RequestParam("field") final String field, @RequestParam("startYear") final String startYear,
       @RequestParam("endYear") final String endYear, final HttpServletResponse response)
       throws IOException {
+    String safeField = Jsoup.clean(field, Whitelist.none());
+
     Map<String, String> filters = new HashMap<>();
-    filters.put("fiscal-gte", startYear);
-    filters.put("fiscal-lte", endYear);
+    filters.put("fiscal-gte", Jsoup.clean(startYear, Whitelist.none()));
+    filters.put("fiscal-lte", Jsoup.clean(endYear, Whitelist.none()));
 
     response.getWriter().write(new ObjectMapper()
-        .writeValueAsString(grantsService.getTimeSeriesData(Integer.parseInt(top), field, filters)));
+        .writeValueAsString(grantsService.getTimeSeriesData(Integer.parseInt(top), safeField, filters)));
   }
 
   /**
@@ -97,7 +104,7 @@ public class ChartsController {
   public final void getTotals(@RequestBody final String json, final HttpServletResponse response)
       throws IOException {
     Map<String, Object> parameters =
-        new ObjectMapper().readValue(json, new TypeReference<Map<String, Object>>() {
+        new ObjectMapper().readValue(Jsoup.clean(json, Whitelist.none()), new TypeReference<Map<String, Object>>() {
         });
 
     String groupBy = MapUtils.getString(parameters, "groupBy", "");
@@ -129,12 +136,14 @@ public class ChartsController {
       @RequestParam("startYear") final String startYear,
       @RequestParam("endYear") final String endYear, @RequestParam("field") final String field,
       final HttpServletResponse response) throws IOException {
+    String safeField = Jsoup.clean(field, Whitelist.none());
+
     Map<String, String> filters = new HashMap<>();
-    filters.put("fiscal-gte", startYear);
-    filters.put("fiscal-lte", endYear);
+    filters.put("fiscal-gte", Jsoup.clean(startYear, Whitelist.none()));
+    filters.put("fiscal-lte", Jsoup.clean(endYear, Whitelist.none()));
 
     response.getWriter().write(new ObjectMapper().writeValueAsString(
-        grantsService.getTopNDataForEachLocation(Integer.parseInt(top), field, filters)));
+        grantsService.getTopNDataForEachLocation(Integer.parseInt(top), safeField, filters)));
   }
 
 }

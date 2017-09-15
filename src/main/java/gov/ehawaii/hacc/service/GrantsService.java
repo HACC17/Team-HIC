@@ -44,7 +44,7 @@ public interface GrantsService {
    * @param year The fiscal year.
    * @return A list of the top 5 organizations.
    */
-  List<Map<String, Object>> getTopFiveOrganizationsForFiscalYear(String year);
+  List<Map<String, Object>> getTopFiveOrganizationsForFiscalYear(int year);
 
   /**
    * Returns the top N organizations, projects, locations, etc. by the given field.

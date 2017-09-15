@@ -147,11 +147,9 @@ public class GrantsServiceImpl implements GrantsService {
   }
 
   @Override
-  public final List<Map<String, Object>> getTopFiveOrganizationsForFiscalYear(final String year) {
-    Assert.hasLength(year, "year must not be null or empty.");
-
+  public final List<Map<String, Object>> getTopFiveOrganizationsForFiscalYear(final int year) {
     return repository.findTopN(new TopNFiscalYearSpecification(5, Columns.ORGANIZATION_ID,
-        Columns.AMOUNT, Integer.parseInt(year)));
+        Columns.AMOUNT, year));
   }
 
   @Override
