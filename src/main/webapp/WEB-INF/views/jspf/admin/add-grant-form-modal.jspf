@@ -21,6 +21,13 @@
                         </div>
                     </div>
                 </div>
+                <div id="add-org-error-msg" class="row" style="display: none">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">
+                            A problem was encountered while trying to add the organization to the database: <span id="add-org-problem"></span>
+                        </div>
+                    </div>
+                </div>
                 <div id="success-msg" class="row" style="display: none">
                     <div class="col-md-12">
                         <div class="alert alert-success">
@@ -227,6 +234,17 @@
                 type: $(this).attr('method'),
                 data: $(this).serialize(),
                 success: function(data) {
+                    var year = parseInt($("#fiscalYear").val());
+                    if (year < parseInt($("#fiscal-year-start").attr("min"))) {
+                        $("#fiscal-year-start").attr("min", year);
+                        $("#fiscal-year-end").attr("min", year);
+                        $("#fiscal-year-start").val(year);
+                    }
+                    if (year > parseInt($("#fiscal-year-end").attr("max"))) {
+                        $("#fiscal-year-start").attr("max", year);
+                        $("#fiscal-year-end").attr("max", year);
+                        $("#fiscal-year-end").val(year);
+                    }
                     update();
                     $("#success-msg").show();
                     setTimeout(function() {
@@ -263,8 +281,8 @@
                     }, 3000);
                 },
                 error: function(xhr, err) {
-                    $("#problem").html(err);
-                    $("#error-msg").show();
+                    $("#add-org-problem").html(err);
+                    $("#add-org-error-msg").show();
                 }
             });
         });
