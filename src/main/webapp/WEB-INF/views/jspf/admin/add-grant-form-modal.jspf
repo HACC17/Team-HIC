@@ -86,7 +86,7 @@
                     </div>
                     <div class="row extra-top-margin">
                         <div class="col-md-4 col-md-push-4">
-                            <button type="button" id="add-org-btn" class="btn btn-md btn-primary">Add Organization</button>
+                            <button type="button" id="add-org-btn" class="btn btn-md btn-primary"><i class="fa fa-plus"></i> Add New Organization</button>
                         </div>
                     </div>
                     <div class="row extra-top-margin">
