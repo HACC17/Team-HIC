@@ -48,6 +48,11 @@ public class GrantsServiceImpl implements GrantsService {
   }
 
   @Override
+  public final boolean addNewOrganization(final String organization) {
+    return repository.insertOrganization(organization);
+  }
+
+  @Override
   public final List<Grant> getGrants(final Map<String, Object> filters) {
     List<Object> arguments = new ArrayList<>();
     String filter = getFilter(filters, arguments);

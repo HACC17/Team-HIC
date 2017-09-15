@@ -101,6 +101,11 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
   }
 
   @Override
+  public final boolean insertOrganization(String organization) {
+    return saveValue(Tables.ORGANIZATIONS, Columns.ORGANIZATION, organization) > 0;
+  }
+
+  @Override
   public final List<Grant> findGrants(final Specification specification) {
     FilteredSpecification filteredSpecification = (FilteredSpecification) specification;
 

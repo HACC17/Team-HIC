@@ -21,6 +21,8 @@ public interface GrantsService {
    */
   boolean saveGrant(Grant grant);
 
+  boolean addNewOrganization(String organization);
+
   /**
    * Returns a list of grants that satisfy the given conditions.
    * 

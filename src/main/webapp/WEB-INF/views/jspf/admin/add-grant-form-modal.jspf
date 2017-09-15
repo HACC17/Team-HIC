@@ -14,6 +14,13 @@
                 <h3 class="modal-title" id="add-grant-form-modalLabel"><i class="fa fa-plus"></i> Add Grant</h3>
             </div>
             <div class="modal-body">
+                <div id="add-org-success-msg" class="row" style="display: none">
+                    <div class="col-md-12">
+                        <div class="alert alert-success">
+                            Successfully added organization to the database!
+                        </div>
+                    </div>
+                </div>
                 <div id="success-msg" class="row" style="display: none">
                     <div class="col-md-12">
                         <div class="alert alert-success">
@@ -61,13 +68,18 @@
                             <form:label for="organization" path="organization">Organization</form:label>
                         </div>
                         <div class="col-md-8">
-                            <form:select id="organization" path="organization" cssClass="form-control">
+                            <form:select id="add-grant-organization" path="organization" cssClass="form-control">
                                 <c:forEach var="org" items="${organizations}">
                                     <form:option value="${org}">
                                         <c:out value="${org}" />
                                     </form:option>
                                 </c:forEach>
                             </form:select>
+                        </div>
+                    </div>
+                    <div class="row extra-top-margin">
+                        <div class="col-md-4 col-md-push-4">
+                            <button type="button" id="add-org-btn" class="btn btn-md btn-primary">Add Organization</button>
                         </div>
                     </div>
                     <div class="row extra-top-margin">
@@ -183,6 +195,22 @@
         }
     }
 
+    function updateOrganizationsDropdown(id, org) {
+        var options = $('#' + id + ' option');
+        var array = options.map(function(_, o) { return { name: o.value }; }).get();
+        array.push({ name: org });
+        array.sort(function(org1, org2) { return org1.name > org2.name ? 1 : org1.name < org2.name ? -1 : 0; });
+        var html = "";
+        $.each(array, function(index, value) {
+            if (value.name == '') {
+                html += "<option value=''>All</option>";
+            } else {
+                html += "<option value='" + value.name + "'>" + value.name + "</option>";
+            }
+        });
+        $('#' + id).html(html);
+    }
+
     $(document).ready(function() {
         $("#fiscalYear").attr("type", "number");
         $("#fiscalYear").val(new Date().getFullYear());
@@ -199,6 +227,7 @@
                 type: $(this).attr('method'),
                 data: $(this).serialize(),
                 success: function(data) {
+                    update();
                     $("#success-msg").show();
                     setTimeout(function() {
                         $("#success-msg").hide();
@@ -210,6 +239,34 @@
                 }
             });
             return false;
+        });
+        $("#add-org-btn").on("click", function(event) {
+            event.preventDefault();
+            var org = prompt("Please enter the organization's name.");
+            if (org == null || org == "") {
+                return;
+            }
+            $.ajax({
+                url: localStorage.getItem("appUrl") + "admin/org",
+                type: 'post',
+                data: JSON.stringify({ organization: org }),
+                headers: {
+                    'X-CSRF-TOKEN': "<c:out value='${_csrf.token}' />"
+                },
+                success: function(data) {
+                    updateOrganizationsDropdown("add-grant-organization", org);
+                    updateOrganizationsDropdown("organization", org);
+                    $("#add-grant-organization").val(org);
+                    $("#add-org-success-msg").show();
+                    setTimeout(function() {
+                        $("#add-org-success-msg").hide();
+                    }, 3000);
+                },
+                error: function(xhr, err) {
+                    $("#problem").html(err);
+                    $("#error-msg").show();
+                }
+            });
         });
     });
 </script>

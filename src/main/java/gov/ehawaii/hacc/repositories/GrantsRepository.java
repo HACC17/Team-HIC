@@ -28,6 +28,8 @@ public interface GrantsRepository {
    */
   boolean insertGrant(Grant grant);
 
+  boolean insertOrganization(String organization);
+
   /**
    * Retrieves a list of grants from the data source that satisfy the given conditions.
    * 
