@@ -22,6 +22,7 @@ import com.mysql.jdbc.Statement;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import gov.ehawaii.hacc.model.Grant;
 import gov.ehawaii.hacc.repositories.GrantsRepository;
+import gov.ehawaii.hacc.repositories.impl.TimeSeries.TimeSeriesDataPoint;
 import gov.ehawaii.hacc.specifications.ColumnSpecification;
 import gov.ehawaii.hacc.specifications.FilteredSpecification;
 import gov.ehawaii.hacc.specifications.IdSpecification;
@@ -50,7 +51,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
     grant.setGrantType(getValue(Tables.GRANT_TYPES, Columns.GRANT_TYPE, rs.getString(4)));
     grant.setOrganization(getValue(Tables.ORGANIZATIONS, Columns.ORGANIZATION, rs.getString(5)));
     grant.setProject(rs.getString(6));
-    grant.setAmount(rs.getInt(7));
+    grant.setAmount(rs.getLong(7));
     grant.setLocation(getValue(Tables.LOCATIONS, Columns.LOCATION, rs.getString(8)));
     grant.setStrategicPriority(
         getValue(Tables.STRATEGIC_PRIORITIES, Columns.STRATEGIC_PRIORITY, rs.getString(9)));
@@ -155,8 +156,7 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
   }
 
   @Override
-  public final Map<String, List<Map<String, Long>>> findTimeSeriesData(
-      final Specification specification) {
+  public final List<TimeSeries> findTimeSeriesData(final Specification specification) {
     TimeSeriesSpecification tsSpecification = (TimeSeriesSpecification) specification;
 
     List<String> ids = getJdbcTemplate().query(tsSpecification.getAggregateQuery(), rs -> {
@@ -167,23 +167,44 @@ public class GrantsRepositoryImpl extends JdbcDaoSupport implements GrantsReposi
       return list;
     }, tsSpecification.getTop());
 
-    Map<String, List<Map<String, Long>>> data = new LinkedHashMap<>();
+    List<TimeSeries> seriesList = new ArrayList<>();
 
     for (String id : ids) {
       String value = getValue(tsSpecification.getTable(), tsSpecification.getColumn(), id);
 
-      data.put(value, getJdbcTemplate().query(tsSpecification.getTimeSeriesQuery(), rs -> {
-        List<Map<String, Long>> rows = new ArrayList<>();
+      TimeSeries series = new TimeSeries();
+      series.setSeriesName(value);
+      series.setPoints(getJdbcTemplate().query(tsSpecification.getTimeSeriesQuery(), rs -> {
+        List<TimeSeriesDataPoint> points = new ArrayList<>();
         while (rs.next()) {
-          Map<String, Long> row = new LinkedHashMap<>();
-          row.put(rs.getString(1), rs.getLong(2));
-          rows.add(row);
+          points.add(new TimeSeriesDataPoint(rs.getInt(1), rs.getLong(2)));
         }
-        return rows;
+        return points;
       }, id));
+      seriesList.add(series);
     }
 
-    return data;
+    int minimum = Integer.MAX_VALUE;
+    int maximum = Integer.MIN_VALUE;
+    for (TimeSeries ts : seriesList) {
+      for (TimeSeriesDataPoint point : ts.getPoints()) {
+        int year = point.getYear();
+        if (year < minimum) {
+          minimum = year;
+        }
+        if (year > maximum) {
+          maximum = year;
+        }
+      }
+    }
+
+    for (TimeSeries series : seriesList) {
+      series.setStartYear(minimum);
+      series.setEndYear(maximum);
+      series.fillInMissingData();
+    }
+
+    return seriesList;
   }
 
   @Override

@@ -267,21 +267,9 @@ function drawTopOrganizationsSplineChart() {
 
         var series = [];
         $.each(json, function(index, value) {
-            var map = { name: index, marker: { symbol: 'square' }, data: [] };
-            var year = 2013;
-            $.each(value, function(i, v) {
-                $.each(v, function(i2, v2) {
-                    if (year == i2) {
-                        map["data"].push(v2);
-                        year++;
-                    } else {
-                        do {
-                            map["data"].push(0);
-                            year++;
-                        } while (year != i2);
-                        map["data"].push(v2);
-                    }
-                });
+            var map = { name: value.seriesName, marker: { symbol: 'square' }, data: [] };
+            $.each(value.points, function(i, v) {
+                map["data"].push(v.value);
             });
             series.push(map);
         });

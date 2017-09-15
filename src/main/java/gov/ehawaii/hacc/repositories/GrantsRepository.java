@@ -3,6 +3,7 @@ package gov.ehawaii.hacc.repositories;
 import java.util.List;
 import java.util.Map;
 import gov.ehawaii.hacc.model.Grant;
+import gov.ehawaii.hacc.repositories.impl.TimeSeries;
 import gov.ehawaii.hacc.specifications.Specification;
 
 /**
@@ -61,7 +62,7 @@ public interface GrantsRepository {
    * @param specification Contains the query and aggregate field used to retrieve time series data.
    * @return A list containing time series data.
    */
-  Map<String, List<Map<String, Long>>> findTimeSeriesData(Specification specification);
+  List<TimeSeries> findTimeSeriesData(Specification specification);
 
   /**
    * Aggregates and returns all the data. Queries and filters are added to the given specification

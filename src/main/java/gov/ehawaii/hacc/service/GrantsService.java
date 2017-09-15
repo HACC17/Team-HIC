@@ -3,6 +3,7 @@ package gov.ehawaii.hacc.service;
 import java.util.List;
 import java.util.Map;
 import gov.ehawaii.hacc.model.Grant;
+import gov.ehawaii.hacc.repositories.impl.TimeSeries;
 
 /**
  * Implementations of this interface will interact with a <code>GrantsRepository</code> to store and
@@ -56,7 +57,7 @@ public interface GrantsService {
    * @param field The type of data to retrieve.
    * @return A list of time series data.
    */
-  Map<String, List<Map<String, Long>>> getTimeSeriesData(int top, String field);
+  List<TimeSeries> getTimeSeriesData(int top, String field);
 
   /**
    * Returns aggregate data.

@@ -17,10 +17,12 @@ import gov.ehawaii.hacc.repositories.impl.Columns;
 import gov.ehawaii.hacc.repositories.impl.Filters;
 import gov.ehawaii.hacc.repositories.impl.SqlStatements;
 import gov.ehawaii.hacc.repositories.impl.Tables;
+import gov.ehawaii.hacc.repositories.impl.TimeSeries;
 import gov.ehawaii.hacc.service.GrantsService;
 import gov.ehawaii.hacc.specifications.ColumnSpecification;
 import gov.ehawaii.hacc.specifications.FilteredSpecification;
 import gov.ehawaii.hacc.specifications.IdSpecification;
+import gov.ehawaii.hacc.specifications.Specification;
 import gov.ehawaii.hacc.specifications.TimeSeriesSpecification;
 import gov.ehawaii.hacc.specifications.TopNFiscalYearSpecification;
 import gov.ehawaii.hacc.specifications.TopNSpecification;
@@ -56,6 +58,7 @@ public class GrantsServiceImpl implements GrantsService {
   public final List<Grant> getGrants(final Map<String, Object> filters) {
     List<Object> arguments = new ArrayList<>();
     String filter = getFilter(filters, arguments);
+    LOGGER.debug("Filter: " + filter.trim() + " -- Arguments: " + arguments);
     Object[] filterValues = arguments.toArray(new Object[arguments.size()]);
 
     return repository.findGrants(new FilteredSpecification(Tables.GRANTS, filter, filterValues));
@@ -101,7 +104,6 @@ public class GrantsServiceImpl implements GrantsService {
     String filter = buffer.toString().replace(" OR )", ") AND ").trim();
     filter = filter.substring(0, filter.lastIndexOf(")") + 1);
     filter = (filter.contains("?") ? " WHERE " : "") + filter;
-    LOGGER.info("Filter: " + filter);
     return filter;
   }
 
@@ -166,8 +168,7 @@ public class GrantsServiceImpl implements GrantsService {
   }
 
   @Override
-  public final Map<String, List<Map<String, Long>>> getTimeSeriesData(final int top,
-      final String field) {
+  public final List<TimeSeries> getTimeSeriesData(final int top, final String field) {
     Assert.hasLength(field, "field must not be null or empty.");
 
     return repository.findTimeSeriesData(new TimeSeriesSpecification(Tables.ORGANIZATIONS,
@@ -212,7 +213,7 @@ public class GrantsServiceImpl implements GrantsService {
     stmt += (filterValuesList.isEmpty() ? " " : filter + " ");
     stmt += "GROUP BY " + tColumn;
 
-    LOGGER.info("SQL Statement: " + stmt);
+    LOGGER.debug("SQL Statement: " + stmt);
 
     FilteredSpecification filteredSpec =
         new FilteredSpecification(null, stmt, arguments.toArray(new Object[arguments.size()]));
@@ -234,7 +235,7 @@ public class GrantsServiceImpl implements GrantsService {
     drilldownStmt += filter.replace(" WHERE ", " ");
     drilldownStmt += " GROUP BY " + ddColumn;
 
-    LOGGER.info("SQL Statement: " + drilldownStmt);
+    LOGGER.debug("SQL Statement: " + drilldownStmt);
 
     filteredSpec = new FilteredSpecification(null, drilldownStmt,
         arguments.toArray(new Object[arguments.size()]));

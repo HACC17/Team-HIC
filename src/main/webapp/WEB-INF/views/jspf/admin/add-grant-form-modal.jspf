@@ -238,11 +238,13 @@
                     if (year < parseInt($("#fiscal-year-start").attr("min"))) {
                         $("#fiscal-year-start").attr("min", year);
                         $("#fiscal-year-end").attr("min", year);
+                        $("#fiscal-year-start").text(year);
                         $("#fiscal-year-start").val(year);
                     }
                     if (year > parseInt($("#fiscal-year-end").attr("max"))) {
                         $("#fiscal-year-start").attr("max", year);
                         $("#fiscal-year-end").attr("max", year);
+                        $("#fiscal-year-end").text(year);
                         $("#fiscal-year-end").val(year);
                     }
                     update();

@@ -1,6 +1,7 @@
 package gov.ehawaii.hacc.web.controllers;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,12 @@ public class MainController {
     model.addAttribute("results", grantsService.getAllStrategicResults());
     model.addAttribute("grant", new Grant());
     model.addAttribute("cron", propertiesFileManager.getProperty(PushService.PUSH_CRON, "no"));
+
+    List<String> years = grantsService.getAllFiscalYears();
+    if (!years.isEmpty()) {
+      model.addAttribute("startYear", years.get(0));
+      model.addAttribute("endYear", years.get(years.size() - 1));
+    }
     return "index";
   }
 

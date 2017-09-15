@@ -139,14 +139,14 @@
                                         <label for="fiscal-year-start">start</label>
                                         <div class="input-group">
                                             <div class="input-group-addon"></div>
-                                            <input type="number" min="2013" max="2016" value="2013" class="filter form-control" id="fiscal-year-start" data-key="fiscal-gte">
+                                            <input type="number" min="<c:out value='${startYear}'/>" max="<c:out value='${endYear}'/>" value="<c:out value='${startYear}'/>" class="filter form-control" id="fiscal-year-start" data-key="fiscal-gte">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="fiscal-year-end">end</label>
                                         <div class="input-group">
                                             <div class="input-group-addon"></div>
-                                            <input type="number" min="2013" max="2016" value="2016" class="filter form-control" id="fiscal-year-end" data-key="fiscal-lte">
+                                            <input type="number" min="<c:out value='${startYear}'/>" max="<c:out value='${endYear}'/>" value="<c:out value='${endYear}'/>" class="filter form-control" id="fiscal-year-end" data-key="fiscal-lte">
                                         </div>
                                     </div>
                                     <a href="javascript:void(0)" class="clear-filter" onclick="resetDates();"><i class="fa fa-check"></i>clear filter</a>
@@ -161,14 +161,14 @@
                                         <label for="min-amount">min</label>
                                         <div class="input-group">
                                             <div class="input-group-addon">$</div>
-                                            <input type="number" min="0" max="10000000" value="0" class="filter form-control" id="min-amount" data-key="amount-gte">
+                                            <input type="number" min="0" max="100000000" value="0" class="filter form-control" id="min-amount" data-key="amount-gte">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="min-amount">max</label>
                                         <div class="input-group">
                                             <div class="input-group-addon">$</div>
-                                            <input type="number" min="0" max="10000000" value="10000000" class="filter form-control" id="max-amount" data-key="amount-lte">
+                                            <input type="number" min="0" max="100000000" value="100000000" class="filter form-control" id="max-amount" data-key="amount-lte">
                                         </div>
                                     </div>
                                     <a href="javascript:void(0)" class="clear-filter"><i class="fa fa-check"></i>clear filter</a>
