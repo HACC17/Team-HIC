@@ -246,7 +246,7 @@
         $("#totalNumberServed").attr("type", "number");
         $("#numberNativeHawaiiansServed").attr("type", "number");
 
-        $("#fiscalYear-input, #amount-input, #project-textarea, #totalNumberServed, #numberNativeHawaiiansServed").on("keypress keyup blur", function() {
+        $("#fiscalYear-input, #amount-input, #totalNumberServed, #numberNativeHawaiiansServed").on("keypress keyup blur", function() {
             $(this).val($(this).val().replace(/[^\d].+/, ""));
             if ((event.which < 48 || event.which > 57)) {
                 event.preventDefault();
