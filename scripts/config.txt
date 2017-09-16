@@ -1,0 +1,6 @@
+{
+    "domain": "https://data.hawaii.gov",
+    "username": "$USER_NAME",
+    "password": "$PASSWORD",
+    "appToken": "APP_TOKEN"
+}
