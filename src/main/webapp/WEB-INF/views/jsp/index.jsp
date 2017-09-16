@@ -247,6 +247,15 @@
         <div id="main-wrapper" class="main-wrapper" style="background-color: #FFFFFF">
             <div class="panes content-wrapper" style="display: none">
                 <div id="grants-table-container">
+                    <div id="login-info-pane" class="tab-pane" style="display: none">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="alert alert-success">
+                                    You are now logged in as <strong><span id="user-id"><c:out value="${pageContext.request.userPrincipal.name}"/></span></strong>.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="tab-pane" id="summary-cards" style="max-width: 100%">
                         <div class="row">
                             <div class="col-md-2">
@@ -693,6 +702,11 @@
         <%@ include file="/WEB-INF/views/jspf/admin/add-grant-form-modal.jspf" %>
         <%@ include file="/WEB-INF/views/jspf/admin/import-sample-data-modal.jspf" %>
         <%@ include file="/WEB-INF/views/jspf/admin/push-to-open-data-modal.jspf" %>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#login-info-pane").show();
+            });
+        </script>
     </sec:authorize>
 </body>
 
