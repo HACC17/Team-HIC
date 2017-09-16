@@ -149,7 +149,7 @@ public class AdminController {
 
   /**
    * A <code>GET</code> request is sent to the <code>/admin/opendata</code> endpoint to push all the
-   * data stored in the repository to Hawaii's Open Data Portal.
+   * data stored in a CSV file on the server to Hawaii's Open Data Portal.
    * 
    * @param cronEnabled "yes" to enable the Cron job, "no" to disable it.
    * @param response The server response.
@@ -161,6 +161,23 @@ public class AdminController {
     pushService.setCronEnabled("yes".equals(cronEnabled));
     response.setContentType("text/html;charset=UTF-8");
     response.getWriter().write(pushService.pushData());
+  }
+
+  /**
+   * A <code>GET</code> request is sent to the <code>/admin/save</code> endpoint to save the user's
+   * preference of whether a Cron job should push data to Hawaii's Open Data Portal automatically
+   * every day at midnight.
+   * 
+   * @param cronEnabled "yes" to enable the Cron job, "no" to disable it.
+   * @param response The server response.
+   * @throws IOException If there are problems trying to send the response back to the client.
+   */
+  @RequestMapping(value = "/save", method = RequestMethod.GET)
+  public final void savePreference(@RequestParam("cron") final String cronEnabled,
+      final HttpServletResponse response) throws IOException {
+    pushService.setCronEnabled("yes".equals(cronEnabled));
+    response.setContentType("text/html;charset=UTF-8");
+    response.getWriter().write("SUCCESS");
   }
 
 }

@@ -23,8 +23,8 @@
                 </div>
                 <div class="row extra-top-margin">
                     <div class="col-md-12 text-center">
-                        <button id="import-btn" class="btn btn-lg btn-primary"><i class="fa fa-file-text"></i> Import Grants</button>
-                        <button class="btn btn-lg btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
+                        <button id="import-btn" class="btn btn-md btn-primary"><i class="fa fa-file-text"></i> Import Grants</button>
+                        <button class="btn btn-md btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
                     </div>
                 </div>
             </div>

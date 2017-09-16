@@ -12,6 +12,26 @@
                         <div class="alert alert-success">Data successfully pushed to data.hawaii.gov!</div>
                     </div>
                 </div>
+                <div class="row" id="push-error" style="display: none">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">A problem was encountered while trying to push data to data.hawaii.gov. Please see output below.</div>
+                    </div>
+                </div>
+                <div class="row" id="push-error2" style="display: none">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">A problem was encountered while trying to push data to data.hawaii.gov: <span id="push-problem"></span></div>
+                    </div>
+                </div>
+                <div class="row" id="save-success" style="display: none">
+                    <div class="col-md-12">
+                        <div class="alert alert-success">Preference saved!</div>
+                    </div>
+                </div>
+                <div class="row" id="save-error" style="display: none">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">A problem was encountered while trying to save your preference to the database: <span id="save-problem"></span></div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12">
                         Click on the Export Data button below to push all the information for each grant in the database to <a href="https://data.hawaii.gov" target="_blank">Hawaii's Open Data Portal</a>.
@@ -24,16 +44,16 @@
                     </div>
                 </div>
                 <br />
-                <div class="row extra-top-margin">
-                    <div class="col-md-12">
-                        Push data automatically to <a href="https://data.hawaii.gov" target="_blank">data.hawaii.gov</a> every day at midnight?&nbsp;&nbsp;&nbsp;<input type="radio" name="cron" value="yes" /> Yes&nbsp;&nbsp;&nbsp;<input type="radio" name="cron" value="no" /> No
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button id="push-btn" class="btn btn-md btn-primary"><i class="fa fa-arrow-up"></i> Export Data</button>
+                        <button class="btn btn-md btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
                     </div>
                 </div>
                 <br />
                 <div class="row extra-top-margin">
-                    <div class="col-md-12 text-center">
-                        <button id="push-btn" class="btn btn-lg btn-primary"><i class="fa fa-arrow-up"></i> Export Data</button>
-                        <button class="btn btn-lg btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
+                    <div class="col-md-12">
+                        Push data automatically to <a href="https://data.hawaii.gov" target="_blank">data.hawaii.gov</a> every day at midnight?&nbsp;&nbsp;&nbsp;<input type="radio" name="cron" value="yes" /> Yes&nbsp;&nbsp;&nbsp;<input type="radio" name="cron" value="no" /> No
                     </div>
                 </div>
             </div>
@@ -42,21 +62,37 @@
 </div>
 
 <script type="text/javascript">
+    var appUrl = localStorage.getItem('appUrl');
     $(document).ready(function() {
         var cron = "<c:out value='${cron}'/>";
         $("input[value='" + cron + "']").prop("checked", true);
+
+        $("input[name='cron']").on("change", function() {
+            $.get(appUrl + "admin/save?cron=" + $("input[name='cron']:checked").val(), function(data, status) {
+                $("#save-success").show();
+                setTimeout(function() {
+                    $("#save-success").hide();
+                }, 3000);
+            }).fail(function(xhr, status, error) {
+                $("#save-problem").html(error);
+                $("#save-error").show();
+            });
+        });
 
         $("#push-btn").click(function(event) {
             event.preventDefault();
             $("#push-btn").attr("disabled", "disabled");
             $("#output").val("Pushing data to data.hawaii.gov... This process may take a few minutes.....");
-            var appUrl = localStorage.getItem('appUrl');
             $.get(appUrl + "admin/opendata?cron=" + $("input[name='cron']:checked").val(), function(data, status) {
                 $("#output").val(data);
-                console.log(data);
                 if (data.indexOf("SUCCESS") >= 0) {
                     $("#push-success").show();
+                } else {
+                    $("#push-error").show();
                 }
+            }).fail(function(xhr, status, error) {
+                $("#push-problem").html(error);
+                $("#push-error2").show();
             });
         });
     });

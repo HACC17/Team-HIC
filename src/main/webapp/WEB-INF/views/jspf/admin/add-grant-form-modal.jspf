@@ -199,8 +199,8 @@
                     <br />
                     <div class="row extra-top-margin">
                         <div class="col-md-12 text-center">
-                            <button type="submit" id="add-grant-btn" class="btn btn-lg btn-primary"><i class="fa fa-plus"></i> Add Grant</button>
-                            <button class="btn btn-lg btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
+                            <button type="submit" id="add-grant-btn" class="btn btn-md btn-primary"><i class="fa fa-plus"></i> Add Grant</button>
+                            <button class="btn btn-md btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
                         </div>
                     </div>
                 </form:form>
