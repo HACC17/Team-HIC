@@ -38,18 +38,25 @@
             event.preventDefault();
             $("#import-btn").attr("disabled", "disabled");
             $(".warning").show();
-            var appUrl = localStorage.getItem('appUrl');
-            $.get(appUrl + "admin/import?type=excel", function(data) {
-				console.log(data);
-			}).done(function() {
-				$(".warning").hide();
-				$(".success").show();
-			}).fail(function(data, textStatus, xhr) {
-				$(".warning").hide();
-				$("#problem").html(xhr);
-				$(".danger").show();
-				$("#import-btn").attr("disabled", false);
-			});
+
+            $.ajax({
+                url: localStorage.getItem('appUrl') + "admin/import",
+                type: 'post',
+                data: JSON.stringify({ type: "excel" }),
+                headers: {
+                    'X-CSRF-TOKEN': "<c:out value='${_csrf.token}' />"
+                },
+                success: function(data) {
+                    $(".warning").hide();
+                    $(".success").show();
+                },
+                error: function(xhr, err) {
+                    $(".warning").hide();
+                    $("#problem").html(err);
+                    $(".danger").show();
+                    $("#import-btn").attr("disabled", false);
+                }
+            });
         });
     });
 </script>

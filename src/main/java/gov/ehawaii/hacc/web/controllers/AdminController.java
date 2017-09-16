@@ -4,18 +4,17 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.ehawaii.hacc.importers.CsvImporter;
@@ -58,18 +57,20 @@ public class AdminController {
    * <li><code>excel</code>: A Microsoft Excel file</li>
    * </ul>
    * 
-   * @param type The type of the file from which to get data to import.
+   * @param json Contains the type of the file from which to get data to import.
    * @param response The server response.
    * @throws IOException If there are problems trying to send the response back to the client.
    */
-  @RequestMapping(value = "/import", method = RequestMethod.GET)
-  public final void importSampleData(@RequestParam("type") final String type, final HttpServletResponse response)
+  @RequestMapping(value = "/import", method = RequestMethod.POST)
+  public final void importSampleData(@RequestBody final String json, final HttpServletResponse response)
       throws IOException {
-    Assert.notNull(type, "type must not be null");
-    String safeType = Jsoup.clean(type, Whitelist.none());
+    Map<String, String> parameters = new ObjectMapper().readValue(URLDecoder.decode(
+        Jsoup.clean(json, Whitelist.none()), "UTF-8"), new TypeReference<Map<String, String>>() {
+        });
+    String type = MapUtils.getString(parameters, "type", "excel");
 
     String msg;
-    switch (safeType) {
+    switch (type) {
     case "csv":
       if (csvImporter.importData()) {
         msg = "Successfully imported sample data from a CSV file.";
@@ -95,8 +96,8 @@ public class AdminController {
       }
       break;
     default:
-      msg = safeType + " is not yet supported.";
-      LOGGER.error(safeType + " is not yet supported.");
+      msg = type + " is not yet supported.";
+      LOGGER.error(type + " is not yet supported.");
       response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
     response.getWriter().write(msg);
@@ -148,17 +149,14 @@ public class AdminController {
 
 
   /**
-   * A <code>GET</code> request is sent to the <code>/admin/opendata</code> endpoint to push all the
+   * A <code>POST</code> request is sent to the <code>/admin/opendata</code> endpoint to push all the
    * data stored in a CSV file on the server to Hawaii's Open Data Portal.
    * 
-   * @param cronEnabled "yes" to enable the Cron job, "no" to disable it.
    * @param response The server response.
    * @throws IOException If there are problems trying to send the response back to the client.
    */
-  @RequestMapping(value = "/opendata", method = RequestMethod.GET)
-  public final void pushToOpenData(@RequestParam("cron") final String cronEnabled,
-      final HttpServletResponse response) throws IOException {
-    pushService.setCronEnabled("yes".equals(cronEnabled));
+  @RequestMapping(value = "/opendata", method = RequestMethod.POST)
+  public final void pushToOpenData(final HttpServletResponse response) throws IOException {
     response.setContentType("text/html;charset=UTF-8");
     response.getWriter().write(pushService.pushData());
   }
@@ -168,14 +166,17 @@ public class AdminController {
    * preference of whether a Cron job should push data to Hawaii's Open Data Portal automatically
    * every day at midnight.
    * 
-   * @param cronEnabled "yes" to enable the Cron job, "no" to disable it.
+   * @param json Contains the user's preference ("yes" or "no").
    * @param response The server response.
    * @throws IOException If there are problems trying to send the response back to the client.
    */
-  @RequestMapping(value = "/save", method = RequestMethod.GET)
-  public final void savePreference(@RequestParam("cron") final String cronEnabled,
+  @RequestMapping(value = "/save", method = RequestMethod.POST)
+  public final void savePreference(@RequestBody final String json,
       final HttpServletResponse response) throws IOException {
-    pushService.setCronEnabled("yes".equals(cronEnabled));
+    Map<String, String> parameters = new ObjectMapper().readValue(URLDecoder.decode(
+        Jsoup.clean(json, Whitelist.none()), "UTF-8"), new TypeReference<Map<String, String>>() {
+        });
+    pushService.setCronEnabled("yes".equals(MapUtils.getString(parameters, "cron", "no")));
     response.setContentType("text/html;charset=UTF-8");
     response.getWriter().write("SUCCESS");
   }

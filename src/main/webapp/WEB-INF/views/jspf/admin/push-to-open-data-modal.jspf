@@ -68,14 +68,23 @@
         $("input[value='" + cron + "']").prop("checked", true);
 
         $("input[name='cron']").on("change", function() {
-            $.get(appUrl + "admin/save?cron=" + $("input[name='cron']:checked").val(), function(data, status) {
-                $("#save-success").show();
-                setTimeout(function() {
-                    $("#save-success").hide();
-                }, 3000);
-            }).fail(function(xhr, status, error) {
-                $("#save-problem").html(error);
-                $("#save-error").show();
+            $.ajax({
+                url: appUrl + "admin/save",
+                type: 'post',
+                data: JSON.stringify({ cron: $("input[name='cron']:checked").val() }),
+                headers: {
+                    'X-CSRF-TOKEN': "<c:out value='${_csrf.token}' />"
+                },
+                success: function(data) {
+                    $("#save-success").show();
+                    setTimeout(function() {
+                        $("#save-success").hide();
+                    }, 3000);
+                },
+                error: function(xhr, err) {
+                    $("#save-problem").html(err);
+                    $("#save-error").show();
+                }
             });
         });
 
@@ -83,16 +92,25 @@
             event.preventDefault();
             $("#push-btn").attr("disabled", "disabled");
             $("#output").val("Pushing data to data.hawaii.gov... This process may take a few minutes.....");
-            $.get(appUrl + "admin/opendata?cron=" + $("input[name='cron']:checked").val(), function(data, status) {
-                $("#output").val(data);
-                if (data.indexOf("SUCCESS") >= 0) {
-                    $("#push-success").show();
-                } else {
-                    $("#push-error").show();
+
+            $.ajax({
+                url: appUrl + "admin/opendata",
+                type: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': "<c:out value='${_csrf.token}' />"
+                },
+                success: function(data) {
+                    $("#output").val(data);
+                    if (data.indexOf("SUCCESS") >= 0) {
+                        $("#push-success").show();
+                    } else {
+                        $("#push-error").show();
+                    }
+                },
+                error: function(xhr, err) {
+                    $("#push-problem").html(err);
+                    $("#push-error2").show();
                 }
-            }).fail(function(xhr, status, error) {
-                $("#push-problem").html(error);
-                $("#push-error2").show();
             });
         });
     });
