@@ -518,8 +518,8 @@
                     $(this).val(max);
                 } else {
                     $(this).val(min);
-                    update();
                 }
+                update();
             });
             $("#" + id2).on("change keyup", function(event) {
                 var max = $(this).val().replace(/^0+/, '');
@@ -528,8 +528,8 @@
                     $(this).val(min);
                 } else {
                     $(this).val(max);
-                    update();
                 }
+                update();
             });
         }
 
@@ -581,6 +581,13 @@
             addListeners("min-amount", "max-amount");
             addListeners("min-total", "max-total");
             addListeners("min-hawaiians", "max-hawaiians");
+
+            $("#fiscal-year-start, #fiscal-year-end, #min-amount, #max-amount, #min-total, #max-total, #min-hawaiians, #max-hawaiians").on("keypress keyup blur", function() {
+                $(this).val($(this).val().replace(/[^\d].+/, ""));
+                if ((event.which < 48 || event.which > 57)) {
+                    event.preventDefault();
+                }
+            });
 
             $("#clear").click(function() {
                 if (!confirm("Are you sure you want to clear ALL filters?")) {
