@@ -351,7 +351,8 @@
                 </div>
                 <div class="tab-pane charts" id="charts" style="max-width: 100%">
                     <div class="row">
-                        <div class="col-md-4 blue-border">
+                        <div class="col-md-4">
+                            <div class="blue-border">
                             <div id="priority-bar-chart"></div>
                             <div id="priority-pie-chart" style="display: none"></div>
                             <canvas id="priority-bar-chart-canvas" style="display: none"></canvas>
@@ -368,8 +369,10 @@
                                     <option value="status">Grant Status</option>
                                 </select>
                             </div>
+                            </div>
                         </div>
-                        <div class="col-md-4 blue-border">
+                        <div class="col-md-4">
+                            <div class="blue-border">
                             <div id="result-bar-chart"></div>
                             <div id="result-pie-chart" style="display: none"></div>
                             <canvas id="result-bar-chart-canvas" style="display: none"></canvas>
@@ -386,8 +389,10 @@
                                     <option value="status">Grant Status</option>
                                 </select>
                             </div>
+                            </div>
                         </div>
-                        <div class="col-md-4 blue-border">
+                        <div class="col-md-4">
+                            <div class="blue-border">
                             <div id="type-bar-chart"></div>
                             <div id="type-pie-chart" style="display: none"></div>
                             <canvas id="type-bar-chart-canvas" style="display: none"></canvas>
@@ -404,10 +409,12 @@
                                     <option value="status" selected>Grant Status</option>
                                 </select>
                             </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-8 blue-border">
+                        <div class="col-md-8">
+                            <div class="blue-border">
                             <div id="location-bar-chart"></div>
                             <div id="location-pie-chart" style="display: none"></div>
                             <canvas id="location-bar-chart-canvas" style="display: none"></canvas>
@@ -424,8 +431,10 @@
                                     <option value="status" >Grant Status</option>
                                 </select>
                             </div>
+                            </div>
                         </div>
-                        <div class="col-md-4 blue-border">
+                        <div class="col-md-4">
+                            <div class="blue-border">
                             <div id="status-bar-chart"></div>
                             <div id="status-pie-chart" style="display: none"></div>
                             <canvas id="status-bar-chart-canvas" style="display: none"></canvas>
@@ -442,10 +451,12 @@
                                     <option value="location">Location</option>
                                 </select>
                             </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 blue-border">
+                        <div class="col-md-6">
+                            <div class="blue-border">
                             <div id="top-5-orgs-column-chart" class="width: 100%; height: 100%"></div>
                             <div class="input-group">
                                 <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
@@ -454,8 +465,10 @@
                                     <option value="10">Show top 10 organizations</option>
                                 </select>
                             </div>
+                            </div>
                         </div>
-                        <div class="col-md-6 blue-border">
+                        <div class="col-md-6">
+                            <div class="blue-border">
                             <div id="top-5-orgs-spline-chart" class="width: 100%; height: 100%"></div>
                             <div class="input-group">
                                 <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
@@ -463,6 +476,7 @@
                                     <option value="5" selected>Show top 5 organizations</option>
                                     <option value="10">Show top 10 organizations</option>
                                 </select>
+                            </div>
                             </div>
                         </div>
                     </div>
