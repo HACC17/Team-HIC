@@ -48,12 +48,17 @@
                     </div>
                 </div>
                 <form:form id="add-form" method="POST" modelAttribute="grant" action="/ohagrants/admin">
-                    <div class="row extra-top-margin">
+                    <div id="fiscal-year-row" class="row extra-top-margin">
                         <div class="col-md-4" style="padding-top: 8px">
-                            <form:label for="fiscalYear" path="fiscalYear">Fiscal Year</form:label>
+                            <form:label for="fiscalYear" path="fiscalYear" cssClass="control-label">Fiscal Year</form:label>
                         </div>
                         <div class="col-md-3">
-                            <form:input id="fiscalYear" path="fiscalYear" cssClass="form-control" />
+                            <form:input id="fiscalYear-input" path="fiscalYear" cssClass="form-control" />
+                        </div>
+                    </div>
+                    <div id="fiscal-year-error-msg-row" class="row has-error" style="display: none">
+                        <div class="col-md-8 col-md-push-4">
+                            <span class="control-label">Please enter a year greater than 0.</span>
                         </div>
                     </div>
                     <div class="row extra-top-margin">
@@ -89,20 +94,34 @@
                             <button type="button" id="add-org-btn" class="btn btn-md btn-primary"><i class="fa fa-plus"></i> Add New Organization</button>
                         </div>
                     </div>
-                    <div class="row extra-top-margin">
+                    <div id="project-row" class="row extra-top-margin">
                         <div class="col-md-4" style="padding-top: 8px">
-                            <form:label for="project" path="project">Project</form:label>
+                            <form:label for="project" path="project" cssClass="control-label">Project</form:label>
                         </div>
                         <div class="col-md-8">
-                            <form:textarea id="project" path="project" cssClass="form-control" />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form:textarea id="project-textarea" path="project" cssClass="form-control" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span id="project-error" class="control-label has-error" style="display: none">Please enter a project description.</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row extra-top-margin">
+                    <div id="amount-row" class="row extra-top-margin">
                         <div class="col-md-4" style="padding-top: 8px">
-                            <form:label for="amount-input" path="amount">Amount</form:label>
+                            <form:label for="amount-input" path="amount" cssClass="control-label">Amount</form:label>
                         </div>
                         <div class="col-md-3">
                             <form:input id="amount-input" path="amount" cssClass="form-control" />
+                        </div>
+                    </div>
+                    <div id="amount-error-msg-row" class="row has-error" style="display: none">
+                        <div class="col-md-8 col-md-push-4">
+                            <span class="control-label">Please enter an amount greater than 0.</span>
                         </div>
                     </div>
                     <div class="row extra-top-margin">
@@ -192,10 +211,12 @@
 
 <script type="text/javascript">
     function toggleAddGrantButton() {
-        var fiscalYear = parseInt($("#fiscalYear").val());
-        var amount = parseInt($("#amount-input").val());
-        var project = $("#project").val();
-        if (fiscalYear <= 0 || amount <= 0 || project.length <= 0) {
+        var fiscalYearString = $("#fiscalYear-input").val();
+        var fiscalYear = parseInt(fiscalYearString);
+        var amountString = $("#amount-input").val();
+        var amount = parseInt(amountString);
+        var project = $("#project-textarea").val();
+        if (fiscalYearString == '' || fiscalYear <= 0 || amountString == '' || amount <= 0 || project == '') {
             $("#add-grant-btn").attr("disabled", "disabled");
         } else {
             $("#add-grant-btn").attr("disabled", false);
@@ -219,12 +240,40 @@
     }
 
     $(document).ready(function() {
-        $("#fiscalYear").attr("type", "number");
-        $("#fiscalYear").val(new Date().getFullYear());
+        $("#fiscalYear-input").attr("type", "number");
+        $("#fiscalYear-input").val(new Date().getFullYear());
         $("#amount-input").attr("type", "number");
         $("#totalNumberServed").attr("type", "number");
         $("#numberNativeHawaiiansServed").attr("type", "number");
-        $("#fiscalYear, #amount-input, #project").on("change keyup", function() {
+
+        $("#fiscalYear-input").on("change keyup", function() {
+            if ($(this).val() == '' || parseInt($(this).val()) <= 0) {
+                $("#fiscal-year-row").addClass("has-error");
+                $("#fiscal-year-error-msg-row").show();
+            } else {
+                $("#fiscal-year-row").removeClass("has-error");
+                $("#fiscal-year-error-msg-row").hide();
+            }
+            toggleAddGrantButton();
+        });
+        $("#amount-input").on("change keyup", function() {
+            if ($(this).val() == '' || parseInt($(this).val()) <= 0) {
+                $("#amount-row").addClass("has-error");
+                $("#amount-error-msg-row").show();
+            } else {
+                $("#amount-row").removeClass("has-error");
+                $("#amount-error-msg-row").hide();
+            }
+            toggleAddGrantButton();
+        });
+        $("#project-textarea").on("change keyup", function() {
+            if ($(this).val() == '') {
+                $("#project-row").addClass("has-error");
+                $("#project-error").show();
+            } else {
+                $("#project-row").removeClass("has-error");
+                $("#project-error").hide();
+            }
             toggleAddGrantButton();
         });
         $("#add-grant-btn").attr("disabled", "disabled");
@@ -234,7 +283,7 @@
                 type: $(this).attr('method'),
                 data: $(this).serialize(),
                 success: function(data) {
-                    var year = parseInt($("#fiscalYear").val());
+                    var year = parseInt($("#fiscalYear-input").val());
                     if (year < parseInt($("#fiscal-year-start").attr("min"))) {
                         $("#fiscal-year-start").attr("min", year);
                         $("#fiscal-year-end").attr("min", year);
