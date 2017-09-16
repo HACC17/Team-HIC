@@ -37,7 +37,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $("#login-btn").attr("disabled", "disabled");
-        $("#username, #password").on("change keyup", function() {
+        $("#username, #password").on("input", function() {
             if ($("#username").val() != '' && $("#password").val() != '') {
                 $("#login-btn").attr("disabled", false);
             } else {

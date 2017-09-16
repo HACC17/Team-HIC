@@ -253,7 +253,7 @@
             }
         });
 
-        $("#fiscalYear-input").on("change keyup", function() {
+        $("#fiscalYear-input").on("input", function() {
             if ($(this).val() == '' || parseInt($(this).val()) <= 0) {
                 $("#fiscal-year-row").addClass("has-error");
                 $("#fiscal-year-error-msg-row").show();
@@ -263,7 +263,7 @@
             }
             toggleAddGrantButton();
         });
-        $("#amount-input").on("change keyup", function() {
+        $("#amount-input").on("input", function() {
             if ($(this).val() == '' || parseInt($(this).val()) <= 0) {
                 $("#amount-row").addClass("has-error");
                 $("#amount-error-msg-row").show();
@@ -273,7 +273,7 @@
             }
             toggleAddGrantButton();
         });
-        $("#project-textarea").on("change keyup", function() {
+        $("#project-textarea").on("input", function() {
             if ($(this).val() == '') {
                 $("#project-row").addClass("has-error");
                 $("#project-error").show();

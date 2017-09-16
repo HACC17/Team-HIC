@@ -86,7 +86,11 @@
         $(".more-info-column").off();
     }
 
+    var request;
     function updateTable() {
+        if (request) {
+            return;
+        }
         var filters = {};
         $(".filter").each(function(index, value) {
             if ($(this).is(':checkbox')) {
@@ -106,7 +110,7 @@
                 filters[$(this).data("key")].push($(this).val());
             }
         });
-        $.ajax({
+        request = $.ajax({
             type: 'POST',
             url: "<c:out value='${url}' /><c:url value='/' />filter",
             data: JSON.stringify(filters),
@@ -136,7 +140,7 @@
                     ]);
                 });
                 $('#grants-table').DataTable({
-                    aaSorting: [[3, 'desc']],
+                    aaSorting: [[0, 'desc']],
                     dom: 'Bfrtip',
                     data: arrays,
                     buttons: buttons,
@@ -206,6 +210,7 @@
                 $("#total-amount").html(accounting.formatMoney(totalAmount));
 
                 removeSortingArrows();
+                request = null;
             }
         });
     }

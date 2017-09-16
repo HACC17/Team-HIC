@@ -511,7 +511,7 @@
         }
 
         function addListeners(id1, id2) {
-            $("#" + id1).on("change keyup", function(event) {
+            $("#" + id1).on("input", function(event) {
                 var min = $(this).val().replace(/^0+/, '');
                 var max = $("#" + id2).val().replace(/^0+/, '');
                 if (parseInt(min) > parseInt(max)) {
@@ -521,7 +521,7 @@
                 }
                 update();
             });
-            $("#" + id2).on("change keyup", function(event) {
+            $("#" + id2).on("input", function(event) {
                 var max = $(this).val().replace(/^0+/, '');
                 var min = $("#" + id1).val().replace(/^0+/, '');
                 if (parseInt(max) < parseInt(min)) {
