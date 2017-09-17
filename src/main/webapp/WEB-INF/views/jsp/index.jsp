@@ -258,7 +258,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane" id="summary-cards" style="max-width: 100%">
+                    <div class="tab-pane blue-border" id="summary-cards" style="margin-bottom: 0px; max-width: 100%">
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="card text-center">
@@ -354,13 +354,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane tables" id="all" style="max-width:100%">
-                        <div class="table-responsive">
-                            <%@ include file="/WEB-INF/views/jspf/grants-table.jspf" %>
-                        </div>
-                    </div>
                 </div>
-                <div class="tab-pane charts" id="charts" style="background: transparent; max-width: 100%">
+                <div class="tab-pane charts" id="charts" style="background: transparent; margin-top: 10px; margin-bottom: 0px; max-width: 100%">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="blue-border">
@@ -490,6 +485,11 @@
                             </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="tab-pane tables blue-border" id="all" style="margin-top: 0px; max-width:100%">
+                    <div class="table-responsive">
+                        <%@ include file="/WEB-INF/views/jspf/grants-table.jspf" %>
                     </div>
                 </div>
             </div>
