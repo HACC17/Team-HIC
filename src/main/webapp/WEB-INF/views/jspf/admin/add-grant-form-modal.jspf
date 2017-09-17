@@ -246,6 +246,13 @@
         $("#totalNumberServed").attr("type", "number");
         $("#numberNativeHawaiiansServed").attr("type", "number");
 
+        $("#amount-input").attr("min", 0);
+        $("#totalNumberServed").attr("min", 0);
+        $("#numberNativeHawaiiansServed").attr("min", 0);
+        $("#amount-input").attr("max", 100000000000);
+        $("#totalNumberServed").attr("max", 1000000000);
+        $("#numberNativeHawaiiansServed").attr("max", 1000000000);
+
         $("#fiscalYear-input, #amount-input, #totalNumberServed, #numberNativeHawaiiansServed").on("keypress keyup blur", function() {
             $(this).val($(this).val().replace(/[^\d].+/, ""));
             if ((event.which < 48 || event.which > 57)) {
