@@ -66,7 +66,7 @@ function drawPieChart(key, title, map) {
         chart: {
             type: 'pie',
             borderWidth: 0,
-            backgroundColor: null
+            backgroundColor: "#FFF"
         },
         colors: colors,
         title: {
@@ -122,7 +122,7 @@ function drawBarChart(key, title, map) {
         chart: {
             type: 'bar',
             borderWidth: 0,
-            backgroundColor: null
+            backgroundColor: "#FFF"
         },
         colors: colors,
         title: {
@@ -214,7 +214,7 @@ function drawTopOrganizationsBarChart(top, startYear, endYear) {
             chart: {
                 type: 'column',
                 borderWidth: 0,
-                backgroundColor: null
+                backgroundColor: "#FFF"
             },
             colors: colors,
             title: {
@@ -294,7 +294,7 @@ function drawTopOrganizationsSplineChart() {
             chart: {
                 type: 'spline',
                 borderWidth: 0,
-                backgroundColor: null
+                backgroundColor: "#FFF"
             },
             colors: colors,
             title: {
