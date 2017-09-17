@@ -7,27 +7,27 @@
                 <h3 class="modal-title" id="push-to-open-data-modalLabel"><i class="fa fa-arrow-up"></i> Export to data.hawaii.gov</h3>
             </div>
             <div class="modal-body">
-                <div class="row" id="push-success" style="display: none">
+                <div class="row push" id="push-success" style="display: none">
                     <div class="col-md-12">
                         <div class="alert alert-success">Data successfully pushed to data.hawaii.gov!</div>
                     </div>
                 </div>
-                <div class="row" id="push-error" style="display: none">
+                <div class="row push" id="push-error" style="display: none">
                     <div class="col-md-12">
                         <div class="alert alert-danger">A problem was encountered while trying to push data to data.hawaii.gov. Please see output below.</div>
                     </div>
                 </div>
-                <div class="row" id="push-error2" style="display: none">
+                <div class="row push" id="push-error2" style="display: none">
                     <div class="col-md-12">
                         <div class="alert alert-danger">A problem was encountered while trying to push data to data.hawaii.gov: <span id="push-problem"></span></div>
                     </div>
                 </div>
-                <div class="row" id="save-success" style="display: none">
+                <div class="row push" id="save-success" style="display: none">
                     <div class="col-md-12">
                         <div class="alert alert-success">Preference saved!</div>
                     </div>
                 </div>
-                <div class="row" id="save-error" style="display: none">
+                <div class="row push" id="save-error" style="display: none">
                     <div class="col-md-12">
                         <div class="alert alert-danger">A problem was encountered while trying to save your preference to the database: <span id="save-problem"></span></div>
                     </div>
@@ -47,7 +47,7 @@
                 <div class="row">
                     <div class="col-md-12 text-center">
                         <button id="push-btn" class="btn btn-md btn-primary"><i class="fa fa-arrow-up"></i> Export Data</button>
-                        <button class="btn btn-md btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
+                        <button class="btn btn-md btn-default" data-dismiss="modal" onclick="$('.push').hide(); $('#output').val('');"><i class="fa fa-times"></i> Close Window</button>
                     </div>
                 </div>
                 <br />

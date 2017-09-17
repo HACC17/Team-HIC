@@ -44,7 +44,8 @@
                         </sec:authorize>
                         <sec:authorize access="hasRole('ROLE_ADMIN')">
                             <li><a href="javascript:void(0);" onclick="$('#add-grant-form-modal').modal('show');"><i class="fa fa-plus"></i> Add Grant</a></li>
-                            <li><a href="javascript:void(0);" onclick="$('#import-sample-data-modal').modal('show');"><i class="fa fa-file-text"></i> Initial Import Grants</a></li>
+                            <li><a href="javascript:void(0);" onclick="$('#import-sample-data-modal').modal('show');"><i class="fa fa-file-text"></i> Initial Import Grant Data</a></li>
+                            <li><a href="javascript:void(0);" onclick="$('#upload-data-modal').modal('show');"><i class="fa fa-upload"></i> Upload Grant Data</a></li>
                             <li><a href="javascript:void(0);" onclick="$('#push-to-open-data-modal').modal('show');"><i class="fa fa-arrow-up"></i> Export to data.hawaii.gov</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="<c:url value='/logout'/>"><i class="fa fa-sign-out"></i> Logout</a></li>
@@ -703,6 +704,7 @@
     <sec:authorize access="hasRole('ROLE_ADMIN')">
         <%@ include file="/WEB-INF/views/jspf/admin/add-grant-form-modal.jspf" %>
         <%@ include file="/WEB-INF/views/jspf/admin/import-sample-data-modal.jspf" %>
+        <%@ include file="/WEB-INF/views/jspf/admin/upload-data-modal.jspf" %>
         <%@ include file="/WEB-INF/views/jspf/admin/push-to-open-data-modal.jspf" %>
         <script type="text/javascript">
             $(document).ready(function() {

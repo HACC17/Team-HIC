@@ -1,5 +1,9 @@
 package gov.ehawaii.hacc.importers;
 
+import static gov.ehawaii.hacc.importers.Importer.stringToInt;
+import static gov.ehawaii.hacc.importers.Importer.stringToLong;
+import static gov.ehawaii.hacc.importers.Importer.trim;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,9 +22,6 @@ import gov.ehawaii.hacc.repositories.GrantsRepository;
 import gov.ehawaii.hacc.repositories.impl.Columns;
 import gov.ehawaii.hacc.repositories.impl.Tables;
 import gov.ehawaii.hacc.specifications.IdSpecification;
-import static gov.ehawaii.hacc.importers.Importer.trim;
-import static gov.ehawaii.hacc.importers.Importer.stringToInt;
-import static gov.ehawaii.hacc.importers.Importer.stringToLong;
 
 /**
  * This importer will read in a CSV file and insert all the grants found in it into the repository.
@@ -41,9 +42,20 @@ public class CsvImporter implements Importer {
 
   @Override
   public final boolean importData() {
+    try {
+      return importData(csvFile.getFile());
+    }
+    catch (IOException ioe) {
+      LOGGER.error("An error occurred while trying to parse CSV file: " + ioe.getMessage(), ioe);
+      return false;
+    }
+  }
+
+  @Override
+  public final boolean importData(final File file) {
     try (
         Reader reader =
-            new InputStreamReader(new FileInputStream(csvFile.getFile()), Charset.defaultCharset());
+            new InputStreamReader(new FileInputStream(file), Charset.defaultCharset());
         CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT.withSkipHeaderRecord())) {
       List<CSVRecord> records = parser.getRecords();
       records.remove(0);

@@ -1,5 +1,6 @@
 package gov.ehawaii.hacc.importers;
 
+import java.io.File;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,11 +15,19 @@ public interface Importer {
   Logger LOGGER = LogManager.getLogger(Importer.class);
 
   /**
-   * This method will read in all the grants from a file and then import them into a repository.
+   * This method will read in all the grants from a file on the server and then import them into a repository.
    * 
    * @return <code>true</code> if the import was successful, <code>false</code> otherwise.
    */
   boolean importData();
+
+  /**
+   * This method will read in all the grants from the given file and then import them into a repository.
+   * 
+   * @param file The file from which to read in all the grants.
+   * @return <code>true</code> if the import was successful, <code>false</code> otherwise.
+   */
+  boolean importData(File file);
 
   /**
    * Trims off any whitespace characters at both ends of the given string.

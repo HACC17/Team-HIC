@@ -1,5 +1,6 @@
 package gov.ehawaii.hacc.web.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.Map;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.ehawaii.hacc.importers.CsvImporter;
@@ -162,7 +165,7 @@ public class AdminController {
   }
 
   /**
-   * A <code>GET</code> request is sent to the <code>/admin/save</code> endpoint to save the user's
+   * A <code>POST</code> request is sent to the <code>/admin/save</code> endpoint to save the user's
    * preference of whether a Cron job should push data to Hawaii's Open Data Portal automatically
    * every day at midnight.
    * 
@@ -179,6 +182,74 @@ public class AdminController {
     pushService.setCronEnabled("yes".equals(MapUtils.getString(parameters, "cron", "no")));
     response.setContentType("text/html;charset=UTF-8");
     response.getWriter().write("SUCCESS");
+  }
+
+  /**
+   * A <code>POST</code> request is sent to the <code>/admin/upload</code> endpoint to import the
+   * data that the user uploaded.
+   * 
+   * @param request The multipart request containing the file that the user uploaded.
+   * @param response The server response.
+   * @throws IOException If there are problems trying to send the response back to the client or import the uploaded data.
+   */
+  @RequestMapping(value = "/upload", headers = "content-type=multipart/*", method = RequestMethod.POST)
+  public final void importUploadedData(final MultipartHttpServletRequest request,
+      final HttpServletResponse response) throws IOException {
+    MultipartFile file = request.getFile("file");
+    String filename = file.getOriginalFilename();
+    LOGGER.info("The following file was just uploaded: " + filename + " ("
+        + file.getSize() + " bytes).");
+    String msg;
+    if (filename == null) {
+      LOGGER.info("filename is null.");
+      response.getWriter().write("filename is null.");
+      response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    }
+    else {
+      if (filename.endsWith("csv")) {
+        if (csvImporter.importData(multipartToFile(file))) {
+          msg = "Successfully imported uploaded data from a CSV file.";
+          LOGGER.info(msg);
+          response.setStatus(HttpServletResponse.SC_OK);
+        }
+        else {
+          msg = "There was a problem trying to import uploaded data from a CSV file.";
+          LOGGER.error(msg);
+          response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+      }
+      else if (filename.endsWith("xls") || filename.endsWith("xlsx")) {
+        if (excelImporter.importData(multipartToFile(file))) {
+          msg = "Successfully imported uploaded data from a Microsoft Excel file.";
+          LOGGER.info(msg);
+          response.setStatus(HttpServletResponse.SC_OK);
+        }
+        else {
+          msg = "There was a problem trying to import uploaded data from a Microsoft Excel file.";
+          LOGGER.error(msg);
+          response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+      }
+      else {
+        msg = "Unsupported file type.";
+        LOGGER.error(msg);
+        response.getWriter().write("Unsupported file type.");
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      }
+    }
+  }
+
+  /**
+   * Converts a {@link MultipartFile} to a {@link File}.
+   * 
+   * @param mf The {@link MultipartFile} object to convert.
+   * @return A {@link File} object.
+   * @throws Exception If there are problems trying to convert the object.
+   */
+  private static File multipartToFile(final MultipartFile mf) throws IOException {
+    File file = new File(mf.getOriginalFilename());
+    mf.transferTo(file);
+    return file;
   }
 
 }

@@ -1,6 +1,7 @@
 package gov.ehawaii.hacc.importers;
 
 import static gov.ehawaii.hacc.importers.Importer.trim;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
@@ -37,8 +38,19 @@ public class ExcelImporter implements Importer {
 
   @Override
   public final boolean importData() {
-    try (FileInputStream file = new FileInputStream(excelFile.getFile());
-        Workbook workbook = new XSSFWorkbook(file)) {
+    try {
+      return importData(excelFile.getFile());
+    }
+    catch (IOException ioe) {
+      LOGGER.error("An error occurred while trying to parse Excel file: " + ioe.getMessage(), ioe);
+      return false;
+    }
+  }
+
+  @Override
+  public final boolean importData(final File file) {
+    try (FileInputStream fis = new FileInputStream(file);
+        Workbook workbook = new XSSFWorkbook(fis)) {
       Sheet datatypeSheet = workbook.getSheetAt(0);
       Iterator<Row> iterator = datatypeSheet.iterator();
 
@@ -73,7 +85,7 @@ public class ExcelImporter implements Importer {
       return true;
     }
     catch (IOException ioe) {
-      LOGGER.error("An error occurred while trying to parse CSV file: " + ioe.getMessage(), ioe);
+      LOGGER.error("An error occurred while trying to parse Excel file: " + ioe.getMessage(), ioe);
       return false;
     }
   }

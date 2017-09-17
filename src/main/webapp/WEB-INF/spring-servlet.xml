@@ -70,6 +70,8 @@
         <property name="cronExpression" value="${push.task.cron}" />
     </bean>
 
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
         <property name="autoStartup" value="true"/>
         <property name="schedulerName" value="cronScheduler"/>
