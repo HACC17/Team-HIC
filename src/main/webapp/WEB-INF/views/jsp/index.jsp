@@ -570,6 +570,7 @@
             $("#main-wrapper").append("<div id='temp-div' style='background-color: white; height: 100%; width: 100%'></div>");
             $("#main-wrapper").LoadingOverlay("show", { color : "rgba(255, 255, 255, 1.0)", zIndex : 1 });
             localStorage.setItem("init", true);
+            localStorage.setItem("count", 0);
 
             $("input[value='bar']").prop("checked", true);
 

@@ -4,7 +4,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="import-sample-data-modalLabel"><i class="fa fa-file-text"></i> Initial Import Grants</h3>
+                <h3 class="modal-title" id="import-sample-data-modalLabel"><i class="fa fa-file-text"></i> Initial Import Grant Data</h3>
             </div>
             <div class="modal-body">
                 <div class="row import import-success" style="display: none">
@@ -12,6 +12,9 @@
                 </div>
                 <div class="row import import-warning" style="display: none">
                     <div class="col-md-12"><div class="alert alert-warning">Please wait while the application imports all the sample data.</div></div>
+                </div>
+                <div class="row import data-exists-warning" style="display: none">
+                    <div class="col-md-12"><div class="alert alert-warning">There are already grants in the database.</div></div>
                 </div>
                 <div class="row import import-danger" style="display: none">
                     <div class="col-md-12"><div class="alert alert-danger">There was a problem importing the sample data: <span id="import-problem"></span></div></div>
@@ -23,7 +26,7 @@
                 </div>
                 <div class="row extra-top-margin">
                     <div class="col-md-12 text-center">
-                        <button id="import-btn" class="btn btn-md btn-primary"><i class="fa fa-file-text"></i> Import Grants</button>
+                        <button id="import-btn" class="btn btn-md btn-primary"><i class="fa fa-file-text"></i> Import Grant Data</button>
                         <button class="btn btn-md btn-default" data-dismiss="modal" onclick="$('.import').hide();"><i class="fa fa-times"></i> Close Window</button>
                     </div>
                 </div>
@@ -34,6 +37,14 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+        $("#import-sample-data-modal").on("shown.bs.modal", function() {
+            var count = localStorage.getItem("count");
+            if (count > 0) {
+                $(".data-exists-warning").show();
+                $("#import-btn").attr("disabled", "disabled");
+            }
+        });
+
         $("#import-btn").click(function(event) {
             event.preventDefault();
             $("#import-btn").attr("disabled", "disabled");

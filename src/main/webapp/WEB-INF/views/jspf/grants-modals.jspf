@@ -211,6 +211,7 @@
 
                 removeSortingArrows();
                 request = null;
+                localStorage.setItem("count", count);
             }
         });
     }
