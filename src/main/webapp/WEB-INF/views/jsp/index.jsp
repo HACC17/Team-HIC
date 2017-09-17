@@ -253,12 +253,12 @@
                 <div id="grants-table-container">
                     <div class="row extra-top-margin" id="login-info-row" style="display: none">
                         <div class="col-md-12">
-                            <div class="alert alert-success">
-                                You are now logged in as <strong><span id="user-id"><c:out value="${pageContext.request.userPrincipal.name}"/></span></strong>.
+                            <div class="alert alert-success" style="border: 1px solid green">
+                                You are logged in as <strong><span id="user-id"><c:out value="${pageContext.request.userPrincipal.name}"/></span></strong>.
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane blue-border" id="summary-cards" style="margin-bottom: 0px; max-width: 100%">
+                    <div class="tab-pane blue-border" id="summary-cards" style="<sec:authorize access="hasRole('ROLE_ADMIN')">margin-top: 0px;</sec:authorize>margin-bottom: 0px; max-width: 100%">
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="card text-center">
