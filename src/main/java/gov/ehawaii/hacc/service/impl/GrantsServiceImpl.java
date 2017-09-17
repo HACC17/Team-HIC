@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +95,7 @@ public class GrantsServiceImpl implements GrantsService {
         for (String value : filterValues) {
           buffer.append(filter);
           buffer.append("OR ");
-          arguments.add(getIdForFilterValue(filter, value));
+          arguments.add(getIdForFilterValue(filter, StringEscapeUtils.unescapeHtml(value)));
         }
         buffer.append(")");
       }
