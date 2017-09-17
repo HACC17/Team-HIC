@@ -244,7 +244,7 @@ public class AdminController {
    * 
    * @param mf The {@link MultipartFile} object to convert.
    * @return A {@link File} object.
-   * @throws Exception If there are problems trying to convert the object.
+   * @throws IOException If there are problems trying to convert the object.
    */
   private static File multipartToFile(final MultipartFile mf) throws IOException {
     File file = new File(mf.getOriginalFilename());
