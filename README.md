@@ -1,10 +1,14 @@
-# Team HIC
-
-![Hawaii Information Consortium logo](http://www.bjpeterdelacruz.com/images/hic.png)
-
 ## About the Project
 
+TODO
+
 ## Features
+
+TODO
+
+## Quick Start Guide
+
+TODO
 
 ## For Developers
 
@@ -13,6 +17,7 @@ the following installed on your development machine first:
 
 - Java 8
 - Gradle 4.0
+- Tomcat 8
 
 On the command line, execute the command `gradle eclipse` to download and install all
 the libraries required to develop the application. The command will also generate the
@@ -25,13 +30,3 @@ the libraries required to develop the application. The command will also generat
 - Christopher Cosner
 - Zheng Fang
 - Megan Nichols
-
-## About HIC
-
-Hawaii Information Consortium (HIC), a Hawaii corporation and wholly owned subsidiary
-of eGovernment firm [NIC Inc.](http://www.egov.com), partners with state, county, and
-federal agencies to build online services that improve government efficiency.
-
-## Company Website
-
-[Hawaii Information Consortium](http://hic.ehawaii.gov)
