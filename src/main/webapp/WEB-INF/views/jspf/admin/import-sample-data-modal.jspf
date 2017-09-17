@@ -21,7 +21,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        Click on the Import Grants button below to import all the grants from a Microsoft Excel spreadsheet that is hosted on the server on which this application is running.<br /><br />
+                        Click on the Import Grant Data button below to import all the grant data from a Microsoft Excel file that is hosted on the server on which this application is running.<br /><br />
                     </div>
                 </div>
                 <div class="row extra-top-margin">

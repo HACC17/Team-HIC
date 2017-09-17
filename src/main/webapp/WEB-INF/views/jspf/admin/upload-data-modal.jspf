@@ -19,7 +19,7 @@
                 <form id="upload-data-form" action="/ohagrants/admin/upload?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-12">
-                            Click on the Choose File button below and then select a file, either a <strong>comma-separated value (CSV)</strong> or <strong>Microsoft Excel</strong> file, that contains grant data to upload. Once you have made a selection, click on the Upload File button to upload the file to the server, which will automatically import all the grants stored in the file into the database.
+                            Click on the Choose File button below and then select a file, either a <strong>comma-separated value (CSV)</strong> or <strong>Microsoft Excel</strong> file, that contains grant data to upload. Once you have made a selection, click on the Upload File button to upload the file to the server, which will automatically import all the grant data into the database.
                         </div>
                     </div>
                     <div class="row extra-top-margin">
