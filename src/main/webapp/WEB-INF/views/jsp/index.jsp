@@ -620,6 +620,16 @@
                 if ((event.which < 48 || event.which > 57)) {
                     event.preventDefault();
                 }
+                if (($(this).attr("id") == "fiscal-year-start" || $(this).attr("id") == "fiscal-year-end") && $(this).val().toString().length > 4) {
+                    var s = $(this).val().toString();
+                    $(this).val(s.substring(0, s.length - 1));
+                    event.preventDefault();
+                }
+                if ($(this).val() > 10000000000) {
+                    var s = $(this).val().toString();
+                    $(this).val(s.substring(0, s.length - 1));
+                    event.preventDefault();
+                }
             });
 
             $("#clear").click(function() {

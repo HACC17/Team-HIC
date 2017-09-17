@@ -246,6 +246,8 @@
         $("#totalNumberServed").attr("type", "number");
         $("#numberNativeHawaiiansServed").attr("type", "number");
 
+        $("#fiscalYear-input").attr("min", 0);
+        $("#fiscalYear-input").attr("max", 2099);
         $("#amount-input").attr("min", 0);
         $("#totalNumberServed").attr("min", 0);
         $("#numberNativeHawaiiansServed").attr("min", 0);
@@ -253,9 +255,21 @@
         $("#totalNumberServed").attr("max", 1000000000);
         $("#numberNativeHawaiiansServed").attr("max", 1000000000);
 
+        $("#project-textarea").attr("maxlength", 1000);
+
         $("#fiscalYear-input, #amount-input, #totalNumberServed, #numberNativeHawaiiansServed").on("keypress keyup blur", function() {
             $(this).val($(this).val().replace(/[^\d].+/, ""));
             if ((event.which < 48 || event.which > 57)) {
+                event.preventDefault();
+            }
+            if ($(this).attr("id") == "fiscalYear-input" && $(this).val().toString().length > 4) {
+                var s = $(this).val().toString();
+                $(this).val(s.substring(0, s.length - 1));
+                event.preventDefault();
+            }
+            if ($(this).val() > 10000000000) {
+                var s = $(this).val().toString();
+                $(this).val(s.substring(0, s.length - 1));
                 event.preventDefault();
             }
         });
