@@ -162,7 +162,7 @@
                                             <input type="number" min="<c:out value='${startYear}'/>" max="<c:out value='${endYear}'/>" value="<c:out value='${endYear}'/>" class="filter form-control" id="fiscal-year-end" data-key="fiscal-lte">
                                         </div>
                                     </div>
-                                    <a href="javascript:void(0)" class="clear-filter-fiscal-year" onclick="resetDates();"><i class="fa fa-check"></i>clear filter</a>
+                                    <a href="javascript:void(0)" class="clear-filter-fiscal-year"><i class="fa fa-check"></i>clear filter</a>
                                 </fieldset>
                             </div>
                         </div>
