@@ -356,7 +356,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane tables blue-border" id="all" style="margin-top: 0px; max-width:100%">
+                <div class="tab-pane tables blue-border" id="all" style="border-top: 0px; margin-top: 0px; max-width:100%">
                     <div class="table-responsive">
                         <%@ include file="/WEB-INF/views/jspf/grants-table.jspf" %>
                     </div>
