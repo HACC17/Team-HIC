@@ -30,7 +30,7 @@
                         <p>Under each bar or pie chart, there is a dropdown list that contains the data for the drilldown series. After making a selection, the chart will
                         automatically refresh. Then clicking on a bar or pie slice will reveal the drilldown series in another bar or pie chart.</p>
                         <p>From the dropdown list below the <strong>two top N charts</strong>, you can select to view either the top 5 or top 10 organizations in the respective chart.</p><br />
-                        <button type="button" class="btn btn-default btn-lg btn-login" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
+                        <button type="button" class="btn btn-default btn-md btn-login" data-dismiss="modal"><i class="fa fa-times"></i> Close Window</button>
                     </div>
                 </div>
             </div>
