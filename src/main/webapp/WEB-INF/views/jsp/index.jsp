@@ -6,11 +6,9 @@
 <%@ include file="/WEB-INF/views/jspf/head.jspf" %>
 
 <style>
-    .blue-border {
+    .gray-border {
         background: #FFF;
-        border: 1px solid #396FCD;
-        margin-bottom: 10px;
-        padding: 10px;
+        border: 1px solid #999999;
     }
     .charts {
         border: 0px;
@@ -259,7 +257,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane blue-border" id="summary-cards" style="<sec:authorize access="hasRole('ROLE_ADMIN')">margin-top: 0px;</sec:authorize>margin-bottom: 0px; max-width: 100%">
+                    <div class="tab-pane gray-border" id="summary-cards" style="<sec:authorize access="hasRole('ROLE_ADMIN')">margin-top: 0px;</sec:authorize>margin-bottom: 0px; max-width: 100%">
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="card text-center">
@@ -356,15 +354,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane tables blue-border" id="all" style="border-top: 0px; margin-top: 0px; max-width:100%">
+                <div class="tab-pane tables gray-border" id="all" style="margin-bottom: 0px; max-width:100%">
                     <div class="table-responsive">
                         <%@ include file="/WEB-INF/views/jspf/grants-table.jspf" %>
                     </div>
                 </div>
-                <div class="tab-pane charts" id="charts" style="background: transparent; margin-top: 10px; margin-bottom: 0px; max-width: 100%">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="blue-border">
+                <div class="tab-pane charts" id="charts" style="background: transparent; margin-top: 0px; margin-bottom: 0px; max-width: 100%; padding-top: 30px; padding-bottom: 30px">
+                    <div class="row" style="margin-top: 0px; padding-bottom: 15px">
+                        <div class="col-md-4" style="padding-left: 0px">
+                            <div class="gray-border">
                             <div id="priority-bar-chart"></div>
                             <div id="priority-pie-chart" style="display: none"></div>
                             <canvas id="priority-bar-chart-canvas" style="display: none"></canvas>
@@ -384,7 +382,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="blue-border">
+                            <div class="gray-border">
                             <div id="result-bar-chart"></div>
                             <div id="result-pie-chart" style="display: none"></div>
                             <canvas id="result-bar-chart-canvas" style="display: none"></canvas>
@@ -403,8 +401,8 @@
                             </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="blue-border">
+                        <div class="col-md-4" style="padding-right: 0px">
+                            <div class="gray-border">
                             <div id="type-bar-chart"></div>
                             <div id="type-pie-chart" style="display: none"></div>
                             <canvas id="type-bar-chart-canvas" style="display: none"></canvas>
@@ -424,9 +422,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="blue-border">
+                    <div class="row" style="padding-top: 15px; padding-bottom: 15px">
+                        <div class="col-md-8" style="padding-left: 0px">
+                            <div class="gray-border">
                             <div id="location-bar-chart"></div>
                             <div id="location-pie-chart" style="display: none"></div>
                             <canvas id="location-bar-chart-canvas" style="display: none"></canvas>
@@ -445,8 +443,8 @@
                             </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="blue-border">
+                        <div class="col-md-4" style="padding-right: 0px">
+                            <div class="gray-border">
                             <div id="status-bar-chart"></div>
                             <div id="status-pie-chart" style="display: none"></div>
                             <canvas id="status-bar-chart-canvas" style="display: none"></canvas>
@@ -466,9 +464,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="blue-border">
+                    <div class="row"  style="padding-top: 15px">
+                        <div class="col-md-6" style="padding-left: 0px">
+                            <div class="gray-border">
                             <div id="top-5-orgs-column-chart" class="width: 100%; height: 100%"></div>
                             <div class="input-group">
                                 <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
@@ -479,8 +477,8 @@
                             </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="blue-border">
+                        <div class="col-md-6" style="padding-right: 0px">
+                            <div class="gray-border">
                             <div id="top-5-orgs-spline-chart" class="width: 100%; height: 100%"></div>
                             <div class="input-group">
                                 <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
