@@ -19,6 +19,25 @@
     i.fa-fw {
         color: #999;
     }
+    .chart-col {
+        margin-bottom: 30px;
+    }
+    .charts-tab-pane {
+        background: transparent;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        max-width: 100%;
+        padding: 30px 0px 0px 0px;
+    }
+    .drilldown-group {
+        padding-right: 15px;
+        padding-bottom: 15px;
+        padding-left: 15px;
+    }
+    .login-success-row {
+        margin-top: 30px;
+        margin-bottom: 15px;
+    }
 </style>
 
 <body class="sidebar-fixed">
@@ -250,7 +269,7 @@
         <div id="main-wrapper" class="main-wrapper" style="background-color: #FFFFFF">
             <div class="panes content-wrapper" style="display: none">
                 <div id="grants-table-container">
-                    <div class="row extra-top-margin" id="login-info-row" style="display: none">
+                    <div class="row login-success-row" id="login-info-row" style="display: none">
                         <div class="col-md-12">
                             <div class="alert alert-success" style="border: 1px solid green">
                                 You are logged in as <strong><span id="user-id"><c:out value="${pageContext.request.userPrincipal.name}"/></span></strong>.
@@ -359,9 +378,9 @@
                         <%@ include file="/WEB-INF/views/jspf/grants-table.jspf" %>
                     </div>
                 </div>
-                <div class="tab-pane charts" id="charts" style="background: transparent; margin-top: 0px; margin-bottom: 0px; max-width: 100%; padding-top: 30px; padding-bottom: 30px">
-                    <div class="row" style="margin-top: 0px; padding-bottom: 15px">
-                        <div class="col-md-4" style="padding-left: 0px">
+                <div class="tab-pane charts charts-tab-pane" id="charts">
+                    <div class="row">
+                        <div class="col-md-4 chart-col">
                             <div class="gray-border">
                             <div id="priority-bar-chart"></div>
                             <div id="priority-pie-chart" style="display: none"></div>
@@ -369,7 +388,7 @@
                             <canvas id="priority-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="priority-bar-chart-base64" value="" />
                             <input type="hidden" id="priority-pie-chart-base64" value="" />
-                            <div class="input-group">
+                            <div class="input-group drilldown-group">
                                 <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
                                 <select id="drilldown-priority" class="form-control" data-key="priority" data-chart-title="Strategic Priority">
                                     <option value="">&lt;None&gt;</option>
@@ -381,7 +400,7 @@
                             </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 chart-col">
                             <div class="gray-border">
                             <div id="result-bar-chart"></div>
                             <div id="result-pie-chart" style="display: none"></div>
@@ -389,7 +408,7 @@
                             <canvas id="result-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="result-bar-chart-base64" value="" />
                             <input type="hidden" id="result-pie-chart-base64" value="" />
-                            <div class="input-group">
+                            <div class="input-group drilldown-group">
                                 <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
                                 <select id="drilldown-result" class="form-control" data-key="result" data-chart-title="Strategic Result">
                                     <option value="">&lt;None&gt;</option>
@@ -401,7 +420,7 @@
                             </div>
                             </div>
                         </div>
-                        <div class="col-md-4" style="padding-right: 0px">
+                        <div class="col-md-4 chart-col">
                             <div class="gray-border">
                             <div id="type-bar-chart"></div>
                             <div id="type-pie-chart" style="display: none"></div>
@@ -409,7 +428,7 @@
                             <canvas id="type-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="type-bar-chart-base64" value="" />
                             <input type="hidden" id="type-pie-chart-base64" value="" />
-                            <div class="input-group">
+                            <div class="input-group drilldown-group">
                                 <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
                                 <select id="drilldown-type" class="form-control" data-key="type" data-chart-title="Grant Type">
                                     <option value="">&lt;None&gt;</option>
@@ -422,8 +441,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="padding-top: 15px; padding-bottom: 15px">
-                        <div class="col-md-8" style="padding-left: 0px">
+                    <div class="row">
+                        <div class="col-md-8 chart-col">
                             <div class="gray-border">
                             <div id="location-bar-chart"></div>
                             <div id="location-pie-chart" style="display: none"></div>
@@ -431,7 +450,7 @@
                             <canvas id="location-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="location-bar-chart-base64" value="" />
                             <input type="hidden" id="location-pie-chart-base64" value="" />
-                            <div class="input-group">
+                            <div class="input-group drilldown-group">
                                 <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
                                 <select id="drilldown-location" class="form-control" data-key="location" data-chart-title="Location">
                                     <option value="" selected>&lt;None&gt;</option>
@@ -443,7 +462,7 @@
                             </div>
                             </div>
                         </div>
-                        <div class="col-md-4" style="padding-right: 0px">
+                        <div class="col-md-4 chart-col">
                             <div class="gray-border">
                             <div id="status-bar-chart"></div>
                             <div id="status-pie-chart" style="display: none"></div>
@@ -451,7 +470,7 @@
                             <canvas id="status-pie-chart-canvas" style="display: none"></canvas>
                             <input type="hidden" id="status-bar-chart-base64" value="" />
                             <input type="hidden" id="status-pie-chart-base64" value="" />
-                            <div class="input-group">
+                            <div class="input-group drilldown-group">
                                 <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
                                 <select id="drilldown-status" class="form-control" data-key="status" data-chart-title="Grant Status">
                                     <option value="">&lt;None&gt;</option>
@@ -464,11 +483,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row"  style="padding-top: 15px">
-                        <div class="col-md-6" style="padding-left: 0px">
+                    <div class="row">
+                        <div class="col-md-6 chart-col">
                             <div class="gray-border">
                             <div id="top-5-orgs-column-chart" class="width: 100%; height: 100%"></div>
-                            <div class="input-group">
+                            <div class="input-group drilldown-group">
                                 <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
                                 <select id="column-top-n" class="form-control">
                                     <option value="5" selected>Show top 5 organizations</option>
@@ -477,10 +496,10 @@
                             </div>
                             </div>
                         </div>
-                        <div class="col-md-6" style="padding-right: 0px">
+                        <div class="col-md-6 chart-col">
                             <div class="gray-border">
                             <div id="top-5-orgs-spline-chart" class="width: 100%; height: 100%"></div>
-                            <div class="input-group">
+                            <div class="input-group drilldown-group">
                                 <div class="input-group-addon" onclick="showHelpModalDialog();"><i class="fa fa-question-circle" style="margin-right: 0px"></i></div>
                                 <select id="spline-top-n" onchange="drawTopOrganizationsSplineChart();" class="form-control">
                                     <option value="5" selected>Show top 5 organizations</option>
