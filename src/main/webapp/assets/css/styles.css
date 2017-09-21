@@ -5868,11 +5868,12 @@ html, body {
   width: 100%; }
 
 body {
-  background: url(../images/bg-image-3.jpg) no-repeat center center fixed;
+  /* background: url(../images/bg-image-3.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  background-size: cover; }
+  background-size: cover; */
+  background-color: #CCC }
 
 i {
   margin-right: 8px; }
