@@ -9,17 +9,17 @@
             <div class="modal-body">
                 <div class="row push" id="push-success" style="display: none">
                     <div class="col-md-12">
-                        <div class="alert alert-success">Data successfully pushed to data.hawaii.gov!</div>
+                        <div class="alert alert-success">Data successfully uploaded to data.hawaii.gov!</div>
                     </div>
                 </div>
                 <div class="row push" id="push-error" style="display: none">
                     <div class="col-md-12">
-                        <div class="alert alert-danger">A problem was encountered while trying to push data to data.hawaii.gov. Please see output below.</div>
+                        <div class="alert alert-danger">A problem was encountered while trying to upload data to data.hawaii.gov. Please see output below.</div>
                     </div>
                 </div>
                 <div class="row push" id="push-error2" style="display: none">
                     <div class="col-md-12">
-                        <div class="alert alert-danger">A problem was encountered while trying to push data to data.hawaii.gov: <span id="push-problem"></span></div>
+                        <div class="alert alert-danger">A problem was encountered while trying to upload data to data.hawaii.gov: <span id="push-problem"></span></div>
                     </div>
                 </div>
                 <div class="row push" id="save-success" style="display: none">
@@ -34,7 +34,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        Click on the Export Data button below to push all the information for each grant in the database to <a href="https://data.hawaii.gov" target="_blank">Hawaii's Open Data Portal</a>.
+                        Click on the Export Data button below to upload all the information for each grant in the database to <a href="https://data.hawaii.gov" target="_blank">Hawaii's Open Data Portal</a>.
                     </div>
                 </div>
                 <div class="row extra-top-margin">
@@ -53,7 +53,7 @@
                 <br />
                 <div class="row extra-top-margin">
                     <div class="col-md-12">
-                        Push data automatically to <a href="https://data.hawaii.gov" target="_blank">data.hawaii.gov</a> every day at midnight?&nbsp;&nbsp;&nbsp;<input type="radio" name="cron" value="yes" /> Yes&nbsp;&nbsp;&nbsp;<input type="radio" name="cron" value="no" /> No
+                        Upload data automatically to <a href="https://data.hawaii.gov" target="_blank">data.hawaii.gov</a> every day at midnight?&nbsp;&nbsp;&nbsp;<input type="radio" name="cron" value="yes" /> Yes&nbsp;&nbsp;&nbsp;<input type="radio" name="cron" value="no" /> No
                     </div>
                 </div>
             </div>
@@ -91,7 +91,7 @@
         $("#push-btn").click(function(event) {
             event.preventDefault();
             $("#push-btn").attr("disabled", "disabled");
-            $("#output").val("Pushing data to data.hawaii.gov... This process may take a few minutes.....");
+            $("#output").val("Uploading data to data.hawaii.gov... This process may take a few minutes.....");
 
             $.ajax({
                 url: appUrl + "admin/opendata",
